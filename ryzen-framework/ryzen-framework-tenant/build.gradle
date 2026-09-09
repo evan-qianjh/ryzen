@@ -1,0 +1,6 @@
+dependencies {
+
+    api project(":ryzen-framework:ryzen-framework-common")
+
+    api libs.mybatis.plus.annotation
+}

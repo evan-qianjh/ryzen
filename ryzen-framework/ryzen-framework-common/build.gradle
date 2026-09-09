@@ -1,0 +1,6 @@
+dependencies {
+    api libs.gson
+    api libs.commons.lang3
+    api libs.swagger.annotations
+    api libs.spring.boot.starter
+}

@@ -1,6 +1,8 @@
 dependencies {
-    implementation libs.commons.codec
-//    implementation 'org.bouncycastle:bcprov-jdk18on'
-//    implementation 'org.mindrot:jbcrypt'
-//    implementation 'com.auth0:java-jwt'
+    api libs.commons.codec
+    api libs.jbcrypt
+    api libs.java.jwt
+    api libs.bcprov
+
+    api project(":ryzen-framework:ryzen-framework-common")
 }
