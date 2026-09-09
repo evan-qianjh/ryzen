@@ -13,4 +13,4 @@ include 'ryzen-partner:ryzen-partner-aliyun'
 //
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 //
-include 'ryzen-gateway-partner'
+include 'ryzen-gateway:ryzen-gateway-partner'
