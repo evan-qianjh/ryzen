@@ -4,6 +4,7 @@ include 'ryzen-framework:ryzen-framework-crypto'
 include 'ryzen-framework:ryzen-framework-servlet'
 include 'ryzen-framework:ryzen-framework-stream'
 include 'ryzen-framework:ryzen-framework-tenant'
-
-include 'ryzen-gateway-partner'
 include 'ryzen-framework:ryzen-framework-token'
+include 'ryzen-framework:ryzen-framework-gateway'
+//
+include 'ryzen-gateway-partner'
