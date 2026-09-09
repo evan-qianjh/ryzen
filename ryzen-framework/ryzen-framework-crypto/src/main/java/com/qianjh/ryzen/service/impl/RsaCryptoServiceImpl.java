@@ -5,6 +5,10 @@ import com.qianjh.ryzen.service.RsaCryptoService;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+/**
+ *
+ * @author QianJH
+ */
 public abstract class RsaCryptoServiceImpl implements RsaCryptoService {
     protected Long keyId;
     protected RSAPublicKey rsaPublicKey;

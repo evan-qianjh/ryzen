@@ -4,6 +4,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+/**
+ *
+ * @author QianJH
+ */
 @Data
 @TableName(Namespace.PREFIX + "plugin_aliyun_oss")
 public class PluginAliyunOss {

@@ -2,6 +2,10 @@ package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.service.dto.AliyunOssUploadToken;
 
+/**
+ *
+ * @author QianJH
+ */
 public interface RyzenAliyunOssService extends RyzenOssService {
 
     /**

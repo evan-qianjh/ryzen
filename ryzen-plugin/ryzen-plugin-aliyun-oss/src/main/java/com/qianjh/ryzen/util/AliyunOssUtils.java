@@ -12,6 +12,10 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author QianJH
+ */
 @Slf4j
 public final class AliyunOssUtils {
 

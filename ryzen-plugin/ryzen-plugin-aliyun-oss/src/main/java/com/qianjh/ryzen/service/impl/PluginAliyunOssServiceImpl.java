@@ -7,6 +7,10 @@ import com.qianjh.ryzen.service.PluginAliyunOssService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+/**
+ *
+ * @author QianJH
+ */
 @Slf4j
 @Service
 public class PluginAliyunOssServiceImpl extends ServiceImpl<PluginAliyunOssMapper, PluginAliyunOss> implements PluginAliyunOssService {

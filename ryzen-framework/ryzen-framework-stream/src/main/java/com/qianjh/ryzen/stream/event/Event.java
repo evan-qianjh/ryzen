@@ -1,6 +1,7 @@
 package com.qianjh.ryzen.stream.event;
 
 /**
+ *
  * @author QianJH
  */
 public interface Event<T> {
