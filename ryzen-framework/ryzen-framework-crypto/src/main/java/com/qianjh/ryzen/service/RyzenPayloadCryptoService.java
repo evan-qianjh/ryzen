@@ -1,9 +1,10 @@
 package com.qianjh.ryzen.service;
 
 /**
+ * 通讯加密服务
  * @author QianJH
  */
-public interface ZenStorageCryptoService extends AesCryptoService {
+public interface RyzenPayloadCryptoService extends RsaCryptoService {
 
     /**
      * 加密
@@ -20,4 +21,13 @@ public interface ZenStorageCryptoService extends AesCryptoService {
      * @return 明文
      */
     String decrypt(String ciphertext);
+
+    /**
+     * 解密
+     *
+     * @param ciphertext   密文
+     * @param encryptKeyId 密钥ID
+     * @return 铭文
+     */
+    String decrypt(String ciphertext, Long encryptKeyId);
 }

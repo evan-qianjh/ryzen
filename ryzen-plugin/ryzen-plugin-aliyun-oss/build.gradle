@@ -1,0 +1,6 @@
+dependencies {
+    api project(":ryzen-framework:ryzen-framework-crypto")
+
+    api project(":ryzen-partner:ryzen-partner-aliyun")
+    api project(":ryzen-function:ryzen-function-oss")
+}

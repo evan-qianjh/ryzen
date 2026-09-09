@@ -7,4 +7,10 @@ include 'ryzen-framework:ryzen-framework-tenant'
 include 'ryzen-framework:ryzen-framework-token'
 include 'ryzen-framework:ryzen-framework-gateway'
 //
+include 'ryzen-function:ryzen-function-oss'
+//
+include 'ryzen-partner:ryzen-partner-aliyun'
+//
+include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
+//
 include 'ryzen-gateway-partner'

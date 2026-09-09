@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.qianjh.ryzen.config.TokenProperties;
-import com.qianjh.ryzen.service.ZenTokenCryptoService;
+import com.qianjh.ryzen.service.RyzenTokenCryptoService;
 import com.qianjh.ryzen.util.RSAUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.security.interfaces.RSAPublicKey;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ZenTokenCryptoServiceImpl extends RsaCryptoServiceImpl implements ZenTokenCryptoService {
+public class RyzenTokenCryptoServiceImpl extends RsaCryptoServiceImpl implements RyzenTokenCryptoService {
 
     private final TokenProperties tokenProperties;
 

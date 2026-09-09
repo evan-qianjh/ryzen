@@ -2,7 +2,7 @@ package com.qianjh.ryzen.service.impl;
 
 import com.qianjh.ryzen.api.RespMc;
 import com.qianjh.ryzen.config.PayloadProperties;
-import com.qianjh.ryzen.service.ZenPayloadCryptoService;
+import com.qianjh.ryzen.service.RyzenPayloadCryptoService;
 import com.qianjh.ryzen.util.McUtils;
 import com.qianjh.ryzen.util.RSAUtils;
 import jakarta.annotation.PostConstruct;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ZenPayloadCryptoServiceImpl extends RsaCryptoServiceImpl implements ZenPayloadCryptoService {
+public class RyzenPayloadCryptoServiceImpl extends RsaCryptoServiceImpl implements RyzenPayloadCryptoService {
 
     private final PayloadProperties payloadProperties;
 

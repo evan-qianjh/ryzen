@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.qianjh.ryzen.config.StorageProperties;
-import com.qianjh.ryzen.service.ZenStorageCryptoService;
+import com.qianjh.ryzen.service.RyzenStorageCryptoService;
 import com.qianjh.ryzen.util.AESUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ZenStorageCryptoServiceImpl extends AesCryptoServiceImpl implements ZenStorageCryptoService {
+public class RyzenStorageCryptoServiceImpl extends AesCryptoServiceImpl implements RyzenStorageCryptoService {
 
     private final StorageProperties storageProperties;
 

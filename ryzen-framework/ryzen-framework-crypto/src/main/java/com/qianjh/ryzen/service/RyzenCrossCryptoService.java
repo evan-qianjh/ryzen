@@ -6,7 +6,7 @@ import java.time.Duration;
  * 跨系统加密服务
  * @author QianJH
  */
-public interface ZenCrossCryptoService extends RsaCryptoService {
+public interface RyzenCrossCryptoService extends RsaCryptoService {
 
     /**
      * 加密

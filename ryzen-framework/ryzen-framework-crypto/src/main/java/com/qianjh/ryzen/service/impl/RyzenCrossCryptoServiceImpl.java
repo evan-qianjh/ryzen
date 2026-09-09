@@ -7,7 +7,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.gson.Gson;
 import com.qianjh.ryzen.config.CrossProperties;
-import com.qianjh.ryzen.service.ZenCrossCryptoService;
+import com.qianjh.ryzen.service.RyzenCrossCryptoService;
 import com.qianjh.ryzen.util.RSAUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import java.util.Date;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ZenCrossCryptoServiceImpl extends RsaCryptoServiceImpl implements ZenCrossCryptoService {
+public class RyzenCrossCryptoServiceImpl extends RsaCryptoServiceImpl implements RyzenCrossCryptoService {
 
     private final CrossProperties crossProperties;
 
