@@ -1,0 +1,6 @@
+dependencies {
+    implementation libs.commons.codec
+//    implementation 'org.bouncycastle:bcprov-jdk18on'
+//    implementation 'org.mindrot:jbcrypt'
+//    implementation 'com.auth0:java-jwt'
+}

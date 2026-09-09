@@ -1,0 +1,3 @@
+rootProject.name = 'ryzen'
+include 'ryzen-framework:ryzen-framework-crypto'
+include 'ryzen-gateway-partner'

@@ -1,0 +1,59 @@
+plugins {
+    id 'org.springframework.boot' version '4.1.1' apply false
+    id 'io.spring.dependency-management' version '1.1.7' apply false
+}
+
+allprojects {
+    group = 'com.qianjh'
+    version = '1.0.0'
+
+    repositories {
+        mavenLocal()
+
+        maven {
+            url = 'https://maven.aliyun.com/repository/public'
+        }
+
+    }
+}
+
+subprojects {
+    apply plugin: 'idea'
+
+    if(file('src/main/java').exists()) {
+        apply plugin: 'java-library'
+
+        java {
+            toolchain {
+                languageVersion = JavaLanguageVersion.of(21)
+            }
+        }
+
+        configurations {
+            compileOnly {
+                extendsFrom annotationProcessor
+            }
+        }
+
+        dependencies {
+            compileOnly rootProject.libs.lombok
+            annotationProcessor rootProject.libs.lombok
+        }
+
+        clean {
+            def logsDir = layout.projectDirectory.dir('logs')
+
+            delete logsDir
+
+            doFirst {
+                println "DELETE ${logsDir.asFile}"
+            }
+        }
+
+        test {
+            useJUnitPlatform()
+        }
+    }
+
+}
+
