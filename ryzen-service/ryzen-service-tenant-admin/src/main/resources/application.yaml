@@ -44,14 +44,14 @@ springdoc:
       display-name: '管理员'
       paths-to-match:
         - '/admin/**'
-    - group: 'admin-oem'
+    - group: 'oem-admin'
       display-name: 'OEM管理员'
       paths-to-match:
-        - '/admin-oem/**'
-    - group: 'admin-tenant'
+        - '/oem-admin/**'
+    - group: 'tenant-admin'
       display-name: '租户管理员'
       paths-to-match:
-        - '/admin-tenant/**'
+        - '/tenant-admin/**'
     - group: 'cli'
       display-name: '命令行'
       paths-to-match:

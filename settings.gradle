@@ -17,13 +17,13 @@ include 'ryzen-partner:ryzen-partner-aliyun'
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 // gateway
 include 'ryzen-gateway:ryzen-gateway-admin'
-include 'ryzen-gateway:ryzen-gateway-admin-oem'
-include 'ryzen-gateway:ryzen-gateway-admin-tenant'
+include 'ryzen-gateway:ryzen-gateway-oem-admin'
+include 'ryzen-gateway:ryzen-gateway-tenant-admin'
 include 'ryzen-gateway:ryzen-gateway-open'
 include 'ryzen-gateway:ryzen-gateway-partner'
 include 'ryzen-gateway:ryzen-gateway-user'
 // service
 include 'ryzen-service:ryzen-service-user'
-include 'ryzen-service:ryzen-service-oem-tenant-admin'
+include 'ryzen-service:ryzen-service-tenant-admin'
 // websocket
 include 'ryzen-websocket:ryzen-websocket-ims'
