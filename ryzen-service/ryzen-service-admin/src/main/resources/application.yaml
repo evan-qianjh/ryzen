@@ -6,8 +6,8 @@ spring:
     name: ryzen-service-admin
   config:
     import: optional:consul:192.168.187.1:8500
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   cloud:
     inetutils:
       preferred-networks: 10.8
