@@ -11,10 +11,10 @@ management:
 
 pgsql:
   default:
-    host: 192.168.187.1
-    schema: ryzen
+    host: pgm-uf6d8e14v487n63m.pg.rds.aliyuncs.com
+    schema: ryzen_dev
     username: username
-    password: password
+    password: dev@do6VQOh2gmh1EW9mjQx5sv0XEyvq
 
 springdoc:
   api-docs:
