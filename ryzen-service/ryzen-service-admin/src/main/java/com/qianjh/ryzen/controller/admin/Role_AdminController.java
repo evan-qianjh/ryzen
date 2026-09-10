@@ -35,8 +35,9 @@ public class Role_AdminController extends _AdminController {
 
     @Operation(summary = "列表")
     @GetMapping("/roles")
-    public Resp<List<GetRolesResp>> get(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                        @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<List<GetRolesResp>> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                        @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                        @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                         @RequestParam(required = false) Boolean enabled) {
         List<Role> entities = roleService.list(new LambdaQueryWrapper<Role>()
                 .eq(Role::getTenantId, tenantId)
@@ -59,8 +60,9 @@ public class Role_AdminController extends _AdminController {
 
     @Operation(summary = "创建")
     @PostMapping("/role")
-    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostRoleReq body) {
         Role entity = roleService.getByUk(body.getTitle(), tenantId);
         if (entity != null) {
@@ -72,8 +74,9 @@ public class Role_AdminController extends _AdminController {
 
     @Operation(summary = "修改")
     @PatchMapping("/role/{id}")
-    public Resp<?> patch(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<?> patch(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                         @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                          @PathVariable Long id,
                          @RequestBody @Validated PatchRoleReq body) {
         Role entity = roleService.getById(id, tenantId);

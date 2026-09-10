@@ -2,16 +2,15 @@ package com.qianjh.ryzen.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qianjh.ryzen.controller.admin.dto.*;
-import com.qianjh.ryzen.entity.Account;
-import com.qianjh.ryzen.service.AccountSecretService;
-import com.qianjh.ryzen.service.AccountService;
-import com.qianjh.ryzen.service.CreateAccountService;
 import com.qianjh.ryzen.api.Resp;
 import com.qianjh.ryzen.api.RespMc;
 import com.qianjh.ryzen.api.dto.OffsetPage;
-import com.qianjh.ryzen.controller.admin._AdminController;
+import com.qianjh.ryzen.controller.admin.dto.*;
+import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.service.AccountSecretService;
+import com.qianjh.ryzen.service.AccountService;
+import com.qianjh.ryzen.service.CreateAccountService;
 import com.qianjh.ryzen.util.IdUtils;
 import com.qianjh.ryzen.util.McUtils;
 import com.qianjh.ryzen.util.PageUtils;
@@ -44,10 +43,11 @@ public class Account_AdminController extends _AdminController {
 
     @Operation(summary = "获取信息")
     @GetMapping("/account")
-    public Resp<GetAccountResp> get(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                    @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId) {
+    public Resp<GetAccountResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                    @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                    @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId) {
 
-        Account account = accountService.getById(adminAccountId, tenantId);
+        Account account = accountService.getById(oemId, tenantId, accountId);
         Assert.notNull(account, "account is null");
 
         GetAccountResp result = GetAccountResp.builder()
@@ -61,8 +61,9 @@ public class Account_AdminController extends _AdminController {
 
     @Operation(summary = "列表")
     @GetMapping("/accounts")
-    public Resp<OffsetPage<GetAccountsResp>> page(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                                  @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<OffsetPage<GetAccountsResp>> page(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                                  @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                                  @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                                   @RequestParam(required = false) String username,
                                                   @RequestParam(required = false) Boolean enabled,
                                                   @RequestParam(required = false, defaultValue = DEFAULT_PAGE_INDEX) Integer pageIndex,
@@ -91,8 +92,9 @@ public class Account_AdminController extends _AdminController {
 
     @Operation(summary = "创建")
     @PostMapping("/account")
-    public Resp<PostAccountResp> post(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                      @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<PostAccountResp> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                      @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                      @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                       @RequestBody @Validated PostAccountReq body) {
         Account entity = accountService.getByUsername(body.getUsername(), tenantId);
         if (entity != null) {
@@ -114,11 +116,12 @@ public class Account_AdminController extends _AdminController {
 
     @Operation(summary = "修改")
     @PatchMapping("/account/{id}")
-    public Resp<?> patch(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<?> patch(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                         @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                          @PathVariable Long id,
                          @RequestBody @Validated PatchAccountReq body) {
-        Account entity = accountService.getById(id, tenantId);
+        Account entity = accountService.getById(oemId, tenantId, id);
         if (entity == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
@@ -132,10 +135,11 @@ public class Account_AdminController extends _AdminController {
 
     @Operation(summary = "重制密码")
     @PutMapping("/account/{id}/password")
-    public Resp<PutAccountPasswordResp> post(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                             @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<PutAccountPasswordResp> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                             @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                             @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                              @PathVariable Long id) {
-        Account entity = accountService.getById(id, tenantId);
+        Account entity = accountService.getById(oemId, tenantId, id);
         if (entity.isAdministrator()) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ACCESS));
         }

@@ -2,13 +2,13 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
+import com.qianjh.ryzen.api.ClientInfo;
 import com.qianjh.ryzen.controller.admin.dto.PatchAccountReq;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountReq;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.mapper.AccountMapper;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;
-import com.qianjh.ryzen.api.ClientInfo;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -28,10 +28,11 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     private final AccountSecretService accountSecretService;
 
     @Override
-    public Account getById(Long id, Long tenantId) {
+    public Account getById(Long oemId, Long tenantId, Long id) {
         return getOne(new LambdaQueryWrapper<Account>()
-                .eq(Account::getId, id)
+                .eq(Account::getOemId, oemId)
                 .eq(Account::getTenantId, tenantId)
+                .eq(Account::getId, id)
         );
     }
 

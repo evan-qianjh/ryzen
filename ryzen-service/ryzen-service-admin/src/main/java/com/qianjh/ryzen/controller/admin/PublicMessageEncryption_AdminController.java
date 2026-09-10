@@ -30,7 +30,8 @@ public class PublicMessageEncryption_AdminController extends _AdminController {
 
     @Operation(summary = "获取")
     @GetMapping("/message-encryption")
-    public Resp<GetMessageEncryptionResp> get(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId) {
+    public Resp<GetMessageEncryptionResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId) {
 
         RSAPublicKey publicKey = ryzenPayloadCryptoService.getPublicKey();
         Long keyId = ryzenPayloadCryptoService.getKeyId();

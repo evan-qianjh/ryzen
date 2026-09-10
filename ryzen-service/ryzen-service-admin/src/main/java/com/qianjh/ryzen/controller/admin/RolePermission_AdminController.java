@@ -40,8 +40,9 @@ public class RolePermission_AdminController extends _AdminController {
 
     @Operation(summary = "列表")
     @GetMapping("/role-permissions")
-    public Resp<List<GetRolePermissionsResp>> get(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                                  @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<List<GetRolePermissionsResp>> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                                  @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                                  @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                                   Long roleId) {
         List<RolePermission> entities = rolePermissionService.list(new LambdaQueryWrapper<RolePermission>()
                 .eq(RolePermission::getTenantId, tenantId)
@@ -61,8 +62,9 @@ public class RolePermission_AdminController extends _AdminController {
 
     @Operation(summary = "创建")
     @PostMapping("/role-permission")
-    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostRolePermissionReq body) {
         Role role = roleService.getById(body.getRoleId(), tenantId);
         Permission permission = permissionService.getById(body.getPermissionId(), tenantId);
@@ -76,8 +78,9 @@ public class RolePermission_AdminController extends _AdminController {
 
     @Operation(summary = "删除")
     @DeleteMapping("/role-permission/{id}")
-    public Resp<?> del(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                       @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<?> del(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                       @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                       @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                        @PathVariable Long id) {
         boolean success = rolePermissionService.removeById(id, tenantId);
 

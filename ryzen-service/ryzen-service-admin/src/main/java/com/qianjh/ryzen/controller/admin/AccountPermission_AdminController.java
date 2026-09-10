@@ -37,8 +37,9 @@ public class AccountPermission_AdminController extends _AdminController {
 
     @Operation(summary = "列表")
     @GetMapping("/account-permissions")
-    public Resp<GetAccountPermissionsResp> get(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId) {
+    public Resp<GetAccountPermissionsResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId) {
 
         GetAccountPermissionsResp result = GetAccountPermissionsResp.builder()
                 .roles(new ArrayList<>())
@@ -46,7 +47,7 @@ public class AccountPermission_AdminController extends _AdminController {
                 .build();
 
         // 超管
-        Account account = accountService.getById(adminAccountId, tenantId);
+        Account account = accountService.getById(oemId, tenantId, accountId);
         if (account.isAdministrator()) {
             List<Permission> permissions = permissionService.list(new LambdaQueryWrapper<Permission>()
                     .eq(Permission::getTenantId, tenantId)
@@ -61,7 +62,7 @@ public class AccountPermission_AdminController extends _AdminController {
         // AccountRole
         List<AccountRole> accountRoles = accountRoleService.list(new LambdaQueryWrapper<AccountRole>()
                 .eq(AccountRole::getTenantId, tenantId)
-                .eq(AccountRole::getAccountId, adminAccountId)
+                .eq(AccountRole::getAccountId, accountId)
         );
         if (accountRoles.isEmpty()) {
             return Resp.successOf(result);

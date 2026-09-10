@@ -12,7 +12,7 @@ import com.qianjh.ryzen.api.ClientInfo;
  */
 public interface AccountService extends IService<Account> {
 
-    Account getById(Long id, Long tenantId);
+    Account getById(Long oemId, Long tenantId, Long id);
 
     Account create(PostAccountReq body, Long tenantId);
 

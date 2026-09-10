@@ -1,16 +1,15 @@
 package com.qianjh.ryzen.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qianjh.ryzen.api.Resp;
+import com.qianjh.ryzen.api.RespMc;
+import com.qianjh.ryzen.api.dto.Receipt;
 import com.qianjh.ryzen.controller.admin.dto.GetPermissionsResp;
 import com.qianjh.ryzen.controller.admin.dto.PatchPermissionReq;
 import com.qianjh.ryzen.controller.admin.dto.PostPermissionReq;
 import com.qianjh.ryzen.entity.Permission;
-import com.qianjh.ryzen.service.PermissionService;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.api.RespMc;
-import com.qianjh.ryzen.api.dto.Receipt;
-import com.qianjh.ryzen.controller.admin._AdminController;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.service.PermissionService;
 import com.qianjh.ryzen.util.IdUtils;
 import com.qianjh.ryzen.util.McUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,8 +34,9 @@ public class Permission_AdminController extends _AdminController {
 
     @Operation(summary = "列表")
     @GetMapping("/permissions")
-    public Resp<List<GetPermissionsResp>> get(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<List<GetPermissionsResp>> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                               @RequestParam(required = false) Boolean enabled) {
         List<Permission> entities = permissionService.list(new LambdaQueryWrapper<Permission>()
                 .eq(Permission::getTenantId, tenantId)
@@ -61,8 +61,9 @@ public class Permission_AdminController extends _AdminController {
 
     @Operation(summary = "创建")
     @PostMapping("/permission")
-    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostPermissionReq body) {
         Permission entity = permissionService.getByUk(body.getSymbol(), tenantId);
         if (entity != null) {
@@ -74,8 +75,9 @@ public class Permission_AdminController extends _AdminController {
 
     @Operation(summary = "修改")
     @PatchMapping("/permission/{id}")
-    public Resp<?> patch(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<?> patch(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                         @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                          @PathVariable Long id,
                          @RequestBody @Validated PatchPermissionReq body) {
         if (body.getParentId() != null && body.getParentId().equals(id)) {

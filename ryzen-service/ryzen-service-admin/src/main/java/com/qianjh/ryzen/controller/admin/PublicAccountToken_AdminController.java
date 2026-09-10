@@ -42,6 +42,7 @@ public class PublicAccountToken_AdminController extends _AdminController {
     @Operation(summary = "账号密码登录", description = "密码先通过RSA2048加密，然后提交")
     @PostMapping("/account-token")
     public Resp<PostAccountTokenResp> create(HttpServletRequest request,
+                                             @RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                              @RequestBody @Validated PostAccountTokenByPasswordReq body) {
 

@@ -31,11 +31,12 @@ public class AccountSecret_AdminController extends _AdminController {
 
     @Operation(summary = "修改密码")
     @PutMapping("/account-secret/password")
-    public Resp<?> post(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                        @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<?> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                        @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                        @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                         @RequestBody @Validated PutAccountSecretPasswordReq body) {
 
-        Account account = accountService.getById(adminAccountId, tenantId);
+        Account account = accountService.getById(oemId, tenantId, accountId);
 
         AccountSecret secret = accountSecretService.getByAccount(account);
 

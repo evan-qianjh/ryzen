@@ -27,8 +27,9 @@ public class AccountToken_AdminController extends _AdminController {
     @Operation(summary = "退出")
     @DeleteMapping("/account-token/{id}")
     public Resp<?> create(HttpServletRequest request,
+                          @RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                           @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                          @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+                          @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                           @PathVariable Long id) {
 
         ClientInfo clientInfo = httpRequestService.getClientInfo(request);

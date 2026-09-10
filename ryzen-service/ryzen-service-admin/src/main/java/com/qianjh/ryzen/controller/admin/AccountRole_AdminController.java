@@ -1,19 +1,18 @@
 package com.qianjh.ryzen.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qianjh.ryzen.api.Resp;
+import com.qianjh.ryzen.api.RespMc;
+import com.qianjh.ryzen.api.dto.Receipt;
 import com.qianjh.ryzen.controller.admin.dto.GetAccountRolesResp;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountRoleReq;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountRole;
 import com.qianjh.ryzen.entity.Role;
+import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.service.AccountRoleService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.service.RoleService;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.api.RespMc;
-import com.qianjh.ryzen.api.dto.Receipt;
-import com.qianjh.ryzen.controller.admin._AdminController;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.util.IdUtils;
 import com.qianjh.ryzen.util.McUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,12 +39,13 @@ public class AccountRole_AdminController extends _AdminController {
 
     @Operation(summary = "列表")
     @GetMapping("/account-roles")
-    public Resp<List<GetAccountRolesResp>> get(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
-                                               Long accountId) {
+    public Resp<List<GetAccountRolesResp>> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                                               Long targetAccountId) {
         List<AccountRole> entities = accountRoleService.list(new LambdaQueryWrapper<AccountRole>()
                 .eq(AccountRole::getTenantId, tenantId)
-                .eq(AccountRole::getAccountId, accountId)
+                .eq(AccountRole::getAccountId, targetAccountId)
         );
 
         List<GetAccountRolesResp> result = entities.stream()
@@ -60,10 +60,11 @@ public class AccountRole_AdminController extends _AdminController {
 
     @Operation(summary = "创建")
     @PostMapping("/account-role")
-    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                              @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostAccountRoleReq body) {
-        Account account = accountService.getById(body.getAccountId(), tenantId);
+        Account account = accountService.getById(oemId, tenantId, body.getAccountId());
         Role role = roleService.getById(body.getRoleId(), tenantId);
         if (account == null || role == null) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
@@ -75,8 +76,9 @@ public class AccountRole_AdminController extends _AdminController {
 
     @Operation(summary = "删除")
     @DeleteMapping("/account-role/{id}")
-    public Resp<?> del(@RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
-                       @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long adminAccountId,
+    public Resp<?> del(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                       @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
+                       @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                        @PathVariable Long id) {
         boolean success = accountRoleService.removeById(id, tenantId);
 

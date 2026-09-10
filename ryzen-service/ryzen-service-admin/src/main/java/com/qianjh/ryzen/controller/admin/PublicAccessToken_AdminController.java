@@ -39,6 +39,7 @@ public class PublicAccessToken_AdminController extends _AdminController {
     @Operation(summary = "创建", description = "根据refreshToken刷新accessToken")
     @PostMapping("/access-token")
     public Resp<PostAccessTokenResp> create(HttpServletRequest request,
+                                            @RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                                             @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                             @RequestBody @Validated PostAccessTokenReq body) {
         ClientInfo clientInfo = httpRequestService.getClientInfo(request);
