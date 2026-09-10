@@ -26,4 +26,4 @@ include 'ryzen-gateway:ryzen-gateway-user'
 include 'ryzen-service:ryzen-service-user'
 include 'ryzen-service:ryzen-service-oem-tenant-admin'
 // websocket
-include 'ryzen-websocket:ryzen-websocket-chat-aggregator'
+include 'ryzen-websocket:ryzen-websocket-ims'
