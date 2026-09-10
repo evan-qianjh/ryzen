@@ -6,6 +6,8 @@ include 'ryzen-framework:ryzen-framework-stream'
 include 'ryzen-framework:ryzen-framework-tenant'
 include 'ryzen-framework:ryzen-framework-token'
 include 'ryzen-framework:ryzen-framework-gateway'
+include 'ryzen-framework:ryzen-framework-service-http'
+include 'ryzen-framework:ryzen-framework-service-ws'
 //
 include 'ryzen-function:ryzen-function-oss'
 //
