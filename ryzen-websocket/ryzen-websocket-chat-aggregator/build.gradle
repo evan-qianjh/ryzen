@@ -3,5 +3,5 @@ plugins {
 }
 
 dependencies {
-    api project(":ryzen-framework:ryzen-framework-service")
+    api project(":ryzen-framework:ryzen-framework-websocket")
 }
