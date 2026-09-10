@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.util.Assert;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +47,9 @@ public class Account_AdminController extends _AdminController {
                                     @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId) {
 
         Account account = accountService.getById(oemId, tenantId, accountId);
-        Assert.notNull(account, "account is null");
+        if (account == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
 
         GetAccountResp result = GetAccountResp.builder()
                 .id(IdUtils.toString(account.getId()))
