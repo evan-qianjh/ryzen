@@ -1,0 +1,23 @@
+management:
+  endpoints:
+    access:
+      default: none
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      access: unrestricted
+
+pgsql:
+  default:
+    host: 192.168.187.1
+    schema: ryzen
+    username: username
+    password: password
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

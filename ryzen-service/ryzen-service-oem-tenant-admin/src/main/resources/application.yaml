@@ -1,24 +1,13 @@
 server:
   port: 8001
 
-management:
-  endpoints:
-    access:
-      default: none
-    web:
-      exposure:
-        include: health
-  endpoint:
-    health:
-      access: unrestricted
-
 spring:
   application:
     name: ryzen-service-oem-tenant-admin
-  profiles:
-    active: dev
   config:
     import: optional:consul:192.168.187.1:8500
+  profiles:
+    active: dev
   cloud:
     inetutils:
       preferred-networks: 10.8
@@ -44,21 +33,30 @@ spring:
     username: ${pgsql.default.username}
     password: ${pgsql.default.password}
 springdoc:
+  api-docs:
+    path: /v3/api-docs
   swagger-ui:
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
-  api-docs:
-    path: /v3/api-docs
   group-configs:
     - group: 'admin'
-      paths-to-match: '/**'
-      packages-to-scan: com.qianjh.ryzen.controller.admin
+      display-name: '管理员'
+      paths-to-match:
+        - '/admin/**'
+    - group: 'admin-oem'
+      display-name: 'OEM管理员'
+      paths-to-match:
+        - '/admin-oem/**'
+    - group: 'admin-tenant'
+      display-name: '租户管理员'
+      paths-to-match:
+        - '/admin-tenant/**'
     - group: 'cli'
-      paths-to-match: '/**'
-      packages-to-scan: com.qianjh.ryzen.controller.cli
-knife4j:
-  enable: true
-  setting:
-    language: zh_cn
-    footer-custom-content: Copyright © 2026, qianjh.com
+      display-name: '命令行'
+      paths-to-match:
+        - '/cli/**'
+    - group: 'partner'
+      display-name: '合作方'
+      paths-to-match:
+        - '/partner/**'

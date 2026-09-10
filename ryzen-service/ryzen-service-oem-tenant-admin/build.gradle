@@ -13,4 +13,5 @@ dependencies {
     implementation 'org.postgresql:postgresql'
     implementation libs.mybatis.plus.spring
     implementation libs.mybatis.plus.join
+    implementation libs.springdoc.openapi
 }
