@@ -17,7 +17,7 @@ include 'ryzen-partner:ryzen-partner-aliyun'
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 // gateway
 include 'ryzen-gateway:ryzen-gateway-admin'
-include 'ryzen-gateway:ryzen-gateway-admin-oem'
+include 'ryzen-gateway:ryzen-gateway-admin-account-tenant'
 include 'ryzen-gateway:ryzen-gateway-admin-oem-tenant'
 include 'ryzen-gateway:ryzen-gateway-open'
 include 'ryzen-gateway:ryzen-gateway-partner'
