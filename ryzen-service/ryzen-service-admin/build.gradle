@@ -3,6 +3,9 @@ plugins {
 }
 
 dependencies {
+    implementation project(":ryzen-framework:ryzen-framework-crypto")
+    implementation project(":ryzen-framework:ryzen-framework-token")
+    implementation project(":ryzen-framework:ryzen-framework-servlet")
     implementation project(":ryzen-framework:ryzen-framework-service")
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -11,6 +14,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
 
     implementation 'org.postgresql:postgresql'
+    implementation libs.googleauth
+    implementation libs.mybatis.plus.jsqlparser
     implementation libs.mybatis.plus.spring
     implementation libs.mybatis.plus.join
     implementation libs.springdoc.openapi
