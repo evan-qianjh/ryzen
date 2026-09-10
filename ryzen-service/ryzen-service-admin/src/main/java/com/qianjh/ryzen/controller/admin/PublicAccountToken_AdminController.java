@@ -61,7 +61,7 @@ public class PublicAccountToken_AdminController extends _AdminController {
         // 生成refreshToken
         RefreshToken refreshToken = accountTokenService.generateRefreshToken(tenantId, account, accountTokenPrivateKey, clientInfo);
         // 生成accessToken
-        AccessToken accessToken = accountTokenService.generateAccessToken(tenantId, refreshToken, accountTokenPrivateKey, clientInfo);
+        AccessToken accessToken = accountTokenService.generateAccessToken(oemId, tenantId, refreshToken, accountTokenPrivateKey, clientInfo);
 
         // 创建账户token
         AccountToken accountToken = accountTokenService.create(account, refreshToken, clientInfo);

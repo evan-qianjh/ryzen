@@ -10,11 +10,11 @@ import com.qianjh.ryzen.entity.Permission;
  * @author QianJH
  */
 public interface PermissionService extends IService<Permission> {
-    Permission getById(Long id, Long tenantId);
+    Permission getById(Long oemId, Long tenantId, Long id);
 
-    Permission getByUk(String symbol, Long tenantId);
+    Permission getByUk(Long oemId, Long tenantId, String symbol);
 
-    Permission create(PostPermissionReq body, Long tenantId);
+    Permission create(Long oemId, Long tenantId, PostPermissionReq body);
 
-    boolean patch(Long id, PatchPermissionReq body, Long tenantId);
+    boolean patch(Long oemId, Long tenantId, Long id, PatchPermissionReq body);
 }

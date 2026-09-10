@@ -39,6 +39,7 @@ public class Permission_AdminController extends _AdminController {
                                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                               @RequestParam(required = false) Boolean enabled) {
         List<Permission> entities = permissionService.list(new LambdaQueryWrapper<Permission>()
+                .eq(Permission::getOemId, oemId)
                 .eq(Permission::getTenantId, tenantId)
                 .eq(enabled != null, Permission::getEnabled, enabled)
                 .orderByAsc(Permission::getId)
@@ -65,11 +66,11 @@ public class Permission_AdminController extends _AdminController {
                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostPermissionReq body) {
-        Permission entity = permissionService.getByUk(body.getSymbol(), tenantId);
+        Permission entity = permissionService.getByUk(oemId, tenantId, body.getSymbol());
         if (entity != null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
         }
-        entity = permissionService.create(body, tenantId);
+        entity = permissionService.create(oemId, tenantId, body);
         return Resp.successOf(Receipt.build(entity.getId()));
     }
 
@@ -83,11 +84,11 @@ public class Permission_AdminController extends _AdminController {
         if (body.getParentId() != null && body.getParentId().equals(id)) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
         }
-        Permission entity = permissionService.getById(id, tenantId);
+        Permission entity = permissionService.getById(oemId, tenantId, id);
         if (entity == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
-        boolean success = permissionService.patch(id, body, tenantId);
+        boolean success = permissionService.patch(oemId, tenantId, id, body);
 
         return success ? Resp.success() : Resp.failure();
     }

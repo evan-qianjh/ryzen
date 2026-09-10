@@ -18,8 +18,8 @@ public class CreateAccountServiceImpl implements CreateAccountService {
     private final AccountSecretService accountSecretService;
 
     @Override
-    public Pair<Account, String> create(PostAccountReq body, Long tenantId) {
-        Account account = accountService.create(body, tenantId);
+    public Pair<Account, String> create(Long oemId, Long tenantId, PostAccountReq body) {
+        Account account = accountService.create(oemId, tenantId, body);
 
         String password = PasswordUtils.generate();
 

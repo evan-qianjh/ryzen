@@ -37,8 +37,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public Account create(PostAccountReq body, Long tenantId) {
+    public Account create(Long oemId, Long tenantId, PostAccountReq body) {
         Account entity = Account.builder()
+                .oemId(oemId)
                 .tenantId(tenantId)
                 .username(body.getUsername())
                 .nickname(body.getNickname())

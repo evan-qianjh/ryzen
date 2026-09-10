@@ -3,7 +3,7 @@ rootProject.name = 'ryzen'
 include 'ryzen-framework:ryzen-framework-common'
 include 'ryzen-framework:ryzen-framework-crypto'
 include 'ryzen-framework:ryzen-framework-gateway'
-include 'ryzen-framework:ryzen-framework-oem'
+include 'ryzen-framework:ryzen-framework-saas'
 include 'ryzen-framework:ryzen-framework-service'
 include 'ryzen-framework:ryzen-framework-servlet'
 include 'ryzen-framework:ryzen-framework-stream'
@@ -27,3 +27,4 @@ include 'ryzen-service:ryzen-service-user'
 include 'ryzen-service:ryzen-service-admin'
 // websocket
 include 'ryzen-websocket:ryzen-websocket-ims'
+

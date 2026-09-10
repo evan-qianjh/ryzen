@@ -9,11 +9,11 @@ import com.qianjh.ryzen.entity.RolePermission;
  */
 public interface RolePermissionService extends IService<RolePermission> {
 
-    RolePermission getByUk(Long roleId, Long permissionId, Long tenantId);
+    RolePermission getByUk(Long oemId, Long tenantId, Long roleId, Long permissionId);
 
-    RolePermission create(Long roleId, Long permissionId, Long tenantId);
+    RolePermission create(Long oemId, Long tenantId, Long roleId, Long permissionId);
 
-    RolePermission createIfAbsent(Long roleId, Long permissionId, Long tenantId);
+    RolePermission createIfAbsent(Long oemId, Long tenantId, Long roleId, Long permissionId);
 
-    boolean removeById(Long id, Long tenantId);
+    boolean removeById(Long oemId, Long tenantId, Long id);
 }

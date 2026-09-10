@@ -1,19 +1,18 @@
 package com.qianjh.ryzen.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qianjh.ryzen.api.Resp;
+import com.qianjh.ryzen.api.RespMc;
+import com.qianjh.ryzen.api.dto.Receipt;
 import com.qianjh.ryzen.controller.admin.dto.GetRolePermissionsResp;
 import com.qianjh.ryzen.controller.admin.dto.PostRolePermissionReq;
 import com.qianjh.ryzen.entity.Permission;
 import com.qianjh.ryzen.entity.Role;
 import com.qianjh.ryzen.entity.RolePermission;
+import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.service.PermissionService;
 import com.qianjh.ryzen.service.RolePermissionService;
 import com.qianjh.ryzen.service.RoleService;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.api.RespMc;
-import com.qianjh.ryzen.api.dto.Receipt;
-import com.qianjh.ryzen.controller.admin._AdminController;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.util.IdUtils;
 import com.qianjh.ryzen.util.McUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +44,7 @@ public class RolePermission_AdminController extends _AdminController {
                                                   @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                                   Long roleId) {
         List<RolePermission> entities = rolePermissionService.list(new LambdaQueryWrapper<RolePermission>()
+                .eq(RolePermission::getOemId, oemId)
                 .eq(RolePermission::getTenantId, tenantId)
                 .eq(RolePermission::getRoleId, roleId)
         );
@@ -66,13 +66,13 @@ public class RolePermission_AdminController extends _AdminController {
                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostRolePermissionReq body) {
-        Role role = roleService.getById(body.getRoleId(), tenantId);
-        Permission permission = permissionService.getById(body.getPermissionId(), tenantId);
+        Role role = roleService.getById(oemId, tenantId, body.getRoleId());
+        Permission permission = permissionService.getById(oemId, tenantId, body.getPermissionId());
         if (role == null || permission == null) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
         }
 
-        RolePermission entity = rolePermissionService.createIfAbsent(role.getId(), permission.getId(), tenantId);
+        RolePermission entity = rolePermissionService.createIfAbsent(oemId, tenantId, role.getId(), permission.getId());
         return Resp.successOf(Receipt.build(entity.getId()));
     }
 
@@ -82,7 +82,7 @@ public class RolePermission_AdminController extends _AdminController {
                        @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                        @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                        @PathVariable Long id) {
-        boolean success = rolePermissionService.removeById(id, tenantId);
+        boolean success = rolePermissionService.removeById(oemId, tenantId, id);
 
         return success ? Resp.success() : Resp.failure();
     }

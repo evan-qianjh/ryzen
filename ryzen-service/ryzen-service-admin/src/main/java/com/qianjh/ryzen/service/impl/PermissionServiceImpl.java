@@ -14,25 +14,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permission> implements PermissionService {
     @Override
-    public Permission getById(Long id, Long tenantId) {
+    public Permission getById(Long oemId, Long tenantId, Long id) {
         return getOne(new LambdaQueryWrapper<Permission>()
-                .eq(Permission::getId, id)
+                .eq(Permission::getOemId, oemId)
                 .eq(Permission::getTenantId, tenantId)
+                .eq(Permission::getId, id)
         );
     }
 
     @Override
-    public Permission getByUk(String symbol, Long tenantId) {
+    public Permission getByUk(Long oemId, Long tenantId, String symbol) {
         return getOne(new LambdaQueryWrapper<Permission>()
-                .eq(Permission::getSymbol, symbol)
+                .eq(Permission::getOemId, oemId)
                 .eq(Permission::getTenantId, tenantId)
+                .eq(Permission::getSymbol, symbol)
         );
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Permission create(PostPermissionReq body, Long tenantId) {
+    public Permission create(Long oemId, Long tenantId, PostPermissionReq body) {
         Permission entity = Permission.builder()
+                .oemId(oemId)
                 .tenantId(tenantId)
                 .parentId(body.getParentId())
                 .title(body.getTitle())
@@ -45,14 +48,15 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean patch(Long id, PatchPermissionReq body, Long tenantId) {
+    public boolean patch(Long oemId, Long tenantId, Long id, PatchPermissionReq body) {
         return lambdaUpdate()
                 .set(body.getParentId() != null, Permission::getParentId, body.getParentId())
                 .set(StringUtils.isNotBlank(body.getTitle()), Permission::getTitle, body.getTitle())
                 .set(body.getEnabled() != null, Permission::getEnabled, body.getEnabled())
                 //
-                .eq(Permission::getId, id)
+                .eq(Permission::getOemId, oemId)
                 .eq(Permission::getTenantId, tenantId)
+                .eq(Permission::getId, id)
                 .update();
     }
 }

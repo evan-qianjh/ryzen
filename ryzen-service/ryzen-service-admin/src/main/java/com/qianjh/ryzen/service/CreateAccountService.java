@@ -9,5 +9,5 @@ import org.apache.commons.lang3.tuple.Pair;
  * @author QianJH
  */
 public interface CreateAccountService {
-    Pair<Account, String> create(PostAccountReq body, Long tenantId);
+    Pair<Account, String> create(Long oemId, Long tenantId, PostAccountReq body);
 }

@@ -3,7 +3,6 @@ package com.qianjh.ryzen.controller.admin;
 
 import com.qianjh.ryzen.api.ClientInfo;
 import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.controller.admin._AdminController;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.service.HttpRequestService;
 import io.swagger.v3.oas.annotations.Operation;

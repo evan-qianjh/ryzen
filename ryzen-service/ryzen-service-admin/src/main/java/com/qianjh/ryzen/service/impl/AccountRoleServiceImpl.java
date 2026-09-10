@@ -15,18 +15,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AccountRoleServiceImpl extends ServiceImpl<AccountRoleMapper, AccountRole> implements AccountRoleService {
     @Override
-    public AccountRole getByUk(Long accountId, Long roleId, Long tenantId) {
+    public AccountRole getByUk(Long oemId, Long tenantId, Long accountId, Long roleId) {
         return getOne(new LambdaQueryWrapper<AccountRole>()
+                .eq(AccountRole::getOemId, oemId)
+                .eq(AccountRole::getTenantId, tenantId)
                 .eq(AccountRole::getAccountId, accountId)
                 .eq(AccountRole::getRoleId, roleId)
-                .eq(AccountRole::getTenantId, tenantId)
         );
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public AccountRole create(Long accountId, Long roleId, Long tenantId) {
+    public AccountRole create(Long oemId, Long tenantId, Long accountId, Long roleId) {
         AccountRole entity = AccountRole.builder()
+                .oemId(oemId)
                 .tenantId(tenantId)
                 .accountId(accountId)
                 .roleId(roleId)
@@ -37,20 +39,21 @@ public class AccountRoleServiceImpl extends ServiceImpl<AccountRoleMapper, Accou
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public AccountRole createIfAbsent(Long accountId, Long roleId, Long tenantId) {
-        AccountRole entity = getByUk(accountId, roleId, tenantId);
+    public AccountRole createIfAbsent(Long oemId, Long tenantId, Long accountId, Long roleId) {
+        AccountRole entity = getByUk(oemId, tenantId, accountId, roleId);
         if (entity != null) {
             return entity;
         }
-        return create(accountId, roleId, tenantId);
+        return create(oemId, tenantId, accountId, roleId);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean removeById(Long id, Long tenantId) {
+    public boolean removeById(Long oemId, Long tenantId, Long id) {
         return remove(new LambdaQueryWrapper<AccountRole>()
-                .eq(AccountRole::getId, id)
+                .eq(AccountRole::getOemId, oemId)
                 .eq(AccountRole::getTenantId, tenantId)
+                .eq(AccountRole::getId, id)
         );
     }
 }

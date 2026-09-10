@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(Namespace.PREFIX + "role_permission")
+@TableName(_Namespace.PREFIX + "role_permission")
 public class RolePermission {
     @TableId(type = IdType.AUTO)
     private Long id;

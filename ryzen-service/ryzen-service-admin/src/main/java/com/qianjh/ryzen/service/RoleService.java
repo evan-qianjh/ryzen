@@ -10,11 +10,11 @@ import com.qianjh.ryzen.entity.Role;
  * @author QianJH
  */
 public interface RoleService extends IService<Role> {
-    Role getById(Long id, Long tenantId);
+    Role getById(Long oemId, Long tenantId, Long id);
 
-    Role getByUk(String title, Long tenantId);
+    Role getByUk(Long oemId, Long tenantId, String title);
 
-    Role create(PostRoleReq body, Long tenantId);
+    Role create(Long oemId, Long tenantId, PostRoleReq body);
 
-    boolean patch(Long id, PatchRoleReq body, Long tenantId);
+    boolean patch(Long oemId, Long tenantId, Long id, PatchRoleReq body);
 }

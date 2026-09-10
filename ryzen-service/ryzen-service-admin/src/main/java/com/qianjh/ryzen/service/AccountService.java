@@ -14,7 +14,7 @@ public interface AccountService extends IService<Account> {
 
     Account getById(Long oemId, Long tenantId, Long id);
 
-    Account create(PostAccountReq body, Long tenantId);
+    Account create(Long oemId, Long tenantId, PostAccountReq body);
 
     /**
      * 根据用户名查询

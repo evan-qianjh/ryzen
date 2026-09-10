@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(Namespace.PREFIX + "account")
+@TableName(_Namespace.PREFIX + "account")
 public class Account {
     @TableId(type = IdType.AUTO)
     private Long id;

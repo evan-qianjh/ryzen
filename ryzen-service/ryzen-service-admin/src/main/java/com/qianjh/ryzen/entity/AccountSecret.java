@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(Namespace.PREFIX + "account_secret")
+@TableName(_Namespace.PREFIX + "account_secret")
 public class AccountSecret {
     @TableId
     private Long id;

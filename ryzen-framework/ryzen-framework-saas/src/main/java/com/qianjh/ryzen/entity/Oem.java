@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -21,26 +21,18 @@ public class Oem {
     /**
      * 主键ID
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     /**
      * 名称
      */
-    @TableField(value = "name")
-    private String name;
+    private String symbol;
 
     /**
      * 启用的
      */
-    @TableField(value = "enabled")
     private Boolean enabled;
-
-    /**
-     * 备注
-     */
-    @TableField(value = "remark")
-    private String remark;
 
     /**
      * 合作伙伴消息域名Host

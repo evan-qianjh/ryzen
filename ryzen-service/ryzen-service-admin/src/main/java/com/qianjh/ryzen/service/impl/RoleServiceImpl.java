@@ -13,25 +13,28 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
     @Override
-    public Role getById(Long id, Long tenantId) {
+    public Role getById(Long oemId, Long tenantId, Long id) {
         return getOne(new LambdaQueryWrapper<Role>()
                 .eq(Role::getId, id)
+                .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)
         );
     }
 
     @Override
-    public Role getByUk(String title, Long tenantId) {
+    public Role getByUk(Long oemId, Long tenantId, String title) {
         return getOne(new LambdaQueryWrapper<Role>()
-                .eq(Role::getTitle, title)
+                .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)
+                .eq(Role::getTitle, title)
         );
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Role create(PostRoleReq body, Long tenantId) {
+    public Role create(Long oemId, Long tenantId, PostRoleReq body) {
         Role entity = Role.builder()
+                .oemId(oemId)
                 .tenantId(tenantId)
                 .title(body.getTitle())
                 .enabled(body.getEnabled())
@@ -42,11 +45,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean patch(Long id, PatchRoleReq body, Long tenantId) {
+    public boolean patch(Long oemId, Long tenantId, Long id, PatchRoleReq body) {
         return lambdaUpdate()
                 .set(body.getEnabled() != null, Role::getEnabled, body.getEnabled())
                 //
                 .eq(Role::getId, id)
+                .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)
                 .update();
     }

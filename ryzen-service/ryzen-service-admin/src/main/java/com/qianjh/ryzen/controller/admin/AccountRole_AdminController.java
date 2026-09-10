@@ -44,6 +44,7 @@ public class AccountRole_AdminController extends _AdminController {
                                                @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                                Long targetAccountId) {
         List<AccountRole> entities = accountRoleService.list(new LambdaQueryWrapper<AccountRole>()
+                .eq(AccountRole::getOemId, oemId)
                 .eq(AccountRole::getTenantId, tenantId)
                 .eq(AccountRole::getAccountId, targetAccountId)
         );
@@ -65,12 +66,12 @@ public class AccountRole_AdminController extends _AdminController {
                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostAccountRoleReq body) {
         Account account = accountService.getById(oemId, tenantId, body.getAccountId());
-        Role role = roleService.getById(body.getRoleId(), tenantId);
+        Role role = roleService.getById(oemId, tenantId, body.getRoleId());
         if (account == null || role == null) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
         }
 
-        AccountRole entity = accountRoleService.createIfAbsent(account.getId(), role.getId(), tenantId);
+        AccountRole entity = accountRoleService.createIfAbsent(oemId, tenantId, account.getId(), role.getId());
         return Resp.successOf(Receipt.build(entity.getId()));
     }
 
@@ -80,7 +81,7 @@ public class AccountRole_AdminController extends _AdminController {
                        @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                        @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                        @PathVariable Long id) {
-        boolean success = accountRoleService.removeById(id, tenantId);
+        boolean success = accountRoleService.removeById(oemId, tenantId, id);
 
         return success ? Resp.success() : Resp.failure();
     }

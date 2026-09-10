@@ -103,7 +103,7 @@ public class Account_AdminController extends _AdminController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
         }
 
-        Pair<Account, String> pair = createAccountService.create(body, tenantId);
+        Pair<Account, String> pair = createAccountService.create(oemId, tenantId, body);
         entity = pair.getLeft();
         String password = pair.getRight();
 

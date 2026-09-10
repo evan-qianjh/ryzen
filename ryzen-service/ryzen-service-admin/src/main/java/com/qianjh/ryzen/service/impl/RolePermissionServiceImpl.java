@@ -11,18 +11,20 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper, RolePermission> implements RolePermissionService {
     @Override
-    public RolePermission getByUk(Long roleId, Long permissionId, Long tenantId) {
+    public RolePermission getByUk(Long oemId, Long tenantId, Long roleId, Long permissionId) {
         return getOne(new LambdaQueryWrapper<RolePermission>()
+                .eq(RolePermission::getOemId, oemId)
+                .eq(RolePermission::getTenantId, tenantId)
                 .eq(RolePermission::getRoleId, roleId)
                 .eq(RolePermission::getPermissionId, permissionId)
-                .eq(RolePermission::getTenantId, tenantId)
         );
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public RolePermission create(Long roleId, Long permissionId, Long tenantId) {
+    public RolePermission create(Long oemId, Long tenantId, Long roleId, Long permissionId) {
         RolePermission entity = RolePermission.builder()
+                .oemId(oemId)
                 .tenantId(tenantId)
                 .roleId(roleId)
                 .permissionId(permissionId)
@@ -33,19 +35,20 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public RolePermission createIfAbsent(Long roleId, Long permissionId, Long tenantId) {
-        RolePermission entity = getByUk(roleId, permissionId, tenantId);
+    public RolePermission createIfAbsent(Long oemId, Long tenantId, Long roleId, Long permissionId) {
+        RolePermission entity = getByUk(oemId, tenantId, roleId, permissionId);
         if (entity != null) {
             return entity;
         }
-        return create(roleId, permissionId, tenantId);
+        return create(oemId, tenantId, roleId, permissionId);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean removeById(Long id, Long tenantId) {
+    public boolean removeById(Long oemId, Long tenantId, Long id) {
         return remove(new LambdaQueryWrapper<RolePermission>()
                 .eq(RolePermission::getId, id)
+                .eq(RolePermission::getOemId, oemId)
                 .eq(RolePermission::getTenantId, tenantId)
         );
     }

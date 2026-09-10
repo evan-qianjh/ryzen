@@ -1,11 +1,11 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
+import com.qianjh.ryzen.api.ClientInfo;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountToken;
 import com.qianjh.ryzen.mapper.AccountTokenMapper;
 import com.qianjh.ryzen.service.AccountTokenService;
-import com.qianjh.ryzen.api.ClientInfo;
 import com.qianjh.ryzen.service.HttpRequestService;
 import com.qianjh.ryzen.service.TokenService;
 import com.qianjh.ryzen.service.dto.AccessToken;
@@ -55,12 +55,12 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
     }
 
     @Override
-    public AccessToken generateAccessToken(Long tenantId, RefreshToken refreshToken, RSAPrivateKey privateKey, ClientInfo clientInfo) {
+    public AccessToken generateAccessToken(Long oemId, Long tenantId, RefreshToken refreshToken, RSAPrivateKey privateKey, ClientInfo clientInfo) {
         return tokenService.generateAccessToken(refreshToken, privateKey);
     }
 
     @Override
-    public RefreshToken parseRefreshToken(Long tenantId, String token, RSAPublicKey publicKey) {
+    public RefreshToken parseRefreshToken(Long oemId, Long tenantId, String token, RSAPublicKey publicKey) {
         TokenPayload payload = tokenService.parseTokenPayload(token, publicKey);
         if (payload == null) {
             return null;

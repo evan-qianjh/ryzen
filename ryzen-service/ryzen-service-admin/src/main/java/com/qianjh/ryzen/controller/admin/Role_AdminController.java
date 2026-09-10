@@ -1,16 +1,15 @@
 package com.qianjh.ryzen.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qianjh.ryzen.api.Resp;
+import com.qianjh.ryzen.api.RespMc;
+import com.qianjh.ryzen.api.dto.Receipt;
 import com.qianjh.ryzen.controller.admin.dto.GetRolesResp;
 import com.qianjh.ryzen.controller.admin.dto.PatchRoleReq;
 import com.qianjh.ryzen.controller.admin.dto.PostRoleReq;
 import com.qianjh.ryzen.entity.Role;
-import com.qianjh.ryzen.service.RoleService;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.api.RespMc;
-import com.qianjh.ryzen.api.dto.Receipt;
-import com.qianjh.ryzen.controller.admin._AdminController;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.service.RoleService;
 import com.qianjh.ryzen.util.IdUtils;
 import com.qianjh.ryzen.util.McUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,6 +39,7 @@ public class Role_AdminController extends _AdminController {
                                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                         @RequestParam(required = false) Boolean enabled) {
         List<Role> entities = roleService.list(new LambdaQueryWrapper<Role>()
+                .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)
                 .eq(enabled != null, Role::getEnabled, enabled)
                 .orderByAsc(Role::getId)
@@ -64,11 +64,11 @@ public class Role_AdminController extends _AdminController {
                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostRoleReq body) {
-        Role entity = roleService.getByUk(body.getTitle(), tenantId);
+        Role entity = roleService.getByUk(oemId, tenantId, body.getTitle());
         if (entity != null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
         }
-        entity = roleService.create(body, tenantId);
+        entity = roleService.create(oemId, tenantId, body);
         return Resp.successOf(Receipt.build(entity.getId()));
     }
 
@@ -79,11 +79,11 @@ public class Role_AdminController extends _AdminController {
                          @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                          @PathVariable Long id,
                          @RequestBody @Validated PatchRoleReq body) {
-        Role entity = roleService.getById(id, tenantId);
+        Role entity = roleService.getById(oemId, tenantId, id);
         if (entity == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
-        boolean success = roleService.patch(id, body, tenantId);
+        boolean success = roleService.patch(oemId, tenantId, id, body);
 
         return success ? Resp.success() : Resp.failure();
     }

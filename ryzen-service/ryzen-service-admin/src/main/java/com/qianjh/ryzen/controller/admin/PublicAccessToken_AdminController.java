@@ -46,14 +46,14 @@ public class PublicAccessToken_AdminController extends _AdminController {
 
         // 获取rsa
         RSAPublicKey rsaPublicKey = ryzenTokenCryptoService.getPublicKey();
-        RefreshToken refreshToken = accountTokenService.parseRefreshToken(tenantId, body.getRefreshToken(), rsaPublicKey);
+        RefreshToken refreshToken = accountTokenService.parseRefreshToken(oemId, tenantId, body.getRefreshToken(), rsaPublicKey);
         if (refreshToken == null) {
             throw new TokenExpiredException();
         }
 
         // 获取私钥生成accessToken
         RSAPrivateKey rsaPrivateKey = ryzenTokenCryptoService.getPrivateKey();
-        AccessToken accessToken = accountTokenService.generateAccessToken(tenantId, refreshToken, rsaPrivateKey, clientInfo);
+        AccessToken accessToken = accountTokenService.generateAccessToken(oemId, tenantId, refreshToken, rsaPrivateKey, clientInfo);
 
         PostAccessTokenResp result = PostAccessTokenResp.builder()
                 .accessToken(accessToken.getToken())
