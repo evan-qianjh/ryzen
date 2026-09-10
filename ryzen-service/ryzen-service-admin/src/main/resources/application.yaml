@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ryzen-service-oem-tenant-admin
+    name: ryzen-service-admin
   config:
     import: optional:consul:192.168.187.1:8500
   profiles:
@@ -48,10 +48,10 @@ springdoc:
       display-name: 'OEM管理员'
       paths-to-match:
         - '/oem-admin/**'
-    - group: 'tenant-admin'
-      display-name: '租户管理员'
+    - group: 'saas-admin'
+      display-name: 'SaaS管理员'
       paths-to-match:
-        - '/tenant-admin/**'
+        - '/saas-admin/**'
     - group: 'cli'
       display-name: '命令行'
       paths-to-match:
