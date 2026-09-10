@@ -52,7 +52,7 @@ public class PublicAccountToken_AdminController extends _AdminController {
         String password = ryzenPayloadCryptoService.decrypt(body.getPassword());
 
         // 登录
-        Account account = accountService.passwordLogin(tenantId, clientInfo, body.getUsername(), password, body.getTotp());
+        Account account = accountService.passwordLogin(oemId, tenantId, clientInfo, body.getUsername(), password, body.getTotp());
         if (Objects.isNull(account)) {
             return Resp.failure("Account or password incorrect");
         }

@@ -6,7 +6,7 @@ package com.qianjh.ryzen.header;
  */
 public class GatewayHeaderAdmin extends GatewayHeader {
     /**
-     * 租户ID
+     * OEM ID
      */
     public static final String OEM_ID = PREFIX + "oem-id";
 

@@ -51,17 +51,18 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public Account getByUsername(String username, Long tenantId) {
+    public Account getByUsername(Long oemId, Long tenantId, String username) {
         return getOne(new LambdaQueryWrapper<Account>()
-                .eq(Account::getUsername, username)
+                .eq(Account::getOemId, oemId)
                 .eq(Account::getTenantId, tenantId)
+                .eq(Account::getUsername, username)
         );
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Account passwordLogin(Long tenantId, ClientInfo clientInfo, String username, String password, Integer totp) {
-        Account account = getByUsername(username, tenantId);
+    public Account passwordLogin(Long oemId, Long tenantId, ClientInfo clientInfo, String username, String password, Integer totp) {
+        Account account = getByUsername(oemId, tenantId, username);
         if (Objects.isNull(account)) {
             return null;
         }
@@ -76,14 +77,15 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean patch(Long id, PatchAccountReq body, Long tenantId) {
+    public boolean patch(Long oemId, Long tenantId, Long id, PatchAccountReq body) {
         return lambdaUpdate()
                 .set(StringUtils.isNotBlank(body.getNickname()), Account::getNickname, body.getNickname())
                 .set(StringUtils.isNotBlank(body.getUsername()), Account::getUsername, body.getUsername())
                 .set(body.getEnabled() != null, Account::getEnabled, body.getEnabled())
                 //
-                .eq(Account::getId, id)
+                .eq(Account::getOemId, oemId)
                 .eq(Account::getTenantId, tenantId)
+                .eq(Account::getId, id)
                 .update();
     }
 }

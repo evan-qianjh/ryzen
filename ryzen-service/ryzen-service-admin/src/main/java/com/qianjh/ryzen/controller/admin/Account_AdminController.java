@@ -70,6 +70,7 @@ public class Account_AdminController extends _AdminController {
                                                   @RequestParam(required = false, defaultValue = DEFAULT_PAGE_INDEX) Integer pageIndex,
                                                   @RequestParam(required = false, defaultValue = DEFAULT_PAGE_SIZE) @Max(100) Integer pageSize) {
         Page<Account> page = accountService.page(new Page<>(pageIndex, pageSize), new LambdaQueryWrapper<Account>()
+                .eq(Account::getOemId, oemId)
                 .eq(Account::getTenantId, tenantId)
                 .eq(enabled != null, Account::getEnabled, enabled)
                 .like(StringUtils.isNotBlank(username), Account::getUsername, username)
@@ -97,7 +98,7 @@ public class Account_AdminController extends _AdminController {
                                       @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                       @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                       @RequestBody @Validated PostAccountReq body) {
-        Account entity = accountService.getByUsername(body.getUsername(), tenantId);
+        Account entity = accountService.getByUsername(oemId, tenantId, body.getUsername());
         if (entity != null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
         }
@@ -129,7 +130,7 @@ public class Account_AdminController extends _AdminController {
         if (entity.isAdministrator()) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ACCESS));
         }
-        boolean success = accountService.patch(id, body, tenantId);
+        boolean success = accountService.patch(oemId, tenantId, id, body);
 
         return success ? Resp.success() : Resp.failure();
     }

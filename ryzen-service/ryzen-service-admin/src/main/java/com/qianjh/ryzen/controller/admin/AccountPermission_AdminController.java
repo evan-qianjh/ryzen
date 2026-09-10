@@ -5,7 +5,6 @@ import com.qianjh.ryzen.controller.admin.dto.GetAccountPermissionsResp;
 import com.qianjh.ryzen.entity.*;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.controller.admin._AdminController;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.util.IdUtils;
 import io.swagger.v3.oas.annotations.Operation;
