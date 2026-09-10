@@ -9,14 +9,14 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(Namespace.PREFIX + "oem_tenant_domain")
-public class OemTenantDomain {
+@TableName(Namespace.PREFIX + "oem_domain")
+public class OemDomain {
 
     @TableId
     private Long id;
 
-    @TableField("tenant_id")
-    private Long tenantId;
+    @TableField("oem_id")
+    private Long oemId;
 
     @TableField("domain")
     private String domain;

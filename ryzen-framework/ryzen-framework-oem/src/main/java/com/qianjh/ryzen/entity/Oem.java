@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(Namespace.PREFIX + "oem_tenant")
-public class OemTenant {
+@TableName(Namespace.PREFIX + "oem")
+public class Oem {
 
     /**
      * 主键ID
