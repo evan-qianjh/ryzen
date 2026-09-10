@@ -1,0 +1,64 @@
+server:
+  port: 8001
+
+management:
+  endpoints:
+    access:
+      default: none
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      access: unrestricted
+
+spring:
+  application:
+    name: ryzen-service-oem-tenant-admin
+  profiles:
+    active: dev
+  config:
+    import: optional:consul:192.168.187.1:8500
+  cloud:
+    inetutils:
+      preferred-networks: 10.8
+    consul:
+#      host: 192.168.187.1
+#      port: 8500
+      discovery:
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        service-name: ${spring.application.name}
+        prefer-ip-address: true
+      config:
+        prefixes: config
+        default-context: application
+        format: yaml
+  output:
+    ansi:
+      enabled: detect
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${pgsql.default.host}/${pgsql.default.schema:ryzen}
+    username: ${pgsql.default.username}
+    password: ${pgsql.default.password}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'admin'
+      paths-to-match: '/**'
+      packages-to-scan: com.qianjh.ryzen.controller.admin
+    - group: 'cli'
+      paths-to-match: '/**'
+      packages-to-scan: com.qianjh.ryzen.controller.cli
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    footer-custom-content: Copyright © 2026, qianjh.com

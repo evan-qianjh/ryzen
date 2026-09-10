@@ -7,6 +7,7 @@ java-jwt = "4.6.0"
 jbcrypt = "0.4"
 lombok = "1.18.42"
 mybatis-plus = "3.5.17"
+mybatis-plus-join = "1.5.9"
 spring-boot = "4.1.1"
 spring-cloud = "2025.1.3"
 swagger-annotations = "2.2.54"
@@ -23,6 +24,7 @@ lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
 mybatis-plus-annotation = { module = "com.baomidou:mybatis-plus-annotation", version.ref = "mybatis-plus" }
 mybatis-plus-extension = { module = "com.baomidou:mybatis-plus-extension", version.ref = "mybatis-plus" }
 mybatis-plus-spring = { module = "com.baomidou:mybatis-plus-spring-boot4-starter", version.ref = "mybatis-plus" }
+mybatis-plus-join = { module = "com.github.yulichang:mybatis-plus-join-boot-starter", version.ref = "mybatis-plus-join" }
 spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter", version.ref = "spring-boot" }
 spring-cloud-dependencies = { module = "org.springframework.cloud:spring-cloud-dependencies", version.ref = "spring-cloud" }
 swagger-annotations = { module = "io.swagger.core.v3:swagger-annotations", version.ref = "swagger-annotations" }
