@@ -1,0 +1,7 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    api project(":ryzen-framework:ryzen-framework-service-ws")
+}

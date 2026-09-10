@@ -1,4 +1,5 @@
 rootProject.name = 'ryzen'
+// framework
 include 'ryzen-framework:ryzen-framework-common'
 include 'ryzen-framework:ryzen-framework-crypto'
 include 'ryzen-framework:ryzen-framework-servlet'
@@ -8,11 +9,18 @@ include 'ryzen-framework:ryzen-framework-token'
 include 'ryzen-framework:ryzen-framework-gateway'
 include 'ryzen-framework:ryzen-framework-service-http'
 include 'ryzen-framework:ryzen-framework-service-ws'
-//
+// function
 include 'ryzen-function:ryzen-function-oss'
-//
+// partner
 include 'ryzen-partner:ryzen-partner-aliyun'
-//
+// plugin
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
-//
+// gateway
+include 'ryzen-gateway:ryzen-gateway-admin'
+include 'ryzen-gateway:ryzen-gateway-admin-oem'
+include 'ryzen-gateway:ryzen-gateway-admin-oem-tenant'
+include 'ryzen-gateway:ryzen-gateway-open'
 include 'ryzen-gateway:ryzen-gateway-partner'
+include 'ryzen-gateway:ryzen-gateway-user'
+// service
+include 'ryzen-service:ryzen-service-user'
