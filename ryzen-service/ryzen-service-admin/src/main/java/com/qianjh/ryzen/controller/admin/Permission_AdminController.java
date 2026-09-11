@@ -66,6 +66,14 @@ public class Permission_AdminController extends _AdminController {
                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                               @RequestBody @Validated PostPermissionReq body) {
+        Long parentId = body.getParentId();
+        if (parentId != null) {
+            Permission parent = permissionService.getById(oemId, tenantId, parentId);
+            if (parent == null) {
+                return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+            }
+        }
+
         Permission entity = permissionService.getByUk(oemId, tenantId, body.getSymbol());
         if (entity != null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));

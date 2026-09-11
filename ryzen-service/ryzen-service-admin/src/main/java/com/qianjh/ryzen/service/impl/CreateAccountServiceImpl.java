@@ -9,6 +9,7 @@ import com.qianjh.ryzen.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ public class CreateAccountServiceImpl implements CreateAccountService {
     private final AccountService accountService;
     private final AccountSecretService accountSecretService;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Pair<Account, String> create(Long oemId, Long tenantId, PostAccountReq body) {
         Account account = accountService.create(oemId, tenantId, body);

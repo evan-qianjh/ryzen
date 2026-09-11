@@ -36,6 +36,7 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
 
         // 保存账户token(出于安全考虑，不能持久化jwt，避免泄露)
         AccountToken entity = AccountToken.builder()
+                .oemId(account.getOemId())
                 .tenantId(account.getTenantId())
                 .accountId(account.getId())
                 .clientInfo(clientInfoJson)

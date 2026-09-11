@@ -47,6 +47,7 @@ public class AccountSecretServiceImpl extends ServiceImpl<AccountSecretMapper, A
 
         AccountSecret entity = AccountSecret.builder()
                 .id(account.getId())
+                .oemId(account.getOemId())
                 .tenantId(account.getTenantId())
                 .accountId(account.getId())
                 .loginPassword(hashedLoginPassword)
