@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 public class TokenPayload {
     private String id;
 
+    private String oemId;
+    private String tenantId;
     private String accountId;
 
     private Long generatedTime;

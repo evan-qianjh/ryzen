@@ -29,13 +29,12 @@ public interface AccountTokenService extends IService<AccountToken> {
     /**
      * 创建刷新token
      *
-     * @param tenantId   租户ID
      * @param account    账户
      * @param privateKey 私钥
      * @param clientInfo 客户端信息
      * @return 账户token
      */
-    RefreshToken generateRefreshToken(Long tenantId, Account account, RSAPrivateKey privateKey, ClientInfo clientInfo);
+    RefreshToken generateRefreshToken(Account account, RSAPrivateKey privateKey, ClientInfo clientInfo);
 
     /**
      * 创建访问token

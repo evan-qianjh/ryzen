@@ -17,21 +17,25 @@ public interface TokenService {
     /**
      * 创建刷新token
      *
+     * @param oemId      OEM ID
+     * @param tenantId   租户ID
      * @param accountId  账户ID
      * @param duration   有效时长
      * @param privateKey 私钥
      * @return 刷新token
      */
-    RefreshToken generateRefreshToken(Long accountId, Duration duration, RSAPrivateKey privateKey);
+    RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long accountId, Duration duration, RSAPrivateKey privateKey);
 
     /**
      * 创建刷新token
      *
+     * @param oemId      OEM ID
+     * @param tenantId   租户ID
      * @param accountId  账户ID
      * @param privateKey 私钥
      * @return 刷新token
      */
-    RefreshToken generateRefreshToken(Long accountId, RSAPrivateKey privateKey);
+    RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long accountId, RSAPrivateKey privateKey);
 
     /**
      * 创建访问token

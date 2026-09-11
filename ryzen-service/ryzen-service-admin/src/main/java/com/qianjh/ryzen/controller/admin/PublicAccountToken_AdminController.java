@@ -64,7 +64,7 @@ public class PublicAccountToken_AdminController extends _AdminController {
         RsaProperties properties = securityProperties.getToken();
         RSAPrivateKey accountTokenPrivateKey = zenTokenCryptoService.getPrivateKey(properties);
         // 生成refreshToken
-        RefreshToken refreshToken = accountTokenService.generateRefreshToken(tenantId, account, accountTokenPrivateKey, clientInfo);
+        RefreshToken refreshToken = accountTokenService.generateRefreshToken(account, accountTokenPrivateKey, clientInfo);
         // 生成accessToken
         AccessToken accessToken = accountTokenService.generateAccessToken(oemId, tenantId, refreshToken, accountTokenPrivateKey, clientInfo);
 

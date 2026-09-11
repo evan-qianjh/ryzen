@@ -3,5 +3,15 @@ plugins {
 }
 
 dependencies {
-    api project(":ryzen-framework:ryzen-framework-gateway")
+    implementation project(":ryzen-framework:ryzen-framework-gateway")
+    implementation project(":ryzen-framework:ryzen-framework-saas")
+    implementation project(":ryzen-framework:ryzen-framework-token")
+    implementation project(":ryzen-framework:ryzen-framework-security")
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+
+    implementation libs.mybatis.plus.spring
 }

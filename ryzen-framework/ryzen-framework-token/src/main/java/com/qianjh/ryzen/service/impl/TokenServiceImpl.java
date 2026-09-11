@@ -40,7 +40,7 @@ public class TokenServiceImpl implements TokenService {
     private final JwtConfig jwtConfig;
 
     @Override
-    public RefreshToken generateRefreshToken(Long accountId, Duration duration, RSAPrivateKey privateKey) {
+    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long accountId, Duration duration, RSAPrivateKey privateKey) {
         // 构建token
         long generatedTime = System.currentTimeMillis();
         long expiresTime = generatedTime + duration.toMillis();
@@ -48,6 +48,8 @@ public class TokenServiceImpl implements TokenService {
         // 构建token结构
         TokenPayload payload = TokenPayload.builder()
                 .id(UUID.randomUUID().toString())
+                .oemId(LongUtils.toString(oemId))
+                .tenantId(LongUtils.toString(tenantId))
                 .accountId(LongUtils.toString(accountId))
                 .generatedTime(generatedTime)
                 .expiresTime(expiresTime)
@@ -67,9 +69,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public RefreshToken generateRefreshToken(Long accountId, RSAPrivateKey privateKey) {
+    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long accountId, RSAPrivateKey privateKey) {
         Duration duration = Duration.ofDays(jwtConfig.getRefreshTokenDurationOfDays());
-        return generateRefreshToken(accountId, duration, privateKey);
+        return generateRefreshToken(oemId, tenantId, accountId, duration, privateKey);
     }
 
     @Override
@@ -86,6 +88,8 @@ public class TokenServiceImpl implements TokenService {
 
         TokenPayload payload = TokenPayload.builder()
                 .id(UUID.randomUUID().toString())
+                .oemId(tokenPayload.getOemId())
+                .tenantId(tokenPayload.getTenantId())
                 .accountId(tokenPayload.getAccountId())
                 .generatedTime(generatedTime)
                 .expiresTime(expiresTime)

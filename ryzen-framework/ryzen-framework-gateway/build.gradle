@@ -1,5 +1,5 @@
 dependencies {
     api project(":ryzen-framework:ryzen-framework-common")
 
-    implementation 'org.springframework.cloud:spring-cloud-starter-gateway-server-webflux'
+    api 'org.springframework.cloud:spring-cloud-starter-gateway-server-webflux'
 }
