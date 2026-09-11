@@ -4,6 +4,6 @@ package com.qianjh.ryzen.entity;
  *
  * @author QianJH
  */
-public interface _Namespace {
-    String PREFIX = "admin_";
+public interface _Database {
+    String SCHEMA = "admin.";
 }
