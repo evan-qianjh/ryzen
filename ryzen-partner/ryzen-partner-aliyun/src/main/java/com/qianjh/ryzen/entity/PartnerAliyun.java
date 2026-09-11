@@ -8,7 +8,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(Namespace.PREFIX + "partner_aliyun")
+@TableName(_Schemas.PARTNER + "partner_aliyun")
 public class PartnerAliyun {
     @TableId
     private Long id;

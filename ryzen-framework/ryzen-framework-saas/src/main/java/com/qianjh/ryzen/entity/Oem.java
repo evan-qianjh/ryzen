@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(Namespace.PREFIX + "oem")
+@TableName(_Schemas.SAAS + "oem")
 public class Oem {
 
     /**

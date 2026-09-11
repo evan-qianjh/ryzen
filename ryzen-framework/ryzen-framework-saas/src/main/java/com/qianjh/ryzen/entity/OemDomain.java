@@ -1,7 +1,6 @@
 package com.qianjh.ryzen.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -10,7 +9,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(Namespace.PREFIX + "oem_domain")
+@TableName(_Schemas.SAAS + "oem_domain")
 public class OemDomain {
 
     @TableId(type = IdType.AUTO)

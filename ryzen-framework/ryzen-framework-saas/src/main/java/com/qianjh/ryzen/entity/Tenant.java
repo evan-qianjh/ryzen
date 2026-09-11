@@ -9,7 +9,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(Namespace.PREFIX + "tenant")
+@TableName(_Schemas.SAAS + "tenant")
 public class Tenant {
 
     @TableId(type = IdType.AUTO)
