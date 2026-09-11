@@ -3,6 +3,8 @@ package com.qianjh.ryzen.controller.admin;
 
 import com.qianjh.ryzen.api.ClientInfo;
 import com.qianjh.ryzen.api.Resp;
+import com.qianjh.ryzen.config.RsaProperties;
+import com.qianjh.ryzen.config.SecurityProperties;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountTokenByPasswordReq;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountTokenResp;
 import com.qianjh.ryzen.entity.Account;
@@ -35,8 +37,9 @@ public class PublicAccountToken_AdminController extends _AdminController {
     private final HttpRequestService httpRequestService;
     private final AccountService accountService;
     private final AccountTokenService accountTokenService;
-    private final RyzenTokenCryptoService zenTokenCryptoService;
-    private final RyzenPayloadCryptoService ryzenPayloadCryptoService;
+    private final RyzenTokenService zenTokenCryptoService;
+    private final RyzenPayloadService ryzenPayloadCryptoService;
+    private final SecurityProperties securityProperties;
 
 
     @Operation(summary = "账号密码登录", description = "密码先通过RSA2048加密，然后提交")
@@ -49,7 +52,8 @@ public class PublicAccountToken_AdminController extends _AdminController {
         ClientInfo clientInfo = httpRequestService.getClientInfo(request);
 
         // 传输解密
-        String password = ryzenPayloadCryptoService.decrypt(body.getPassword());
+        Long keyId = body.getKeyId();
+        String password = ryzenPayloadCryptoService.decrypt(keyId, body.getPassword());
 
         // 登录
         Account account = accountService.passwordLogin(oemId, tenantId, clientInfo, body.getUsername(), password, body.getTotp());
@@ -57,7 +61,8 @@ public class PublicAccountToken_AdminController extends _AdminController {
             return Resp.failure("Account or password incorrect");
         }
 
-        RSAPrivateKey accountTokenPrivateKey = zenTokenCryptoService.getPrivateKey();
+        RsaProperties properties = securityProperties.getToken();
+        RSAPrivateKey accountTokenPrivateKey = zenTokenCryptoService.getPrivateKey(properties);
         // 生成refreshToken
         RefreshToken refreshToken = accountTokenService.generateRefreshToken(tenantId, account, accountTokenPrivateKey, clientInfo);
         // 生成accessToken

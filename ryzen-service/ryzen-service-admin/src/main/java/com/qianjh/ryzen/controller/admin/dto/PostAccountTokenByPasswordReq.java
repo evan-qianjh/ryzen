@@ -18,7 +18,7 @@ public class PostAccountTokenByPasswordReq {
     private String password;
 
     @Schema(description = "加密密钥ID")
-    private Long encryptKeyId;
+    private Long keyId;
 
     @Schema(description = "TOTP")
     private Integer totp;

@@ -1,9 +1,9 @@
 rootProject.name = 'ryzen'
 // framework
 include 'ryzen-framework:ryzen-framework-common'
-include 'ryzen-framework:ryzen-framework-crypto'
 include 'ryzen-framework:ryzen-framework-gateway'
 include 'ryzen-framework:ryzen-framework-saas'
+include 'ryzen-framework:ryzen-framework-security'
 include 'ryzen-framework:ryzen-framework-service'
 include 'ryzen-framework:ryzen-framework-servlet'
 include 'ryzen-framework:ryzen-framework-stream'

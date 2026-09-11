@@ -7,7 +7,7 @@ import com.qianjh.ryzen.entity.AccountSecret;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;
-import com.qianjh.ryzen.service.RyzenPayloadCryptoService;
+import com.qianjh.ryzen.service.RyzenPayloadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class AccountSecret_AdminController extends _AdminController {
 
     private final AccountService accountService;
     private final AccountSecretService accountSecretService;
-    private final RyzenPayloadCryptoService ryzenPayloadCryptoService;
+    private final RyzenPayloadService ryzenPayloadCryptoService;
 
 
     @Operation(summary = "修改密码")
@@ -41,8 +41,9 @@ public class AccountSecret_AdminController extends _AdminController {
         AccountSecret secret = accountSecretService.getByAccount(account);
 
         // 传输解密
-        String oldPassword = ryzenPayloadCryptoService.decrypt(body.getOldPassword());
-        String newPassword = ryzenPayloadCryptoService.decrypt(body.getNewPassword());
+        Long keyId = body.getKeyId();
+        String oldPassword = ryzenPayloadCryptoService.decrypt(keyId, body.getOldPassword());
+        String newPassword = ryzenPayloadCryptoService.decrypt(keyId, body.getNewPassword());
 
         boolean success = accountSecretService.modifyLoginPassword(account, newPassword, oldPassword);
 

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author QianJH
  */
-@MapperScan(markerInterface = BaseMapper.class)
+@MapperScan(value = {"com.qianjh.ryzen.mapper"}, markerInterface = BaseMapper.class)
 @Configuration
 public class MyBatisConfig {
 

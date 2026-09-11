@@ -22,6 +22,9 @@ spring:
         prefixes: config
         default-context: application
         format: yaml
+        watch:
+          enabled: true
+          delay: 3000
   output:
     ansi:
       enabled: detect
@@ -29,9 +32,9 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${pgsql.default.host}/${pgsql.default.schema:ryzen}
-    username: ${pgsql.default.username}
-    password: ${pgsql.default.password}
+    url: jdbc:postgresql://${ryzen.pgsql.default.host}/${ryzen.pgsql.default.schema:ryzen}
+    username: ${ryzen.pgsql.default.username}
+    password: ${ryzen.pgsql.default.password}
 springdoc:
   api-docs:
     path: /v3/api-docs

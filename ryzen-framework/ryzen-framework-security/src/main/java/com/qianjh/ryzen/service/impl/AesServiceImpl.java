@@ -1,12 +1,12 @@
 package com.qianjh.ryzen.service.impl;
 
-import com.qianjh.ryzen.service.AesCryptoService;
+import com.qianjh.ryzen.service.AesService;
 
 /**
  *
  * @author QianJH
  */
-public abstract class AesCryptoServiceImpl implements AesCryptoService {
+public abstract class AesServiceImpl implements AesService {
 
     protected String secret;
 

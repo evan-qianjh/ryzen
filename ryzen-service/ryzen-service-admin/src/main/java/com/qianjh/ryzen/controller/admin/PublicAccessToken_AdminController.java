@@ -3,13 +3,15 @@ package com.qianjh.ryzen.controller.admin;
 
 import com.qianjh.ryzen.api.ClientInfo;
 import com.qianjh.ryzen.api.Resp;
+import com.qianjh.ryzen.config.RsaProperties;
+import com.qianjh.ryzen.config.SecurityProperties;
 import com.qianjh.ryzen.controller.admin.dto.PostAccessTokenReq;
 import com.qianjh.ryzen.controller.admin.dto.PostAccessTokenResp;
 import com.qianjh.ryzen.exception.TokenExpiredException;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.service.AccountTokenService;
 import com.qianjh.ryzen.service.HttpRequestService;
-import com.qianjh.ryzen.service.RyzenTokenCryptoService;
+import com.qianjh.ryzen.service.RyzenTokenService;
 import com.qianjh.ryzen.service.dto.AccessToken;
 import com.qianjh.ryzen.service.dto.RefreshToken;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,7 +36,8 @@ public class PublicAccessToken_AdminController extends _AdminController {
 
     private final HttpRequestService httpRequestService;
     private final AccountTokenService accountTokenService;
-    private final RyzenTokenCryptoService ryzenTokenCryptoService;
+    private final RyzenTokenService ryzenTokenCryptoService;
+    private final SecurityProperties securityProperties;
 
     @Operation(summary = "创建", description = "根据refreshToken刷新accessToken")
     @PostMapping("/access-token")
@@ -44,15 +47,17 @@ public class PublicAccessToken_AdminController extends _AdminController {
                                             @RequestBody @Validated PostAccessTokenReq body) {
         ClientInfo clientInfo = httpRequestService.getClientInfo(request);
 
+        RsaProperties properties = securityProperties.getToken();
+
         // 获取rsa
-        RSAPublicKey rsaPublicKey = ryzenTokenCryptoService.getPublicKey();
+        RSAPublicKey rsaPublicKey = ryzenTokenCryptoService.getPublicKey(properties);
         RefreshToken refreshToken = accountTokenService.parseRefreshToken(oemId, tenantId, body.getRefreshToken(), rsaPublicKey);
         if (refreshToken == null) {
             throw new TokenExpiredException();
         }
 
         // 获取私钥生成accessToken
-        RSAPrivateKey rsaPrivateKey = ryzenTokenCryptoService.getPrivateKey();
+        RSAPrivateKey rsaPrivateKey = ryzenTokenCryptoService.getPrivateKey(properties);
         AccessToken accessToken = accountTokenService.generateAccessToken(oemId, tenantId, refreshToken, rsaPrivateKey, clientInfo);
 
         PostAccessTokenResp result = PostAccessTokenResp.builder()

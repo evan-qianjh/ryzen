@@ -8,7 +8,7 @@ import com.qianjh.ryzen.entity.PluginAliyunOss;
 import com.qianjh.ryzen.service.PartnerAliyunService;
 import com.qianjh.ryzen.service.PluginAliyunOssService;
 import com.qianjh.ryzen.service.RyzenAliyunOssService;
-import com.qianjh.ryzen.service.RyzenStorageCryptoService;
+import com.qianjh.ryzen.service.RyzenStorageService;
 import com.qianjh.ryzen.service.dto.AliyunOssUploadToken;
 import com.qianjh.ryzen.util.AliyunOssUtils;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class RyzenAliyunOssServiceImpl implements RyzenAliyunOssService, Applica
 
     private final PartnerAliyunService partnerAliyunService;
     private final PluginAliyunOssService pluginAliyunOssService;
-    private final RyzenStorageCryptoService ryzenStorageCryptoService;
+    private final RyzenStorageService ryzenStorageCryptoService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {

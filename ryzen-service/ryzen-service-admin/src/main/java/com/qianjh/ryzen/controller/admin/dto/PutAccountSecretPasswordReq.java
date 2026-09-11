@@ -6,6 +6,9 @@ import lombok.Data;
 @Data
 public class PutAccountSecretPasswordReq {
     @NotNull
+    private Long keyId;
+
+    @NotNull
     private String oldPassword;
 
     @NotNull

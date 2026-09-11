@@ -6,7 +6,7 @@ import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountSecret;
 import com.qianjh.ryzen.mapper.AccountSecretMapper;
 import com.qianjh.ryzen.service.AccountSecretService;
-import com.qianjh.ryzen.service.RyzenStorageCryptoService;
+import com.qianjh.ryzen.service.RyzenStorageService;
 import com.qianjh.ryzen.util.PasswordUtils;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
@@ -29,7 +29,7 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AccountSecretServiceImpl extends ServiceImpl<AccountSecretMapper, AccountSecret> implements AccountSecretService {
 
-    private final RyzenStorageCryptoService ryzenStorageCryptoService;
+    private final RyzenStorageService ryzenStorageCryptoService;
 
     @Override
     public AccountSecret getByAccount(Account account) {

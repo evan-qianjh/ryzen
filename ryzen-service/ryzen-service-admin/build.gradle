@@ -3,7 +3,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(":ryzen-framework:ryzen-framework-crypto")
+    implementation project(":ryzen-framework:ryzen-framework-security")
     implementation project(":ryzen-framework:ryzen-framework-token")
     implementation project(":ryzen-framework:ryzen-framework-servlet")
     implementation project(":ryzen-framework:ryzen-framework-service")
