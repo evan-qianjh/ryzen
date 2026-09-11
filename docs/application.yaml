@@ -22,6 +22,11 @@ ryzen:
       schema: 'ryzen_dev'
       username: 'ryzen_dev'
       password: 'dev@do6VQOh2gmh1EW9mjQx5sv0XEyvq'
+  redis:
+    default:
+      host: '192.168.187.1'
+      port: 6379
+      password: 'dev@gYzjSDfB9ZlZPc8cpJtAiVjIxNEP'
   framework:
     security:
       # 存储密钥（AES 32）

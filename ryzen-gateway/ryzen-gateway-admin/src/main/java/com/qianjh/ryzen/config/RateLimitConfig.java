@@ -17,8 +17,6 @@ import org.springframework.util.Assert;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.Objects;
-
 /**
  * @author QianJH
  */
@@ -83,8 +81,8 @@ public class RateLimitConfig {
         Assert.notNull(route, "get exchange attribute fail : ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR");
 
         // 从metadata获取自定义path
-        Object obj = route.getMetadata().getOrDefault(METADATA_RATE_LIMIT_PATH, null);
-        if (Objects.nonNull(obj)) {
+        Object obj = route.getMetadata().getOrDefault(METADATA_RATE_LIMIT_PATH, "null");
+        if (!"null".equals(obj)) {
             return obj.toString();
         }
 
