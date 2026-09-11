@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.PREFIX + "role")
+@TableName(_Schema.ADMIN + "role")
 public class Role {
     @TableId(type = IdType.AUTO)
     private Long id;

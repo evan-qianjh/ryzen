@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.PREFIX + "account_secret")
+@TableName(_Schema.ADMIN + "account_secret")
 public class AccountSecret {
     @TableId
     private Long id;

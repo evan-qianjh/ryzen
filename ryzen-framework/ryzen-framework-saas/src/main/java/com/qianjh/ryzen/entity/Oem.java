@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schemas.SAAS + "oem")
+@TableName(_Schemas.RYZEN + "oem")
 public class Oem {
 
     /**

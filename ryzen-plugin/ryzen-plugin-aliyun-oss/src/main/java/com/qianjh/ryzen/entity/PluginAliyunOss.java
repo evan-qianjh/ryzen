@@ -9,7 +9,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Schemas.PLUGIN + "plugin_aliyun_oss")
+@TableName(_Schemas.RYZEN + "plugin_aliyun_oss")
 public class PluginAliyunOss {
     @TableId
     private Long id;

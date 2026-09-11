@@ -1,9 +1,28 @@
 package com.qianjh.ryzen.entity;
 
 public interface _Schemas {
-    String SAAS = "saas.";
+    /**
+     * 框架(SaaS、partner、function、plugin)
+     */
+    String RYZEN = "ryzen.";
+    /**
+     * 用户
+     */
+    String USER = "user.";
+    /**
+     * 工厂
+     */
+    String FACTORY = "factory.";
+    /**
+     * 租户管理后台
+     */
     String ADMIN = "admin.";
-    String PARTNER = "ryzen.";
-    String FUNCTION = "function.";
-    String PLUGIN = "plugin.";
+    /**
+     * OEM管理后台
+     */
+    String OEM_ADMIN = "oem_admin.";
+    /**
+     * SaaS管理后台
+     */
+    String SAAS_ADMIN = "saas_admin.";
 }
