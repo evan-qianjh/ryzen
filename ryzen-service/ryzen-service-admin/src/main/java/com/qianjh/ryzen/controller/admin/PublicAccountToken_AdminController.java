@@ -38,7 +38,7 @@ public class PublicAccountToken_AdminController extends _AdminController {
     private final AccountService accountService;
     private final AccountTokenService accountTokenService;
     private final RyzenTokenService zenTokenCryptoService;
-    private final RyzenPayloadService ryzenPayloadCryptoService;
+    private final RyzenMessageService ryzenPayloadCryptoService;
     private final SecurityProperties securityProperties;
 
 

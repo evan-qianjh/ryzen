@@ -7,7 +7,7 @@ import com.qianjh.ryzen.service.dto.RsaEncrypt;
  *
  * @author QianJH
  */
-public interface RyzenPayloadService extends RsaService {
+public interface RyzenMessageService extends RsaService {
 
     /**
      * 加密

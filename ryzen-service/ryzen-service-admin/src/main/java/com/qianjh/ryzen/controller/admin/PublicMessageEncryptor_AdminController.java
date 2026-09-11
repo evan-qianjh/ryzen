@@ -3,9 +3,9 @@ package com.qianjh.ryzen.controller.admin;
 import com.qianjh.ryzen.api.Resp;
 import com.qianjh.ryzen.config.RsaProperties;
 import com.qianjh.ryzen.config.SecurityProperties;
-import com.qianjh.ryzen.controller.admin.dto.GetMessageEncryptionResp;
+import com.qianjh.ryzen.controller.admin.dto.GetMessageEncryptorResp;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
-import com.qianjh.ryzen.service.RyzenPayloadService;
+import com.qianjh.ryzen.service.RyzenMessageService;
 import com.qianjh.ryzen.util.IdUtils;
 import com.qianjh.ryzen.util.RSAUtils;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,25 +22,25 @@ import java.security.interfaces.RSAPublicKey;
 import static com.qianjh.ryzen.controller.admin._AdminController.PUBLIC_PATH_PREFIX;
 
 @Slf4j
-@Tag(name = "public-消息加密")
+@Tag(name = "public-消息加密器")
 @RestController
 @RequestMapping(PUBLIC_PATH_PREFIX)
 @RequiredArgsConstructor
-public class PublicMessageEncryption_AdminController extends _AdminController {
+public class PublicMessageEncryptor_AdminController extends _AdminController {
 
-    private final RyzenPayloadService ryzenPayloadCryptoService;
+    private final RyzenMessageService ryzenPayloadCryptoService;
     private final SecurityProperties securityProperties;
 
     @Operation(summary = "获取")
-    @GetMapping("/message-encryption")
-    public Resp<GetMessageEncryptionResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
-                                              @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId) {
-        RsaProperties properties = securityProperties.getPayload();
+    @GetMapping("/message-encryptor")
+    public Resp<GetMessageEncryptorResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+                                             @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId) {
+        RsaProperties properties = securityProperties.getMessage();
         RSAPublicKey publicKey = ryzenPayloadCryptoService.getPublicKey(properties);
         Long keyId = properties.getCurrentKeyId();
 
-        GetMessageEncryptionResp result = GetMessageEncryptionResp.builder()
-                .id(IdUtils.toString(keyId))
+        GetMessageEncryptorResp result = GetMessageEncryptorResp.builder()
+                .keyId(IdUtils.toString(keyId))
                 .publicKey(RSAUtils.toString(publicKey))
                 .build();
 

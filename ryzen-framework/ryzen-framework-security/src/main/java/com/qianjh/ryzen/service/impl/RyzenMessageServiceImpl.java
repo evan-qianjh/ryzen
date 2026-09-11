@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service.impl;
 import com.qianjh.ryzen.api.RespMc;
 import com.qianjh.ryzen.config.RsaProperties;
 import com.qianjh.ryzen.config.SecurityProperties;
-import com.qianjh.ryzen.service.RyzenPayloadService;
+import com.qianjh.ryzen.service.RyzenMessageService;
 import com.qianjh.ryzen.service.dto.RsaEncrypt;
 import com.qianjh.ryzen.util.McUtils;
 import com.qianjh.ryzen.util.RSAUtils;
@@ -23,13 +23,13 @@ import java.security.interfaces.RSAPublicKey;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class RyzenPayloadServiceImpl extends RsaServiceImpl implements RyzenPayloadService {
+public class RyzenMessageServiceImpl extends RsaServiceImpl implements RyzenMessageService {
 
     private final SecurityProperties securityProperties;
 
     @PostConstruct
     public void init() {
-        RsaProperties properties = securityProperties.getPayload();
+        RsaProperties properties = securityProperties.getMessage();
         getPublicKey(properties);
         getPrivateKey(properties);
     }
@@ -39,7 +39,7 @@ public class RyzenPayloadServiceImpl extends RsaServiceImpl implements RyzenPayl
         if (StringUtils.isBlank(plaintext)) {
             return null;
         }
-        RsaProperties properties = securityProperties.getPayload();
+        RsaProperties properties = securityProperties.getMessage();
         Long keyId = properties.getCurrentKeyId();
 
         RSAPublicKey publicKey = getPublicKey(properties);

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-public class GetMessageEncryptionResp {
-    private String id;
+public class GetMessageEncryptorResp {
+    private String keyId;
     private String publicKey;
 }

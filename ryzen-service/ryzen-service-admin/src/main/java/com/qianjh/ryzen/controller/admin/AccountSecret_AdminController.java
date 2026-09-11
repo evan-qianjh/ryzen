@@ -7,7 +7,7 @@ import com.qianjh.ryzen.entity.AccountSecret;
 import com.qianjh.ryzen.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;
-import com.qianjh.ryzen.service.RyzenPayloadService;
+import com.qianjh.ryzen.service.RyzenMessageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class AccountSecret_AdminController extends _AdminController {
 
     private final AccountService accountService;
     private final AccountSecretService accountSecretService;
-    private final RyzenPayloadService ryzenPayloadCryptoService;
+    private final RyzenMessageService ryzenPayloadCryptoService;
 
 
     @Operation(summary = "修改密码")

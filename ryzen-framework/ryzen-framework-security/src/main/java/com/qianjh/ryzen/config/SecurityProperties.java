@@ -17,13 +17,13 @@ public class SecurityProperties {
      */
     private volatile AesProperties storage;
     /**
-     * 跨系统
+     * 跨系统报文
      */
     private volatile RsaProperties cross;
     /**
-     * 通讯加密
+     * 通讯报文
      */
-    private volatile RsaProperties payload;
+    private volatile RsaProperties message;
     /**
      * JWT Token
      */
