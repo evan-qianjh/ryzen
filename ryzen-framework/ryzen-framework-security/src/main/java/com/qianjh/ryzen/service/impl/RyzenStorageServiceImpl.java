@@ -26,11 +26,11 @@ public class RyzenStorageServiceImpl extends AesServiceImpl implements RyzenStor
 
     @Override
     public String encrypt(String plaintext) {
-        return AESUtils.encrypt(securityProperties.getStorage().getKey().getSecret(), plaintext);
+        return AESUtils.encrypt(secret, plaintext);
     }
 
     @Override
     public String decrypt(String ciphertext) {
-        return AESUtils.decrypt(securityProperties.getStorage().getKey().getSecret(), ciphertext);
+        return AESUtils.decrypt(secret, ciphertext);
     }
 }

@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: ryzen-gateway-admin
+  profiles:
+    active: dev
   config:
     import: optional:consul:192.168.187.1:8500
   output:
@@ -13,7 +15,7 @@ spring:
     allow-bean-definition-overriding: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${ryzen.pgsql.default.host}/${ryzen.pgsql.default.schema:ryzen}?currentSchema=saas
+    url: jdbc:postgresql://${ryzen.pgsql.default.host}/${ryzen.pgsql.default.schema:ryzen}?currentSchema=ryzen
     username: ${ryzen.pgsql.default.username}
     password: ${ryzen.pgsql.default.password}
   data:
