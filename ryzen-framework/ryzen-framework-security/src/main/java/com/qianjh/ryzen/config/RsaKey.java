@@ -6,4 +6,5 @@ import lombok.Data;
 public class RsaKey {
     private String publicKey;
     private String privateKey;
+    private Long expireTime;
 }

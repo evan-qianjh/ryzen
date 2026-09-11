@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.qianjh.ryzen.config.RsaKey;
 import com.qianjh.ryzen.config.RsaProperties;
 import com.qianjh.ryzen.config.SecurityProperties;
 import com.qianjh.ryzen.service.RyzenCrossService;
@@ -38,8 +39,9 @@ public class RyzenCrossServiceImpl extends RsaServiceImpl implements RyzenCrossS
 
     @PostConstruct
     public void init() {
-        getPublicKey(securityProperties.getCross());
-        getPrivateKey(securityProperties.getCross());
+        RsaProperties properties = securityProperties.getCross();
+        getPublicKey(properties);
+        getPrivateKey(properties);
     }
 
     @Override
@@ -78,6 +80,16 @@ public class RyzenCrossServiceImpl extends RsaServiceImpl implements RyzenCrossS
         if (StringUtils.isBlank(cipherText)) {
             return null;
         }
+
+        // expired
+        RsaProperties properties = securityProperties.getCross();
+        RsaKey rsaKey = properties.getKeys().get(keyId);
+        Long expireTime = rsaKey.getExpireTime();
+        if (expireTime != null && expireTime < System.currentTimeMillis()) {
+            log.warn("访问已过期的RsaKey ::: {}", keyId);
+            return null;
+        }
+
         // 获取公钥
         RSAPublicKey publicKey = getPublicKey(keyId);
 

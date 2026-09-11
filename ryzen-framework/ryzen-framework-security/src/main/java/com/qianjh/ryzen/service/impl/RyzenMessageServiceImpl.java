@@ -1,6 +1,7 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.qianjh.ryzen.api.RespMc;
+import com.qianjh.ryzen.config.RsaKey;
 import com.qianjh.ryzen.config.RsaProperties;
 import com.qianjh.ryzen.config.SecurityProperties;
 import com.qianjh.ryzen.service.RyzenMessageService;
@@ -52,6 +53,15 @@ public class RyzenMessageServiceImpl extends RsaServiceImpl implements RyzenMess
     @Override
     public String decrypt(Long keyId, String ciphertext) {
         if (StringUtils.isBlank(ciphertext)) {
+            return null;
+        }
+
+        // expired
+        RsaProperties properties = securityProperties.getMessage();
+        RsaKey rsaKey = properties.getKeys().get(keyId);
+        Long expireTime = rsaKey.getExpireTime();
+        if (expireTime != null && expireTime < System.currentTimeMillis()) {
+            log.warn("访问已过期的RsaKey ::: {}", keyId);
             return null;
         }
 
