@@ -21,6 +21,7 @@ spring:
       config:
         prefixes: config
         default-context: application
+        data-key: data
         format: yaml
         watch:
           enabled: true

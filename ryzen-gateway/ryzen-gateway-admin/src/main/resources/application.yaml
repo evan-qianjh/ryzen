@@ -34,9 +34,10 @@ spring:
       config:
         prefixes: config
         default-context: application
+        data-key: data
         format: yaml
         watch:
-          enabled: true
+          enabled: false # https://github.com/spring-cloud/spring-cloud-consul/issues/951
           delay: 3000
     gateway:
       server:
