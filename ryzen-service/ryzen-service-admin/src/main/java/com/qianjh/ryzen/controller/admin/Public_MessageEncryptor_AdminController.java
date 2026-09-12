@@ -26,15 +26,14 @@ import static com.qianjh.ryzen.controller.admin._AdminController.PUBLIC_PATH_PRE
 @RestController
 @RequestMapping(PUBLIC_PATH_PREFIX)
 @RequiredArgsConstructor
-public class PublicMessageEncryptor_AdminController extends _AdminController {
+public class Public_MessageEncryptor_AdminController extends _AdminController {
 
     private final RyzenMessageService ryzenPayloadCryptoService;
     private final SecurityProperties securityProperties;
 
     @Operation(summary = "获取")
     @GetMapping("/message-encryptor")
-    public Resp<GetMessageEncryptorResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
-                                             @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId) {
+    public Resp<GetMessageEncryptorResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId) {
         RsaProperties properties = securityProperties.getMessage();
         RSAPublicKey publicKey = ryzenPayloadCryptoService.getPublicKey(properties);
         Long keyId = properties.getCurrentKeyId();

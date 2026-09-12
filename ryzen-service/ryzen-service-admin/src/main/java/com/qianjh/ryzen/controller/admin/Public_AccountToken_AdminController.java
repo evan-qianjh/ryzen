@@ -32,13 +32,13 @@ import static com.qianjh.ryzen.controller.admin._AdminController.PUBLIC_PATH_PRE
 @RestController
 @RequestMapping(PUBLIC_PATH_PREFIX)
 @RequiredArgsConstructor
-public class PublicAccountToken_AdminController extends _AdminController {
+public class Public_AccountToken_AdminController extends _AdminController {
 
     private final HttpRequestService httpRequestService;
     private final AccountService accountService;
     private final AccountTokenService accountTokenService;
-    private final RyzenTokenService zenTokenCryptoService;
-    private final RyzenMessageService ryzenPayloadCryptoService;
+    private final RyzenTokenService ryzenTokenService;
+    private final RyzenMessageService ryzenMessageService;
     private final SecurityProperties securityProperties;
 
 
@@ -46,27 +46,26 @@ public class PublicAccountToken_AdminController extends _AdminController {
     @PostMapping("/account-token")
     public Resp<PostAccountTokenResp> create(HttpServletRequest request,
                                              @RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
-                                             @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                              @RequestBody @Validated PostAccountTokenByPasswordReq body) {
 
         ClientInfo clientInfo = httpRequestService.getClientInfo(request);
 
         // 传输解密
-        Long keyId = body.getKeyId();
-        String password = ryzenPayloadCryptoService.decrypt(keyId, body.getPassword());
+        String password = ryzenMessageService.decrypt(body.getKeyId(), body.getPassword());
 
         // 登录
-        Account account = accountService.passwordLogin(oemId, tenantId, clientInfo, body.getUsername(), password, body.getTotp());
+        Account account = accountService.passwordLogin(oemId, clientInfo, body.getUsername(), password, body.getTotp());
         if (Objects.isNull(account)) {
             return Resp.failure("Account or password incorrect");
         }
 
+        // 获取私钥
         RsaProperties properties = securityProperties.getToken();
-        RSAPrivateKey accountTokenPrivateKey = zenTokenCryptoService.getPrivateKey(properties);
+        RSAPrivateKey privateKey = ryzenTokenService.getPrivateKey(properties);
         // 生成refreshToken
-        RefreshToken refreshToken = accountTokenService.generateRefreshToken(account, accountTokenPrivateKey, clientInfo);
+        RefreshToken refreshToken = accountTokenService.generateRefreshToken(account, privateKey, clientInfo);
         // 生成accessToken
-        AccessToken accessToken = accountTokenService.generateAccessToken(oemId, tenantId, refreshToken, accountTokenPrivateKey, clientInfo);
+        AccessToken accessToken = accountTokenService.generateAccessToken(refreshToken, privateKey, clientInfo);
 
         // 创建账户token
         AccountToken accountToken = accountTokenService.create(account, refreshToken, clientInfo);

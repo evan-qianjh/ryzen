@@ -39,23 +39,20 @@ public interface AccountTokenService extends IService<AccountToken> {
     /**
      * 创建访问token
      *
-     * @param oemId        OEM ID
-     * @param tenantId     租户ID
      * @param refreshToken 刷新token
      * @param privateKey   私钥
      * @param clientInfo   客户端信息
      * @return 账户token
      */
-    AccessToken generateAccessToken(Long oemId, Long tenantId, RefreshToken refreshToken, RSAPrivateKey privateKey, ClientInfo clientInfo);
+    AccessToken generateAccessToken(RefreshToken refreshToken, RSAPrivateKey privateKey, ClientInfo clientInfo);
 
     /**
      * 解析token
      *
      * @param oemId     OEM ID
-     * @param tenantId  租户ID
      * @param token     token
      * @param publicKey 公钥
      * @return payload
      */
-    RefreshToken parseRefreshToken(Long oemId, Long tenantId, String token, RSAPublicKey publicKey);
+    RefreshToken parseRefreshToken(Long oemId, String token, RSAPublicKey publicKey);
 }

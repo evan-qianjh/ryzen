@@ -12,6 +12,7 @@ import com.qianjh.ryzen.service.dto.AccessToken;
 import com.qianjh.ryzen.service.dto.RefreshToken;
 import com.qianjh.ryzen.service.dto.TokenPayload;
 import com.qianjh.ryzen.util.DateTimeUtils;
+import com.qianjh.ryzen.util.LongUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,15 +57,18 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
     }
 
     @Override
-    public AccessToken generateAccessToken(Long oemId, Long tenantId, RefreshToken refreshToken, RSAPrivateKey privateKey, ClientInfo clientInfo) {
+    public AccessToken generateAccessToken(RefreshToken refreshToken, RSAPrivateKey privateKey, ClientInfo clientInfo) {
         return tokenService.generateAccessToken(refreshToken, privateKey);
     }
 
     @Override
-    public RefreshToken parseRefreshToken(Long oemId, Long tenantId, String token, RSAPublicKey publicKey) {
+    public RefreshToken parseRefreshToken(Long oemId, String token, RSAPublicKey publicKey) {
         TokenPayload payload = tokenService.parseTokenPayload(token, publicKey);
         if (payload == null) {
             return null;
+        }
+        if (!LongUtils.toString(oemId).equals(payload.getOemId())) {
+            throw new IllegalArgumentException();
         }
         return RefreshToken.builder()
                 .token(token)

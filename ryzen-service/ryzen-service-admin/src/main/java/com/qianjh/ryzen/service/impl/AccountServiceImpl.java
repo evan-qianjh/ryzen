@@ -52,18 +52,17 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     }
 
     @Override
-    public Account getByUsername(Long oemId, Long tenantId, String username) {
+    public Account getByUsername(Long oemId, String username) {
         return getOne(new LambdaQueryWrapper<Account>()
                 .eq(Account::getOemId, oemId)
-                .eq(Account::getTenantId, tenantId)
                 .eq(Account::getUsername, username)
         );
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Account passwordLogin(Long oemId, Long tenantId, ClientInfo clientInfo, String username, String password, Integer totp) {
-        Account account = getByUsername(oemId, tenantId, username);
+    public Account passwordLogin(Long oemId, ClientInfo clientInfo, String username, String password, Integer totp) {
+        Account account = getByUsername(oemId, username);
         if (Objects.isNull(account)) {
             return null;
         }

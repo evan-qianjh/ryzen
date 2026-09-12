@@ -98,7 +98,7 @@ public class Account_AdminController extends _AdminController {
                                       @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                       @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
                                       @RequestBody @Validated PostAccountReq body) {
-        Account entity = accountService.getByUsername(oemId, tenantId, body.getUsername());
+        Account entity = accountService.getByUsername(oemId, body.getUsername());
         if (entity != null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
         }

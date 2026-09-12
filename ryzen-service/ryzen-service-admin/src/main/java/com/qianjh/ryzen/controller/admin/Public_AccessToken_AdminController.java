@@ -32,7 +32,7 @@ import static com.qianjh.ryzen.controller.admin._AdminController.PUBLIC_PATH_PRE
 @RestController
 @RequestMapping(PUBLIC_PATH_PREFIX)
 @RequiredArgsConstructor
-public class PublicAccessToken_AdminController extends _AdminController {
+public class Public_AccessToken_AdminController extends _AdminController {
 
     private final HttpRequestService httpRequestService;
     private final AccountTokenService accountTokenService;
@@ -43,7 +43,6 @@ public class PublicAccessToken_AdminController extends _AdminController {
     @PostMapping("/access-token")
     public Resp<PostAccessTokenResp> create(HttpServletRequest request,
                                             @RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
-                                            @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                             @RequestBody @Validated PostAccessTokenReq body) {
         ClientInfo clientInfo = httpRequestService.getClientInfo(request);
 
@@ -51,14 +50,14 @@ public class PublicAccessToken_AdminController extends _AdminController {
 
         // 获取rsa
         RSAPublicKey rsaPublicKey = ryzenTokenCryptoService.getPublicKey(properties);
-        RefreshToken refreshToken = accountTokenService.parseRefreshToken(oemId, tenantId, body.getRefreshToken(), rsaPublicKey);
+        RefreshToken refreshToken = accountTokenService.parseRefreshToken(oemId, body.getRefreshToken(), rsaPublicKey);
         if (refreshToken == null) {
             throw new TokenExpiredException();
         }
 
         // 获取私钥生成accessToken
         RSAPrivateKey rsaPrivateKey = ryzenTokenCryptoService.getPrivateKey(properties);
-        AccessToken accessToken = accountTokenService.generateAccessToken(oemId, tenantId, refreshToken, rsaPrivateKey, clientInfo);
+        AccessToken accessToken = accountTokenService.generateAccessToken(refreshToken, rsaPrivateKey, clientInfo);
 
         PostAccessTokenResp result = PostAccessTokenResp.builder()
                 .accessToken(accessToken.getToken())
