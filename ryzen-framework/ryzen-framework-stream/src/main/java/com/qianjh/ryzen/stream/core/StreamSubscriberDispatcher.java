@@ -1,9 +1,9 @@
-package com.qianjh.ryzen.stream.event;
+package com.qianjh.ryzen.stream.core;
 
 /**
  * @author QianJH
  */
-public interface EventSubscriberDispatcher {
+public interface StreamSubscriberDispatcher {
     /**
      * 分发
      *

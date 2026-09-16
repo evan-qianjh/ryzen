@@ -1,10 +1,10 @@
-package com.qianjh.ryzen.stream.event;
+package com.qianjh.ryzen.stream.core;
 
 /**
  *
  * @author QianJH
  */
-public interface Event<T> {
+public interface Stream<T> {
     String getDomain();
 
     String getType();
