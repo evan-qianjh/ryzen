@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.stream.core;
+package com.qianjh.ryzen.stream.subscriber;
 
 /**
  * @author QianJH

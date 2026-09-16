@@ -1,7 +1,7 @@
-package com.qianjh.ryzen.stream.core.impl;
+package com.qianjh.ryzen.stream.subscriber.impl;
 
-import com.qianjh.ryzen.stream.core.StreamSubscriber;
-import com.qianjh.ryzen.stream.core.StreamSubscriberDispatcher;
+import com.qianjh.ryzen.stream.subscriber.StreamSubscriber;
+import com.qianjh.ryzen.stream.subscriber.StreamSubscriberDispatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 

@@ -58,8 +58,8 @@ public interface StreamConsumer {
         return getStringHeader(headers.get(StreamHeader.TYPE));
     }
 
-    default Long getTenant(MessageHeaders headers) {
-        return getLongHeader(headers.get(StreamHeader.TENANT));
+    default Long getOem(MessageHeaders headers) {
+        return getLongHeader(headers.get(StreamHeader.OEM));
     }
 
     default Long getTime(MessageHeaders headers) {

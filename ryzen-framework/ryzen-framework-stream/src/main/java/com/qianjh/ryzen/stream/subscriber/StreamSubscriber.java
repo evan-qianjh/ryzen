@@ -1,5 +1,6 @@
-package com.qianjh.ryzen.stream.core;
+package com.qianjh.ryzen.stream.subscriber;
 
+import com.qianjh.ryzen.stream.model.Stream;
 import com.qianjh.ryzen.stream.util.StreamUtils;
 
 /**

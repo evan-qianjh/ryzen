@@ -22,9 +22,9 @@ public class StreamHeader {
      */
     public static final String TIME = PREFIX + "time";
     /**
-     * 租户ID
+     * OEM ID
      */
-    public static final String TENANT = PREFIX + "tenant";
+    public static final String OEM = PREFIX + "oem";
     /**
      * 生产者
      */

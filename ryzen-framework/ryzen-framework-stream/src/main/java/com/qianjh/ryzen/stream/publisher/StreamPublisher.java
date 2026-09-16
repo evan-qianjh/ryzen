@@ -1,4 +1,6 @@
-package com.qianjh.ryzen.stream.core;
+package com.qianjh.ryzen.stream.publisher;
+
+import com.qianjh.ryzen.stream.model.Stream;
 
 /**
  * @author QianJH
