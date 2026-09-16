@@ -1,13 +1,14 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.dict.ImageStyle;
 import com.qianjh.ryzen.dict.VideoStyle;
-import com.qianjh.ryzen.entity.PartnerAliyun;
-import com.qianjh.ryzen.entity.PluginAliyunOss;
-import com.qianjh.ryzen.service.PartnerAliyunService;
-import com.qianjh.ryzen.service.PluginAliyunOssService;
-import com.qianjh.ryzen.service.RyzenAliyunOssService;
+import com.qianjh.ryzen.entity.Aliyun;
+import com.qianjh.ryzen.entity.AliyunOss;
+import com.qianjh.ryzen.mapper.AliyunOssMapper;
+import com.qianjh.ryzen.service.AliyunOssService;
+import com.qianjh.ryzen.service.AliyunService;
 import com.qianjh.ryzen.service.RyzenStorageService;
 import com.qianjh.ryzen.service.dto.AliyunOssUploadToken;
 import com.qianjh.ryzen.util.AliyunOssUtils;
@@ -29,31 +30,30 @@ import java.util.*;
 @Service
 @Order(1)
 @RequiredArgsConstructor
-public class RyzenAliyunOssServiceImpl implements RyzenAliyunOssService, ApplicationRunner {
+public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss> implements AliyunOssService, ApplicationRunner {
 
     private static final String ASSETS_TEMPLATE = "tenant/{tenantId}/assets/{service}/uploads/{fileName}";
     private static final String ACCOUNT_TEMPLATE = "tenant/{tenantId}/{accountType}_account/{accountId}/uploads/{fileName}";
     private static final String IMAGE_STYLE_FORMAT = "?x-oss-process=style/";
     private static final String VIDEO_STYLE_FORMAT = "?x-oss-process=video/";
 
-    private static final Map<Long, PluginAliyunOss> TENANT_ID__PLUGIN = new HashMap<>();
-    private static final Map<Long, PartnerAliyun> TENANT_ID__PARTNER = new HashMap<>();
+    private static final Map<Long, AliyunOss> TENANT_ID__PLUGIN = new HashMap<>();
+    private static final Map<Long, Aliyun> TENANT_ID__PARTNER = new HashMap<>();
 
-    private final PartnerAliyunService partnerAliyunService;
-    private final PluginAliyunOssService pluginAliyunOssService;
+    private final AliyunService aliyunService;
     private final RyzenStorageService ryzenStorageCryptoService;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         //
-        List<PluginAliyunOss> plugins = pluginAliyunOssService.list(Wrappers.emptyWrapper());
-        for (PluginAliyunOss plugin : plugins) {
-            TENANT_ID__PLUGIN.put(plugin.getTenantId(), plugin);
+        List<AliyunOss> plugins = list(Wrappers.emptyWrapper());
+        for (AliyunOss plugin : plugins) {
+            TENANT_ID__PLUGIN.put(plugin.getOemId(), plugin);
         }
         //
-        List<PartnerAliyun> partners = partnerAliyunService.list(Wrappers.lambdaQuery());
-        for (PartnerAliyun partner : partners) {
-            TENANT_ID__PARTNER.put(partner.getTenantId(), partner);
+        List<Aliyun> partners = aliyunService.list(Wrappers.lambdaQuery());
+        for (Aliyun partner : partners) {
+            TENANT_ID__PARTNER.put(partner.getOemId(), partner);
         }
     }
 
@@ -63,7 +63,7 @@ public class RyzenAliyunOssServiceImpl implements RyzenAliyunOssService, Applica
      * @param tenantId 租户
      * @return OSS
      */
-    private PluginAliyunOss getOss(Long tenantId) {
+    private AliyunOss getOss(Long tenantId) {
         return TENANT_ID__PLUGIN.get(tenantId);
     }
 
@@ -73,18 +73,18 @@ public class RyzenAliyunOssServiceImpl implements RyzenAliyunOssService, Applica
      * @param tenantId 租户
      * @return Aliyun
      */
-    private PartnerAliyun getAliyun(Long tenantId) {
+    private Aliyun getAliyun(Long tenantId) {
         return TENANT_ID__PARTNER.get(tenantId);
     }
 
     @Override
-    public String getDownloadHost(Long tenantId) {
-        PluginAliyunOss oss = getOss(tenantId);
+    public String getDownloadHost(Long oemId) {
+        AliyunOss oss = getOss(oemId);
         return oss == null ? null : oss.getDownloadHost();
     }
 
     @Override
-    public String getObjectUrl(Long tenantId, String objectPath) {
+    public String getObjectUrl(Long oemId, String objectPath) {
         //
         if (StringUtils.isBlank(objectPath)) {
             return null;
@@ -94,40 +94,40 @@ public class RyzenAliyunOssServiceImpl implements RyzenAliyunOssService, Applica
             return objectPath;
         }
         //
-        return getDownloadHost(tenantId) + (objectPath.startsWith("/") ? objectPath : "/" + objectPath);
+        return getDownloadHost(oemId) + (objectPath.startsWith("/") ? objectPath : "/" + objectPath);
     }
 
     @Override
-    public String getObjectUrl(Long tenantId, String objectPath, ImageStyle imageStyle) {
-        String objectUrl = getObjectUrl(tenantId, objectPath);
+    public String getObjectUrl(Long oemId, String objectPath, ImageStyle imageStyle) {
+        String objectUrl = getObjectUrl(oemId, objectPath);
         //
         return appendStyle(objectUrl, imageStyle);
     }
 
     @Override
-    public String getObjectUrl(Long tenantId, String objectPath, VideoStyle videoStyle) {
-        String objectUrl = getObjectUrl(tenantId, objectPath);
+    public String getObjectUrl(Long oemId, String objectPath, VideoStyle videoStyle) {
+        String objectUrl = getObjectUrl(oemId, objectPath);
         //
         return appendStyle(objectUrl, videoStyle);
     }
 
     @Override
-    public String getOrDefaultObjectUrl(Long tenantId, String objectPath, String defaultObjectPath) {
+    public String getOrDefaultObjectUrl(Long oemId, String objectPath, String defaultObjectPath) {
         //
-        String objectUrl = getObjectUrl(tenantId, objectPath);
+        String objectUrl = getObjectUrl(oemId, objectPath);
         //
         if (StringUtils.isNotBlank(objectUrl)) {
             return objectUrl;
         }
-        return getObjectUrl(tenantId, defaultObjectPath);
+        return getObjectUrl(oemId, defaultObjectPath);
     }
 
     @Override
-    public List<String> getObjectUrls(Long tenantId, List<String> objectPaths) {
+    public List<String> getObjectUrls(Long oemId, List<String> objectPaths) {
         if (Objects.isNull(objectPaths) || objectPaths.isEmpty()) {
             return Collections.emptyList();
         }
-        return objectPaths.stream().map(objectPath -> getObjectUrl(tenantId, objectPath)).toList();
+        return objectPaths.stream().map(objectPath -> getObjectUrl(oemId, objectPath)).toList();
     }
 
     /**
@@ -206,20 +206,20 @@ public class RyzenAliyunOssServiceImpl implements RyzenAliyunOssService, Applica
      * @return token
      */
     private AliyunOssUploadToken createToken(Long tenantId, String objectName) {
-        PluginAliyunOss pluginAliyunOss = getOss(tenantId);
-        PartnerAliyun partnerAliyun = getAliyun(tenantId);
+        AliyunOss aliyunOss = getOss(tenantId);
+        Aliyun aliyun = getAliyun(tenantId);
 
         String policy = AliyunOssUtils.getPolicy();
-        String signature = AliyunOssUtils.getSignature(ryzenStorageCryptoService.decrypt(partnerAliyun.getAccessSecret()), policy);
+        String signature = AliyunOssUtils.getSignature(ryzenStorageCryptoService.decrypt(aliyun.getAccessSecret()), policy);
 
         return AliyunOssUploadToken.builder()
-                .bucket(pluginAliyunOss.getBucketName())
+                .bucket(aliyunOss.getBucketName())
                 .fileKey(objectName)
                 .policy(policy)
-                .accessKeyId(partnerAliyun.getAccessKey())
+                .accessKeyId(aliyun.getAccessKey())
                 .signature(signature)
                 .downloadHost(getDownloadHost(tenantId))
-                .uploadHost(pluginAliyunOss.getUploadPublicHost())
+                .uploadHost(aliyunOss.getUploadPublicHost())
                 .build();
     }
 

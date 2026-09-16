@@ -10,11 +10,7 @@ public interface _Schemas {
      */
     String USER = "user.";
     /**
-     * 工厂
-     */
-    String FACTORY = "factory.";
-    /**
-     * 租户管理后台
+     * 管理后台
      */
     String ADMIN = "admin.";
     /**

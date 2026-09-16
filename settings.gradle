@@ -9,12 +9,10 @@ include 'ryzen-framework:ryzen-framework-servlet'
 include 'ryzen-framework:ryzen-framework-stream'
 include 'ryzen-framework:ryzen-framework-token'
 include 'ryzen-framework:ryzen-framework-websocket'
-// function
-include 'ryzen-function:ryzen-function-oss'
-// partner
-include 'ryzen-partner:ryzen-partner-aliyun'
 // plugin
+include 'ryzen-plugin:ryzen-plugin-aliyun'
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
+include 'ryzen-plugin:ryzen-plugin-oss'
 // gateway
 include 'ryzen-gateway:ryzen-gateway-admin'
 include 'ryzen-gateway:ryzen-gateway-oem-admin'

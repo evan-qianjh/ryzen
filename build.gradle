@@ -19,7 +19,7 @@ allprojects {
 subprojects {
     apply plugin: 'idea'
 
-    if (file('src/main/java').exists()) {
+    if (file('src').exists()) {
         apply plugin: 'java-library'
         apply plugin: 'io.spring.dependency-management'
 

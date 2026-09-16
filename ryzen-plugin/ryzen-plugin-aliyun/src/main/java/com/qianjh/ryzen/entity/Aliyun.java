@@ -8,11 +8,11 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Schemas.RYZEN + "partner_aliyun")
-public class PartnerAliyun {
+@TableName(_Schemas.RYZEN + "aliyun")
+public class Aliyun {
     @TableId
     private Long id;
-    private Long tenantId;
+    private Long oemId;
     private String accessKey;
     private String accessSecret;
 }

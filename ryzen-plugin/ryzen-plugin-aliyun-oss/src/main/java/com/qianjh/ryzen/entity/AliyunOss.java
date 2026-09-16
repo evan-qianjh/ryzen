@@ -9,12 +9,11 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Schemas.RYZEN + "plugin_aliyun_oss")
-public class PluginAliyunOss {
+@TableName(_Schemas.RYZEN + "aliyun_oss")
+public class AliyunOss {
     @TableId
     private Long id;
-    private Long tenantId;
-
+    private Long oemId;
 
     private String bucketName;
 

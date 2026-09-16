@@ -1,12 +1,14 @@
 package com.qianjh.ryzen.service;
 
+import com.baomidou.mybatisplus.spring.service.IService;
+import com.qianjh.ryzen.entity.AliyunOss;
 import com.qianjh.ryzen.service.dto.AliyunOssUploadToken;
 
 /**
  *
  * @author QianJH
  */
-public interface RyzenAliyunOssService extends RyzenOssService {
+public interface AliyunOssService extends IService<AliyunOss>, OssService {
 
     /**
      * 创建资源token
