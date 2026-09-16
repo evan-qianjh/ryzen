@@ -24,6 +24,12 @@
         - ryzen-service-admin [管理服务]
         - ryzen-service-user [用户服务]
 
+
+# TODO
+- stream-outbox
+- service share lib
+
+
 ## License
 
 [MIT © Ryzen-2026](./LICENSE)
