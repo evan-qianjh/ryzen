@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.common.api.dto;
+package com.qianjh.ryzen.framework.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

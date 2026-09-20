@@ -2,10 +2,10 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.framework.common.api.ClientInfo;
 import com.qianjh.ryzen.controller.admin.dto.PatchAccountReq;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountReq;
 import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.mapper.AccountMapper;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;

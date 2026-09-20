@@ -1,6 +1,5 @@
 package com.qianjh.ryzen.framework.common.util;
 
-import com.qianjh.ryzen.framework.common.api.RespMc;
 import org.springframework.util.Assert;
 
 import java.security.MessageDigest;
@@ -21,7 +20,7 @@ public class Md5Utils {
     public static String encrypt(String input, int substring) {
         String encrypt = encrypt(input);
 
-        Assert.isTrue(substring <= encrypt.length(), McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+        Assert.isTrue(substring <= encrypt.length(), "ILLEGAL_ARGUMENT");
 
         return encrypt.substring(0, substring);
     }

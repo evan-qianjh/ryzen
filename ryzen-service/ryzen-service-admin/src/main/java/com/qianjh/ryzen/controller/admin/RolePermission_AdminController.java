@@ -1,21 +1,21 @@
 package com.qianjh.ryzen.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qianjh.ryzen.framework.common.api.Resp;
-import com.qianjh.ryzen.framework.common.api.RespMc;
-import com.qianjh.ryzen.framework.common.api.dto.Receipt;
 import com.qianjh.ryzen.controller.admin.dto.GetRolePermissionsResp;
 import com.qianjh.ryzen.controller.admin.dto.PostRolePermissionReq;
 import com.qianjh.ryzen.entity.Permission;
 import com.qianjh.ryzen.entity.Role;
 import com.qianjh.ryzen.entity.RolePermission;
+import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.http.model.Resp;
+import com.qianjh.ryzen.framework.http.model.RespMc;
+import com.qianjh.ryzen.framework.http.util.McUtils;
 import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
 import com.qianjh.ryzen.service.PermissionService;
 import com.qianjh.ryzen.service.RolePermissionService;
 import com.qianjh.ryzen.service.RoleService;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
-import com.qianjh.ryzen.framework.common.util.McUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

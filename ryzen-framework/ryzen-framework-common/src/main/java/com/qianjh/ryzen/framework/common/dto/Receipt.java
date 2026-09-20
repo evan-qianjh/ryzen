@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.common.api.dto;
+package com.qianjh.ryzen.framework.common.dto;
 
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import io.swagger.v3.oas.annotations.media.Schema;

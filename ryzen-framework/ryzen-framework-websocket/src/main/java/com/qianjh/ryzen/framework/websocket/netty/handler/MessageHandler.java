@@ -1,7 +1,6 @@
 package com.qianjh.ryzen.framework.websocket.netty.handler;
 
 import com.google.gson.Gson;
-import com.qianjh.ryzen.framework.common.api.Resp;
 import com.qianjh.ryzen.framework.common.exception.BusinessException;
 import com.qianjh.ryzen.framework.common.exception.UnauthorizedException;
 import com.qianjh.ryzen.framework.websocket.handler.ActionHandler;
@@ -45,6 +44,11 @@ public class MessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> 
 
     private static final String MESSAGE_START_WITH = "{";
     private static final Gson GSON = new Gson();
+
+    private final static Integer RC_SUCCESS = 0;
+    private final static Integer RC_FAILURE = 1;
+    private final static String MC_SUCCESS = "success";
+    private final static String MC_FAILURE = "failure";
 
 
     @Override
@@ -202,7 +206,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> 
                 //
                 ResponseMessage<?> resp = ResponseMessage.builder()
                         .id(request.getId()).action(request.getAction()).process(request.getProcess())
-                        .code(Resp.failure().getRc()).msg(e.getMessage()).build();
+                        .code(RC_FAILURE).msg(e.getMessage()).build();
                 String content = GSON.toJson(resp);
                 String summary = String.format("Exception id=%s", request.getId());
                 MessageSender.send(clientId, Message.build(content), summary);
@@ -211,7 +215,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> 
                 ClientManager.close(ctx.channel());
             }
         } else {
-            ResponseMessage<?> resp = ResponseMessage.builder().code(Resp.failure().getRc()).msg("bad request").build();
+            ResponseMessage<?> resp = ResponseMessage.builder().code(RC_FAILURE).msg("bad request").build();
             String content = GSON.toJson(resp);
             MessageSender.send(clientId, Message.build(content), "checkMessage");
             ClientManager.close(ctx.channel());
@@ -253,8 +257,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> 
      * @param clientId 会话
      */
     public static void respSuccess(ChannelId clientId, RequestMessage request, Object data) {
-        Resp<Object> success = Resp.success();
-        resp(clientId, request, success.getRc(), success.getMc(), data);
+        resp(clientId, request, RC_SUCCESS, MC_SUCCESS, data);
     }
 
     /**

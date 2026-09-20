@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.controller.admin;
 
 
-import com.qianjh.ryzen.framework.common.api.ClientInfo;
-import com.qianjh.ryzen.framework.common.api.Resp;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
 import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
 import io.swagger.v3.oas.annotations.Operation;

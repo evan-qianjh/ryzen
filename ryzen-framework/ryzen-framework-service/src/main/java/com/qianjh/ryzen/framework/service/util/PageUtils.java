@@ -1,8 +1,8 @@
 package com.qianjh.ryzen.framework.service.util;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.qianjh.ryzen.framework.common.api.dto.CursorPage;
-import com.qianjh.ryzen.framework.common.api.dto.OffsetPage;
+import com.qianjh.ryzen.framework.common.dto.CursorPage;
+import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 
 import java.util.List;
 

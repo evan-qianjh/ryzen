@@ -2,9 +2,9 @@ package com.qianjh.ryzen.framework.servlet.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.qianjh.ryzen.framework.common.api.ClientInfo;
 import com.qianjh.ryzen.framework.common.header.ClientHeader;
 import com.qianjh.ryzen.framework.common.header.GatewayHeader;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

@@ -1,10 +1,10 @@
 package com.qianjh.ryzen.controller.admin;
 
-import com.qianjh.ryzen.framework.common.api.Resp;
 import com.qianjh.ryzen.controller.admin.dto.PutAccountSecretPasswordReq;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountSecret;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;

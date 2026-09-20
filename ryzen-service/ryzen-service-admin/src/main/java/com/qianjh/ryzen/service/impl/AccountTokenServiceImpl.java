@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.framework.common.api.ClientInfo;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountToken;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.mapper.AccountTokenMapper;
 import com.qianjh.ryzen.service.AccountTokenService;
 import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;

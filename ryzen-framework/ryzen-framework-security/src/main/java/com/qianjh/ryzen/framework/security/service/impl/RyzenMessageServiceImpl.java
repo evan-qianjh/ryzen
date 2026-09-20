@@ -1,12 +1,10 @@
 package com.qianjh.ryzen.framework.security.service.impl;
 
-import com.qianjh.ryzen.framework.common.api.RespMc;
 import com.qianjh.ryzen.framework.security.config.RsaKey;
 import com.qianjh.ryzen.framework.security.config.RsaProperties;
 import com.qianjh.ryzen.framework.security.config.SecurityProperties;
 import com.qianjh.ryzen.framework.security.service.RyzenMessageService;
 import com.qianjh.ryzen.framework.security.service.dto.RsaEncrypt;
-import com.qianjh.ryzen.framework.common.util.McUtils;
 import com.qianjh.ryzen.framework.security.util.RSAUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -67,13 +65,13 @@ public class RyzenMessageServiceImpl extends RsaServiceImpl implements RyzenMess
 
         RSAPrivateKey privateKey = getPrivateKey(keyId);
         if (privateKey == null) {
-            throw new IllegalArgumentException(McUtils.i18n(RespMc.BAD_CIPHERTEXT));
+            throw new IllegalArgumentException("BAD_CIPHERTEXT");
         }
 
         try {
             return RSAUtils.decrypt(privateKey, ciphertext);
         } catch (Exception e) {
-            throw new IllegalArgumentException(McUtils.i18n(RespMc.BAD_CIPHERTEXT));
+            throw new IllegalArgumentException("BAD_CIPHERTEXT");
         }
     }
 }

@@ -1,6 +1,6 @@
-package com.qianjh.ryzen.framework.common.util;
+package com.qianjh.ryzen.framework.http.util;
 
-import com.qianjh.ryzen.framework.common.api.Mc;
+import com.qianjh.ryzen.framework.http.model.Mc;
 import org.springframework.context.i18n.LocaleContextHolder;
 
 import java.util.Locale;

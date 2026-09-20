@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.controller.admin;
 
-import com.qianjh.ryzen.framework.common.api.Resp;
+import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.security.config.RsaProperties;
 import com.qianjh.ryzen.framework.security.config.SecurityProperties;
 import com.qianjh.ryzen.controller.admin.dto.GetMessageEncryptorResp;

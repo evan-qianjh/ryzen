@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.common.api;
+package com.qianjh.ryzen.framework.http.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

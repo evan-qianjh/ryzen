@@ -1,6 +1,6 @@
-package com.qianjh.ryzen.framework.common.api;
+package com.qianjh.ryzen.framework.http.model;
 
-import com.qianjh.ryzen.framework.common.util.McUtils;
+import com.qianjh.ryzen.framework.http.util.McUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,10 +1,10 @@
 package com.qianjh.ryzen.framework.service.exception;
 
-import com.qianjh.ryzen.framework.common.api.Resp;
-import com.qianjh.ryzen.framework.common.api.RespMc;
 import com.qianjh.ryzen.framework.common.exception.BusinessException;
 import com.qianjh.ryzen.framework.common.exception.TokenExpiredException;
-import com.qianjh.ryzen.framework.common.util.McUtils;
+import com.qianjh.ryzen.framework.http.model.Resp;
+import com.qianjh.ryzen.framework.http.model.RespMc;
+import com.qianjh.ryzen.framework.http.util.McUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

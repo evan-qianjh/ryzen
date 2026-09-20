@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.framework.servlet.service;
 
-import com.qianjh.ryzen.framework.common.api.ClientInfo;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 

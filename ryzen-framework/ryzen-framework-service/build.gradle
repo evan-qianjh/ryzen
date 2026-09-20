@@ -1,5 +1,5 @@
 dependencies {
-    api project(":ryzen-framework:ryzen-framework-common")
+    api project(":ryzen-framework:ryzen-framework-http")
 
     api 'org.springframework.boot:spring-boot-starter-webmvc'
 

@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.framework.websocket.util;
 
-import com.qianjh.ryzen.framework.common.api.ClientInfo;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.framework.websocket.netty.ClientManager;
 import com.qianjh.ryzen.framework.websocket.netty.handler.HeaderHandler;
 import io.netty.channel.ChannelId;

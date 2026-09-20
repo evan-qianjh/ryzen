@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.qianjh.ryzen.framework.common.api.ClientInfo;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountToken;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
 import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;
 
