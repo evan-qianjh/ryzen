@@ -2,7 +2,6 @@ package com.qianjh.ryzen.framework.gateway.util;
 
 import com.google.common.net.InternetDomainName;
 import com.qianjh.ryzen.framework.common.header.ProxyHeader;
-import com.qianjh.ryzen.framework.gateway.util.dto.Domain;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -12,7 +11,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * 
+ *
  */
 @Slf4j
 public final class DomainUtils {
@@ -66,22 +65,24 @@ public final class DomainUtils {
     }
 
     /**
-     * 解析域名中的 OEM 和 Tenant。
-     * 域名格式：
-     * {tenant}.{client}.{oem}
+     * 解析域名中的顶级部分
      * 示例：
-     * 123.admin-api.qianjh.com
-     * 123.admin-api.qianjh.com.cn
+     * admin-api.{qianjh.com}
+     * admin-api.{qianjh.com.cn}
      *
      * @param domain 请求域名，不包含端口
-     * @return OEM 与 Tenant 信息
+     * @return 顶级域名
      */
-    public static Domain parse(String domain) {
+    public static String parseTop(String domain) {
         if (domain == null || domain.isBlank()) {
             throw new IllegalArgumentException("Host must not be blank");
         }
 
         domain = normalize(domain);
+
+        if("localhost".equalsIgnoreCase(domain)) {
+            return domain;
+        }
 
         InternetDomainName name = InternetDomainName.from(domain);
 
@@ -91,22 +92,16 @@ public final class DomainUtils {
             );
         }
 
-        InternetDomainName oemDomain = name.topPrivateDomain();
+        InternetDomainName top = name.topPrivateDomain();
 
-        String oem = oemDomain.toString();
-
-
-        String[] split = domain.split("\\.");
-        String tenant = split[0];
-
-        return new Domain(oem, tenant);
+        return top.toString();
     }
 
     private static String normalize(String host) {
         String domain = host.trim().toLowerCase(Locale.ROOT);
 
         // Host 可能是：
-        // 123.admin-api.qianjh.com:8080
+        // admin-api.qianjh.com:8080
         int portIndex = domain.lastIndexOf(':');
 
         if (portIndex > -1) {
@@ -114,7 +109,7 @@ public final class DomainUtils {
         }
 
         // FQDN：
-        // 123.admin-api.qianjh.com.
+        // admin-api.qianjh.com.
         if (domain.endsWith(".")) {
             domain = domain.substring(0, domain.length() - 1);
         }

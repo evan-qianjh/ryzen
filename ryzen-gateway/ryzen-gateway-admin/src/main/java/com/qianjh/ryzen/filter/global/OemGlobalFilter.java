@@ -5,8 +5,6 @@ import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
 import com.qianjh.ryzen.framework.gateway.util.DomainUtils;
 import com.qianjh.ryzen.framework.saas.entity.Oem;
 import com.qianjh.ryzen.framework.saas.entity.OemDomain;
-import com.qianjh.ryzen.framework.saas.entity.Tenant;
-import com.qianjh.ryzen.framework.saas.entity.TenantDomain;
 import com.qianjh.ryzen.service.DomainService;
 import com.qianjh.ryzen.service.dto.DomainOwner;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +33,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class SaasGlobalFilter implements GlobalFilter, Ordered {
+public class OemGlobalFilter implements GlobalFilter, Ordered {
 
     public static final Integer ORDER = ForgedRequestGlobalFilter.ORDER + 1;
 
@@ -54,8 +52,9 @@ public class SaasGlobalFilter implements GlobalFilter, Ordered {
         RequestPath path = request.getPath();
         String method = request.getMethod().name();
         String url = String.format("%s %s", method, path);
-
         HttpHeaders headers = request.getHeaders();
+
+        // 获取domain
         String domain = DomainUtils.getDomain(request);
 
         // 没有获取到domain
@@ -71,30 +70,21 @@ public class SaasGlobalFilter implements GlobalFilter, Ordered {
         // resolve domain
         DomainOwner domainOwner = domainService.resolve(domain);
         if(domainOwner == null) {
+            log.warn("解析domain失败 ::: {}", domain);
             exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
             return Mono.empty();
         }
         // Oem
-        Oem oem = domainOwner.getOem();
+        Oem oem = domainOwner.oem();
         if(oem == null || !oem.getEnabled()) {
+            log.warn("oem不可用 ::: {}", domainOwner);
             exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
             return Mono.empty();
         }
         // OemDomain
-        OemDomain oemDomain = domainOwner.getOemDomain();
+        OemDomain oemDomain = domainOwner.oemDomain();
         if(oemDomain == null || !oemDomain.getEnabled()) {
-            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-            return Mono.empty();
-        }
-        // Tenant
-        Tenant tenant = domainOwner.getTenant();
-        if(tenant == null || !tenant.getEnabled()) {
-            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-            return Mono.empty();
-        }
-        // TenantDomain
-        TenantDomain tenantDomain = domainOwner.getTenantDomain();
-        if(tenantDomain == null || !tenantDomain.getEnabled()) {
+            log.warn("oemDomain不可用 ::: {}", domainOwner);
             exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
             return Mono.empty();
         }
@@ -102,7 +92,6 @@ public class SaasGlobalFilter implements GlobalFilter, Ordered {
         // next
         ServerHttpRequest.Builder nextRequestBuilder = request.mutate();
         nextRequestBuilder.header(GatewayHeaderAdmin.OEM_ID, oem.getId().toString());
-        nextRequestBuilder.header(GatewayHeaderAdmin.TENANT_ID, tenant.getId().toString());
 
         return chain.filter(exchange.mutate().request(nextRequestBuilder.build()).build());
     }

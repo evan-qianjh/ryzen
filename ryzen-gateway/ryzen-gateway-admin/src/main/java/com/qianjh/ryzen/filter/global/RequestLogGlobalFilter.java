@@ -40,7 +40,7 @@ public class RequestLogGlobalFilter implements GlobalFilter, Ordered {
     public static final Integer ORDER =
             Collections.max(
                     List.of(
-                            SaasGlobalFilter.ORDER,
+                            OemGlobalFilter.ORDER,
                             HeaderAddClientIpGlobalFilter.ORDER
                     )
             ) + 1;
