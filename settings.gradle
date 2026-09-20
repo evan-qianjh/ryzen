@@ -3,7 +3,6 @@ rootProject.name = 'ryzen'
 include 'ryzen-framework:ryzen-framework-common'
 include 'ryzen-framework:ryzen-framework-gateway'
 include 'ryzen-framework:ryzen-framework-http'
-include 'ryzen-framework:ryzen-framework-saas'
 include 'ryzen-framework:ryzen-framework-security'
 include 'ryzen-framework:ryzen-framework-service'
 include 'ryzen-framework:ryzen-framework-servlet'
@@ -14,6 +13,8 @@ include 'ryzen-framework:ryzen-framework-websocket'
 include 'ryzen-plugin:ryzen-plugin-aliyun'
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 include 'ryzen-plugin:ryzen-plugin-oss'
+// model
+include 'ryzen-model:ryzen-model-framework'
 // gateway
 include 'ryzen-gateway:ryzen-gateway-admin'
 include 'ryzen-gateway:ryzen-gateway-oem-admin'
@@ -24,5 +25,8 @@ include 'ryzen-gateway:ryzen-gateway-user'
 // service
 include 'ryzen-service:ryzen-service-user'
 include 'ryzen-service:ryzen-service-admin'
+// stream
+include 'ryzen-stream:ryzen-stream-outbox'
+
 // websocket
 

@@ -1,0 +1,4 @@
+dependencies {
+    api libs.swagger.annotations
+    api libs.mybatis.plus.annotation
+}

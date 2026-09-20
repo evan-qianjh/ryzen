@@ -1,16 +1,15 @@
-package com.qianjh.ryzen.framework.saas.entity;
+package com.qianjh.ryzen.framework;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.framework.common.entity._Schemas;
 import lombok.Data;
 
 /**
  * @author QianJH
  */
 @Data
-@TableName(_Schemas.RYZEN + "tenant")
+@TableName("tenant")
 public class Tenant {
 
     @TableId(type = IdType.AUTO)
