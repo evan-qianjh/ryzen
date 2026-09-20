@@ -70,8 +70,8 @@ public final class DomainUtils {
      * admin-api.{qianjh.com}
      * admin-api.{qianjh.com.cn}
      *
-     * @param domain 请求域名，不包含端口
-     * @return 顶级域名
+     * @param domain 请求域名
+     * @return 顶级域名，不含端口
      */
     public static String parseTop(String domain) {
         if (domain == null || domain.isBlank()) {
@@ -80,7 +80,7 @@ public final class DomainUtils {
 
         domain = normalize(domain);
 
-        if("localhost".equalsIgnoreCase(domain)) {
+        if ("localhost".equalsIgnoreCase(domain)) {
             return domain;
         }
 
