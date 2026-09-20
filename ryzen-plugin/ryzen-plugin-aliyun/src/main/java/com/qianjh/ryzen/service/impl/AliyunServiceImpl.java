@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.Aliyun;
-import com.qianjh.ryzen.exception.SystemConfigException;
+import com.qianjh.ryzen.framework.common.exception.SystemConfigException;
 import com.qianjh.ryzen.mapper.AliyunMapper;
 import com.qianjh.ryzen.service.AliyunService;
 import lombok.extern.slf4j.Slf4j;

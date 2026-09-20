@@ -2,7 +2,7 @@ package com.qianjh.ryzen.cache.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.qianjh.ryzen.cache.OemDomainCache;
-import com.qianjh.ryzen.entity.OemDomain;
+import com.qianjh.ryzen.framework.saas.entity.OemDomain;
 import com.qianjh.ryzen.mapper.OemDomainMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

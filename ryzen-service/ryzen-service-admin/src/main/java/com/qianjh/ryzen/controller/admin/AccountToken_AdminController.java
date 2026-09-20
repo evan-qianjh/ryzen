@@ -1,10 +1,11 @@
 package com.qianjh.ryzen.controller.admin;
 
 
-import com.qianjh.ryzen.api.ClientInfo;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
-import com.qianjh.ryzen.service.HttpRequestService;
+import com.qianjh.ryzen.framework.common.api.ClientInfo;
+import com.qianjh.ryzen.framework.common.api.Resp;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
+import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import static com.qianjh.ryzen.controller.admin._AdminController.PATH_PREFIX;
+import static com.qianjh.ryzen.framework.service.controller.admin._AdminController.PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "账户Token")

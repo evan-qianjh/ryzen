@@ -1,10 +1,10 @@
 package com.qianjh.ryzen.filter.global;
 
 import com.qianjh.ryzen.cache.OemDomainCache;
-import com.qianjh.ryzen.entity.OemDomain;
-import com.qianjh.ryzen.gateway.filter.ForgedRequestGlobalFilter;
-import com.qianjh.ryzen.gateway.util.DomainUtils;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.saas.entity.OemDomain;
+import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
+import com.qianjh.ryzen.framework.gateway.util.DomainUtils;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

@@ -1,8 +1,8 @@
 package com.qianjh.ryzen.config;
 
-import com.qianjh.ryzen.gateway.util.IpUtils;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
-import com.qianjh.ryzen.util.Md5Utils;
+import com.qianjh.ryzen.framework.gateway.util.IpUtils;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.util.Md5Utils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;

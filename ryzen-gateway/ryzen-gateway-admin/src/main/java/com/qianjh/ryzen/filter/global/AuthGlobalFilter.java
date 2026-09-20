@@ -1,12 +1,12 @@
 package com.qianjh.ryzen.filter.global;
 
-import com.qianjh.ryzen.config.RsaProperties;
-import com.qianjh.ryzen.config.SecurityProperties;
-import com.qianjh.ryzen.gateway.filter.ForgedRequestGlobalFilter;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
-import com.qianjh.ryzen.service.RyzenTokenService;
-import com.qianjh.ryzen.service.TokenService;
-import com.qianjh.ryzen.service.dto.TokenPayload;
+import com.qianjh.ryzen.framework.security.config.RsaProperties;
+import com.qianjh.ryzen.framework.security.config.SecurityProperties;
+import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
+import com.qianjh.ryzen.framework.token.service.TokenService;
+import com.qianjh.ryzen.framework.token.service.dto.TokenPayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;

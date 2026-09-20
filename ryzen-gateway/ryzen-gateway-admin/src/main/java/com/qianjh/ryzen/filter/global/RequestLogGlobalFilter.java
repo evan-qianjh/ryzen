@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.filter.global;
 
-import com.qianjh.ryzen.gateway.filter.HeaderAddClientIpGlobalFilter;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.gateway.filter.HeaderAddClientIpGlobalFilter;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

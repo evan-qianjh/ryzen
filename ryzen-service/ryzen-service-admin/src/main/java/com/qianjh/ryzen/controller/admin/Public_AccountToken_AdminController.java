@@ -1,19 +1,23 @@
 package com.qianjh.ryzen.controller.admin;
 
 
-import com.qianjh.ryzen.api.ClientInfo;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.config.RsaProperties;
-import com.qianjh.ryzen.config.SecurityProperties;
+import com.qianjh.ryzen.framework.common.api.ClientInfo;
+import com.qianjh.ryzen.framework.common.api.Resp;
+import com.qianjh.ryzen.framework.security.config.RsaProperties;
+import com.qianjh.ryzen.framework.security.config.SecurityProperties;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountTokenByPasswordReq;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountTokenResp;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountToken;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.security.service.RyzenMessageService;
+import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
+import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
+import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
 import com.qianjh.ryzen.service.*;
-import com.qianjh.ryzen.service.dto.AccessToken;
-import com.qianjh.ryzen.service.dto.RefreshToken;
-import com.qianjh.ryzen.util.IdUtils;
+import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
+import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.Objects;
 
-import static com.qianjh.ryzen.controller.admin._AdminController.PUBLIC_PATH_PREFIX;
+import static com.qianjh.ryzen.framework.service.controller.admin._AdminController.PUBLIC_PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "public-账户Token")

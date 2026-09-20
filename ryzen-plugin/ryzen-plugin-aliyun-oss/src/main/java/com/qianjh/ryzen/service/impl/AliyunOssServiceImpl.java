@@ -9,7 +9,7 @@ import com.qianjh.ryzen.entity.AliyunOss;
 import com.qianjh.ryzen.mapper.AliyunOssMapper;
 import com.qianjh.ryzen.service.AliyunOssService;
 import com.qianjh.ryzen.service.AliyunService;
-import com.qianjh.ryzen.service.RyzenStorageService;
+import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
 import com.qianjh.ryzen.service.dto.AliyunOssUploadToken;
 import com.qianjh.ryzen.util.AliyunOssUtils;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.cache;
 
 
-import com.qianjh.ryzen.entity.OemDomain;
+import com.qianjh.ryzen.framework.saas.entity.OemDomain;
 
 /**
  * @author QianJH

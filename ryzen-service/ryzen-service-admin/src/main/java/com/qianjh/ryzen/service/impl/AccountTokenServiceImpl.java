@@ -1,18 +1,18 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.api.ClientInfo;
+import com.qianjh.ryzen.framework.common.api.ClientInfo;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountToken;
 import com.qianjh.ryzen.mapper.AccountTokenMapper;
 import com.qianjh.ryzen.service.AccountTokenService;
-import com.qianjh.ryzen.service.HttpRequestService;
-import com.qianjh.ryzen.service.TokenService;
-import com.qianjh.ryzen.service.dto.AccessToken;
-import com.qianjh.ryzen.service.dto.RefreshToken;
-import com.qianjh.ryzen.service.dto.TokenPayload;
-import com.qianjh.ryzen.util.DateTimeUtils;
-import com.qianjh.ryzen.util.LongUtils;
+import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
+import com.qianjh.ryzen.framework.token.service.TokenService;
+import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
+import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;
+import com.qianjh.ryzen.framework.token.service.dto.TokenPayload;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
+import com.qianjh.ryzen.framework.common.util.LongUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

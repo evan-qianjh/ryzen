@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.service.CreateAccountService;
-import com.qianjh.ryzen.util.PasswordUtils;
+import com.qianjh.ryzen.framework.security.util.PasswordUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;

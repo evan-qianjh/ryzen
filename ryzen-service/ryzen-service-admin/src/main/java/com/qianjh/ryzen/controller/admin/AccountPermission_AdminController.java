@@ -3,10 +3,11 @@ package com.qianjh.ryzen.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.controller.admin.dto.GetAccountPermissionsResp;
 import com.qianjh.ryzen.entity.*;
+import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
 import com.qianjh.ryzen.service.*;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
-import com.qianjh.ryzen.util.IdUtils;
+import com.qianjh.ryzen.framework.common.api.Resp;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qianjh.ryzen.controller.admin._AdminController.PATH_PREFIX;
+import static com.qianjh.ryzen.framework.service.controller.admin._AdminController.PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "账户权限")

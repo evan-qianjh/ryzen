@@ -1,20 +1,21 @@
 package com.qianjh.ryzen.controller.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qianjh.ryzen.api.Resp;
-import com.qianjh.ryzen.api.RespMc;
-import com.qianjh.ryzen.api.dto.Receipt;
+import com.qianjh.ryzen.framework.common.api.Resp;
+import com.qianjh.ryzen.framework.common.api.RespMc;
+import com.qianjh.ryzen.framework.common.api.dto.Receipt;
 import com.qianjh.ryzen.controller.admin.dto.GetAccountRolesResp;
 import com.qianjh.ryzen.controller.admin.dto.PostAccountRoleReq;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountRole;
 import com.qianjh.ryzen.entity.Role;
-import com.qianjh.ryzen.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
 import com.qianjh.ryzen.service.AccountRoleService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.service.RoleService;
-import com.qianjh.ryzen.util.IdUtils;
-import com.qianjh.ryzen.util.McUtils;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
+import com.qianjh.ryzen.framework.common.util.McUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.qianjh.ryzen.controller.admin._AdminController.PATH_PREFIX;
+import static com.qianjh.ryzen.framework.service.controller.admin._AdminController.PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "账户角色")
