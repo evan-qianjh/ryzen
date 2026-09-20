@@ -10,22 +10,15 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Schemas.RYZEN + "tenant")
-public class Tenant {
+@TableName(_Schemas.RYZEN + "tenant_domain")
+public class TenantDomain {
 
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private Long oemId;
+    private Long tenantId;
 
-    private String symbol;
+    private String domain;
 
     private Boolean enabled;
-
-    /**
-     * 合作伙伴消息域名Host
-     * format: 'https://{tenant}.partner-api.{oem}'
-     * e.g.: 'https://12345.partner-api.qianjh.com'
-     */
-    private String partnerNotifyHost;
 }

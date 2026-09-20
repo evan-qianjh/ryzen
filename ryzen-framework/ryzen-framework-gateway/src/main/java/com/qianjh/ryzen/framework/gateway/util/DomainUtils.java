@@ -1,12 +1,14 @@
 package com.qianjh.ryzen.framework.gateway.util;
 
+import com.google.common.net.InternetDomainName;
 import com.qianjh.ryzen.framework.common.header.ProxyHeader;
+import com.qianjh.ryzen.framework.gateway.util.dto.Domain;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -15,41 +17,13 @@ import java.util.Objects;
 @Slf4j
 public final class DomainUtils {
 
-    private static final char CHAT_POINT = '.';
-
-    /**
-     * 提取根域名
-     *
-     * @param domain 域名 www.qianjh.com
-     * @return 根域名 qianjh.com
-     */
-    public static String extractRoot(String domain) {
-        Assert.isTrue(!ObjectUtils.isEmpty(domain), "domain is null");
-
-        int index = 0;
-        StringBuilder builder = new StringBuilder();
-        for (int i = domain.length() - 1; i >= 0; i--) {
-            char c = domain.charAt(i);
-            if (CHAT_POINT == c) {
-                index++;
-            }
-            if (index > 1) {
-                break;
-            }
-            builder.append(domain.charAt(i));
-        }
-        builder.reverse();
-        return builder.toString();
-    }
-
-
     /**
      * 精准域名请求头
      * 按照定义的顺序获取
      */
     private static final String[] PRECISE_DOMAIN_HEADER = new String[]{
             // waf、cdn附加
-            ProxyHeader.TENANT_DOMAIN,
+            ProxyHeader.OEM_DOMAIN,
 
             //
             "Host",
@@ -91,4 +65,60 @@ public final class DomainUtils {
         return null;
     }
 
+    /**
+     * 解析域名中的 OEM 和 Tenant。
+     * 域名格式：
+     * {tenant}.{client}.{oem}
+     * 示例：
+     * 123.admin-api.qianjh.com
+     * 123.admin-api.qianjh.com.cn
+     *
+     * @param domain 请求域名，不包含端口
+     * @return OEM 与 Tenant 信息
+     */
+    public static Domain parse(String domain) {
+        if (domain == null || domain.isBlank()) {
+            throw new IllegalArgumentException("Host must not be blank");
+        }
+
+        domain = normalize(domain);
+
+        InternetDomainName name = InternetDomainName.from(domain);
+
+        if (!name.hasPublicSuffix()) {
+            throw new IllegalArgumentException(
+                    "Invalid domain: " + domain
+            );
+        }
+
+        InternetDomainName oemDomain = name.topPrivateDomain();
+
+        String oem = oemDomain.toString();
+
+
+        String[] split = domain.split("\\.");
+        String tenant = split[0];
+
+        return new Domain(oem, tenant);
+    }
+
+    private static String normalize(String host) {
+        String domain = host.trim().toLowerCase(Locale.ROOT);
+
+        // Host 可能是：
+        // 123.admin-api.qianjh.com:8080
+        int portIndex = domain.lastIndexOf(':');
+
+        if (portIndex > -1) {
+            domain = domain.substring(0, portIndex);
+        }
+
+        // FQDN：
+        // 123.admin-api.qianjh.com.
+        if (domain.endsWith(".")) {
+            domain = domain.substring(0, domain.length() - 1);
+        }
+
+        return domain;
+    }
 }

@@ -14,6 +14,6 @@ public class ProxyHeader {
     /**
      *
      */
-    public static final String TENANT_DOMAIN = PREFIX + "tenant-domain";
+    public static final String OEM_DOMAIN = PREFIX + "oem-domain";
 
 }

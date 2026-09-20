@@ -1,10 +1,14 @@
 package com.qianjh.ryzen.filter.global;
 
-import com.qianjh.ryzen.cache.OemDomainCache;
-import com.qianjh.ryzen.framework.saas.entity.OemDomain;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
 import com.qianjh.ryzen.framework.gateway.util.DomainUtils;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.saas.entity.Oem;
+import com.qianjh.ryzen.framework.saas.entity.OemDomain;
+import com.qianjh.ryzen.framework.saas.entity.Tenant;
+import com.qianjh.ryzen.framework.saas.entity.TenantDomain;
+import com.qianjh.ryzen.service.DomainService;
+import com.qianjh.ryzen.service.dto.DomainOwner;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -15,12 +19,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.RequestPath;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -29,11 +35,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class OemGlobalFilter implements GlobalFilter, Ordered {
+public class SaasGlobalFilter implements GlobalFilter, Ordered {
 
     public static final Integer ORDER = ForgedRequestGlobalFilter.ORDER + 1;
 
-    private final OemDomainCache oemDomainCache;
+    private final DomainService domainService;
 
     private static final Set<String> LOG_IGNORE_HEADERS = new HashSet<>();
 
@@ -62,28 +68,41 @@ public class OemGlobalFilter implements GlobalFilter, Ordered {
             return Mono.empty();
         }
 
-        // 解析 host
-        OemDomain tenantDomain = oemDomainCache.getByDomain(domain);
-        if (Objects.isNull(tenantDomain)) {
-            String rootDomain = DomainUtils.extractRoot(domain);
-            tenantDomain = oemDomainCache.getByDomain(rootDomain);
+        // resolve domain
+        DomainOwner domainOwner = domainService.resolve(domain);
+        if(domainOwner == null) {
+            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+            return Mono.empty();
         }
-
-        // 解析根域名
-        if (Objects.isNull(tenantDomain)) {
-            log.error("获取OEM失败 ::: domain={}, url={}", domain, url);
-            exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
+        // Oem
+        Oem oem = domainOwner.getOem();
+        if(oem == null || !oem.getEnabled()) {
+            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+            return Mono.empty();
+        }
+        // OemDomain
+        OemDomain oemDomain = domainOwner.getOemDomain();
+        if(oemDomain == null || !oemDomain.getEnabled()) {
+            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+            return Mono.empty();
+        }
+        // Tenant
+        Tenant tenant = domainOwner.getTenant();
+        if(tenant == null || !tenant.getEnabled()) {
+            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+            return Mono.empty();
+        }
+        // TenantDomain
+        TenantDomain tenantDomain = domainOwner.getTenantDomain();
+        if(tenantDomain == null || !tenantDomain.getEnabled()) {
+            exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
             return Mono.empty();
         }
 
-        //
-        Long oemId = tenantDomain.getOemId();
-        Assert.notNull(oemId, "");
-
-        //
+        // next
         ServerHttpRequest.Builder nextRequestBuilder = request.mutate();
-        nextRequestBuilder.header(GatewayHeaderAdmin.OEM_ID, oemId.toString());
-        log.debug("获取OEM成功 ::: url={}, oemId={}", url, oemId);
+        nextRequestBuilder.header(GatewayHeaderAdmin.OEM_ID, oem.getId().toString());
+        nextRequestBuilder.header(GatewayHeaderAdmin.TENANT_ID, tenant.getId().toString());
 
         return chain.filter(exchange.mutate().request(nextRequestBuilder.build()).build());
     }
