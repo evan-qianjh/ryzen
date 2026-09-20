@@ -1,7 +1,5 @@
 package com.qianjh.ryzen.framework.common.util;
 
-import org.springframework.util.Assert;
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -20,7 +18,9 @@ public class Md5Utils {
     public static String encrypt(String input, int substring) {
         String encrypt = encrypt(input);
 
-        Assert.isTrue(substring <= encrypt.length(), "ILLEGAL_ARGUMENT");
+        if(substring > encrypt.length()) {
+            throw new IllegalArgumentException();
+        }
 
         return encrypt.substring(0, substring);
     }

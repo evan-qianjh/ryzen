@@ -2,7 +2,6 @@ package com.qianjh.ryzen.framework.common.util;
 
 import com.qianjh.ryzen.framework.common.dict.CycleUnit;
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.util.Assert;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -25,8 +24,12 @@ public final class CycleUtils {
      * @return KEY
      */
     public static String getCycleKey(CycleUnit cycleUnit, LocalDateTime dateTime) {
-        Assert.notNull(cycleUnit, "cycleUnit must not be null");
-        Assert.notNull(dateTime, "dateTime must not be null");
+        if (cycleUnit == null) {
+            throw new IllegalArgumentException("cycleUnit must not be null");
+        }
+        if (dateTime == null) {
+            throw new IllegalArgumentException("dateTime must not be null");
+        }
 
         return switch (cycleUnit) {
             case YEAR -> DateTimeUtils.format(dateTime, YEAR_FORMATTER);
@@ -45,8 +48,12 @@ public final class CycleUtils {
      * @return KEY
      */
     public static String getCycleKey(CycleUnit cycleUnit, LocalDate date) {
-        Assert.notNull(cycleUnit, "cycleUnit must not be null");
-        Assert.notNull(date, "date must not be null");
+        if (cycleUnit == null) {
+            throw new IllegalArgumentException("cycleUnit must not be null");
+        }
+        if (date == null) {
+            throw new IllegalArgumentException("date must not be null");
+        }
 
         return switch (cycleUnit) {
             case YEAR -> DateUtils.format(date, YEAR_FORMATTER);
@@ -61,7 +68,7 @@ public final class CycleUtils {
      * 获取周期区间
      *
      * @param cycleUnit 单位
-     * @param dateTime 时间
+     * @param dateTime  时间
      * @return [)区间
      */
     public static Pair<LocalDateTime, LocalDateTime> getCycleBetween(CycleUnit cycleUnit, LocalDateTime dateTime) {

@@ -1,8 +1,9 @@
 dependencies {
+    api project(":ryzen-framework:ryzen-framework-common")
+
     api libs.commons.codec
     api libs.jbcrypt
     api libs.java.jwt
     api libs.bcprov
-
-    api project(":ryzen-framework:ryzen-framework-common")
+    api libs.spring.boot.starter
 }
