@@ -13,7 +13,7 @@ public enum RespMc implements Mc {
 
     SUCCESS("Success", "成功"),
 
-    FAILURE("failure", "失败"),
+    FAILURE("Failure", "失败"),
 
     SYSTEM_EXCEPTION("System Exception", "系统异常"),
 

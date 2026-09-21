@@ -21,6 +21,10 @@ public class StreamOutbox {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     /**
+     * OEM
+     */
+    private Long oemId;
+    /**
      * Topic
      */
     private String topic;

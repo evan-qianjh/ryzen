@@ -1,0 +1,37 @@
+server:
+  port: 8101
+spring:
+  application:
+    name: ryzen-stream-outbox
+  config:
+    import: optional:consul:192.168.187.1:8500
+  profiles:
+    active: dev
+  cloud:
+    inetutils:
+      preferred-networks: 10.168
+    consul:
+#      host: 192.168.187.1
+#      port: 8500
+      discovery:
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        service-name: ${spring.application.name}
+        prefer-ip-address: true
+      config:
+        prefixes: config
+        default-context: application
+        data-key: data
+        format: yaml
+        watch:
+          enabled: true
+          delay: 3000
+  output:
+    ansi:
+      enabled: detect
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${ryzen.pgsql.default.host}/${ryzen.pgsql.default.schema:ryzen}?currentSchema=ryzen
+    username: ${ryzen.pgsql.default.username}
+    password: ${ryzen.pgsql.default.password}
