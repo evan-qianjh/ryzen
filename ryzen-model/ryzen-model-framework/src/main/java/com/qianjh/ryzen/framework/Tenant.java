@@ -20,11 +20,4 @@ public class Tenant {
     private String symbol;
 
     private Boolean enabled;
-
-    /**
-     * 合作伙伴消息域名Host
-     * format: 'https://{tenant}.partner-api.{oem}'
-     * e.g.: 'https://12345.partner-api.qianjh.com'
-     */
-    private String partnerNotifyHost;
 }

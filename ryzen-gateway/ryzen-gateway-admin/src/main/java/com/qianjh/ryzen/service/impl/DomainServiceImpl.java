@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.qianjh.ryzen.framework.Oem;
+import com.qianjh.ryzen.framework.OemDomain;
 import com.qianjh.ryzen.framework.gateway.util.DomainUtils;
-import com.qianjh.ryzen.framework.saas.entity.Oem;
-import com.qianjh.ryzen.framework.saas.entity.OemDomain;
 import com.qianjh.ryzen.mapper.OemDomainMapper;
 import com.qianjh.ryzen.mapper.OemMapper;
 import com.qianjh.ryzen.service.DomainService;

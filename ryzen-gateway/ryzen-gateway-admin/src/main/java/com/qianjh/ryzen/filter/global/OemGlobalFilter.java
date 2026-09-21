@@ -1,10 +1,10 @@
 package com.qianjh.ryzen.filter.global;
 
+import com.qianjh.ryzen.framework.Oem;
+import com.qianjh.ryzen.framework.OemDomain;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
 import com.qianjh.ryzen.framework.gateway.util.DomainUtils;
-import com.qianjh.ryzen.framework.saas.entity.Oem;
-import com.qianjh.ryzen.framework.saas.entity.OemDomain;
 import com.qianjh.ryzen.service.DomainService;
 import com.qianjh.ryzen.service.dto.DomainOwner;
 import lombok.RequiredArgsConstructor;
