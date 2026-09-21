@@ -25,7 +25,10 @@ spring:
       password: ${ryzen.redis.default.password}
   cloud:
     inetutils:
-      preferred-networks: 10.8
+      preferred-networks: 10.168
+    loadbalancer:
+      cache:
+        ttl: 5s
     consul:
       discovery:
         instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <jmxConfigurator/>
+
+    <!--moduleName-->
+    <springProperty scope="context" name="moduleName" source="spring.application.name"/>
+
+    <!--param-->
+    <property name="maxHistory" value="10"/>
+    <property name="maxFileSize" value="100MB"/>
+    <property name="logDir" value="./logs"/>
+    <property name="logPattern" value="%d %-5level [%thread] %logger : %msg%n"/>
+
+    <!--prod param-->
+    <springProfile name="prod">
+        <property name="maxHistory" value="100"/>
+        <property name="maxFileSize" value="1024MB"/>
+    </springProfile>
+
+
+    <!-- 控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- ROOT 日志 -->
+    <appender name="root_logger_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 需要预警的日志单独copy一份，用于快速发现异常/监控/告警 -->
+    <appender name="alert_logger_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}-alert.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-alert-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${logPattern}</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <!-- code level -->
+    <logger name="com.qianjh.ryzen" level="INFO" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="alert_logger_appender"/>
+        <appender-ref ref="root_logger_appender"/>
+    </logger>
+
+    <!-- root level-->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="alert_logger_appender"/>
+        <appender-ref ref="root_logger_appender"/>
+    </root>
+
+
+</configuration>
