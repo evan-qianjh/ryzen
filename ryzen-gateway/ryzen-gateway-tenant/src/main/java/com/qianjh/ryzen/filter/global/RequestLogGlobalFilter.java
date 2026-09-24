@@ -32,7 +32,7 @@ public class RequestLogGlobalFilter implements GlobalFilter, Ordered {
 
     @Value("${trace.max-long-request-ms:300}")
     private long maxLongRequestMs;
-    private static final Logger REQUEST_LOGGER = LoggerFactory.getLogger("REQUEST_LOGGER");
+    private static final Logger REQUEST_LOGGER = LoggerFactory.getLogger("request_logger");
 
     /**
      * 在增加客户端IP过滤器之后

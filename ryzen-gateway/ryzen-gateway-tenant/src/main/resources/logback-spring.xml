@@ -59,6 +59,28 @@
         </filter>
     </appender>
 
+    <!--  请求日志  -->
+    <appender name="request_logger_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}-request.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-request-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- request -->
+    <logger name="request_logger" level="DEBUG" additivity="false">
+        <appender-ref ref="request_logger_appender"/>
+    </logger>
+
     <!-- code level -->
     <logger name="com.qianjh.ryzen" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>

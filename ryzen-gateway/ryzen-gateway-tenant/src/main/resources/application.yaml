@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ryzen-gateway-admin
+    name: ryzen-gateway-tenant
   profiles:
     active: dev
   config:
@@ -61,13 +61,24 @@ spring:
             response-timeout: 30000
           routes:
             # ----------------------------------------------------------------------
-            - id: admin
+            - id: tenant
               order: 3
               metadata:
-                remarks: admin
+                remarks: tenant
               predicates:
-                - Path=/admin/**
+                - Path=/tenant/**
               filters:
                 - StripPrefix=1
-                - PrefixPath=/admin
-              uri: lb://ryzen-service-admin
+                - PrefixPath=/tenant
+              uri: lb://ryzen-service-tenant
+            # ----------------------------------------------------------------------
+            - id: user
+              order: 3
+              metadata:
+                remarks: user
+              predicates:
+                - Path=/user/**
+              filters:
+                - StripPrefix=1
+                - PrefixPath=/tenant
+              uri: lb://ryzen-service-user
