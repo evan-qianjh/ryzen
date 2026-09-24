@@ -16,6 +16,12 @@ springdoc:
     enabled: true
 
 ryzen:
+  mysql:
+    default:
+      host: 'jietai-dev-mysql84.mysql.rds.aliyuncs.com'
+      schema: 'jietai_dev'
+      username: 'jietai_dev'
+      password: 'dev@xF0N85lkRCpD9xs4oZPuY1VduUAv'
   pgsql:
     default:
       host: 'pgm-uf6d8e14v487n63m.pg.rds.aliyuncs.com'
