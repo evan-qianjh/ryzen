@@ -38,6 +38,7 @@ public class Permission_AdminController extends _AdminController {
     public Resp<List<GetPermissionsResp>> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                                              //
                                               @RequestParam(required = false) Boolean enabled) {
         List<Permission> entities = permissionService.list(new LambdaQueryWrapper<Permission>()
                 .eq(Permission::getOemId, oemId)
@@ -66,6 +67,7 @@ public class Permission_AdminController extends _AdminController {
     public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                              //
                               @RequestBody @Validated PostPermissionReq body) {
         Long parentId = body.getParentId();
         if (parentId != null) {
@@ -88,6 +90,7 @@ public class Permission_AdminController extends _AdminController {
     public Resp<?> patch(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                          @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                          @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                         //
                          @PathVariable Long id,
                          @RequestBody @Validated PatchPermissionReq body) {
         if (body.getParentId() != null && body.getParentId().equals(id)) {

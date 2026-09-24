@@ -35,6 +35,7 @@ public class AccountSecret_AdminController extends _AdminController {
     public Resp<?> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                         @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                         @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                        //
                         @RequestBody @Validated PutAccountSecretPasswordReq body) {
 
         Account account = accountService.getById(oemId, tenantId, accountId);

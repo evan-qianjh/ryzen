@@ -10,7 +10,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 @SpringBootApplication
 public class RyzenGatewayAdmin {
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(RyzenGatewayAdmin.class, args);
     }
 }

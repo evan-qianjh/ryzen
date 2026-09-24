@@ -12,7 +12,7 @@ public interface _Schemas {
     /**
      * 管理后台
      */
-    String ADMIN = "admin.";
+    String TENANT_ADMIN = "tenant_admin.";
     /**
      * OEM管理后台
      */

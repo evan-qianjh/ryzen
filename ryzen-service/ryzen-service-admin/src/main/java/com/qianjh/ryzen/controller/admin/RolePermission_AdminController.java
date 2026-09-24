@@ -43,6 +43,7 @@ public class RolePermission_AdminController extends _AdminController {
     public Resp<List<GetRolePermissionsResp>> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                                                   @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                                   @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                                                  //
                                                   Long roleId) {
         List<RolePermission> entities = rolePermissionService.list(new LambdaQueryWrapper<RolePermission>()
                 .eq(RolePermission::getOemId, oemId)
@@ -66,6 +67,7 @@ public class RolePermission_AdminController extends _AdminController {
     public Resp<Receipt> post(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                               @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                              //
                               @RequestBody @Validated PostRolePermissionReq body) {
         Role role = roleService.getById(oemId, tenantId, body.getRoleId());
         Permission permission = permissionService.getById(oemId, tenantId, body.getPermissionId());
@@ -82,6 +84,7 @@ public class RolePermission_AdminController extends _AdminController {
     public Resp<?> del(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                        @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                        @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId,
+                       //
                        @PathVariable Long id) {
         boolean success = rolePermissionService.removeById(oemId, tenantId, id);
 

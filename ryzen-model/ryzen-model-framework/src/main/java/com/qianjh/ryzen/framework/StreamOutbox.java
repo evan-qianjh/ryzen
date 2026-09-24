@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName("stream_outbox")
+@TableName("ryzen.stream_outbox")
 public class StreamOutbox {
 
     @TableId(type = IdType.ASSIGN_ID)
