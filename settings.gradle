@@ -15,6 +15,7 @@ include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 include 'ryzen-plugin:ryzen-plugin-oss'
 // model
 include 'ryzen-model:ryzen-model-framework'
+include 'ryzen-model:ryzen-model-tenant'
 // gateway (port:70XX)
 include 'ryzen-gateway:ryzen-gateway-oem'
 include 'ryzen-gateway:ryzen-gateway-open'

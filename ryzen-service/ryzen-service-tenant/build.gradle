@@ -8,6 +8,8 @@ dependencies {
     implementation project(":ryzen-framework:ryzen-framework-servlet")
     implementation project(":ryzen-framework:ryzen-framework-service")
 
+    implementation project(":ryzen-model:ryzen-model-tenant")
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'

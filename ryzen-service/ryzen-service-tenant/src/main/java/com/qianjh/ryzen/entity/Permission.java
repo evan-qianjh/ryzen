@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.qianjh.ryzen.framework.common.entity._Schemas;
+import com.qianjh.ryzen.tenant.enums.PermissionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class Permission {
 
     private Long parentId;
 
+    private PermissionType type;
     private String title;
     private String symbol;
 

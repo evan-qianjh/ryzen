@@ -38,6 +38,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
                 .oemId(oemId)
                 .tenantId(tenantId)
                 .parentId(body.getParentId())
+                .type(body.getType())
                 .title(body.getTitle())
                 .symbol(body.getSymbol())
                 .enabled(body.getEnabled())
@@ -51,6 +52,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     public boolean patch(Long oemId, Long tenantId, Long id, PatchPermissionReq body) {
         return lambdaUpdate()
                 .set(body.getParentId() != null, Permission::getParentId, body.getParentId())
+                .set(body.getType() != null, Permission::getType, body.getType())
                 .set(StringUtils.isNotBlank(body.getTitle()), Permission::getTitle, body.getTitle())
                 .set(body.getEnabled() != null, Permission::getEnabled, body.getEnabled())
                 //

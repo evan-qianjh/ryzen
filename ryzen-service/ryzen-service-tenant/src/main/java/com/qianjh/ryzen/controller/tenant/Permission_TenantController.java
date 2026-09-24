@@ -51,6 +51,7 @@ public class Permission_TenantController extends _TenantController {
                 .map(e -> GetPermissionsResp.builder()
                         .id(IdUtils.toString(e.getId()))
                         .parentId(IdUtils.toString(e.getParentId()))
+                        .type(e.getType())
                         .title(e.getTitle())
                         .symbol(e.getSymbol())
                         .enabled(e.getEnabled())
