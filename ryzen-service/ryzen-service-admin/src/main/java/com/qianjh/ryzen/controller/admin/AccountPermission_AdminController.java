@@ -3,11 +3,11 @@ package com.qianjh.ryzen.controller.admin;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.controller.admin.dto.GetAccountPermissionsResp;
 import com.qianjh.ryzen.entity.*;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.service.controller.admin._AdminController;
 import com.qianjh.ryzen.service.*;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
-import com.qianjh.ryzen.framework.common.util.IdUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -37,22 +37,20 @@ public class AccountPermission_AdminController extends _AdminController {
 
     @Operation(summary = "列表")
     @GetMapping("/account-permissions")
-    public Resp<GetAccountPermissionsResp> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
+    public Resp<List<GetAccountPermissionsResp>> get(@RequestHeader(GatewayHeaderAdmin.OEM_ID) Long oemId,
                                                @RequestHeader(GatewayHeaderAdmin.TENANT_ID) Long tenantId,
                                                @RequestHeader(GatewayHeaderAdmin.ACCOUNT_ID) Long accountId) {
 
-        GetAccountPermissionsResp result = GetAccountPermissionsResp.builder()
-                .roles(new ArrayList<>())
-                .permissions(new ArrayList<>())
-                .build();
+        List<GetAccountPermissionsResp> result = new ArrayList<>();
 
         // 超管
         Account account = accountService.getById(oemId, tenantId, accountId);
         if (account.isAdministrator()) {
             List<Permission> permissions = permissionService.list(new LambdaQueryWrapper<Permission>()
+                    .eq(Permission::getOemId, oemId)
                     .eq(Permission::getTenantId, tenantId)
             );
-            result.getPermissions().addAll(
+            result.addAll(
                     permissions.stream().map(this::map).toList()
             );
             return Resp.successOf(result);
@@ -61,6 +59,7 @@ public class AccountPermission_AdminController extends _AdminController {
 
         // AccountRole
         List<AccountRole> accountRoles = accountRoleService.list(new LambdaQueryWrapper<AccountRole>()
+                .eq(AccountRole::getOemId, oemId)
                 .eq(AccountRole::getTenantId, tenantId)
                 .eq(AccountRole::getAccountId, accountId)
         );
@@ -71,25 +70,18 @@ public class AccountPermission_AdminController extends _AdminController {
         // roles
         List<Long> roleIds = accountRoles.stream().map(AccountRole::getRoleId).distinct().toList();
         List<Role> roles = roleService.list(new LambdaQueryWrapper<Role>()
-                .in(Role::getId, roleIds)
+                .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)
+                .in(Role::getId, roleIds)
                 .eq(Role::getEnabled, true)
         );
         if (roles.isEmpty()) {
             return Resp.successOf(result);
         }
-        result.getRoles().addAll(
-                roles.stream()
-                        .map(e -> new GetAccountPermissionsResp.Role(
-                                        IdUtils.toString(e.getId()),
-                                        e.getTitle()
-                                )
-                        )
-                        .toList()
-        );
 
         // RolePermission
         List<RolePermission> rolePermissions = rolePermissionService.list(new LambdaQueryWrapper<RolePermission>()
+                .eq(RolePermission::getOemId, oemId)
                 .eq(RolePermission::getTenantId, tenantId)
                 .in(RolePermission::getRoleId, roleIds)
         );
@@ -104,15 +96,15 @@ public class AccountPermission_AdminController extends _AdminController {
                 .eq(Permission::getEnabled, true)
                 .in(Permission::getId, permissionIds)
         );
-        result.getPermissions().addAll(
+        result.addAll(
                 permissions.stream().map(this::map).toList()
         );
 
         return Resp.successOf(result);
     }
 
-    private GetAccountPermissionsResp.Permission map(Permission e) {
-        return new GetAccountPermissionsResp.Permission(
+    private GetAccountPermissionsResp map(Permission e) {
+        return new GetAccountPermissionsResp(
                 IdUtils.toString(e.getId()),
                 e.getTitle(),
                 e.getSymbol()
