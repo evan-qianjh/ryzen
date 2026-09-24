@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.config;
 
 import com.qianjh.ryzen.framework.gateway.util.IpUtils;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.Md5Utils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +55,7 @@ public class RateLimitConfig {
     public KeyResolver accountRateLimiterKeyResolver() {
         return exchange -> {
             ServerHttpRequest request = exchange.getRequest();
-            String account = request.getHeaders().getFirst(GatewayHeaderAdmin.ACCOUNT_ID);
+            String account = request.getHeaders().getFirst(GatewayHeaderTenant.ACCOUNT_ID);
             if (StringUtils.isBlank(account)) {
                 return Mono.empty();
             }

@@ -10,15 +10,15 @@ public interface _Schemas {
      */
     String USER = "user.";
     /**
-     * 管理后台
+     * 租户
      */
-    String TENANT_ADMIN = "tenant_admin.";
+    String TENANT = "tenant.";
     /**
      * OEM管理后台
      */
-    String OEM_ADMIN = "oem_admin.";
+    String OEM = "oem.";
     /**
-     * SaaS管理后台
+     * SaaS
      */
-    String SAAS_ADMIN = "saas_admin.";
+    String SAAS = "saas.";
 }

@@ -3,7 +3,7 @@ package com.qianjh.ryzen.filter.global;
 import com.qianjh.ryzen.framework.security.config.RsaProperties;
 import com.qianjh.ryzen.framework.security.config.SecurityProperties;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
 import com.qianjh.ryzen.framework.token.service.TokenService;
 import com.qianjh.ryzen.framework.token.service.dto.TokenPayload;
@@ -51,7 +51,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         // tenant
         HttpHeaders headers = request.getHeaders();
         String tokenStr = headers.getFirst(HEADER_TOKEN_KEY);
-        String oemIdStr = headers.getFirst(GatewayHeaderAdmin.OEM_ID);
+        String oemIdStr = headers.getFirst(GatewayHeaderTenant.OEM_ID);
         Long oemId = Objects.nonNull(oemIdStr) ? Long.parseLong(oemIdStr) : null;
 
         //
@@ -85,8 +85,8 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
                 return Mono.empty();
             }
 
-            nextRequestBuilder.header(GatewayHeaderAdmin.TENANT_ID, tokenPayload.getTenantId());
-            nextRequestBuilder.header(GatewayHeaderAdmin.ACCOUNT_ID, tokenPayload.getAccountId());
+            nextRequestBuilder.header(GatewayHeaderTenant.TENANT_ID, tokenPayload.getTenantId());
+            nextRequestBuilder.header(GatewayHeaderTenant.ACCOUNT_ID, tokenPayload.getAccountId());
         }
         // remove header
         nextRequestBuilder.headers(h -> h.remove(HEADER_TOKEN_KEY));

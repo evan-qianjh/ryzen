@@ -24,8 +24,8 @@ include 'ryzen-gateway:ryzen-gateway-partner'
 include 'ryzen-gateway:ryzen-gateway-user'
 
 // service (port:80XX)
+include 'ryzen-service:ryzen-service-tenant'
 include 'ryzen-service:ryzen-service-user'
-include 'ryzen-service:ryzen-service-admin'
 
 // websocket (port:81XX)
 

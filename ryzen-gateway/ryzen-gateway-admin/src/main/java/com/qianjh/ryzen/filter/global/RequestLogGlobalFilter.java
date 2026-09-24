@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.filter.global;
 
 import com.qianjh.ryzen.framework.gateway.filter.HeaderAddClientIpGlobalFilter;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,8 +50,8 @@ public class RequestLogGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         HttpHeaders headers = request.getHeaders();
 
-        String tenantId = headers.getFirst(GatewayHeaderAdmin.TENANT_ID);
-        String clientIp = headers.getFirst(GatewayHeaderAdmin.CLIENT_IP);
+        String tenantId = headers.getFirst(GatewayHeaderTenant.TENANT_ID);
+        String clientIp = headers.getFirst(GatewayHeaderTenant.CLIENT_IP);
 
         // 请求URL
         String path = request.getPath().toString();

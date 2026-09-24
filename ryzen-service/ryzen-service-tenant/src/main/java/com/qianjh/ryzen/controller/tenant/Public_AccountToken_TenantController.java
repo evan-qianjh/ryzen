@@ -1,0 +1,86 @@
+package com.qianjh.ryzen.controller.tenant;
+
+
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
+import com.qianjh.ryzen.framework.http.model.Resp;
+import com.qianjh.ryzen.framework.security.config.RsaProperties;
+import com.qianjh.ryzen.framework.security.config.SecurityProperties;
+import com.qianjh.ryzen.controller.tenant.dto.PostAccountTokenByPasswordReq;
+import com.qianjh.ryzen.controller.tenant.dto.PostAccountTokenResp;
+import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.entity.AccountToken;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
+import com.qianjh.ryzen.framework.security.service.RyzenMessageService;
+import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
+import com.qianjh.ryzen.framework.service.controller.tenant._TenantController;
+import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
+import com.qianjh.ryzen.service.*;
+import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
+import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.interfaces.RSAPrivateKey;
+import java.util.Objects;
+
+import static com.qianjh.ryzen.framework.service.controller.tenant._TenantController.PUBLIC_PATH_PREFIX;
+
+@Slf4j
+@Tag(name = "public-账户Token")
+@RestController
+@RequestMapping(PUBLIC_PATH_PREFIX)
+@RequiredArgsConstructor
+public class Public_AccountToken_TenantController extends _TenantController {
+
+    private final HttpRequestService httpRequestService;
+    private final AccountService accountService;
+    private final AccountTokenService accountTokenService;
+    private final RyzenTokenService ryzenTokenService;
+    private final RyzenMessageService ryzenMessageService;
+    private final SecurityProperties securityProperties;
+
+
+    @Operation(summary = "账号密码登录", description = "密码先通过RSA2048加密，然后提交")
+    @PostMapping("/account-token")
+    public Resp<PostAccountTokenResp> create(HttpServletRequest request,
+                                             @RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                                             //
+                                             @RequestBody @Validated PostAccountTokenByPasswordReq body) {
+
+        ClientInfo clientInfo = httpRequestService.getClientInfo(request);
+
+        // 传输解密
+        String password = ryzenMessageService.decrypt(body.getKeyId(), body.getPassword());
+
+        // 登录
+        Account account = accountService.passwordLogin(oemId, clientInfo, body.getUsername(), password, body.getTotp());
+        if (Objects.isNull(account)) {
+            return Resp.failure("Account or password incorrect");
+        }
+
+        // 获取私钥
+        RsaProperties properties = securityProperties.getToken();
+        RSAPrivateKey privateKey = ryzenTokenService.getPrivateKey(properties);
+        // 生成refreshToken
+        RefreshToken refreshToken = accountTokenService.generateRefreshToken(account, privateKey, clientInfo);
+        // 生成accessToken
+        AccessToken accessToken = accountTokenService.generateAccessToken(refreshToken, privateKey, clientInfo);
+
+        // 创建账户token
+        AccountToken accountToken = accountTokenService.create(account, refreshToken, clientInfo);
+
+        PostAccountTokenResp dto = PostAccountTokenResp.builder()
+                .id(IdUtils.toString(accountToken.getId()))
+                .accessToken(accessToken.getToken())
+                .refreshToken(refreshToken.getToken())
+                .build();
+        return Resp.successOf(dto);
+    }
+
+}

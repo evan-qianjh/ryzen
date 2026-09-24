@@ -2,7 +2,7 @@ package com.qianjh.ryzen.filter.global;
 
 import com.qianjh.ryzen.framework.Oem;
 import com.qianjh.ryzen.framework.OemDomain;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderAdmin;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
 import com.qianjh.ryzen.framework.gateway.util.DomainUtils;
 import com.qianjh.ryzen.service.DomainService;
@@ -91,7 +91,7 @@ public class OemGlobalFilter implements GlobalFilter, Ordered {
 
         // next
         ServerHttpRequest.Builder nextRequestBuilder = request.mutate();
-        nextRequestBuilder.header(GatewayHeaderAdmin.OEM_ID, oem.getId().toString());
+        nextRequestBuilder.header(GatewayHeaderTenant.OEM_ID, oem.getId().toString());
 
         return chain.filter(exchange.mutate().request(nextRequestBuilder.build()).build());
     }
