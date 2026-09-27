@@ -3,6 +3,8 @@ package com.qianjh.ryzen.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.AccountRole;
 
+import java.util.Set;
+
 /**
  *
  * @author QianJH
@@ -16,4 +18,6 @@ public interface AccountRoleService extends IService<AccountRole> {
     AccountRole createIfAbsent(Long oemId, Long tenantId, Long accountId, Long roleId);
 
     boolean removeById(Long oemId, Long tenantId, Long id);
+
+    void putRoles(Long oemId, Long tenantId, Long accountId, Set<Long> targetRoleIds);
 }

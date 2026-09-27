@@ -42,13 +42,13 @@ public class AccountRole_TenantController extends _TenantController {
     @GetMapping("/account-roles")
     public Resp<List<GetAccountRolesResp>> get(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                                                @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
-                                               @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                                               @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long _accountId,
                                                //
-                                               Long targetAccountId) {
+                                               Long accountId) {
         List<AccountRole> entities = accountRoleService.list(new LambdaQueryWrapper<AccountRole>()
                 .eq(AccountRole::getOemId, oemId)
                 .eq(AccountRole::getTenantId, tenantId)
-                .eq(AccountRole::getAccountId, targetAccountId)
+                .eq(AccountRole::getAccountId, accountId)
         );
 
         List<GetAccountRolesResp> result = entities.stream()

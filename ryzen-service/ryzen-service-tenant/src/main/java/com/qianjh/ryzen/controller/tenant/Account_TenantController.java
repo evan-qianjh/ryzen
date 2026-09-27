@@ -11,6 +11,7 @@ import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.util.McUtils;
 import com.qianjh.ryzen.framework.service.controller.tenant._TenantController;
+import com.qianjh.ryzen.service.AccountRoleService;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.service.CreateAccountService;
@@ -28,6 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.qianjh.ryzen.framework.service.controller.tenant._TenantController.PATH_PREFIX;
 
@@ -41,6 +43,7 @@ public class Account_TenantController extends _TenantController {
     private final AccountService accountService;
     private final CreateAccountService createAccountService;
     private final AccountSecretService accountSecretService;
+    private final AccountRoleService accountRoleService;
 
     @Operation(summary = "获取信息")
     @GetMapping("/account")
@@ -139,6 +142,12 @@ public class Account_TenantController extends _TenantController {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ACCESS));
         }
         boolean success = accountService.patch(oemId, tenantId, id, body);
+
+        // 修改角色
+        Set<Long> roleIds = body.getRoleIds();
+        if(roleIds != null) {
+            accountRoleService.putRoles(oemId, tenantId, entity.getId(), roleIds);
+        }
 
         return success ? Resp.success() : Resp.failure();
     }

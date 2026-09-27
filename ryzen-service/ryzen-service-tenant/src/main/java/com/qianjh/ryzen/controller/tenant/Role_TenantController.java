@@ -84,7 +84,7 @@ public class Role_TenantController extends _TenantController {
         entity = roleService.create(oemId, tenantId, body);
 
         // 创建角色-权限
-        List<Long> permissionIds = body.getPermissionIds();
+        Set<Long> permissionIds = body.getPermissionIds();
         if (!CollectionUtils.isEmpty(permissionIds)) {
             for (Long permissionId : permissionIds) {
                 rolePermissionService.createIfAbsent(oemId, tenantId, entity.getId(), permissionId);
