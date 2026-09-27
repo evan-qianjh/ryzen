@@ -57,7 +57,7 @@ public enum RespMc implements Mc {
 
     /* *************************  ************************* */
 
-    RELATION_DATA_EXIST("Relation data have not been deleted.", "关联数据未删除"),
+    RELATION_DATA_EXIST("Related data exists", "存在关联数据"),
 
     /* *************************  ************************* */
 
