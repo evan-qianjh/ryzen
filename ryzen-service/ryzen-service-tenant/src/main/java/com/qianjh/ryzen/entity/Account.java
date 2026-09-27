@@ -28,6 +28,7 @@ public class Account {
 
     private String username;
     private String nickname;
+    private String email;
     private Boolean enabled;
     private boolean administrator;
     private LocalDateTime createdTime;

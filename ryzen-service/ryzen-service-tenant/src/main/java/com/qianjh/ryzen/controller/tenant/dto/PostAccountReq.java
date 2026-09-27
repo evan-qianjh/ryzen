@@ -12,5 +12,7 @@ public class PostAccountReq {
     @NotNull
     private String nickname;
 
+    private String email;
+
     private Boolean enabled;
 }

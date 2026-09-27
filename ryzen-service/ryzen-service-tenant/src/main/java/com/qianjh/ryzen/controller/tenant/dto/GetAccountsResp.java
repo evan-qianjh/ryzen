@@ -13,6 +13,8 @@ public class GetAccountsResp {
     private String id;
     private String nickname;
     private String username;
+    private String email;
     private Boolean enabled;
     private boolean administrator;
+    private Long createdTime;
 }

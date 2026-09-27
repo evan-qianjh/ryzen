@@ -43,6 +43,7 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
                 .tenantId(tenantId)
                 .username(body.getUsername())
                 .nickname(body.getNickname())
+                .email(body.getEmail())
                 .enabled(body.getEnabled())
                 .administrator(false)
                 .createdTime(LocalDateTime.now())

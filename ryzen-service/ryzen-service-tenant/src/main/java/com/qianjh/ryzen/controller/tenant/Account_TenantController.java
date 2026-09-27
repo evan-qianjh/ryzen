@@ -6,6 +6,7 @@ import com.qianjh.ryzen.controller.tenant.dto.*;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.util.McUtils;
@@ -56,6 +57,7 @@ public class Account_TenantController extends _TenantController {
                 .id(IdUtils.toString(account.getId()))
                 .nickname(account.getNickname())
                 .username(account.getUsername())
+                .email(account.getEmail())
                 .administrator(account.isAdministrator())
                 .build();
         return Resp.successOf(result);
@@ -86,8 +88,10 @@ public class Account_TenantController extends _TenantController {
                         .id(IdUtils.toString(e.getId()))
                         .nickname(e.getNickname())
                         .username(e.getUsername())
+                        .email(e.getEmail())
                         .enabled(e.getEnabled())
                         .administrator(e.isAdministrator())
+                        .createdTime(DateTimeUtils.getTime(e.getCreatedTime()))
                         .build()
                 ).toList();
 
@@ -153,6 +157,8 @@ public class Account_TenantController extends _TenantController {
 
         String password = PasswordUtils.generate();
         accountSecretService.putLoginPassword(entity, password);
+
+        // TODO 若已设置联系方式[email]，通过联系方式发送，未设置则直接返回给前端，告知用户主动修改密码
 
         PutAccountPasswordResp result = PutAccountPasswordResp.builder()
                 .nickname(entity.getNickname())

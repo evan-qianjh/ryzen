@@ -13,5 +13,6 @@ public class GetAccountResp {
     private String id;
     private String nickname;
     private String username;
+    private String email;
     private boolean administrator;
 }
