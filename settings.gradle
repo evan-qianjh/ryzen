@@ -13,6 +13,7 @@ include 'ryzen-framework:ryzen-framework-websocket'
 include 'ryzen-plugin:ryzen-plugin-aliyun'
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 include 'ryzen-plugin:ryzen-plugin-oss'
+include 'ryzen-plugin:ryzen-plugin-sms'
 // model
 include 'ryzen-model:ryzen-model-framework'
 include 'ryzen-model:ryzen-model-tenant'
