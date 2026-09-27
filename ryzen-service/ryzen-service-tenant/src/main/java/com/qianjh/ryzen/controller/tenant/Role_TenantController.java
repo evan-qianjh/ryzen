@@ -127,7 +127,7 @@ public class Role_TenantController extends _TenantController {
         long rolePermissionsCount = rolePermissionService.count(new LambdaQueryWrapper<RolePermission>()
                 .eq(RolePermission::getOemId, oemId)
                 .eq(RolePermission::getTenantId, tenantId)
-                .eq(RolePermission::getId, id)
+                .eq(RolePermission::getRoleId, id)
         );
         if (rolePermissionsCount > 0) {
             return Resp.failure(McUtils.i18n(RespMc.RELATION_DATA_EXIST));
