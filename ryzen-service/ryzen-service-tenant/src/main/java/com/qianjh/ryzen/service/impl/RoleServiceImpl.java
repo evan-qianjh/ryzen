@@ -49,9 +49,21 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return lambdaUpdate()
                 .set(body.getEnabled() != null, Role::getEnabled, body.getEnabled())
                 //
-                .eq(Role::getId, id)
                 .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)
+
+                .eq(Role::getId, id)
                 .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean delete(Long oemId, Long tenantId, Long id) {
+        return remove(new LambdaQueryWrapper<Role>()
+                .eq(Role::getOemId, oemId)
+                .eq(Role::getTenantId, tenantId)
+
+                .eq(Role::getId, id)
+        );
     }
 }

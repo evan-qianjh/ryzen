@@ -3,6 +3,8 @@ package com.qianjh.ryzen.controller.tenant.dto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PostRoleReq {
 
@@ -10,4 +12,6 @@ public class PostRoleReq {
     private String title;
 
     private Boolean enabled;
+
+    private List<Long> permissionIds;
 }

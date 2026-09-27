@@ -5,18 +5,22 @@ import com.qianjh.ryzen.controller.tenant.dto.GetRolesResp;
 import com.qianjh.ryzen.controller.tenant.dto.PatchRoleReq;
 import com.qianjh.ryzen.controller.tenant.dto.PostRoleReq;
 import com.qianjh.ryzen.entity.Role;
+import com.qianjh.ryzen.entity.RolePermission;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.util.McUtils;
 import com.qianjh.ryzen.framework.service.controller.tenant._TenantController;
+import com.qianjh.ryzen.service.RolePermissionService;
 import com.qianjh.ryzen.service.RoleService;
-import com.qianjh.ryzen.framework.common.util.IdUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +36,7 @@ import static com.qianjh.ryzen.framework.service.controller.tenant._TenantContro
 public class Role_TenantController extends _TenantController {
 
     private final RoleService roleService;
+    private final RolePermissionService rolePermissionService;
 
     @Operation(summary = "列表")
     @GetMapping("/roles")
@@ -52,6 +57,7 @@ public class Role_TenantController extends _TenantController {
                         .id(IdUtils.toString(e.getId()))
                         .title(e.getTitle())
                         .enabled(e.getEnabled())
+                        .createdTime(DateTimeUtils.getTime(e.getCreatedTime()))
                         .build()
                 )
                 .toList();
@@ -72,6 +78,15 @@ public class Role_TenantController extends _TenantController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
         }
         entity = roleService.create(oemId, tenantId, body);
+
+        // 创建角色-权限
+        List<Long> permissionIds = body.getPermissionIds();
+        if (!CollectionUtils.isEmpty(permissionIds)) {
+            for (Long permissionId : permissionIds) {
+                rolePermissionService.createIfAbsent(oemId, tenantId, entity.getId(), permissionId);
+            }
+        }
+
         return Resp.successOf(Receipt.build(entity.getId()));
     }
 
@@ -89,6 +104,25 @@ public class Role_TenantController extends _TenantController {
         }
         boolean success = roleService.patch(oemId, tenantId, id, body);
 
+        return success ? Resp.success() : Resp.failure();
+    }
+
+    @Operation(summary = "删除")
+    @DeleteMapping("/role/{id}")
+    public Resp<?> delete(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                          @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                          //
+                          @PathVariable Long id) {
+        long rolePermissionsCount = rolePermissionService.count(new LambdaQueryWrapper<RolePermission>()
+                .eq(RolePermission::getOemId, oemId)
+                .eq(RolePermission::getTenantId, tenantId)
+                .eq(RolePermission::getId, id)
+        );
+        if (rolePermissionsCount > 0) {
+            return Resp.failure(McUtils.i18n(RespMc.RELATION_DATA_EXIST));
+        }
+        boolean success = roleService.delete(oemId, tenantId, id);
         return success ? Resp.success() : Resp.failure();
     }
 }

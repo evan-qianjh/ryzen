@@ -57,6 +57,10 @@ public enum RespMc implements Mc {
 
     /* *************************  ************************* */
 
+    RELATION_DATA_EXIST("Relation data have not been deleted.", "关联数据未删除"),
+
+    /* *************************  ************************* */
+
     MISSING_ARGUMENT("Missing argument", "缺少参数"),
     MISSING_HEADER("Missing header", "缺少请求头"),
 

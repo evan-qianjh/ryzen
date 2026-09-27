@@ -9,6 +9,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author QianJH
@@ -27,4 +29,6 @@ public class Role {
     private String title;
 
     private Boolean enabled;
+
+    private LocalDateTime createdTime;
 }

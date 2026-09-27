@@ -17,4 +17,6 @@ public interface RoleService extends IService<Role> {
     Role create(Long oemId, Long tenantId, PostRoleReq body);
 
     boolean patch(Long oemId, Long tenantId, Long id, PatchRoleReq body);
+
+    boolean delete(Long oemId, Long tenantId, Long id);
 }

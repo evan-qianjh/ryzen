@@ -61,7 +61,7 @@ public class Account_TenantController extends _TenantController {
         return Resp.successOf(result);
     }
 
-    @Operation(summary = "列表")
+    @Operation(summary = "分页查询")
     @GetMapping("/accounts")
     public Resp<OffsetPage<GetAccountsResp>> page(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                                                   @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
