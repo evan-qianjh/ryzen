@@ -20,11 +20,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.qianjh.ryzen.framework.service.controller.tenant._TenantController.PATH_PREFIX;
 
@@ -44,10 +46,12 @@ public class Role_TenantController extends _TenantController {
                                         @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                                         @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                                         //
+                                        @RequestParam(required = false) String title,
                                         @RequestParam(required = false) Boolean enabled) {
         List<Role> entities = roleService.list(new LambdaQueryWrapper<Role>()
                 .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)
+                .eq(StringUtils.isNotBlank(title), Role::getTitle, title)
                 .eq(enabled != null, Role::getEnabled, enabled)
                 .orderByAsc(Role::getId)
         );
@@ -103,6 +107,12 @@ public class Role_TenantController extends _TenantController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
         boolean success = roleService.patch(oemId, tenantId, id, body);
+
+        // 修改权限
+        Set<Long> permissionIds = body.getPermissionIds();
+        if(permissionIds != null) {
+            rolePermissionService.putPermissions(oemId, tenantId, entity.getId(), permissionIds);
+        }
 
         return success ? Resp.success() : Resp.failure();
     }

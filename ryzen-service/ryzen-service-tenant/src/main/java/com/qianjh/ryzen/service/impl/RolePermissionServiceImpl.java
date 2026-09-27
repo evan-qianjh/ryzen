@@ -5,9 +5,17 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.RolePermission;
 import com.qianjh.ryzen.mapper.RolePermissionMapper;
 import com.qianjh.ryzen.service.RolePermissionService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+@Slf4j
 @Service
 public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper, RolePermission> implements RolePermissionService {
     @Override
@@ -51,5 +59,35 @@ public class RolePermissionServiceImpl extends ServiceImpl<RolePermissionMapper,
                 .eq(RolePermission::getOemId, oemId)
                 .eq(RolePermission::getTenantId, tenantId)
         );
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void putPermissions(Long oemId, Long tenantId, Long roleId, Set<Long> targetPermissionIds) {
+        // 查出已存在权限
+        List<RolePermission> entities = list(new LambdaQueryWrapper<RolePermission>()
+                .eq(RolePermission::getOemId, oemId)
+                .eq(RolePermission::getTenantId, tenantId)
+                .eq(RolePermission::getRoleId, roleId)
+        );
+        Map<Long, RolePermission> existPermissionIdMap = entities.stream().collect(Collectors.toMap(RolePermission::getPermissionId, Function.identity()));
+
+        // 新增权限
+        for (Long targetPermissionId : targetPermissionIds) {
+            if (!existPermissionIdMap.containsKey(targetPermissionId)) {
+                RolePermission entity = create(oemId, tenantId, roleId, targetPermissionId);
+                log.debug("角色新增权限 ::: id={}, roleId={}, permissionId={}", entity.getId(), roleId, targetPermissionId);
+            }
+        }
+
+        // 删除权限
+        for (Map.Entry<Long, RolePermission> entry : existPermissionIdMap.entrySet()) {
+            Long existPermissionId = entry.getKey();
+            RolePermission existPermission = entry.getValue();
+            if (!targetPermissionIds.contains(existPermissionId)) {
+                log.debug("角色移除权限 ::: id={}, roleId={}, permissionId={}", existPermission.getId(), roleId, existPermissionId);
+                removeById(existPermission.getOemId(), existPermission.getTenantId(), existPermission.getId());
+            }
+        }
     }
 }
