@@ -7,6 +7,7 @@ import com.qianjh.ryzen.controller.tenant.dto.PostRoleReq;
 import com.qianjh.ryzen.entity.Role;
 import com.qianjh.ryzen.mapper.RoleMapper;
 import com.qianjh.ryzen.service.RoleService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +49,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     public boolean patch(Long oemId, Long tenantId, Long id, PatchRoleReq body) {
         return lambdaUpdate()
                 .set(body.getEnabled() != null, Role::getEnabled, body.getEnabled())
+                .set(StringUtils.isNotBlank(body.getTitle()), Role::getTitle, body.getTitle())
                 //
                 .eq(Role::getOemId, oemId)
                 .eq(Role::getTenantId, tenantId)

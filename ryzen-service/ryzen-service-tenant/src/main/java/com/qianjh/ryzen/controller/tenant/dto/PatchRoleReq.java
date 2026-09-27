@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class PatchRoleReq {
 
+    private String title;
+
     private Boolean enabled;
 }
