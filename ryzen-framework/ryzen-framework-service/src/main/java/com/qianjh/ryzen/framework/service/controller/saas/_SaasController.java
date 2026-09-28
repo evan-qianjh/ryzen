@@ -1,7 +1,8 @@
 package com.qianjh.ryzen.framework.service.controller.saas;
 
 /**
- * @author QianJH 租户
+ * SaaS后台
+ * @author QianJH
  */
 public abstract class _SaasController {
     public static final String PATH_PREFIX = "/saas";
