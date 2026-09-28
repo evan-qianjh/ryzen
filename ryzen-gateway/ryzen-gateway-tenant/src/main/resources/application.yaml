@@ -66,9 +66,9 @@ spring:
               metadata:
                 remarks: tenant
               predicates:
-                - Path=/tenant/**
+                - Path=/app/tenant/**
               filters:
-                - StripPrefix=1
+                - StripPrefix=2
                 - PrefixPath=/tenant
               uri: lb://ryzen-service-tenant
             # ----------------------------------------------------------------------
@@ -77,8 +77,8 @@ spring:
               metadata:
                 remarks: user
               predicates:
-                - Path=/user/**
+                - Path=/app/user/**
               filters:
-                - StripPrefix=1
+                - StripPrefix=2
                 - PrefixPath=/tenant
               uri: lb://ryzen-service-user

@@ -31,11 +31,11 @@ import java.util.regex.Pattern;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class AuthGlobalFilter implements GlobalFilter, Ordered {
+public class AppAuthGlobalFilter implements GlobalFilter, Ordered {
 
     public static final Integer ORDER = Math.max(ForgedRequestGlobalFilter.ORDER, OemGlobalFilter.ORDER) + 1;
 
-    private final static Pattern AUTH_PATH_PATTERN = Pattern.compile("^/[a-zA-Z0-9_-]+/public/");
+    private final static Pattern AUTH_PATH_PATTERN = Pattern.compile("^/app/[a-zA-Z0-9_-]+/public/");
 
     public static final String HEADER_TOKEN_KEY = "Authorization";
 

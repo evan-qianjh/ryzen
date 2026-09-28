@@ -18,15 +18,15 @@ include 'ryzen-plugin:ryzen-plugin-sms'
 include 'ryzen-model:ryzen-model-framework'
 include 'ryzen-model:ryzen-model-tenant'
 // gateway (port:70XX)
-include 'ryzen-gateway:ryzen-gateway-oem'
+//include 'ryzen-gateway:ryzen-gateway-oem'
 include 'ryzen-gateway:ryzen-gateway-partner'
-include 'ryzen-gateway:ryzen-gateway-saas'
+//include 'ryzen-gateway:ryzen-gateway-saas'
 include 'ryzen-gateway:ryzen-gateway-tenant'
 include 'ryzen-gateway:ryzen-gateway-user'
 
 // service (port:80XX)
-include 'ryzen-service:ryzen-service-oem'
-include 'ryzen-service:ryzen-service-saas'
+//include 'ryzen-service:ryzen-service-oem'
+//include 'ryzen-service:ryzen-service-saas'
 include 'ryzen-service:ryzen-service-tenant'
 include 'ryzen-service:ryzen-service-user'
 
