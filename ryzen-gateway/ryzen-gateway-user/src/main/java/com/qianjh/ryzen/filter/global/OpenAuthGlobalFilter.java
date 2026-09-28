@@ -4,14 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.entity.Apikey;
 import com.qianjh.ryzen.filter.dto.GwMc;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderOpen;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
-import com.qianjh.ryzen.framework.security.config.RsaProperties;
-import com.qianjh.ryzen.framework.security.config.SecurityProperties;
-import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
 import com.qianjh.ryzen.framework.security.util.RSAUtils;
-import com.qianjh.ryzen.framework.token.service.TokenService;
-import com.qianjh.ryzen.framework.token.service.dto.TokenPayload;
 import com.qianjh.ryzen.mapper.ApikeyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +17,9 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.RequestPath;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.util.Assert;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
@@ -38,7 +30,6 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 import java.security.interfaces.RSAPublicKey;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 import java.util.regex.Pattern;
 
@@ -48,7 +39,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
-public class AuthGlobalFilter implements GlobalFilter, Ordered {
+public class OpenAuthGlobalFilter implements GlobalFilter, Ordered {
 
     public static final Integer ORDER = Math.max(ForgedRequestGlobalFilter.ORDER, OemGlobalFilter.ORDER) + 1;
 
@@ -64,7 +55,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     private static final Long MIN_RECV_WINDOW = 5_000L;
     private static final Long MAX_RECV_WINDOW = 300_000L;
 
-    private final static Pattern AUTH_PATH_PATTERN = Pattern.compile("^/[a-zA-Z0-9_-]+/public/");
+    private final static Pattern AUTH_PATH_PATTERN = Pattern.compile("^/open/[a-zA-Z0-9_-]+/public/");
 
     /**
      * 参与签名的头

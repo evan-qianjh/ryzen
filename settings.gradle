@@ -19,7 +19,6 @@ include 'ryzen-model:ryzen-model-framework'
 include 'ryzen-model:ryzen-model-tenant'
 // gateway (port:70XX)
 include 'ryzen-gateway:ryzen-gateway-oem'
-include 'ryzen-gateway:ryzen-gateway-open'
 include 'ryzen-gateway:ryzen-gateway-partner'
 include 'ryzen-gateway:ryzen-gateway-saas'
 include 'ryzen-gateway:ryzen-gateway-tenant'

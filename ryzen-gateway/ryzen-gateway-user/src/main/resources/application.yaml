@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ryzen-gateway-open
+    name: ryzen-gateway-user
   profiles:
     active: dev
   config:
@@ -61,29 +61,40 @@ spring:
             response-timeout: 30000
           routes:
             # ----------------------------------------------------------------------
-            - id: user-post
+            - id: open-user-post
               order: 2
               metadata:
-                remarks: user post
+                remarks: open user post
               predicates:
-                - Path=/user/**
+                - Path=/open/user/**
                 - Method=POST
                 - name: ReadBody
                   args:
                     inClass: "java.lang.String"
                     predicate: "#{@bodyPredicate}"
               filters:
-                - StripPrefix=1
+                - StripPrefix=2
                 - PrefixPath=/tenant
               uri: lb://ryzen-service-user
             # ----------------------------------------------------------------------
-            - id: user
+            - id: open-user
               order: 3
               metadata:
-                remarks: user
+                remarks: open user
               predicates:
-                - Path=/user/**
+                - Path=/open/user/**
               filters:
-                - StripPrefix=1
+                - StripPrefix=2
                 - PrefixPath=/tenant
+              uri: lb://ryzen-service-user
+            # ----------------------------------------------------------------------
+            - id: app-user
+              order: 3
+              metadata:
+                remarks: app user
+              predicates:
+                - Path=/app/user/**
+              filters:
+                - StripPrefix=2
+                - PrefixPath=/user
               uri: lb://ryzen-service-user
