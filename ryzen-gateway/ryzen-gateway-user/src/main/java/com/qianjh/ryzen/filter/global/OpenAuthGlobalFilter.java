@@ -3,7 +3,7 @@ package com.qianjh.ryzen.filter.global;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.entity.Apikey;
 import com.qianjh.ryzen.filter.dto.GwMc;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderOpen;
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderUser;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
 import com.qianjh.ryzen.framework.security.util.RSAUtils;
 import com.qianjh.ryzen.mapper.ApikeyMapper;
@@ -95,7 +95,7 @@ public class OpenAuthGlobalFilter implements GlobalFilter, Ordered {
         // 获取APIkey
         String keyId = getHeaderVal(headers, REQUEST_HEADER_API_KEY);
         Assert.isTrue(StringUtils.hasText(keyId), GwMc.AUTH_001.name());
-        Long oemId = getHeaderLongVal(headers, GatewayHeaderOpen.OEM_ID);
+        Long oemId = getHeaderLongVal(headers, GatewayHeaderUser.OEM_ID);
         Apikey apiKey = getApiKey(oemId, keyId);
         Assert.notNull(apiKey, GwMc.AUTH_101.name());
 
@@ -240,8 +240,8 @@ public class OpenAuthGlobalFilter implements GlobalFilter, Ordered {
 
         //
         ServerHttpRequest nextRequest = request.mutate()
-                .header(GatewayHeaderOpen.TENANT_ID, String.valueOf(apiKey.getTenantId()))
-                .header(GatewayHeaderOpen.ACCOUNT_ID, String.valueOf(apiKey.getAccountId()))
+                .header(GatewayHeaderUser.TENANT_ID, String.valueOf(apiKey.getTenantId()))
+                .header(GatewayHeaderUser.ACCOUNT_ID, String.valueOf(apiKey.getAccountId()))
                 .build();
 
         return chain.filter(exchange.mutate().request(nextRequest).build());
