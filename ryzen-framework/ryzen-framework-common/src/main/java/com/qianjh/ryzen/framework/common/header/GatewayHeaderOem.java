@@ -1,18 +1,14 @@
 package com.qianjh.ryzen.framework.common.header;
 
 /**
- * 
+ *
+ * @author QianJH
  */
-public class GatewayHeaderOpen extends GatewayHeader {
+public class GatewayHeaderOem extends GatewayHeader {
     /**
      * OEM ID
      */
     public static final String OEM_ID = PREFIX + "oem-id";
-    /**
-     * 租户ID
-     */
-    public static final String TENANT_ID = PREFIX + "tenant-id";
-
     /**
      * 账户ID
      */

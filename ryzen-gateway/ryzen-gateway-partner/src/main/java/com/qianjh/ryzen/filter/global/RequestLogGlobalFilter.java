@@ -50,7 +50,7 @@ public class RequestLogGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         HttpHeaders headers = request.getHeaders();
 
-        String tenantId = headers.getFirst(GatewayHeaderPartner.TENANT_ID);
+        String oemId = headers.getFirst(GatewayHeaderPartner.OEM_ID);
         String clientIp = headers.getFirst(GatewayHeaderPartner.CLIENT_IP);
 
         // 请求URL
@@ -62,7 +62,7 @@ public class RequestLogGlobalFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        REQUEST_LOGGER.info("TENANT={}, IP={}, API={}|{}", tenantId, clientIp, method, path);
+        REQUEST_LOGGER.info("OEM={}, IP={}, API={}|{}", oemId, clientIp, method, path);
 
         exchange.getAttributes().put(LOG_START_TIME, System.currentTimeMillis());
         return chain.filter(exchange).then(Mono.fromRunnable(() -> {
@@ -70,7 +70,7 @@ public class RequestLogGlobalFilter implements GlobalFilter, Ordered {
             if (startTime != null) {
                 long executeTime = (System.currentTimeMillis() - startTime);
                 if (executeTime >= maxLongRequestMs) {
-                    REQUEST_LOGGER.warn("slow ::: TENANT={}, IP={}, API={}|{}, ms={}", tenantId, clientIp, method, path, executeTime);
+                    REQUEST_LOGGER.warn("slow ::: OEM={}, IP={}, API={}|{}, ms={}", oemId, clientIp, method, path, executeTime);
                 }
             }
         }));
