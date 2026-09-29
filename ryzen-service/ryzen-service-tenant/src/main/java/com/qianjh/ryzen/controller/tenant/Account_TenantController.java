@@ -3,7 +3,7 @@ package com.qianjh.ryzen.controller.tenant;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qianjh.ryzen.controller.tenant.dto.*;
-import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.tenant.entity.Account;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
@@ -29,7 +29,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 import static com.qianjh.ryzen.framework.service.controller.tenant._TenantController.PATH_PREFIX;
 

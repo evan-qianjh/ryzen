@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.mapper;
 
 import com.github.yulichang.base.MPJBaseMapper;
-import com.qianjh.ryzen.entity.AccountRole;
+import com.qianjh.ryzen.tenant.entity.AccountRole;
 
 /**
  *

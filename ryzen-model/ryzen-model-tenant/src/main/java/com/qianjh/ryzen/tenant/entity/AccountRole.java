@@ -1,9 +1,8 @@
-package com.qianjh.ryzen.entity;
+package com.qianjh.ryzen.tenant.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.framework.common.entity._Schemas;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schemas.TENANT + "account_role")
+@TableName(_Database.SCHEMA + "account_role")
 public class AccountRole {
     @TableId(type = IdType.AUTO)
     private Long id;

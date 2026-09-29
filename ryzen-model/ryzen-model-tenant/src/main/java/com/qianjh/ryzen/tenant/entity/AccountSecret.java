@@ -1,8 +1,7 @@
-package com.qianjh.ryzen.entity;
+package com.qianjh.ryzen.tenant.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.framework.common.entity._Schemas;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,20 +14,23 @@ import java.time.LocalDateTime;
  * @author QianJH
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schemas.TENANT + "account_token")
-public class AccountToken {
-
+@TableName(_Database.SCHEMA + "account_secret")
+public class AccountSecret {
     @TableId
     private Long id;
     private Long oemId;
     private Long tenantId;
     private Long accountId;
-
-    private String refreshTokenId;
-    private LocalDateTime generatedTime;
-    private LocalDateTime expiredTime;
-    private String clientInfo;
+    /**
+     * 登录密码 (加密)
+     */
+    private String loginPassword;
+    /**
+     * 基于时间的一次性密码(Time-based One-time Password) (加密)
+     */
+    private String totpSecret;
+    private LocalDateTime createdTime;
 }

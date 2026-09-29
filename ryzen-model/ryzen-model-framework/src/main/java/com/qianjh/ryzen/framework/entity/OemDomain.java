@@ -9,7 +9,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName("ryzen.oem_domain")
+@TableName(_Database.SCHEMA + "oem_domain")
 public class OemDomain {
 
     @TableId(type = IdType.AUTO)

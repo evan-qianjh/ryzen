@@ -1,9 +1,9 @@
-package com.qianjh.ryzen.entity;
+package com.qianjh.ryzen.tenant.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.framework.common.entity._Schemas;
+import com.qianjh.ryzen.tenant.enums.PermissionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,13 +17,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schemas.TENANT + "role_permission")
-public class RolePermission {
+@TableName(_Database.SCHEMA + "permission")
+public class Permission {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long oemId;
     private Long tenantId;
 
-    private Long roleId;
-    private Long permissionId;
+    private Long parentId;
+
+    private PermissionType type;
+    private String title;
+    private String symbol;
+
+    private Boolean enabled;
 }

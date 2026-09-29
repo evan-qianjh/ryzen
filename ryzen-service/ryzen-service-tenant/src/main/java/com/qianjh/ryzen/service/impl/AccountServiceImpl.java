@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.controller.tenant.dto.PatchAccountReq;
 import com.qianjh.ryzen.controller.tenant.dto.PostAccountReq;
-import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.tenant.entity.Account;
 import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.mapper.AccountMapper;
 import com.qianjh.ryzen.service.AccountSecretService;

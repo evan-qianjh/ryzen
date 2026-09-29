@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.controller.tenant.dto.PatchAccountReq;
 import com.qianjh.ryzen.controller.tenant.dto.PostAccountReq;
-import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.tenant.entity.Account;
 import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 
 /**

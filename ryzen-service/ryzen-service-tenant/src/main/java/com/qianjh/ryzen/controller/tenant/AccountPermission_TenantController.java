@@ -2,12 +2,12 @@ package com.qianjh.ryzen.controller.tenant;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.controller.tenant.dto.GetAccountPermissionsResp;
-import com.qianjh.ryzen.entity.*;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.service.controller.tenant._TenantController;
 import com.qianjh.ryzen.service.*;
+import com.qianjh.ryzen.tenant.entity.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

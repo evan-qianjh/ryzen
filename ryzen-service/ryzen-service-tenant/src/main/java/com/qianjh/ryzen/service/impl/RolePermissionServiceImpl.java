@@ -2,7 +2,7 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.entity.RolePermission;
+import com.qianjh.ryzen.tenant.entity.RolePermission;
 import com.qianjh.ryzen.mapper.RolePermissionMapper;
 import com.qianjh.ryzen.service.RolePermissionService;
 import lombok.extern.slf4j.Slf4j;

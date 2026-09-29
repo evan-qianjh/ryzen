@@ -1,9 +1,8 @@
-package com.qianjh.ryzen.entity;
+package com.qianjh.ryzen.tenant.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.framework.common.entity._Schemas;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,20 +15,19 @@ import java.time.LocalDateTime;
  * @author QianJH
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schemas.TENANT + "account")
-public class Account {
+@TableName(_Database.SCHEMA + "role")
+public class Role {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long oemId;
     private Long tenantId;
 
-    private String username;
-    private String nickname;
-    private String email;
+    private String title;
+
     private Boolean enabled;
-    private boolean administrator;
+
     private LocalDateTime createdTime;
 }
