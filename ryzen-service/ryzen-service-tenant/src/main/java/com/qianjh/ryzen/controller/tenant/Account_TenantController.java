@@ -143,13 +143,19 @@ public class Account_TenantController extends _TenantController {
         }
         boolean success = accountService.patch(oemId, tenantId, id, body);
 
-        // 修改角色
-        Set<Long> roleIds = body.getRoleIds();
-        if(roleIds != null) {
-            accountRoleService.putRoles(oemId, tenantId, entity.getId(), roleIds);
-        }
-
         return success ? Resp.success() : Resp.failure();
+    }
+
+    @Operation(summary = "修改角色")
+    @PutMapping("/account/{id}/roles")
+    public Resp<?> putRoles(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                            @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                            @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                            //
+                            @PathVariable Long id,
+                            @RequestBody @Validated PutAccountRolesReq body) {
+        accountRoleService.putRoles(oemId, tenantId, id, body.roleIds());
+        return Resp.success();
     }
 
     @Operation(summary = "重制密码")

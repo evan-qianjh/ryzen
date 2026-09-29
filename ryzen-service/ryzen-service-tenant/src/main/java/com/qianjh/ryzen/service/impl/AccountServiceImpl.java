@@ -80,9 +80,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account> impl
     @Override
     public boolean patch(Long oemId, Long tenantId, Long id, PatchAccountReq body) {
         return lambdaUpdate()
-                .set(StringUtils.isNotBlank(body.getNickname()), Account::getNickname, body.getNickname())
-                .set(StringUtils.isNotBlank(body.getUsername()), Account::getUsername, body.getUsername())
-                .set(body.getEnabled() != null, Account::getEnabled, body.getEnabled())
+                .set(StringUtils.isNotBlank(body.nickname()), Account::getNickname, body.nickname())
+                .set(StringUtils.isNotBlank(body.username()), Account::getUsername, body.username())
+                .set(body.enabled() != null, Account::getEnabled, body.enabled())
                 //
                 .eq(Account::getOemId, oemId)
                 .eq(Account::getTenantId, tenantId)
