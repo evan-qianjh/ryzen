@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.qianjh.ryzen.framework.StreamOutbox;
+import com.qianjh.ryzen.framework.entity.StreamOutbox;
 
 import java.util.List;
 

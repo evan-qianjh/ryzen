@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.filter.global;
 
-import com.qianjh.ryzen.framework.Oem;
-import com.qianjh.ryzen.framework.OemDomain;
+import com.qianjh.ryzen.framework.entity.Oem;
+import com.qianjh.ryzen.framework.entity.OemDomain;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderPartner;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
 import com.qianjh.ryzen.framework.gateway.util.DomainUtils;

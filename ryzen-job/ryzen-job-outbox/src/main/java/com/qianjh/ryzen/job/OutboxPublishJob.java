@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.job;
 
 
-import com.qianjh.ryzen.framework.StreamOutbox;
+import com.qianjh.ryzen.framework.entity.StreamOutbox;
 import com.qianjh.ryzen.framework.stream.model.StreamHeader;
 import com.qianjh.ryzen.service.ApplicationService;
 import com.qianjh.ryzen.service.StreamOutboxService;

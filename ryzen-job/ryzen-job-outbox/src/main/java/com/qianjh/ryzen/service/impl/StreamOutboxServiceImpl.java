@@ -2,7 +2,7 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.framework.StreamOutbox;
+import com.qianjh.ryzen.framework.entity.StreamOutbox;
 import com.qianjh.ryzen.mapper.StreamOutboxMapper;
 import com.qianjh.ryzen.service.ApplicationService;
 import com.qianjh.ryzen.service.StreamOutboxService;

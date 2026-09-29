@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qianjh.ryzen.framework.Oem;
+import com.qianjh.ryzen.framework.entity.Oem;
 import org.springframework.stereotype.Repository;
 
 /**

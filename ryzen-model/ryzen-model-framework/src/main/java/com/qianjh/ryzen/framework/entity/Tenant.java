@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework;
+package com.qianjh.ryzen.framework.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,20 +9,15 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName("ryzen.oem")
-public class Oem {
+@TableName("ryzen.tenant")
+public class Tenant {
 
     @TableId(type = IdType.AUTO)
     private Long id;
 
+    private Long oemId;
+
     private String symbol;
 
     private Boolean enabled;
-
-    /**
-     * 合作伙伴消息域名Host
-     * format: 'https://partner-api.{oem}'
-     * e.g.: https://partner-api.qianjh.com
-     */
-    private String partnerNotifyHost;
 }
