@@ -1,9 +1,9 @@
 server:
-  port: 7001
+  port: 7021
 
 spring:
   application:
-    name: ryzen-gateway-tenant
+    name: ryzen-gateway-tenant-app
   profiles:
     active: dev
   config:
@@ -66,10 +66,10 @@ spring:
               metadata:
                 remarks: tenant
               predicates:
-                - Path=/app/tenant/**
+                - Path=/tenant/**
               filters:
-                - StripPrefix=2
-                - PrefixPath=/tenant
+                - StripPrefix=1
+                - PrefixPath=/tenant/app
               uri: lb://ryzen-service-tenant
             # ----------------------------------------------------------------------
             - id: user
@@ -77,8 +77,8 @@ spring:
               metadata:
                 remarks: user
               predicates:
-                - Path=/app/user/**
+                - Path=/user/**
               filters:
-                - StripPrefix=2
-                - PrefixPath=/tenant
+                - StripPrefix=1
+                - PrefixPath=/tenant/app
               uri: lb://ryzen-service-user

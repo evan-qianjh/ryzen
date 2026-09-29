@@ -22,7 +22,7 @@ include 'ryzen-model:ryzen-model-user'
 //include 'ryzen-gateway:ryzen-gateway-oem'
 include 'ryzen-gateway:ryzen-gateway-partner'
 //include 'ryzen-gateway:ryzen-gateway-saas'
-include 'ryzen-gateway:ryzen-gateway-tenant'
+include 'ryzen-gateway:ryzen-gateway-tenant-app'
 include 'ryzen-gateway:ryzen-gateway-user-app'
 include 'ryzen-gateway:ryzen-gateway-user-open'
 
