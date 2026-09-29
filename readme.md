@@ -40,14 +40,14 @@
 | 参与者 | 接入方式 | 域名 | service前缀 | 备注 |
 |---|---|---|---|---|
 | 合作端 | API | https://partner-api.qianjh.com/{service}/{partner}/xxx | /partner | |
-| 用户端 | APP | https://user-api.qianjh.com/app/{service}[/public]/xxx | /user | |
-| 用户端 | Open API | https://user-api.qianjh.com/open/{service}[/public]/xxx | /user | |
-| 租户端 | APP | https://tenant-api.qianjh.com/app/{service}[/public]/xxx | /tenant | |
-| 租户端 | APP | https://tenant.qianjh.com/api/app/{service}[/public]/xxx | /tenant | 无跨域方式 |
-| OEM端 | APP | https://oem-api.qianjh.com/app/{service}[/public]/xxx | /oem | |
-| OEM端 | APP | https://oem.qianjh.com/api/app/{service}[/public]/xxx | /oem | 无跨域方式 |
-| SaaS端 | APP | https://saas-api.qianjh.com/app/{service}[/public]/xxx | /saas | |
-| SaaS端 | APP | https://saas.qianjh.com/api/app/{service}[/public]/xxx | /saas | 无跨域方式 |
+| 用户端 | APP | https://user-api.qianjh.com/{service}[/public]/xxx | /user/app | |
+| 用户端 | Open API | https://user-openapi.qianjh.com/{service}[/public]/xxx | /user/open | |
+| 租户端 | APP | https://tenant-api.qianjh.com/{service}[/public]/xxx | /tenant/app | |
+| 租户端 | APP | https://tenant.qianjh.com/api/{service}[/public]/xxx | /tenant/app | 无跨域方式 |
+| OEM端 | APP | https://oem-api.qianjh.com/{service}[/public]/xxx | /oem/app | |
+| OEM端 | APP | https://oem.qianjh.com/api/{service}[/public]/xxx | /oem/app | 无跨域方式 |
+| SaaS端 | APP | https://saas-api.qianjh.com/{service}[/public]/xxx | /saas/app | |
+| SaaS端 | APP | https://saas.qianjh.com/api/{service}[/public]/xxx | /saas/app | 无跨域方式 |
 
 # TODO
 - stream-outbox
