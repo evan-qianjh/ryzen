@@ -74,7 +74,7 @@ spring:
                     predicate: "#{@bodyPredicate}"
               filters:
                 - StripPrefix=1
-                - PrefixPath=/tenant
+                - PrefixPath=/user/open
               uri: lb://ryzen-service-user
             # ----------------------------------------------------------------------
             - id: user
@@ -85,5 +85,5 @@ spring:
                 - Path=/user/**
               filters:
                 - StripPrefix=1
-                - PrefixPath=/tenant
+                - PrefixPath=/user/open
               uri: lb://ryzen-service-user

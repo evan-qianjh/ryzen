@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.controller.tenant.dto.PostAccountReq;
+import com.qianjh.ryzen.controller.tenant.app.dto.PostAccountReq;
 import com.qianjh.ryzen.tenant.entity.Account;
 import org.apache.commons.lang3.tuple.Pair;
 

@@ -1,8 +1,8 @@
 package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.qianjh.ryzen.controller.tenant.dto.PatchRoleReq;
-import com.qianjh.ryzen.controller.tenant.dto.PostRoleReq;
+import com.qianjh.ryzen.controller.tenant.app.dto.PatchRoleReq;
+import com.qianjh.ryzen.controller.tenant.app.dto.PostRoleReq;
 import com.qianjh.ryzen.tenant.entity.Role;
 
 /**
