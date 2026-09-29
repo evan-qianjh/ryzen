@@ -46,30 +46,6 @@ public class RateLimitConfig {
     }
 
     /**
-     * 以请求头中的账户为key的键选择器
-     *
-     * @return keyResolver
-     */
-    @Primary
-    @Bean(name = "accountRateLimiterKeyResolver")
-    public KeyResolver accountRateLimiterKeyResolver() {
-        return exchange -> {
-            ServerHttpRequest request = exchange.getRequest();
-            String account = request.getHeaders().getFirst(GatewayHeaderPartner.ACCOUNT_ID);
-            if (StringUtils.isBlank(account)) {
-                return Mono.empty();
-            }
-            HttpMethod method = request.getMethod();
-            String path = getRateLimitPath(exchange);
-
-            String limitKeyFormat = String.format("%s#%s#%s", method.name(), path, account);
-            String limitKey = Md5Utils.encrypt(limitKeyFormat);
-
-            return Mono.just(limitKey);
-        };
-    }
-
-    /**
      * 获取限流路径
      *
      * @param exchange exchange
