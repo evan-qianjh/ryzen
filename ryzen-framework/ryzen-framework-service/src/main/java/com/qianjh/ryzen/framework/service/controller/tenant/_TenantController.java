@@ -1,27 +1,25 @@
 package com.qianjh.ryzen.framework.service.controller.tenant;
 
+import com.qianjh.ryzen.framework.service.controller._Controller;
+
 /**
  * 租户后台
  */
-public abstract class _TenantController {
+public abstract class _TenantController extends _Controller {
     public static final String PATH_PREFIX = "/tenant";
-    public static final String PUBLIC_PATH_PREFIX = PATH_PREFIX + "/public";
-
-    public static final String DEFAULT_PAGE_INDEX = "1";
-    public static final String DEFAULT_PAGE_SIZE = "15";
-
-    public static final int MAX_PAGE_SIZE = 100;
+    public static final String PUBLIC_PATH_PREFIX = PATH_PREFIX + PUBLIC;
 
     /**
-     * 安全的页面大小
-     *
-     * @param size 页面大小
-     * @return pageSize
+     * 分页默认页面大小
      */
-    public int safePageSize(Integer size) {
-        if (size == null) {
-            return Integer.parseInt(DEFAULT_PAGE_SIZE);
-        }
-        return Math.min(size, MAX_PAGE_SIZE);
+    public static final String DEFAULT_PAGE_SIZE = "20";
+    /**
+     * 分页最大页面大小
+     */
+    public static final int MAX_PAGE_SIZE = 200;
+
+    @Override
+    public int safePageSize(Integer pageSize) {
+        return super.safePageSize(pageSize, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE);
     }
 }

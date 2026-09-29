@@ -1,18 +1,15 @@
 package com.qianjh.ryzen.framework.service.controller.user;
 
+import com.qianjh.ryzen.framework.service.controller._Controller;
+
 /**
  * 用户
  *
  * @author QianJH
  */
-public abstract class _UserController {
+public abstract class _UserController extends _Controller {
     public static final String PATH_PREFIX = "/user";
-    public static final String PUBLIC_PATH_PREFIX = PATH_PREFIX + "/public";
-
-    public static final String DEFAULT_PAGE_INDEX = "1";
-    public static final String DEFAULT_PAGE_SIZE = "15";
-
-    private static final int MAX_PAGE_SIZE = 100;
+    public static final String PUBLIC_PATH_PREFIX = PATH_PREFIX + PUBLIC;
 
     /**
      * 获取默认头像
@@ -25,16 +22,4 @@ public abstract class _UserController {
         return String.format("tenant/%s/assets/%s/static/default-avatar.jpg", tenantId, service);
     }
 
-    /**
-     * 安全的页面大小
-     *
-     * @param limit 页面大小
-     * @return pageSize
-     */
-    public int safeLimit(Integer limit) {
-        if (limit == null) {
-            return Integer.parseInt(DEFAULT_PAGE_SIZE);
-        }
-        return Math.min(limit, MAX_PAGE_SIZE);
-    }
 }
