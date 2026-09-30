@@ -69,5 +69,5 @@ spring:
                 - Path=/user/**
               filters:
                 - StripPrefix=1
-                - PrefixPath=/tenant
+                - PrefixPath=/partner
               uri: lb://ryzen-service-user
