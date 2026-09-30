@@ -1,6 +1,6 @@
 <mxfile host="Electron">
   <diagram name="Page-1" id="tIAi-8l_sWedbDqSmTeE">
-    <mxGraphModel dx="2263" dy="974" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2519" dy="1003" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -113,7 +113,7 @@
         <mxCell id="9FLHw-TxnLPEjFBFITjv-55" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" value="publish" vertex="1">
           <mxGeometry height="50" width="120" x="-234" y="615" as="geometry" />
         </mxCell>
-        <mxCell id="9FLHw-TxnLPEjFBFITjv-62" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="MQ(kafka)" vertex="1">
+        <mxCell id="9FLHw-TxnLPEjFBFITjv-62" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="MQ(kafka)" vertex="1">
           <mxGeometry height="34" width="609.87" x="-631.87" y="953.5" as="geometry" />
         </mxCell>
         <mxCell id="9FLHw-TxnLPEjFBFITjv-63" edge="1" parent="1" source="9FLHw-TxnLPEjFBFITjv-13" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;edgeStyle=orthogonalEdgeStyle;" target="9FLHw-TxnLPEjFBFITjv-62">
@@ -135,7 +135,7 @@
         <mxCell id="9FLHw-TxnLPEjFBFITjv-68" connectable="0" parent="1" style="group" value="" vertex="1">
           <mxGeometry height="96" width="250.75" x="-604.88" y="774.5" as="geometry" />
         </mxCell>
-        <mxCell id="9FLHw-TxnLPEjFBFITjv-13" parent="9FLHw-TxnLPEjFBFITjv-68" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Account_StreamConsumer" vertex="1">
+        <mxCell id="9FLHw-TxnLPEjFBFITjv-13" parent="9FLHw-TxnLPEjFBFITjv-68" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="AccountTopic_StreamConsumer" vertex="1">
           <mxGeometry height="96" width="250.75" as="geometry" />
         </mxCell>
         <mxCell id="9FLHw-TxnLPEjFBFITjv-16" parent="9FLHw-TxnLPEjFBFITjv-68" style="rounded=1;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="dispatch" vertex="1">
@@ -158,7 +158,7 @@
         <mxCell id="4qccycUcPBtWc-iBkBGY-6" connectable="0" parent="1" style="group" value="" vertex="1">
           <mxGeometry height="96" width="250.75" x="-299.38" y="774.5" as="geometry" />
         </mxCell>
-        <mxCell id="4qccycUcPBtWc-iBkBGY-7" parent="4qccycUcPBtWc-iBkBGY-6" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="Account_StreamProducer" vertex="1">
+        <mxCell id="4qccycUcPBtWc-iBkBGY-7" parent="4qccycUcPBtWc-iBkBGY-6" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#1ba1e2;strokeColor=#006EAF;fontColor=#ffffff;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="AccountTopic_StreamProducer" vertex="1">
           <mxGeometry height="96" width="250.75" as="geometry" />
         </mxCell>
         <mxCell id="4qccycUcPBtWc-iBkBGY-8" parent="4qccycUcPBtWc-iBkBGY-6" style="rounded=1;whiteSpace=wrap;html=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;" value="sink" vertex="1">
