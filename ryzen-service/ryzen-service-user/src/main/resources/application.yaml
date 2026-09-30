@@ -27,14 +27,21 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'accountSource;'
+      definition: 'userAccountSink;\
+      userAccountSource;'
     stream:
       kafka:
         binder:
+          brokers: ${ryzen.kafka.default.servers}
           configuration:
             auto.offset.reset: latest
       bindings:
-        accountSource-in-0:
+        # ------------------------------------- producer -------------------------------------
+        userAccountSink-out-0:
+          destination: user.account
+          content-type: application/json
+        # ------------------------------------- consumer -------------------------------------
+        userAccountSource-in-0:
           destination: user.account
           content-type: application/json
           group: ${spring.application.name}
@@ -48,8 +55,6 @@ spring:
     url: jdbc:mysql://${ryzen.mysql.default.host}/${ryzen.mysql.default.schema}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${ryzen.mysql.default.username}
     password: ${ryzen.mysql.default.password}
-  kafka:
-    bootstrap-servers: ${ryzen.kafka.default.servers}
   data:
     redis:
       host: ${ryzen.redis.default.host}

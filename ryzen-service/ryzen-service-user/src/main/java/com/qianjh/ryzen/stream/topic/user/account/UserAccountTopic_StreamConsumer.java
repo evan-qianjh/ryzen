@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.stream.topic.think_order;
+package com.qianjh.ryzen.stream.topic.user.account;
 
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriberDispatcher;
@@ -16,12 +16,12 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class AccountTopic_StreamConsumer implements StreamConsumer {
+public class UserAccountTopic_StreamConsumer implements StreamConsumer {
 
     private final StreamSubscriberDispatcher streamSubscriberDispatcher;
 
     @Bean
-    public Consumer<Message<String>> accountSource() {
+    public Consumer<Message<String>> userAccountSource() {
         return message -> {
             MessageHeaders headers = message.getHeaders();
             String domain = getDomain(headers);

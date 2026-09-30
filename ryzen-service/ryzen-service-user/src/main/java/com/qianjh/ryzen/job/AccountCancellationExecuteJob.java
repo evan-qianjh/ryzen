@@ -18,6 +18,6 @@ public class AccountCancellationExecuteJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         // TODO
-        log.info("AccountCancellationExecuteJob execute");
+        log.info("job execute");
     }
 }

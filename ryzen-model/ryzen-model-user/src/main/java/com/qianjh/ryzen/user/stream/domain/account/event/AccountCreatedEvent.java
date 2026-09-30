@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.user.stream.domain.account.event;
 
+import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
 import com.qianjh.ryzen.user.stream.domain.account.AccountEvent;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,28 @@ public interface AccountCreatedEvent<T> extends AccountEvent<T> {
         private Long id;
         private Long oemId;
         private Long tenantId;
+    }
+
+    /**
+     * 发布者
+     */
+    interface Publisher extends StreamPublisher<Body> {
+        @Override
+        default String getDomain() {
+            return DOMAIN;
+        }
+
+        @Override
+        default String getType() {
+            return TYPE;
+        }
+
+        @Override
+        default Class<Body> getBodyClass() {
+            return Body.class;
+        }
+
+        void publish(Body body);
     }
 
     /**
