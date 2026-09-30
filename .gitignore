@@ -11,6 +11,7 @@ build/
 *.iml
 *.ipr
 *.log
+*.drawio.bkp
 out/
 logs/
 !**/src/main/**/out/
