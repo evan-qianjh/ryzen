@@ -18,9 +18,14 @@ springdoc:
 ryzen:
   mysql:
     default:
-      host: 'jietai-dev-mysql84.mysql.rds.aliyuncs.com'
-      schema: 'jietai_dev'
-      username: 'jietai_dev'
+      host: 'xxx-dev-mysql84.mysql.rds.aliyuncs.com'
+      schema: 'xxx_dev'
+      username: 'xxx_dev'
+      password: 'dev@xF0N85lkRCpD9xs4oZPuY1VduUAv'
+    quartz:
+      host: 'xxx-dev-mysql84.mysql.rds.aliyuncs.com'
+      schema: 'quartz'
+      username: 'xxx_dev'
       password: 'dev@xF0N85lkRCpD9xs4oZPuY1VduUAv'
   pgsql:
     default:
@@ -33,6 +38,9 @@ ryzen:
       host: '192.168.187.1'
       port: 6379
       password: 'dev@gYzjSDfB9ZlZPc8cpJtAiVjIxNEP'
+  kafka:
+    default:
+      servers: '192.168.187.1:9092'
   framework:
     security:
       # 存储密钥（AES 32）
