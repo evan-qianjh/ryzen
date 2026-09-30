@@ -13,7 +13,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 public class StreamPayload<BODY> {
+    /**
+     * 领域，例如 user
+     */
     private String domain;
+
+    /**
+     * 类型，例如 user_created
+     */
     private String type;
+
+    /**
+     * 报文体
+     */
     private BODY body;
 }
