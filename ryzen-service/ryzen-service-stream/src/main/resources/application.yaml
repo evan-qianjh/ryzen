@@ -1,8 +1,9 @@
 server:
-  port: 8301
+  port: 8002
+
 spring:
   application:
-    name: ryzen-job-outbox
+    name: ryzen-service-stream
   config:
     import: optional:consul:192.168.187.1:8500
   profiles:
@@ -31,7 +32,19 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${ryzen.pgsql.default.host}/${ryzen.pgsql.default.schema:ryzen}?currentSchema=ryzen
-    username: ${ryzen.pgsql.default.username}
-    password: ${ryzen.pgsql.default.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ryzen.mysql.default.host}/${ryzen.mysql.default.schema}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${ryzen.mysql.default.username}
+    password: ${ryzen.mysql.default.password}
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  group-configs:
+    - group: 'cli'
+      display-name: '命令行'
+      paths-to-match:
+        - '/cli/**'

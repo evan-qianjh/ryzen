@@ -10,8 +10,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class RyzenStreamOutbox {
+public class RyzenServiceStream {
     static void main(String[] args) {
-        SpringApplication.run(RyzenStreamOutbox.class, args);
+        SpringApplication.run(RyzenServiceStream.class, args);
     }
 }

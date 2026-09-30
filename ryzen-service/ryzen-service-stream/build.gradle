@@ -3,7 +3,9 @@ plugins {
 }
 
 dependencies {
+    implementation project(":ryzen-framework:ryzen-framework-service")
     implementation project(":ryzen-framework:ryzen-framework-stream")
+
     implementation project(":ryzen-model:ryzen-model-framework")
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -12,8 +14,11 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
 
-    implementation 'org.postgresql:postgresql'
+//    implementation 'org.postgresql:postgresql'
+    implementation 'com.mysql:mysql-connector-j'
+    implementation libs.googleauth
     implementation libs.mybatis.plus.jsqlparser
     implementation libs.mybatis.plus.spring
     implementation libs.mybatis.plus.join
+    implementation libs.springdoc.openapi
 }
