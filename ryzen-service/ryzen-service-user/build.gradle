@@ -3,5 +3,26 @@ plugins {
 }
 
 dependencies {
-    api project(":ryzen-framework:ryzen-framework-service")
+    implementation project(":ryzen-framework:ryzen-framework-security")
+    implementation project(":ryzen-framework:ryzen-framework-token")
+    implementation project(":ryzen-framework:ryzen-framework-servlet")
+    implementation project(":ryzen-framework:ryzen-framework-service")
+
+    implementation project(":ryzen-model:ryzen-model-user")
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-quartz'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+
+//    implementation 'org.postgresql:postgresql'
+    implementation 'com.mysql:mysql-connector-j'
+    implementation libs.googleauth
+    implementation libs.mybatis.plus.jsqlparser
+    implementation libs.mybatis.plus.spring
+    implementation libs.mybatis.plus.join
+    implementation libs.springdoc.openapi
 }

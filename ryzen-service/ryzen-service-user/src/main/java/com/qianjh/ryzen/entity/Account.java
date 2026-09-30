@@ -13,18 +13,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "apikey")
-public class Apikey {
+@TableName(_Database.SCHEMA + "account")
+public class Account {
     @TableId
     private Long id;
     private Long oemId;
     private Long tenantId;
-    private Long accountId;
 
-    private String apikey;
-    private String publicKey;
-    private String memo;
+    // TODO
 
-    private Boolean enabled;
     private LocalDateTime createdTime;
 }

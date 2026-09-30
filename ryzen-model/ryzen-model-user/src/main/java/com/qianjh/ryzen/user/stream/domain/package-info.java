@@ -1,0 +1,1 @@
+package com.qianjh.ryzen.user.stream.domain;
