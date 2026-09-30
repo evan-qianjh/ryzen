@@ -1,6 +1,5 @@
-package com.qianjh.ryzen.tenant.entity;
+package com.qianjh.ryzen.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -8,21 +7,27 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author QianJH
  */
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "role_permission")
-public class RolePermission {
-    @TableId(type = IdType.AUTO)
+@TableName(_Database.SCHEMA + "account_token")
+public class AccountToken {
+
+    @TableId
     private Long id;
     private Long oemId;
     private Long tenantId;
+    private Long accountId;
 
-    private Long roleId;
-    private Long permissionId;
+    private String refreshTokenId;
+    private LocalDateTime generatedTime;
+    private LocalDateTime expiredTime;
+    private String clientInfo;
 }

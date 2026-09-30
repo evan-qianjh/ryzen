@@ -2,8 +2,8 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.tenant.entity.Account;
-import com.qianjh.ryzen.tenant.entity.AccountSecret;
+import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.entity.AccountSecret;
 import com.qianjh.ryzen.mapper.AccountSecretMapper;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.framework.security.service.RyzenStorageService;

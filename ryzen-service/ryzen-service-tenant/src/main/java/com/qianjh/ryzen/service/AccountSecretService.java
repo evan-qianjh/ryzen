@@ -2,8 +2,8 @@ package com.qianjh.ryzen.service;
 
 
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.qianjh.ryzen.tenant.entity.Account;
-import com.qianjh.ryzen.tenant.entity.AccountSecret;
+import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.entity.AccountSecret;
 
 /**
  *

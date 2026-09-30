@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.tenant.entity;
+package com.qianjh.ryzen.entity;
 
 public interface _Database {
     /**

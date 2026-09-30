@@ -1,34 +1,34 @@
-package com.qianjh.ryzen.tenant.entity;
+package com.qianjh.ryzen.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.qianjh.ryzen.tenant.enums.PermissionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  *
  * @author QianJH
  */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "account")
-public class Account {
+@TableName(_Database.SCHEMA + "permission")
+public class Permission {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long oemId;
     private Long tenantId;
 
-    private String username;
-    private String nickname;
-    private String email;
+    private Long parentId;
+
+    private PermissionType type;
+    private String title;
+    private String symbol;
+
     private Boolean enabled;
-    private boolean administrator;
-    private LocalDateTime createdTime;
 }

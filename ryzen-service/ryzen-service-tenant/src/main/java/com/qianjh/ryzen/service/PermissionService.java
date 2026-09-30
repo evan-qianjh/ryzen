@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.controller.tenant.app.dto.PatchPermissionReq;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostPermissionReq;
-import com.qianjh.ryzen.tenant.entity.Permission;
+import com.qianjh.ryzen.entity.Permission;
 
 /**
  *

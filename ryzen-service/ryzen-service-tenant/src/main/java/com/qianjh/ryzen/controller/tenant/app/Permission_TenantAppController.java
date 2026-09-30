@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetPermissionsResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PatchPermissionReq;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostPermissionReq;
-import com.qianjh.ryzen.tenant.entity.Permission;
+import com.qianjh.ryzen.entity.Permission;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.model.Resp;

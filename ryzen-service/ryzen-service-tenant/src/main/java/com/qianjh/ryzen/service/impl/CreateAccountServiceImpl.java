@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.qianjh.ryzen.controller.tenant.app.dto.PostAccountReq;
-import com.qianjh.ryzen.tenant.entity.Account;
+import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.service.CreateAccountService;

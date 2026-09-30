@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.tenant.entity;
+package com.qianjh.ryzen.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,25 +9,22 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- *
- * @author QianJH
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "account_token")
-public class AccountToken {
-
+@TableName("user.apikey")
+public class Apikey {
     @TableId
     private Long id;
     private Long oemId;
     private Long tenantId;
     private Long accountId;
 
-    private String refreshTokenId;
-    private LocalDateTime generatedTime;
-    private LocalDateTime expiredTime;
-    private String clientInfo;
+    private String apikey;
+    private String publicKey;
+    private String memo;
+
+    private Boolean enabled;
+    private LocalDateTime createdTime;
 }

@@ -3,7 +3,7 @@ package com.qianjh.ryzen.controller.tenant.app;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qianjh.ryzen.controller.tenant.app.dto.*;
-import com.qianjh.ryzen.tenant.entity.Account;
+import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;

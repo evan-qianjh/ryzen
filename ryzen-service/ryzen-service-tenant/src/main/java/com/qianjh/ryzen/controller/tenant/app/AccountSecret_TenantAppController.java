@@ -1,8 +1,8 @@
 package com.qianjh.ryzen.controller.tenant.app;
 
 import com.qianjh.ryzen.controller.tenant.app.dto.PutAccountSecretPasswordReq;
-import com.qianjh.ryzen.tenant.entity.Account;
-import com.qianjh.ryzen.tenant.entity.AccountSecret;
+import com.qianjh.ryzen.entity.Account;
+import com.qianjh.ryzen.entity.AccountSecret;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController;

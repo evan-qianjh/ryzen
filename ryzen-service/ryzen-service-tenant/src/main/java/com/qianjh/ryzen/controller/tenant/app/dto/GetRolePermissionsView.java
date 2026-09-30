@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
-import com.qianjh.ryzen.tenant.entity.RolePermission;
+import com.qianjh.ryzen.entity.RolePermission;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

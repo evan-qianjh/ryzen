@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.controller.tenant.app.dto.PatchRoleReq;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostRoleReq;
-import com.qianjh.ryzen.tenant.entity.Role;
+import com.qianjh.ryzen.entity.Role;
 import com.qianjh.ryzen.mapper.RoleMapper;
 import com.qianjh.ryzen.service.RoleService;
 import org.apache.commons.lang3.StringUtils;

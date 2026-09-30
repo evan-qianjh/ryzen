@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.filter.global;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qianjh.ryzen.user.entity.Apikey;
+import com.qianjh.ryzen.entity.Apikey;
 import com.qianjh.ryzen.filter.dto.GwMc;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderUser;
 import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
