@@ -6,7 +6,6 @@ dependencies {
     implementation project(":ryzen-framework:ryzen-framework-gateway")
     implementation project(":ryzen-framework:ryzen-framework-security")
 
-    implementation project(":ryzen-model:ryzen-model-framework")
     implementation project(":ryzen-model:ryzen-model-user")
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

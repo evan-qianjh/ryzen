@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.entity;
+package com.qianjh.ryzen.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -9,7 +9,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Database.SCHEMA + "oem")
+@TableName("saas.oem")
 public class Oem {
 
     @TableId(type = IdType.AUTO)
