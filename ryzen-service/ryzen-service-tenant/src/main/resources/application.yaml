@@ -44,10 +44,6 @@ springdoc:
     tags-sorter: alpha
     operations-sorter: alpha
   group-configs:
-    - group: 'tenant'
-      display-name: '租户'
-      paths-to-match:
-        - '/tenant/**'
     - group: 'cli'
       display-name: '命令行'
       paths-to-match:
@@ -56,3 +52,7 @@ springdoc:
       display-name: '合作方'
       paths-to-match:
         - '/partner/**'
+    - group: 'tenant-app'
+      display-name: '租户-APP'
+      paths-to-match:
+        - '/tenant/app/**'
