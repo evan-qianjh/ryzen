@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.entity;
+package com.qianjh.ryzen.entity;
 
 
 import com.baomidou.mybatisplus.annotation.IdType;

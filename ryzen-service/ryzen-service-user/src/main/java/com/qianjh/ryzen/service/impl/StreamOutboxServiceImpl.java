@@ -2,9 +2,9 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.framework.entity.StreamOutbox;
+import com.qianjh.ryzen.entity.StreamOutbox;
+import com.qianjh.ryzen.framework.stream.producer.Producer;
 import com.qianjh.ryzen.mapper.StreamOutboxMapper;
-import com.qianjh.ryzen.service.ApplicationService;
 import com.qianjh.ryzen.service.StreamOutboxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class StreamOutboxServiceImpl extends ServiceImpl<StreamOutboxMapper, Str
     private static final long RETRY_BASE_SECONDS = 30;
     private static final long RETRY_MAX_SECONDS = 30 * 60;
 
-    private final ApplicationService applicationService;
+    private final Producer producer;
 
 
     @Transactional(rollbackFor = Exception.class)
@@ -31,7 +31,7 @@ public class StreamOutboxServiceImpl extends ServiceImpl<StreamOutboxMapper, Str
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime lockedTime = now.plusMinutes(-5);
 
-        String instance = applicationService.getInstance();
+        String instance = producer.getInstance();
 
         lambdaUpdate()
                 .set(StreamOutbox::getLockedBy, instance)
@@ -65,7 +65,7 @@ public class StreamOutboxServiceImpl extends ServiceImpl<StreamOutboxMapper, Str
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void remove(StreamOutbox entity) {
-        String instance = applicationService.getInstance();
+        String instance = producer.getInstance();
 
         remove(new LambdaQueryWrapper<StreamOutbox>()
                 .eq(StreamOutbox::getId, entity.getId())
@@ -80,6 +80,8 @@ public class StreamOutboxServiceImpl extends ServiceImpl<StreamOutboxMapper, Str
         int retryCount = Optional.ofNullable(entity.getRetryCount()).orElse(0) + 1;
         long delay = calculateRetryDelay(retryCount);
 
+        String instance = producer.getInstance();
+
         lambdaUpdate()
                 .setSql("locked_by = NULL")
                 .setSql("locked_time = NULL")
@@ -88,7 +90,7 @@ public class StreamOutboxServiceImpl extends ServiceImpl<StreamOutboxMapper, Str
                 .set(retryCount < 20, StreamOutbox::getNextRetryTime, LocalDateTime.now().plusSeconds(delay))
                 //
                 .eq(StreamOutbox::getId, entity.getId())
-                .eq(StreamOutbox::getLockedBy, applicationService.getInstance())
+                .eq(StreamOutbox::getLockedBy, instance)
                 .update();
     }
 
