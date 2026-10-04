@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName("user.apikey")
+@TableName("user_" + "apikey")
 public class Apikey {
     @TableId
     private Long id;

@@ -9,7 +9,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Database.SCHEMA + "oem")
+@TableName("oem")
 public class Oem {
 
     @TableId(type = IdType.AUTO)
