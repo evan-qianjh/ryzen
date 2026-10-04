@@ -10,7 +10,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Schemas.RYZEN + "aliyun_oss")
+@TableName(_Schemas.PLUGIN + "aliyun_oss")
 public class AliyunOss {
     @TableId
     private Long id;

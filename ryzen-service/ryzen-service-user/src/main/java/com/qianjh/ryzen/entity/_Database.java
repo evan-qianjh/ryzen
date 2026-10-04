@@ -4,5 +4,5 @@ public interface _Database {
     /**
      *
      */
-    String SCHEMA = "user.";
+    String SCHEMA = "user_";
 }

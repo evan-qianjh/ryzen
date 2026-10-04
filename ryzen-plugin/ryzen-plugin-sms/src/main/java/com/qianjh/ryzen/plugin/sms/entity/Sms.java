@@ -9,7 +9,7 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_Schemas.RYZEN + "sms")
+@TableName(_Schemas.PLUGIN + "sms")
 public class Sms {
     @TableId
     private Long id;

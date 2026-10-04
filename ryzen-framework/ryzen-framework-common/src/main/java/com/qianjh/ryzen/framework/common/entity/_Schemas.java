@@ -1,13 +1,13 @@
 package com.qianjh.ryzen.framework.common.entity;
 
 /**
- * 应该收到ryzen-model-*下
+ * 应该收到ryzen-plugin-*下
  * @author QianJH
  */
-@Deprecated
+//@Deprecated
 public interface _Schemas {
     /**
      * 框架(SaaS、partner、function、plugin)
      */
-    String RYZEN = "ryzen.";
+    String PLUGIN = "plugin_";
 }

@@ -4,5 +4,5 @@ public interface _Database {
     /**
      * 租户
      */
-    String SCHEMA = "tenant.";
+    String SCHEMA = "tenant_";
 }
