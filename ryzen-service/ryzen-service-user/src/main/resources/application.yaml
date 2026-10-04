@@ -1,5 +1,5 @@
 server:
-  port: 8002
+  port: 8004
 
 spring:
   application:
@@ -90,18 +90,10 @@ springdoc:
       paths-to-match:
         - '/cli/**'
     - group: 'user'
-      display-name: '用户'
+      display-name: '用户-APP'
       paths-to-match:
-        - '/user/**'
-    - group: 'tenant'
-      display-name: '租户'
+        - '/user/app/**'
+    - group: 'tenant-app'
+      display-name: '租户-APP'
       paths-to-match:
-        - '/tenant/**'
-
-ryzen:
-  quartz:
-    datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://${ryzen.mysql.quartz.host}/${ryzen.mysql.quartz.schema}?useSSL=false&allowPublicKeyRetrieval=true
-      username: ${ryzen.mysql.quartz.username}
-      password: ${ryzen.mysql.quartz.password}
+        - '/tenant/app/**'

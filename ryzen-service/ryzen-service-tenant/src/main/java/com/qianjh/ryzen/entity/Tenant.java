@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @author QianJH
  */
@@ -20,4 +22,5 @@ public class Tenant {
     private String symbol;
 
     private Boolean enabled;
+    private LocalDateTime createdTime;
 }

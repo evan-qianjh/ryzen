@@ -1,9 +1,9 @@
 server:
-  port: 8001
+  port: 8003
 
 spring:
   application:
-    name: ryzen-service-tenant
+    name: ryzen-service-saas
   config:
     import: optional:consul:192.168.187.1:8500
   profiles:
@@ -48,14 +48,6 @@ springdoc:
       display-name: '命令行'
       paths-to-match:
         - '/cli/**'
-    - group: 'tenant-app'
-      display-name: '租户-APP'
-      paths-to-match:
-        - '/tenant/app/**'
-    - group: 'oem-app'
-      display-name: 'OEM-APP'
-      paths-to-match:
-        - '/oem/app/**'
     - group: 'saas-app'
       display-name: 'SaaS-APP'
       paths-to-match:

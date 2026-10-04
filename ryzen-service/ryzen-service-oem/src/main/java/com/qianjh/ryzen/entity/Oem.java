@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * @author QianJH
  */
@@ -25,4 +27,6 @@ public class Oem {
      * e.g.: https://partner-api.qianjh.com
      */
     private String partnerNotifyHost;
+
+    private LocalDateTime createdTime;
 }
