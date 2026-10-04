@@ -22,17 +22,6 @@ ryzen:
       schema: 'xxx_dev'
       username: 'xxx_dev'
       password: 'dev@xF0N85lkRCpD9xs4oZPuY1VduUAv'
-    quartz:
-      host: 'xxx-dev-mysql84.mysql.rds.aliyuncs.com'
-      schema: 'quartz'
-      username: 'xxx_dev'
-      password: 'dev@xF0N85lkRCpD9xs4oZPuY1VduUAv'
-  pgsql:
-    default:
-      host: 'pgm-uf6d8e14v487n63m.pg.rds.aliyuncs.com'
-      schema: 'ryzen_dev'
-      username: 'ryzen_dev'
-      password: 'dev@do6VQOh2gmh1EW9mjQx5sv0XEyvq'
   redis:
     default:
       host: '192.168.187.1'
