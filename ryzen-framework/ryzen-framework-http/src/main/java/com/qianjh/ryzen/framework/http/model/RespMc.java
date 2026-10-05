@@ -11,9 +11,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RespMc implements Mc {
 
-    SUCCESS("Success", "成功"),
+    SUCCESS("SUCCESS", "SUCCESS"),
 
-    FAILURE("Failure", "失败"),
+    FAILURE("FAILURE", "FAILURE"),
 
     SYSTEM_EXCEPTION("System Exception", "系统异常"),
 
