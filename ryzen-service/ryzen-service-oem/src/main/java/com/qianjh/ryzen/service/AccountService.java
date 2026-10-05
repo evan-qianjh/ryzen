@@ -1,0 +1,11 @@
+package com.qianjh.ryzen.service;
+
+import com.baomidou.mybatisplus.spring.service.IService;
+import com.qianjh.ryzen.entity.Account;
+
+/**
+ *
+ * @author QianJH
+ */
+public interface AccountService extends IService<Account> {
+}

@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "permission")
+@TableName(_Schema.TABLE_PREFIX + "permission")
 public class Permission {
     @TableId(type = IdType.AUTO)
     private Long id;

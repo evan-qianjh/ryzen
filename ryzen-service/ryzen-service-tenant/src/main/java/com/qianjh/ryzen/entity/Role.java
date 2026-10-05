@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "role")
+@TableName(_Schema.TABLE_PREFIX + "role")
 public class Role {
     @TableId(type = IdType.AUTO)
     private Long id;

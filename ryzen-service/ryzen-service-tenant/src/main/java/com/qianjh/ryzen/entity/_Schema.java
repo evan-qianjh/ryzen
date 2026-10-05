@@ -1,8 +1,8 @@
 package com.qianjh.ryzen.entity;
 
-public interface _Database {
+public interface _Schema {
     /**
      * 租户
      */
-    String SCHEMA = "tenant_";
+    String TABLE_PREFIX = "tenant_";
 }

@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "account_token")
+@TableName(_Schema.TABLE_PREFIX + "account_token")
 public class AccountToken {
 
     @TableId

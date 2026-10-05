@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Database.SCHEMA + "stream_outbox")
+@TableName(_Schema.TABLE_PREFIX + "stream_outbox")
 public class StreamOutbox {
 
     @TableId(type = IdType.ASSIGN_ID)
