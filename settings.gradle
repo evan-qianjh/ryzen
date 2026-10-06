@@ -10,8 +10,11 @@ include 'ryzen-framework:ryzen-framework-stream'
 include 'ryzen-framework:ryzen-framework-token'
 include 'ryzen-framework:ryzen-framework-websocket'
 // plugin
+include 'ryzen-plugin:ryzen-plugin-alipay'
+include 'ryzen-plugin:ryzen-plugin-alipay-app'
 include 'ryzen-plugin:ryzen-plugin-aliyun'
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
+include 'ryzen-plugin:ryzen-plugin-app'
 include 'ryzen-plugin:ryzen-plugin-oss'
 include 'ryzen-plugin:ryzen-plugin-sms'
 // model
