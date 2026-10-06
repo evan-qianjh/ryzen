@@ -4,4 +4,5 @@ spring:
   cloud:
     inetutils:
       preferred-networks:
-        - 10.168
+        - 192.168.187
+        - 10.168.211
