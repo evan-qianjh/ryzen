@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
-import com.qianjh.ryzen.tenant.enums.PermissionType;
+import com.qianjh.ryzen.framework.common.dict.PermissionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

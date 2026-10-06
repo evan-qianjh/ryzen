@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
-import com.qianjh.ryzen.tenant.enums.PermissionType;
+import com.qianjh.ryzen.framework.common.dict.PermissionType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
