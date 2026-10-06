@@ -5,3 +5,4 @@ spring:
     inetutils:
       preferred-networks:
         - 192.168.188
+        - 10.168.211
