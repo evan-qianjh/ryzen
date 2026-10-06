@@ -6,8 +6,6 @@ spring:
     name: ryzen-gateway-tenant-app
   profiles:
     active: dev
-  config:
-    import: optional:consul:192.168.187.1:8500
   output:
     ansi:
       enabled: detect

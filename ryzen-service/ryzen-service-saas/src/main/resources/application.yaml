@@ -4,8 +4,6 @@ server:
 spring:
   application:
     name: ryzen-service-saas
-  config:
-    import: optional:consul:192.168.187.1:8500
   profiles:
     active: dev
   cloud:
