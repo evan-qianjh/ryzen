@@ -22,8 +22,6 @@ spring:
       port: ${ryzen.redis.default.port}
       password: ${ryzen.redis.default.password}
   cloud:
-    inetutils:
-      preferred-networks: 10.168
     loadbalancer:
       cache:
         ttl: 5s
