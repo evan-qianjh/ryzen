@@ -1,11 +1,14 @@
 server:
   port: 8001
+  shutdown: graceful
 
 spring:
   application:
     name: ryzen-service-tenant
   profiles:
     active: dev
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   cloud:
     consul:
       discovery:
