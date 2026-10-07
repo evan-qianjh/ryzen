@@ -74,27 +74,25 @@ public interface OssService {
     /**
      * 生成文件名
      *
-     * @param prefix 前缀
      * @param suffix 后缀
      * @return 文件名
      */
-    default String generateFileName(String prefix, String suffix) {
-        String fileName = UUID.randomUUID().toString();
-
+    default String generateFileName(String suffix) {
         StringBuilder sb = new StringBuilder();
 
-        // prefix
-        if (prefix != null && !prefix.isBlank()) {
-            sb.append(prefix);
-        }
+        // 文件名
+        String name = UUID.randomUUID().toString().replace("-", "");
 
-        // filename
-        sb.append(fileName);
+        // name
+        sb.append(name);
+
+        // .
+        if (!suffix.startsWith(".")) {
+            sb.append(".");
+        }
 
         //  suffix
-        if (suffix != null && !suffix.isBlank()) {
-            sb.append(suffix);
-        }
+        sb.append(suffix);
         return sb.toString();
     }
 }

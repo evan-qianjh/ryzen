@@ -2,16 +2,17 @@ package com.qianjh.ryzen.plugin.aliyun.oss.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.plugin.oss.dict.ImageStyle;
-import com.qianjh.ryzen.plugin.oss.dict.VideoStyle;
+import com.qianjh.ryzen.framework.common.util.DateUtils;
+import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
 import com.qianjh.ryzen.plugin.aliyun.entity.Aliyun;
 import com.qianjh.ryzen.plugin.aliyun.oss.entity.AliyunOss;
 import com.qianjh.ryzen.plugin.aliyun.oss.mapper.AliyunOssMapper;
 import com.qianjh.ryzen.plugin.aliyun.oss.service.AliyunOssService;
-import com.qianjh.ryzen.plugin.aliyun.service.AliyunService;
-import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
 import com.qianjh.ryzen.plugin.aliyun.oss.service.dto.AliyunOssUploadToken;
 import com.qianjh.ryzen.plugin.aliyun.oss.util.AliyunOssUtils;
+import com.qianjh.ryzen.plugin.aliyun.service.AliyunService;
+import com.qianjh.ryzen.plugin.oss.dict.ImageStyle;
+import com.qianjh.ryzen.plugin.oss.dict.VideoStyle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +20,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -32,13 +35,12 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss> implements AliyunOssService, ApplicationRunner {
 
-    private static final String ASSETS_TEMPLATE = "tenant/{tenantId}/assets/{service}/uploads/{fileName}";
-    private static final String ACCOUNT_TEMPLATE = "tenant/{tenantId}/{accountType}_account/{accountId}/uploads/{fileName}";
+
     private static final String IMAGE_STYLE_FORMAT = "?x-oss-process=style/";
     private static final String VIDEO_STYLE_FORMAT = "?x-oss-process=video/";
 
-    private static final Map<Long, AliyunOss> TENANT_ID__PLUGIN = new HashMap<>();
-    private static final Map<Long, Aliyun> TENANT_ID__PARTNER = new HashMap<>();
+    private static final Map<Long, AliyunOss> OEM_ID__PLUGIN = new HashMap<>();
+    private static final Map<Long, Aliyun> OEM_ID__PARTNER = new HashMap<>();
 
     private final AliyunService aliyunService;
     private final RyzenStorageService ryzenStorageCryptoService;
@@ -48,33 +50,33 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
         //
         List<AliyunOss> plugins = list(Wrappers.emptyWrapper());
         for (AliyunOss plugin : plugins) {
-            TENANT_ID__PLUGIN.put(plugin.getOemId(), plugin);
+            OEM_ID__PLUGIN.put(plugin.getOemId(), plugin);
         }
         //
         List<Aliyun> partners = aliyunService.list(Wrappers.lambdaQuery());
         for (Aliyun partner : partners) {
-            TENANT_ID__PARTNER.put(partner.getOemId(), partner);
+            OEM_ID__PARTNER.put(partner.getOemId(), partner);
         }
     }
 
     /**
      * 获取OSS
      *
-     * @param tenantId 租户
+     * @param oemId OEM
      * @return OSS
      */
-    private AliyunOss getOss(Long tenantId) {
-        return TENANT_ID__PLUGIN.get(tenantId);
+    private AliyunOss getOss(Long oemId) {
+        return OEM_ID__PLUGIN.get(oemId);
     }
 
     /**
      * 获取Aliyun
      *
-     * @param tenantId 租户
+     * @param oemId OEM
      * @return Aliyun
      */
-    private Aliyun getAliyun(Long tenantId) {
-        return TENANT_ID__PARTNER.get(tenantId);
+    private Aliyun getAliyun(Long oemId) {
+        return OEM_ID__PARTNER.get(oemId);
     }
 
     @Override
@@ -170,32 +172,37 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
         return objectUrl + VIDEO_STYLE_FORMAT + videoStyle.getCode();
     }
 
+    /**
+     * 用户模板
+     * oem/1/tenant/1/user/1/avatar/20261007/abcdefg123456.png
+     */
+    private static final String USER_OBJECT_KEY = "oem/{oemId}/tenant/{tenantId}/{userType}/{userId}/{category}/{date}/{objectName}";
 
     @Override
-    public AliyunOssUploadToken createAssetToken(Long tenantId, String service, String filePrefix, String fileSuffix) {
+    public AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String userType, Long userId, String category, String fileName) {
+        Assert.isTrue(StringUtils.isNotBlank(category), IllegalArgumentException.class.getSimpleName());
+        Assert.isTrue(StringUtils.isNotBlank(fileName), IllegalArgumentException.class.getSimpleName());
+
+        // 获取suffix
+        String[] split = fileName.split("\\.");
+        Assert.isTrue(split.length > 1, IllegalArgumentException.class.getSimpleName());
+        String suffix = split[split.length - 1];
+
         // 文件名
-        String fileName = generateFileName(filePrefix, fileSuffix);
-
-        String objectName = ASSETS_TEMPLATE
+        String objectName = generateFileName(suffix);
+        // date
+        String date = DateUtils.format(LocalDate.now(), DateUtils.CLEAR_FORMATTER);
+        // replace
+        String objectKey = USER_OBJECT_KEY
+                .replace("{oemId}", String.valueOf(oemId))
                 .replace("{tenantId}", String.valueOf(tenantId))
-                .replace("{service}", service)
-                .replace("{fileName}", fileName);
+                .replace("{userType}", userType)
+                .replace("{userId}", String.valueOf(userId))
+                .replace("{category}", category)
+                .replace("{date}", date)
+                .replace("{objectName}", objectName);
 
-        return createToken(tenantId, objectName);
-    }
-
-    @Override
-    public AliyunOssUploadToken createAccountToken(Long tenantId, String accountType, Long accountId, String filePrefix, String fileSuffix) {
-        // 文件名
-        String fileName = generateFileName(filePrefix, fileSuffix);
-
-        String objectName = ACCOUNT_TEMPLATE
-                .replace("{tenantId}", String.valueOf(tenantId))
-                .replace("{accountType}", accountType)
-                .replace("{accountId}", String.valueOf(accountId))
-                .replace("{fileName}", fileName);
-
-        return createToken(tenantId, objectName);
+        return createToken(oemId, objectKey);
     }
 
     /**

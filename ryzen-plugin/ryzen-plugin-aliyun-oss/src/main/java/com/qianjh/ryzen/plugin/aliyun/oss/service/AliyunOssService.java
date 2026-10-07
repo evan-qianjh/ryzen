@@ -2,8 +2,8 @@ package com.qianjh.ryzen.plugin.aliyun.oss.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.plugin.aliyun.oss.entity.AliyunOss;
-import com.qianjh.ryzen.plugin.oss.service.OssService;
 import com.qianjh.ryzen.plugin.aliyun.oss.service.dto.AliyunOssUploadToken;
+import com.qianjh.ryzen.plugin.oss.service.OssService;
 
 /**
  *
@@ -12,25 +12,15 @@ import com.qianjh.ryzen.plugin.aliyun.oss.service.dto.AliyunOssUploadToken;
 public interface AliyunOssService extends IService<AliyunOss>, OssService {
 
     /**
-     * 创建资源token
-     *
-     * @param tenantId   租户ID
-     * @param service    服务
-     * @param filePrefix 前缀
-     * @param fileSuffix 后缀
-     * @return token
-     */
-    AliyunOssUploadToken createAssetToken(Long tenantId, String service, String filePrefix, String fileSuffix);
-
-    /**
      * 创建账户token
      *
-     * @param tenantId    租户ID
-     * @param accountType 账户类型
-     * @param accountId   账户ID
-     * @param filePrefix  前缀
-     * @param fileSuffix  后缀
+     * @param oemId    OEM ID
+     * @param tenantId 租户ID
+     * @param userType 用户类型
+     * @param userId   用户ID
+     * @param category 类目
+     * @param fileName 文件名
      * @return token
      */
-    AliyunOssUploadToken createAccountToken(Long tenantId, String accountType, Long accountId, String filePrefix, String fileSuffix);
+    AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String userType, Long userId, String category, String fileName);
 }

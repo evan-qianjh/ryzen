@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 public final class DateUtils {
 
     public static final String DEFAULT_FORMATTER = "yyyy-MM-dd";
+    public static final String CLEAR_FORMATTER = "yyyyMMdd";
 
     public static LocalDate format(String formatDate) {
         return format(formatDate, DEFAULT_FORMATTER);
