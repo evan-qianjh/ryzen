@@ -21,8 +21,6 @@ import lombok.NoArgsConstructor;
 public class Permission {
     @TableId(type = IdType.AUTO)
     private Long id;
-    private Long oemId;
-    private Long tenantId;
 
     private Long parentId;
 

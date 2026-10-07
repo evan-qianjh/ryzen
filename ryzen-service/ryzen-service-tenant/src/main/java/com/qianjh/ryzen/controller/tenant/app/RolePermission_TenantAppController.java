@@ -70,7 +70,8 @@ public class RolePermission_TenantAppController extends _TenantAppController {
                               //
                               @RequestBody @Validated PostRolePermissionReq body) {
         Role role = roleService.getById(oemId, tenantId, body.getRoleId());
-        Permission permission = permissionService.getById(oemId, tenantId, body.getPermissionId());
+//        Permission permission = permissionService.getById(oemId, tenantId, body.getPermissionId());
+        Permission permission = permissionService.getById(body.getPermissionId());
         if (role == null || permission == null) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
         }

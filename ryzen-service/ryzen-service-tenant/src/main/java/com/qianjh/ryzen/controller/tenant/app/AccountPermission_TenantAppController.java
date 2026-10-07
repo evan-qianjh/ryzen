@@ -47,8 +47,8 @@ public class AccountPermission_TenantAppController extends _TenantAppController 
         Account account = accountService.getById(oemId, tenantId, accountId);
         if (account.isAdministrator()) {
             List<Permission> permissions = permissionService.list(new LambdaQueryWrapper<Permission>()
-                    .eq(Permission::getOemId, oemId)
-                    .eq(Permission::getTenantId, tenantId)
+//                    .eq(Permission::getOemId, oemId)
+//                    .eq(Permission::getTenantId, tenantId)
             );
             result.addAll(
                     permissions.stream().map(this::map).toList()
@@ -92,7 +92,7 @@ public class AccountPermission_TenantAppController extends _TenantAppController 
         // permissions
         List<Long> permissionIds = rolePermissions.stream().map(RolePermission::getPermissionId).distinct().toList();
         List<Permission> permissions = permissionService.list(new LambdaQueryWrapper<Permission>()
-                .eq(Permission::getTenantId, tenantId)
+//                .eq(Permission::getTenantId, tenantId)
                 .eq(Permission::getEnabled, true)
                 .in(Permission::getId, permissionIds)
         );
