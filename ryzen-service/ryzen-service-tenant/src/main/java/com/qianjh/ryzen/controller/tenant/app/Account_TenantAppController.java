@@ -75,6 +75,8 @@ public class Account_TenantAppController extends _TenantAppController {
                                                   @RequestParam(required = false) Boolean enabled,
                                                   @RequestParam(required = false, defaultValue = DEFAULT_PAGE_INDEX) Integer pageIndex,
                                                   @RequestParam(required = false, defaultValue = DEFAULT_PAGE_SIZE) @Max(100) Integer pageSize) {
+        // TODO accountId鉴权
+
         Page<Account> page = accountService.page(new Page<>(pageIndex, pageSize), new LambdaQueryWrapper<Account>()
                 .eq(Account::getOemId, oemId)
                 .eq(Account::getTenantId, tenantId)
@@ -107,6 +109,8 @@ public class Account_TenantAppController extends _TenantAppController {
                                       @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                                       //
                                       @RequestBody @Validated PostAccountReq body) {
+        // TODO accountId记录操作日志
+
         Account entity = accountService.getByUsername(oemId, body.getUsername());
         if (entity != null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
