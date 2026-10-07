@@ -18,6 +18,7 @@ public interface AccountService extends IService<Account> {
 
     /**
      * 根据用户名查询
+     * 同一个username，在同一个oem下不同tenant下唯一，即username与tenantId不共存
      *
      * @param oemId    OEM ID
      * @param username 用户名
