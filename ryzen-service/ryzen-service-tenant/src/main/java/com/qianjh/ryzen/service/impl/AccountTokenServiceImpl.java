@@ -53,7 +53,7 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
 
     @Override
     public RefreshToken generateRefreshToken(Account account, RSAPrivateKey privateKey, ClientInfo clientInfo) {
-        return tokenService.generateRefreshToken(account.getOemId(), account.getTenantId(), account.getId(), privateKey);
+        return tokenService.generateRefreshToken(account.getOemId(), account.getTenantId(), null, account.getId(), privateKey);
     }
 
     @Override

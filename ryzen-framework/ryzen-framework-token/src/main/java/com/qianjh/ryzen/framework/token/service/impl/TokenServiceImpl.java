@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.token.config.JwtConfig;
 import com.qianjh.ryzen.framework.common.exception.TokenExpiredException;
 import com.qianjh.ryzen.framework.token.service.TokenService;
@@ -13,7 +14,6 @@ import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
 import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;
 import com.qianjh.ryzen.framework.token.service.dto.TokenPayload;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
-import com.qianjh.ryzen.framework.common.util.LongUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -40,7 +40,7 @@ public class TokenServiceImpl implements TokenService {
     private final JwtConfig jwtConfig;
 
     @Override
-    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long accountId, Duration duration, RSAPrivateKey privateKey) {
+    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long subjectId, Long accountId, Duration duration, RSAPrivateKey privateKey) {
         // 构建token
         long generatedTime = System.currentTimeMillis();
         long expiresTime = generatedTime + duration.toMillis();
@@ -48,9 +48,10 @@ public class TokenServiceImpl implements TokenService {
         // 构建token结构
         TokenPayload payload = TokenPayload.builder()
                 .id(UUID.randomUUID().toString())
-                .oemId(LongUtils.toString(oemId))
-                .tenantId(LongUtils.toString(tenantId))
-                .accountId(LongUtils.toString(accountId))
+                .oemId(IdUtils.toString(oemId))
+                .tenantId(IdUtils.toString(tenantId))
+                .subjectId(IdUtils.toString(subjectId))
+                .accountId(IdUtils.toString(accountId))
                 .generatedTime(generatedTime)
                 .expiresTime(expiresTime)
                 .build();
@@ -69,9 +70,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long accountId, RSAPrivateKey privateKey) {
+    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long subjectId, Long accountId, RSAPrivateKey privateKey) {
         Duration duration = Duration.ofDays(jwtConfig.getRefreshTokenDurationOfDays());
-        return generateRefreshToken(oemId, tenantId, accountId, duration, privateKey);
+        return generateRefreshToken(oemId, tenantId, subjectId, accountId, duration, privateKey);
     }
 
     @Override
@@ -90,6 +91,7 @@ public class TokenServiceImpl implements TokenService {
                 .id(UUID.randomUUID().toString())
                 .oemId(tokenPayload.getOemId())
                 .tenantId(tokenPayload.getTenantId())
+                .subjectId(tokenPayload.getSubjectId())
                 .accountId(tokenPayload.getAccountId())
                 .generatedTime(generatedTime)
                 .expiresTime(expiresTime)
