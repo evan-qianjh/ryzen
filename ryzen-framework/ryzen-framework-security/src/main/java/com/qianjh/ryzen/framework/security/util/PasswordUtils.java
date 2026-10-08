@@ -1,12 +1,14 @@
 package com.qianjh.ryzen.framework.security.util;
 
-import org.apache.commons.lang3.StringUtils;
-import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.Assert;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+//import org.mindrot.jbcrypt.BCrypt;
 
 /**
  * @author QianJH
@@ -28,10 +30,11 @@ public final class PasswordUtils {
      * @return hash后的密码
      */
     public static String hash(String password) {
-        if (StringUtils.isBlank(password)) {
-            return password;
-        }
-        return BCrypt.hashpw(password, BCrypt.gensalt());
+        Assert.notNull(password, "password is null");
+
+//        return BCrypt.hashpw(password, BCrypt.gensalt());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
     }
 
     /**
@@ -42,7 +45,9 @@ public final class PasswordUtils {
      * @return 匹配的
      */
     public static boolean check(String plaintext, String hashed) {
-        return BCrypt.checkpw(plaintext, hashed);
+//        return BCrypt.checkpw(plaintext, hashed);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(plaintext, hashed);
     }
 
     /**
