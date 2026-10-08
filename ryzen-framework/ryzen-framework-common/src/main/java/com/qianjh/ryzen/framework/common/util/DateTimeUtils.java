@@ -22,6 +22,17 @@ public final class DateTimeUtils {
     }
 
     /**
+     * 格式化
+     *
+     * @param datetime  时间
+     * @param formatter 格式器
+     * @return 格式化后的字符串
+     */
+    public static String format(LocalDateTime datetime, DateTimeFormatter formatter) {
+        return datetime.format(formatter);
+    }
+
+    /**
      * 获取偏移时间
      *
      * @param cycleUnit
