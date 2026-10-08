@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter;
  */
 public final class DateTimeUtils {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static final DateTimeFormatter CLEAR_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    public static final DateTimeFormatter FORMATTER_DEFAULT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter FORMATTER_SIMPLE = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     public static String format(LocalDateTime datetime, String format) {
         if (datetime == null) {
@@ -58,14 +58,14 @@ public final class DateTimeUtils {
         if (StringUtils.isBlank(time)) {
             return null;
         }
-        return LocalDateTime.parse(time, FORMATTER);
+        return LocalDateTime.parse(time, FORMATTER_DEFAULT);
     }
 
     public static String getFormat(LocalDateTime time) {
         if (time == null) {
             return null;
         }
-        return time.format(FORMATTER);
+        return time.format(FORMATTER_DEFAULT);
     }
 
     public static LocalDateTime getYesterdayStartTime() {
