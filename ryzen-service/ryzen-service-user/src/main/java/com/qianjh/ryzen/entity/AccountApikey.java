@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "apikey")
-public class Apikey {
+@TableName(_Schema.TABLE_PREFIX + "account_apikey")
+public class AccountApikey {
     @TableId
     private Long id;
     private Long oemId;
