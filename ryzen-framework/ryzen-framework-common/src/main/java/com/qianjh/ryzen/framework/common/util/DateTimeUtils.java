@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 public final class DateTimeUtils {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter CLEAR_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     public static String format(LocalDateTime datetime, String format) {
         if (datetime == null) {
