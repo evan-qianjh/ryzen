@@ -20,19 +20,30 @@ public final class RSAUtils {
     public static final String ALGORITHM_SHA256WithRSA = "SHA256WithRSA";
     public static final String ALGORITHM_MD5WITHRSA = "MD5withRSA";
 
+    public static final int KEY_SIZE_DEFAULT = 2048;
+
+    /**
+     * 生成密钥对
+     *
+     * @return 密钥对
+     */
+    public static KeyPair buildKeyPair(int keySize) {
+        try {
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+            keyPairGenerator.initialize(keySize);
+            return keyPairGenerator.generateKeyPair();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     /**
      * 生成密钥对
      *
      * @return 密钥对
      */
     public static KeyPair buildKeyPair() {
-        try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-            keyPairGenerator.initialize(2048);
-            return keyPairGenerator.generateKeyPair();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return buildKeyPair(KEY_SIZE_DEFAULT);
     }
 
     /**
