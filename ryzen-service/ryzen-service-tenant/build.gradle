@@ -22,4 +22,5 @@ dependencies {
     implementation libs.mybatis.plus.spring
     implementation libs.mybatis.plus.join
     implementation libs.springdoc.openapi
+    implementation libs.caffeine // Spring Cloud LoadBalancer
 }

@@ -18,4 +18,5 @@ dependencies {
 //    implementation 'org.postgresql:postgresql'
     implementation 'com.mysql:mysql-connector-j'
     implementation libs.mybatis.plus.spring
+    implementation libs.caffeine // Spring Cloud LoadBalancer
 }
