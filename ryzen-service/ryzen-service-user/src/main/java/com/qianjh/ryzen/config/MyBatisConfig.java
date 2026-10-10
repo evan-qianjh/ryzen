@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author QianJH
  */
-@MapperScan(value = {"com.qianjh.ryzen.mapper"})
+@MapperScan(value = {"com.qianjh.ryzen.**.mapper"})
 @Configuration
 public class MyBatisConfig {
 
