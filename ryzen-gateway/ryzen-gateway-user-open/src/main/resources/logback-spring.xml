@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <jmxConfigurator/>
 
     <!--moduleName-->
     <springProperty scope="context" name="moduleName" source="spring.application.name"/>
@@ -15,7 +14,7 @@
     <!--prod param-->
     <springProfile name="prod">
         <property name="maxHistory" value="100"/>
-        <property name="maxFileSize" value="1024MB"/>
+        <property name="maxFileSize" value="200MB"/>
     </springProfile>
 
 
@@ -29,12 +28,10 @@
     <!-- ROOT 日志 -->
     <appender name="root_logger_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/${moduleName}.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/${moduleName}-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
             <maxHistory>${maxHistory}</maxHistory>
-            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${maxFileSize}</maxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
             <pattern>${logPattern}</pattern>
@@ -44,12 +41,10 @@
     <!-- 需要预警的日志单独copy一份，用于快速发现异常/监控/告警 -->
     <appender name="alert_logger_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/${moduleName}-alert.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/${moduleName}-alert-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
             <maxHistory>${maxHistory}</maxHistory>
-            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${maxFileSize}</maxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
             <pattern>${logPattern}</pattern>
@@ -62,12 +57,10 @@
     <!--  请求日志  -->
     <appender name="request_logger_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/${moduleName}-request.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/${moduleName}-request-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
             <maxHistory>${maxHistory}</maxHistory>
-            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>${maxFileSize}</maxFileSize>
-            </TimeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
             <pattern>
