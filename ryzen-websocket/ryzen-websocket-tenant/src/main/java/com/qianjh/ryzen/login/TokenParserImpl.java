@@ -8,7 +8,6 @@ import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.security.config.RsaProperties;
 import com.qianjh.ryzen.framework.security.config.SecurityProperties;
 import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
-import com.qianjh.ryzen.framework.websocket.config.JwtConfig;
 import com.qianjh.ryzen.framework.websocket.login.TokenParsed;
 import com.qianjh.ryzen.framework.websocket.login.TokenParser;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +23,13 @@ import java.util.Collections;
 @RequiredArgsConstructor
 public class TokenParserImpl implements TokenParser {
 
-    private final JwtConfig jwtConfig;
     private final RyzenTokenService ryzenTokenService;
     private final SecurityProperties securityProperties;
 
     @Override
     public TokenParsed parse(String token) {
         // 截掉前缀
-        String prefix = jwtConfig.getPrefix();
+        String prefix = "Bearer ";
         if (StringUtils.isNotBlank(prefix)) {
             token = token.replace(prefix, "");
         }
