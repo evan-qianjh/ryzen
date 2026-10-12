@@ -1,0 +1,35 @@
+server:
+  port: 8101
+  shutdown: graceful
+
+spring:
+  application:
+    name: ryzen-websocket-tenant
+  profiles:
+    active: dev
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        service-name: ${spring.application.name}
+        prefer-ip-address: true
+      config:
+        prefixes: config
+        default-context: application
+        data-key: data
+        format: yaml
+        watch:
+          enabled: true
+          delay: 3000
+  output:
+    ansi:
+      enabled: detect
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ryzen.mysql.default.host}/${ryzen.mysql.default.schema}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${ryzen.mysql.default.username}
+    password: ${ryzen.mysql.default.password}

@@ -67,4 +67,8 @@ public class Starter {
             workGroup.shutdownGracefully();
         }
     }
+
+    public void stop() {
+        System.out.println("stop");
+    }
 }

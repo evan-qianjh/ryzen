@@ -1,4 +1,5 @@
 rootProject.name = 'ryzen'
+
 // framework
 include 'ryzen-framework:ryzen-framework-common'
 include 'ryzen-framework:ryzen-framework-gateway'
@@ -9,6 +10,7 @@ include 'ryzen-framework:ryzen-framework-servlet'
 include 'ryzen-framework:ryzen-framework-stream'
 include 'ryzen-framework:ryzen-framework-token'
 include 'ryzen-framework:ryzen-framework-websocket'
+
 // plugin
 include 'ryzen-plugin:ryzen-plugin-alipay'
 include 'ryzen-plugin:ryzen-plugin-alipay-app'
@@ -17,10 +19,12 @@ include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 include 'ryzen-plugin:ryzen-plugin-app'
 include 'ryzen-plugin:ryzen-plugin-oss'
 include 'ryzen-plugin:ryzen-plugin-sms'
+
 // model
 include 'ryzen-model:ryzen-model-oem'
 include 'ryzen-model:ryzen-model-tenant'
 include 'ryzen-model:ryzen-model-user'
+
 // gateway (port:70XX)
 //include 'ryzen-gateway:ryzen-gateway-oem-app'
 include 'ryzen-gateway:ryzen-gateway-partner'
@@ -36,5 +40,6 @@ include 'ryzen-service:ryzen-service-tenant'
 include 'ryzen-service:ryzen-service-user'
 
 // websocket (port:81XX)
+include 'ryzen-websocket:ryzen-websocket-tenant'
 
 // stream (port:82XX)
