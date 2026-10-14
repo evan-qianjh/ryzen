@@ -11,6 +11,7 @@ import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.SfResp;
 import com.qianjh.ryzen.plugin.sfexpress.service.SFExpressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -86,21 +87,29 @@ public class SFExpressExpressServiceImpl implements SFExpressExpressService {
                 .uri(apiHost + "/std/service")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData(form))
-                .retrieve()
-                .bodyToMono(SfApiResponse.class)
+//                .bodyToMono(String.class)
+                .exchangeToMono(response -> {
+                    HttpStatusCode status = response.statusCode();
+                    if (status.is2xxSuccessful()) {
+                        return response.bodyToMono(String.class);
+                    }
+                    return response.bodyToMono(String.class)
+                            .defaultIfEmpty("")
+                            .flatMap(body -> Mono.error(
+                                    new IllegalStateException("顺丰 HTTP 请求失败，status=%s, body=%s".formatted(status.value(), body))
+                            ));
+                })
                 .flatMap(this::parseResponse);
     }
 
     /**
      * 解析响应报文
      *
-     * @param response 响应实体
-     * @return 响应报文
+     * @param body 响应报文
+     * @return 响应实体
      */
-    private Mono<SfResp<OrderSearchRespDto>> parseResponse(SfApiResponse response) {
-        if (response == null) {
-            return Mono.error(new IllegalStateException("顺丰接口返回为空"));
-        }
+    private Mono<SfResp<OrderSearchRespDto>> parseResponse(String body) {
+        SfApiResponse response = GsonUtils.GSON.fromJson(body, SfApiResponse.class);
 
         OrderSearchRespDto msgData = null;
         if (response.success && "A1000".equals(response.errorCode) && StringUtils.hasText(response.msgData)) {
