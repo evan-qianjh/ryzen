@@ -3,4 +3,6 @@ dependencies {
 
     api project(":ryzen-plugin:ryzen-plugin-sfexpress")
     api project(":ryzen-plugin:ryzen-plugin-express")
+
+    api ("org.springframework:spring-webflux")
 }

@@ -17,12 +17,12 @@ import org.springframework.stereotype.Service;
 public class AliyunServiceImpl extends ServiceImpl<AliyunMapper, Aliyun> implements AliyunService {
 
     @Override
-    public Aliyun mustGet(Long tenantId) {
+    public Aliyun mustGet(Long oemId) {
         Aliyun entity = getOne(new LambdaQueryWrapper<Aliyun>()
-                .eq(Aliyun::getOemId, tenantId)
+                .eq(Aliyun::getOemId, oemId)
         );
         if (entity == null) {
-            log.error("未配置ZenAliyun ::: tenantId={}", tenantId);
+            log.error("未配置ZenAliyun ::: oemId={}", oemId);
             throw new SystemConfigException();
         }
         return entity;

@@ -8,5 +8,5 @@ import com.qianjh.ryzen.plugin.aliyun.entity.Aliyun;
  */
 public interface AliyunService extends IService<Aliyun> {
 
-    Aliyun mustGet(Long tenantId);
+    Aliyun mustGet(Long oemId);
 }
