@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.plugin.sfexpress.express.service.impl;
 
+import com.google.gson.reflect.TypeToken;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
 import com.qianjh.ryzen.plugin.sfexpress.entity.SFExpress;
@@ -16,11 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -111,17 +112,13 @@ public class SFExpressExpressServiceImpl implements SFExpressExpressService {
     private Mono<SfResp<OrderSearchRespDto>> parseResponse(String body) {
         SfApiResponse response = GsonUtils.GSON.fromJson(body, SfApiResponse.class);
 
-        OrderSearchRespDto msgData = null;
-        if (response.success && "A1000".equals(response.errorCode) && StringUtils.hasText(response.msgData)) {
-            msgData = GsonUtils.GSON.fromJson(response.msgData, OrderSearchRespDto.class);
+        //
+        if (!"A1000".equals(response.apiResultCode)) {
+            throw new IllegalStateException("顺丰请求失败 : " + body);
         }
 
-        SfResp<OrderSearchRespDto> sfResp = SfResp.<OrderSearchRespDto>builder()
-                .success(response.success)
-                .errorCode(response.errorCode)
-                .errorMsg(response.errorMsg)
-                .msgData(msgData)
-                .build();
+        Type responseType = TypeToken.getParameterized(SfResp.class, OrderSearchRespDto.class).getType();
+        SfResp<OrderSearchRespDto> sfResp = GsonUtils.GSON.fromJson(response.apiResultData, responseType);
 
         return Mono.just(sfResp);
     }
@@ -140,9 +137,9 @@ public class SFExpressExpressServiceImpl implements SFExpressExpressService {
     }
 
     private record SfApiResponse(
-            Boolean success, // true 请求成功，false 请求失败
-            String errorCode, // 错误编码，S0000成功
-            String errorMsg, // 错误描述
-            String msgData) {
+            String apiResultCode,
+            String apiErrorMsg,
+            String apiResponseID,
+            String apiResultData) {
     }
 }
