@@ -115,6 +115,7 @@ public class SFExpressExpressServiceImpl implements SFExpressExpressService {
 
         //
         if (!"A1000".equals(response.apiResultCode)) {
+            log.error("顺丰请求失败 ::: {}", body);
             throw new IllegalStateException("顺丰请求失败 : " + body);
         }
 
