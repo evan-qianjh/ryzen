@@ -1,0 +1,6 @@
+dependencies {
+    api project(":ryzen-framework:ryzen-framework-security")
+
+    api project(":ryzen-plugin:ryzen-plugin-sfexpress")
+    api project(":ryzen-plugin:ryzen-plugin-express")
+}

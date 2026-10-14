@@ -17,7 +17,10 @@ include 'ryzen-plugin:ryzen-plugin-alipay-app'
 include 'ryzen-plugin:ryzen-plugin-aliyun'
 include 'ryzen-plugin:ryzen-plugin-aliyun-oss'
 include 'ryzen-plugin:ryzen-plugin-app'
+include 'ryzen-plugin:ryzen-plugin-express'
 include 'ryzen-plugin:ryzen-plugin-oss'
+include 'ryzen-plugin:ryzen-plugin-sfexpress'
+include 'ryzen-plugin:ryzen-plugin-sfexpress-express'
 include 'ryzen-plugin:ryzen-plugin-sms'
 
 // model
