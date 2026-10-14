@@ -22,6 +22,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Type;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -126,10 +127,16 @@ public class SFExpressExpressServiceImpl implements SFExpressExpressService {
     private String generateMsgDigest(String msgData, String timestamp, String checkWord) {
 
         try {
+            // 1. 按顺丰要求拼接：业务报文 + 时间戳 + 校验码
             String source = msgData + timestamp + checkWord;
 
-            byte[] digest = MessageDigest.getInstance("MD5").digest(source.getBytes(StandardCharsets.UTF_8));
+            // 2. 对拼接后的完整字符串进行 URL 编码
+            String encoded = URLEncoder.encode(source, StandardCharsets.UTF_8);
 
+            // 3. 对 URL 编码后的字符串进行 MD5
+            byte[] digest = MessageDigest.getInstance("MD5").digest(encoded.getBytes(StandardCharsets.UTF_8));
+
+            // 4. 将 MD5 字节数组进行 Base64 编码
             return Base64.getEncoder().encodeToString(digest);
         } catch (NoSuchAlgorithmException e) {
             throw new IllegalStateException("当前环境不支持 MD5", e);
