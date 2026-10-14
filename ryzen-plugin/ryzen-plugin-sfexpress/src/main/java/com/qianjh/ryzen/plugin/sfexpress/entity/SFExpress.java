@@ -15,7 +15,6 @@ public class SFExpress {
     @TableId
     private Long id;
     private Long oemId;
-    private String name;
 
     private String customerCode;
     private String checkWord;
