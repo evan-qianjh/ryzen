@@ -1,6 +1,5 @@
 package com.qianjh.ryzen.plugin.sfexpress.express.service.impl;
 
-import com.google.gson.reflect.TypeToken;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
 import com.qianjh.ryzen.plugin.sfexpress.entity.SFExpress;
@@ -16,11 +15,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -99,27 +98,23 @@ public class SFExpressExpressServiceImpl implements SFExpressExpressService {
      * @return 响应报文
      */
     private Mono<SfResp<OrderSearchRespDto>> parseResponse(SfApiResponse response) {
-
         if (response == null) {
             return Mono.error(new IllegalStateException("顺丰接口返回为空"));
         }
 
-        if (!"A1000".equals(response.errorCode())) {
-            return Mono.error(new IllegalStateException("顺丰平台调用失败：" + response.errorCode + "，" + response.errorMsg));
+        OrderSearchRespDto msgData = null;
+        if (response.success && "A1000".equals(response.errorCode) && StringUtils.hasText(response.msgData)) {
+            msgData = GsonUtils.GSON.fromJson(response.msgData, OrderSearchRespDto.class);
         }
 
-        String msgData = response.msgData();
-        if (msgData == null || msgData.isBlank()) {
-            return Mono.error(new IllegalStateException("顺丰业务响应数据为空"));
-        }
+        SfResp<OrderSearchRespDto> sfResp = SfResp.<OrderSearchRespDto>builder()
+                .success(response.success)
+                .errorCode(response.errorCode)
+                .errorMsg(response.errorMsg)
+                .msgData(msgData)
+                .build();
 
-        try {
-            Type responseType = TypeToken.getParameterized(SfResp.class, OrderSearchRespDto.class).getType();
-            SfResp<OrderSearchRespDto> result = GsonUtils.GSON.fromJson(msgData, responseType);
-            return Mono.just(result);
-        } catch (Exception e) {
-            return Mono.error(new IllegalStateException("解析顺丰订单查询响应失败", e));
-        }
+        return Mono.just(sfResp);
     }
 
     private String generateMsgDigest(String msgData, String timestamp, String checkWord) {
@@ -136,7 +131,7 @@ public class SFExpressExpressServiceImpl implements SFExpressExpressService {
     }
 
     private record SfApiResponse(
-            String success, // true 请求成功，false 请求失败
+            Boolean success, // true 请求成功，false 请求失败
             String errorCode, // 错误编码，S0000成功
             String errorMsg, // 错误描述
             String msgData) {
