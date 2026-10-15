@@ -28,10 +28,10 @@ public record OrderSearchRespDto(
             String code,
             // 0000（接口参数异常） 0010（其它异常） 0001（xml解析异常） 0002（字段校验异常） 0003（票数节点超出最大值， 批量请求最大票数为100票） 0004（RLS获取路由标签的必要 字段为空） 1000 成功
             String message, // code为0XXX时的错误消息
-            RouteLabelRespDetailDto routeLabelData // code为0XXX时的错误消息
+            RouteLabelData routeLabelData // code为0XXX时的错误消息
     ) {
 
-        public record RouteLabelRespDetailDto(
+        public record RouteLabelData(
                 String waybillNo, // 运单号
                 String sourceTransferCode, // 原寄地中转场
                 String sourceCityCode, // 原寄地城市代码
@@ -57,7 +57,9 @@ public record OrderSearchRespDto(
                 String destPostCode, // 目的地邮编
                 String goodsValueTotal, // 总价值(保留两位小数，数字类型，可补位)
                 String currencySymbol, // 币种
-                String goodsNumber
+                String goodsNumber,
+                String codingMapping,
+                String proName
         ) {
         }
     }
