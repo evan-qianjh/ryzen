@@ -30,6 +30,7 @@ spring:
         instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
         service-name: ${spring.application.name}
         prefer-ip-address: true
+        health-check-critical-timeout: 2m
       config:
         prefixes: config
         default-context: application
