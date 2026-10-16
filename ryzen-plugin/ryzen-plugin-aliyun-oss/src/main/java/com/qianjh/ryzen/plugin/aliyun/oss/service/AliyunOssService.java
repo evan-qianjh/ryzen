@@ -5,6 +5,8 @@ import com.qianjh.ryzen.plugin.aliyun.oss.entity.AliyunOss;
 import com.qianjh.ryzen.plugin.aliyun.oss.service.dto.AliyunOssUploadToken;
 import com.qianjh.ryzen.plugin.oss.service.OssService;
 
+import java.io.IOException;
+
 /**
  *
  * @author QianJH
@@ -23,4 +25,17 @@ public interface AliyunOssService extends IService<AliyunOss>, OssService {
      * @return token
      */
     AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String userType, Long userId, String category, String fileName);
+
+    /**
+     * 上传
+     *
+     * @param token       token
+     * @param content     内容
+     * @param fileName    文件名
+     * @param contentType
+     * @return
+     * @throws IOException
+     * @throws InterruptedException
+     */
+    boolean upload(AliyunOssUploadToken token, byte[] content, String fileName, String contentType) throws IOException, InterruptedException;
 }

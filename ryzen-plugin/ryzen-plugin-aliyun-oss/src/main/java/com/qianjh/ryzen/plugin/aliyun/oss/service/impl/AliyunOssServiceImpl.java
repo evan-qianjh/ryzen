@@ -22,6 +22,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -44,6 +51,10 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
 
     private final AliyunService aliyunService;
     private final RyzenStorageService ryzenStorageCryptoService;
+
+    private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
+            .connectTimeout(java.time.Duration.ofSeconds(10))
+            .build();
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -230,4 +241,86 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
                 .build();
     }
 
+
+    @Override
+    public boolean upload(AliyunOssUploadToken token, byte[] content, String fileName, String contentType) throws IOException, InterruptedException {
+        if (token == null || content == null || content.length == 0) {
+            throw new IllegalArgumentException("token 和文件内容不能为空");
+        }
+
+        // multipart/form-data 请求中的分隔符
+        String boundary = "----RyzenOSS" + UUID.randomUUID().toString().replace("-", "");
+
+        ByteArrayOutputStream body = new ByteArrayOutputStream();
+
+        addField(body, boundary, "key", token.getFileKey());
+        addField(body, boundary, "policy", token.getPolicy());
+        addField(body, boundary, "OSSAccessKeyId", token.getAccessKeyId());
+        addField(body, boundary, "Signature", token.getSignature());
+
+        // 让 OSS 返回成功状态码 200，而不是默认的 204。
+        addField(body, boundary, "success_action_status", "200");
+
+        addFile(body, boundary, "file", fileName, contentType, content);
+
+        write(body, "--" + boundary + "--\r\n");
+
+        String uploadHost = token.getUploadHost();
+        if (uploadHost == null || uploadHost.isBlank()) {
+            log.error("uploadHost 不能为空 ::: {}", token);
+            return false;
+        }
+
+        // uploadHost 应是 Bucket 的 OSS 上传域名，不应拼接 fileKey。
+        String uploadUrl = uploadHost.endsWith("/")
+                ? uploadHost.substring(0, uploadHost.length() - 1)
+                : uploadHost;
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(uploadUrl))
+                .timeout(java.time.Duration.ofSeconds(60))
+                .header(
+                        "Content-Type",
+                        "multipart/form-data; boundary=" + boundary
+                )
+                .POST(HttpRequest.BodyPublishers.ofByteArray(body.toByteArray()))
+                .build();
+
+        HttpResponse<String> response = HTTP_CLIENT.send(
+                request,
+                HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8)
+        );
+
+        // 失败
+        if (response.statusCode() != 200) {
+            log.error("OSS 上传失败 ::: token={}, 状态码={}, 响应={}", token, response.statusCode(), response.body());
+            return false;
+        }
+
+        return true;
+    }
+
+    private static void addField(ByteArrayOutputStream out, String boundary, String name, String value) throws IOException {
+        write(out, "--" + boundary + "\r\n");
+        write(out, "Content-Disposition: form-data; name=\"" + name + "\"\r\n");
+        write(out, "\r\n");
+        write(out, value == null ? "" : value);
+        write(out, "\r\n");
+    }
+
+    private static void addFile(ByteArrayOutputStream out, String boundary, String fieldName, String fileName, String contentType, byte[] content) throws IOException {
+        write(out, "--" + boundary + "\r\n");
+        write(out, "Content-Disposition: form-data; name=\"" + fieldName
+                + "\"; filename=\"" + fileName + "\"\r\n");
+        write(out, "Content-Type: "
+                + (contentType == null ? "application/octet-stream" : contentType)
+                + "\r\n");
+        write(out, "\r\n");
+        out.write(content);
+        write(out, "\r\n");
+    }
+
+    private static void write(ByteArrayOutputStream out, String value) throws IOException {
+        out.write(value.getBytes(StandardCharsets.UTF_8));
+    }
 }
