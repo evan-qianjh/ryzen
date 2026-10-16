@@ -101,9 +101,10 @@ public final class DesensitizeUtils {
         // 找到第一个详细门牌信息的起始位置。
         int index = findDetailStart(value);
 
+        int maskLength = 5;
         if (index >= 0) {
             String prefix = value.substring(0, index).trim();
-            return prefix.isEmpty() ? MASK : prefix + " " + MASK;
+            return prefix.isEmpty() ? MASK.repeat(maskLength) : prefix + " " + MASK.repeat(maskLength);
         }
 
         // 没有识别到门牌信息时，保守地隐藏末尾部分。
@@ -147,13 +148,15 @@ public final class DesensitizeUtils {
     private static String maskAddressTail(String address) {
         int length = address.length();
 
-        if (length <= 2) {
-            return MASK;
+        int maskLength = 5;
+
+        if (length <= maskLength) {
+            return MASK.repeat(maskLength);
         }
 
         int keep = Math.max(2, (int) Math.ceil(length * 0.6));
         keep = Math.min(keep, length - 1);
 
-        return address.substring(0, keep) + MASK;
+        return address.substring(0, keep) + MASK.repeat(maskLength);
     }
 }
