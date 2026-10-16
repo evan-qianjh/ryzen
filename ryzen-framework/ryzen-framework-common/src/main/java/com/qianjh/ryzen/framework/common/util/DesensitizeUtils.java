@@ -75,4 +75,85 @@ public final class DesensitizeUtils {
         }
         return stringBuilder.toString();
     }
+
+    /**
+     * 地址脱敏。
+     * <p>
+     * 示例：
+     * 浙江省杭州市西湖区文三路 123 号 2 幢 501 室
+     * -> 浙江省杭州市西湖区文三路 ****
+     * <p>
+     * 北京市朝阳区建国路 88 号 SOHO 3Q A 座 1201
+     * -> 北京市朝阳区建国路 ****
+     * <p>
+     * 地址为空时原样返回。
+     *
+     * @param address 原始地址
+     * @return 脱敏后的地址
+     */
+    public static String maskAddress(String address) {
+        if (address == null || address.isBlank()) {
+            return address;
+        }
+
+        String value = address.trim();
+
+        // 找到第一个详细门牌信息的起始位置。
+        int index = findDetailStart(value);
+
+        if (index >= 0) {
+            String prefix = value.substring(0, index).trim();
+            return prefix.isEmpty() ? MASK : prefix + " " + MASK;
+        }
+
+        // 没有识别到门牌信息时，保守地隐藏末尾部分。
+        return maskAddressTail(value);
+    }
+
+    /**
+     * 查找详细地址的起始位置。
+     */
+    private static int findDetailStart(String address) {
+        String[] patterns = {
+                "\\d+\\s*号",
+                "\\d+\\s*幢",
+                "\\d+\\s*栋",
+                "\\d+\\s*单元",
+                "\\d+\\s*室",
+                "\\d+\\s*楼",
+                "[A-Za-z]+\\s*座",
+                "\\d+\\s*层"
+        };
+
+        int result = -1;
+
+        for (String pattern : patterns) {
+            java.util.regex.Matcher matcher =
+                    java.util.regex.Pattern.compile(pattern)
+                            .matcher(address);
+
+            if (matcher.find()
+                    && (result < 0 || matcher.start() < result)) {
+                result = matcher.start();
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 无法识别地址结构时，隐藏末尾约一半内容。
+     */
+    private static String maskAddressTail(String address) {
+        int length = address.length();
+
+        if (length <= 2) {
+            return MASK;
+        }
+
+        int keep = Math.max(2, (int) Math.ceil(length * 0.6));
+        keep = Math.min(keep, length - 1);
+
+        return address.substring(0, keep) + MASK;
+    }
 }
