@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.framework.security.util;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.crypto.Cipher;
@@ -14,6 +15,7 @@ import java.security.spec.X509EncodedKeySpec;
 /**
  * @author QianJH
  */
+@Slf4j
 public final class RSAUtils {
 
     public static final String ALGORITHM_SHA1WithRSA = "SHA1withRSA";
@@ -84,7 +86,8 @@ public final class RSAUtils {
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(Base64.decodeBase64(publicKey));
             return keyFactory.generatePublic(keySpec);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            log.error("构建PublicKey失败 ::: publicKey={}", publicKey, e);
+            return null;
         }
     }
 
@@ -205,7 +208,8 @@ public final class RSAUtils {
             signature.update(content.getBytes(StandardCharsets.UTF_8));
             return signature.verify(Base64.decodeBase64(sign));
         } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
-            throw new RuntimeException(e);
+            log.error("验签失败 ::: publicKey={}, algorithm={}, content={}, sign={}", publicKey, algorithm, content, sign, e);
+            return false;
         }
     }
 
