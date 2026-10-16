@@ -190,7 +190,7 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
     private static final String USER_OBJECT_KEY = "oem/{oemId}/tenant/{tenantId}/{domain}/{domainId}/{category}/{date}/{objectName}";
 
     @Override
-    public AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String domain, Long domainId, String category, String fileName) {
+    public AliyunOssUploadToken createToken(Long oemId, Long tenantId, String domain, Long domainId, String category, String fileName) {
         Assert.isTrue(StringUtils.isNotBlank(category), IllegalArgumentException.class.getSimpleName());
         Assert.isTrue(StringUtils.isNotBlank(fileName), IllegalArgumentException.class.getSimpleName());
 

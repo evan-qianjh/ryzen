@@ -24,7 +24,7 @@ public interface AliyunOssService extends IService<AliyunOss>, OssService {
      * @param fileName 文件名
      * @return token
      */
-    AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String domain, Long domainId, String category, String fileName);
+    AliyunOssUploadToken createToken(Long oemId, Long tenantId, String domain, Long domainId, String category, String fileName);
 
     /**
      * 上传
