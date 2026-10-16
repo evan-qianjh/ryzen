@@ -243,7 +243,7 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
 
 
     @Override
-    public boolean upload(AliyunOssUploadToken token, byte[] content, String fileName, String contentType) throws IOException, InterruptedException {
+    public boolean upload(AliyunOssUploadToken token, byte[] content, String contentType, String fileName) throws IOException, InterruptedException {
         if (token == null || content == null || content.length == 0) {
             throw new IllegalArgumentException("token 和文件内容不能为空");
         }

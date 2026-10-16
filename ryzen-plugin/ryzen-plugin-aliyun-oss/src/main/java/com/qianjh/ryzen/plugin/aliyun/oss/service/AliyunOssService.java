@@ -31,11 +31,9 @@ public interface AliyunOssService extends IService<AliyunOss>, OssService {
      *
      * @param token       token
      * @param content     内容
+     * @param contentType 内容类型
      * @param fileName    文件名
-     * @param contentType
-     * @return
-     * @throws IOException
-     * @throws InterruptedException
+     * @return 是否成功
      */
-    boolean upload(AliyunOssUploadToken token, byte[] content, String fileName, String contentType) throws IOException, InterruptedException;
+    boolean upload(AliyunOssUploadToken token, byte[] content, String contentType, String fileName) throws IOException, InterruptedException;
 }
