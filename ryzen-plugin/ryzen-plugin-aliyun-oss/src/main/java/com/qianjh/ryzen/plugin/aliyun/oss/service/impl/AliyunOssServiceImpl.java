@@ -187,10 +187,10 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
      * 用户模板
      * oem/1/tenant/1/user/1/avatar/20261007/abcdefg123456.png
      */
-    private static final String USER_OBJECT_KEY = "oem/{oemId}/tenant/{tenantId}/{userType}/{userId}/{category}/{date}/{objectName}";
+    private static final String USER_OBJECT_KEY = "oem/{oemId}/tenant/{tenantId}/{domain}/{domainId}/{category}/{date}/{objectName}";
 
     @Override
-    public AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String userType, Long userId, String category, String fileName) {
+    public AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String domain, Long domainId, String category, String fileName) {
         Assert.isTrue(StringUtils.isNotBlank(category), IllegalArgumentException.class.getSimpleName());
         Assert.isTrue(StringUtils.isNotBlank(fileName), IllegalArgumentException.class.getSimpleName());
 
@@ -207,8 +207,8 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
         String objectKey = USER_OBJECT_KEY
                 .replace("{oemId}", String.valueOf(oemId))
                 .replace("{tenantId}", String.valueOf(tenantId))
-                .replace("{userType}", userType)
-                .replace("{userId}", String.valueOf(userId))
+                .replace("{domain}", domain)
+                .replace("{domainId}", String.valueOf(domainId))
                 .replace("{category}", category)
                 .replace("{date}", date)
                 .replace("{objectName}", objectName);

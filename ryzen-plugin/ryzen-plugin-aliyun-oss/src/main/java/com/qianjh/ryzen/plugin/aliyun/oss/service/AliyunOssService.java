@@ -18,13 +18,13 @@ public interface AliyunOssService extends IService<AliyunOss>, OssService {
      *
      * @param oemId    OEM ID
      * @param tenantId 租户ID
-     * @param userType 用户类型
-     * @param userId   用户ID
+     * @param domain   领域
+     * @param domainId 领域ID
      * @param category 类目
      * @param fileName 文件名
      * @return token
      */
-    AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String userType, Long userId, String category, String fileName);
+    AliyunOssUploadToken createUserToken(Long oemId, Long tenantId, String domain, Long domainId, String category, String fileName);
 
     /**
      * 上传
