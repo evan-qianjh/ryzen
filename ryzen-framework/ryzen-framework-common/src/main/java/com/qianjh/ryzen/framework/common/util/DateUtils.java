@@ -2,6 +2,7 @@ package com.qianjh.ryzen.framework.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
@@ -13,11 +14,13 @@ public final class DateUtils {
     public static final String DEFAULT_FORMATTER = "yyyy-MM-dd";
     public static final String CLEAR_FORMATTER = "yyyyMMdd";
 
-    public static LocalDate format(String formatDate) {
-        return format(formatDate, DEFAULT_FORMATTER);
+    /* java.time.LocalDate  */
+
+    public static LocalDate parse(String formatDate) {
+        return parse(formatDate, DEFAULT_FORMATTER);
     }
 
-    public static LocalDate format(String formatDate, String formatter) {
+    public static LocalDate parse(String formatDate, String formatter) {
         if (StringUtils.isBlank(formatDate)) {
             return null;
         }
@@ -39,6 +42,16 @@ public final class DateUtils {
         return date.format(formatter);
     }
 
+    public static Integer calcAge(LocalDate birthday) {
+        if (birthday == null) {
+            return null;
+        }
+        return Period.between(birthday, LocalDate.now()).getYears();
+    }
+
+    /* java.util.Date  */
+
+
     public static String format(Date date) {
         return format(date, DEFAULT_FORMATTER);
     }
@@ -51,11 +64,19 @@ public final class DateUtils {
         return formatter.format(date);
     }
 
-    public static Integer calcAge(LocalDate birthday) {
-        if (birthday == null) {
+    public static Date parseDate(String formatDate) {
+        return parseDate(formatDate, DEFAULT_FORMATTER);
+    }
+
+    public static Date parseDate(String formatDate, String formatter) {
+        if (StringUtils.isBlank(formatDate)) {
             return null;
         }
-        return Period.between(birthday, LocalDate.now()).getYears();
+        try {
+            return new SimpleDateFormat(formatter).parse(formatDate);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
