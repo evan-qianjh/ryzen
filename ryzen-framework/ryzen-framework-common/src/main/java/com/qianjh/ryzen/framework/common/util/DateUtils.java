@@ -2,9 +2,11 @@ package com.qianjh.ryzen.framework.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public final class DateUtils {
 
@@ -35,6 +37,18 @@ public final class DateUtils {
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
         return date.format(formatter);
+    }
+
+    public static String format(Date date) {
+        return format(date, DEFAULT_FORMATTER);
+    }
+
+    public static String format(Date date, String format) {
+        if (date == null) {
+            return null;
+        }
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        return formatter.format(date);
     }
 
     public static Integer calcAge(LocalDate birthday) {
