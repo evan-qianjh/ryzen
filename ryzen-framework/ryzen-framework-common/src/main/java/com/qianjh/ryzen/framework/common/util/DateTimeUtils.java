@@ -34,11 +34,24 @@ public final class DateTimeUtils {
     }
 
     /**
+     * 格式化
+     *
+     * @param datetime 时间
+     * @return 格式化后的字符串
+     */
+    public static String format(LocalDateTime datetime) {
+        if (datetime == null) {
+            return null;
+        }
+        return format(datetime, FORMATTER_DEFAULT);
+    }
+
+    /**
      * 获取偏移时间
      *
-     * @param cycleUnit
-     * @param cycleOffset
-     * @return
+     * @param cycleUnit   周期单位
+     * @param cycleOffset 周期偏移量
+     * @return 时间
      */
     public static LocalDateTime getOffsetDateTime(CycleUnit cycleUnit, Integer cycleOffset) {
         if (cycleOffset == null) {
@@ -54,19 +67,17 @@ public final class DateTimeUtils {
         };
     }
 
-    public static LocalDateTime parseLocalDateTime(String time) {
+    public static LocalDateTime parse(String time) {
+        return parse(time, FORMATTER_DEFAULT);
+    }
+
+    public static LocalDateTime parse(String time, DateTimeFormatter formatter) {
         if (StringUtils.isBlank(time)) {
             return null;
         }
-        return LocalDateTime.parse(time, FORMATTER_DEFAULT);
+        return LocalDateTime.parse(time, formatter);
     }
 
-    public static String getFormat(LocalDateTime time) {
-        if (time == null) {
-            return null;
-        }
-        return time.format(FORMATTER_DEFAULT);
-    }
 
     public static LocalDateTime getYesterdayStartTime() {
         return LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.MIDNIGHT);
@@ -140,7 +151,7 @@ public final class DateTimeUtils {
      * @param millis 毫秒
      * @return LocalDateTime
      */
-    public static LocalDateTime getLocalDateTime(Long millis) {
+    public static LocalDateTime parseMillis(Long millis) {
         if (millis == null) {
             return null;
         }
@@ -168,7 +179,7 @@ public final class DateTimeUtils {
      * @param seconds 秒
      * @return LocalDateTime
      */
-    public static LocalDateTime secondToLocalDateTime(long seconds) {
-        return getLocalDateTime(secondToMilli(seconds));
+    public static LocalDateTime parseSecond(long seconds) {
+        return parseMillis(secondToMilli(seconds));
     }
 }

@@ -42,8 +42,8 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
                 .accountId(account.getId())
                 .clientInfo(clientInfoJson)
                 .refreshTokenId(payload.getId())
-                .generatedTime(DateTimeUtils.getLocalDateTime(payload.getGeneratedTime()))
-                .expiredTime(DateTimeUtils.getLocalDateTime(payload.getExpiresTime()))
+                .generatedTime(DateTimeUtils.parseMillis(payload.getGeneratedTime()))
+                .expiredTime(DateTimeUtils.parseMillis(payload.getExpiresTime()))
                 .build();
 
         save(entity);
