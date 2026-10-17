@@ -3,13 +3,13 @@ package com.qianjh.ryzen.plugin.sfexpress.express.service.impl;
 import com.google.gson.reflect.TypeToken;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
-import com.qianjh.ryzen.plugin.sfexpress.entity.SFExpress;
+import com.qianjh.ryzen.plugin.sfexpress.entity.PluginSFExpress;
 import com.qianjh.ryzen.plugin.sfexpress.express.enums.Language;
 import com.qianjh.ryzen.plugin.sfexpress.express.enums.SearchType;
-import com.qianjh.ryzen.plugin.sfexpress.express.service.SFExpressExpressService;
+import com.qianjh.ryzen.plugin.sfexpress.express.service.PluginSFExpressExpressService;
 import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.OrderSearchRespDto;
 import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.SfResp;
-import com.qianjh.ryzen.plugin.sfexpress.service.SFExpressService;
+import com.qianjh.ryzen.plugin.sfexpress.service.PluginSFExpressService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
@@ -34,17 +34,17 @@ import java.util.UUID;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SFExpressExpressServiceImpl implements SFExpressExpressService {
+public class PluginSFExpressExpressServiceImpl implements PluginSFExpressExpressService {
 
     private static final Language DEFAULT_LANGUAGE = Language.ZH_CN;
 
     private final WebClient webClient;
-    private final SFExpressService sfExpressService;
+    private final PluginSFExpressService sfExpressService;
     private final RyzenStorageService ryzenStorageService;
 
     @Override
     public Mono<SfResp<OrderSearchRespDto>> orderSearch(Long oemId, SearchType searchType, String orderId, String mainWaybillNo, Language language) {
-        SFExpress sfExpress = sfExpressService.mustGet(oemId);
+        PluginSFExpress sfExpress = sfExpressService.mustGet(oemId);
         String apiHost = sfExpress.getApiHost();
         String customerCode = sfExpress.getCustomerCode();
         String checkWord = ryzenStorageService.decrypt(sfExpress.getCheckWord());

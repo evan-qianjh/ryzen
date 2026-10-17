@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @TableName(_TablePrefix.PLUGIN + "sfexpress")
-public class SFExpress {
+public class PluginSFExpress {
     @TableId
     private Long id;
     private Long oemId;
