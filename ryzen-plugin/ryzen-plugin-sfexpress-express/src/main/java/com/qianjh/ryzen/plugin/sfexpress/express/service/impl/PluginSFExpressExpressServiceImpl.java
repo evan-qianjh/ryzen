@@ -7,7 +7,9 @@ import com.qianjh.ryzen.plugin.sfexpress.entity.PluginSFExpress;
 import com.qianjh.ryzen.plugin.sfexpress.express.enums.Language;
 import com.qianjh.ryzen.plugin.sfexpress.express.enums.SearchType;
 import com.qianjh.ryzen.plugin.sfexpress.express.service.PluginSFExpressExpressService;
-import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.OrderSearchRespDto;
+import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.OrderCreateReq;
+import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.OrderCreateResp;
+import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.OrderSearchResp;
 import com.qianjh.ryzen.plugin.sfexpress.express.service.dto.SfResp;
 import com.qianjh.ryzen.plugin.sfexpress.service.PluginSFExpressService;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +45,12 @@ public class PluginSFExpressExpressServiceImpl implements PluginSFExpressExpress
     private final RyzenStorageService ryzenStorageService;
 
     @Override
-    public Mono<SfResp<OrderSearchRespDto>> orderSearch(Long oemId, SearchType searchType, String orderId, String mainWaybillNo, Language language) {
+    public Mono<SfResp<OrderSearchResp>> orderSearch(Long oemId, SearchType searchType, String orderId, String mainWaybillNo) {
+        return orderSearch(oemId, searchType, orderId, mainWaybillNo, DEFAULT_LANGUAGE);
+    }
+
+    @Override
+    public Mono<SfResp<OrderSearchResp>> orderSearch(Long oemId, SearchType searchType, String orderId, String mainWaybillNo, Language language) {
         PluginSFExpress sfExpress = sfExpressService.mustGet(oemId);
         String apiHost = sfExpress.getApiHost();
         String customerCode = sfExpress.getCustomerCode();
@@ -67,12 +74,7 @@ public class PluginSFExpressExpressServiceImpl implements PluginSFExpressExpress
                 .flatMap(msgData -> orderSearch(apiHost, customerCode, checkWord, msgData));
     }
 
-    @Override
-    public Mono<SfResp<OrderSearchRespDto>> orderSearch(Long oemId, SearchType searchType, String orderId, String mainWaybillNo) {
-        return orderSearch(oemId, searchType, orderId, mainWaybillNo, DEFAULT_LANGUAGE);
-    }
-
-    private Mono<SfResp<OrderSearchRespDto>> orderSearch(String apiHost, String customerCode, String checkWord, String msgData) {
+    private Mono<SfResp<OrderSearchResp>> orderSearch(String apiHost, String customerCode, String checkWord, String msgData) {
         String timestamp = String.valueOf(System.currentTimeMillis());
         String requestId = UUID.randomUUID().toString();
         String msgDigest = generateMsgDigest(msgData, timestamp, checkWord);
@@ -101,7 +103,7 @@ public class PluginSFExpressExpressServiceImpl implements PluginSFExpressExpress
                                     new IllegalStateException("顺丰 HTTP 请求失败，status=%s, body=%s".formatted(status.value(), body))
                             ));
                 })
-                .flatMap(this::parseResponse);
+                .flatMap(this::parseQueryResponse);
     }
 
     /**
@@ -110,7 +112,7 @@ public class PluginSFExpressExpressServiceImpl implements PluginSFExpressExpress
      * @param body 响应报文
      * @return 响应实体
      */
-    private Mono<SfResp<OrderSearchRespDto>> parseResponse(String body) {
+    private Mono<SfResp<OrderSearchResp>> parseQueryResponse(String body) {
         SfApiResponse response = GsonUtils.GSON.fromJson(body, SfApiResponse.class);
 
         //
@@ -119,14 +121,87 @@ public class PluginSFExpressExpressServiceImpl implements PluginSFExpressExpress
             throw new IllegalStateException("顺丰请求失败 : " + body);
         }
 
-        Type responseType = TypeToken.getParameterized(SfResp.class, OrderSearchRespDto.class).getType();
-        SfResp<OrderSearchRespDto> sfResp = GsonUtils.GSON.fromJson(response.apiResultData, responseType);
+        Type responseType = TypeToken.getParameterized(SfResp.class, OrderSearchResp.class).getType();
+        SfResp<OrderSearchResp> sfResp = GsonUtils.GSON.fromJson(response.apiResultData, responseType);
+
+        return Mono.just(sfResp);
+    }
+
+    @Override
+    public Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, String orderId, OrderCreateReq body) {
+        return orderCreate(oemId, orderId, body, DEFAULT_LANGUAGE);
+    }
+
+    @Override
+    public Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, String orderId, OrderCreateReq body, Language language) {
+        PluginSFExpress sfExpress = sfExpressService.mustGet(oemId);
+        String apiHost = sfExpress.getApiHost();
+        String customerCode = sfExpress.getCustomerCode();
+        String checkWord = ryzenStorageService.decrypt(sfExpress.getCheckWord());
+
+        if (orderId == null || orderId.isBlank()) {
+            return Mono.error(new IllegalArgumentException("顺丰客户订单号不能为空"));
+        }
+
+        return Mono.fromCallable(
+                        () -> GsonUtils.toJson(body))
+                .flatMap(msgData -> orderCreate(apiHost, customerCode, checkWord, msgData));
+    }
+
+    private Mono<SfResp<OrderCreateResp>> orderCreate(String apiHost, String customerCode, String checkWord, String msgData) {
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        String requestId = UUID.randomUUID().toString();
+        String msgDigest = generateMsgDigest(msgData, timestamp, checkWord);
+
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("partnerID", customerCode);
+        form.add("requestID", requestId);
+        form.add("serviceCode", "EXP_RECE_CREATE_ORDER");
+        form.add("timestamp", timestamp);
+        form.add("msgDigest", msgDigest);
+        form.add("msgData", msgData);
+
+        return webClient.post()
+                .uri(apiHost + "/std/service")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .body(BodyInserters.fromFormData(form))
+//                .bodyToMono(String.class)
+                .exchangeToMono(response -> {
+                    HttpStatusCode status = response.statusCode();
+                    if (status.is2xxSuccessful()) {
+                        return response.bodyToMono(String.class);
+                    }
+                    return response.bodyToMono(String.class)
+                            .defaultIfEmpty("")
+                            .flatMap(body -> Mono.error(
+                                    new IllegalStateException("顺丰 HTTP 请求失败，status=%s, body=%s".formatted(status.value(), body))
+                            ));
+                })
+                .flatMap(this::parseCreateResponse);
+    }
+
+    /**
+     * 解析响应报文
+     *
+     * @param body 响应报文
+     * @return 响应实体
+     */
+    private Mono<SfResp<OrderCreateResp>> parseCreateResponse(String body) {
+        SfApiResponse response = GsonUtils.GSON.fromJson(body, SfApiResponse.class);
+
+        //
+        if (!"A1000".equals(response.apiResultCode)) {
+            log.error("顺丰请求失败 ::: {}", body);
+            throw new IllegalStateException("顺丰请求失败 : " + body);
+        }
+
+        Type responseType = TypeToken.getParameterized(SfResp.class, OrderCreateResp.class).getType();
+        SfResp<OrderCreateResp> sfResp = GsonUtils.GSON.fromJson(response.apiResultData, responseType);
 
         return Mono.just(sfResp);
     }
 
     private String generateMsgDigest(String msgData, String timestamp, String checkWord) {
-
         try {
             // 1. 按顺丰要求拼接：业务报文 + 时间戳 + 校验码
             String source = msgData + timestamp + checkWord;

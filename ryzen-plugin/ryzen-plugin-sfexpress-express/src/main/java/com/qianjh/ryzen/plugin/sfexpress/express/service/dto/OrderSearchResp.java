@@ -2,7 +2,7 @@ package com.qianjh.ryzen.plugin.sfexpress.express.service.dto;
 
 import java.util.List;
 
-public record OrderSearchRespDto(
+public record OrderSearchResp(
         String orderId,
         String origincode, // 原寄地区域代码，可用 于顺丰电子运单标签打印
         String destcode, // 目的地区域代码，可用 于顺丰电子运单标签打印
