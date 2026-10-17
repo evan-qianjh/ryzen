@@ -24,7 +24,8 @@ public record OrderCreateReq(
         BigDecimal totalVolume, // 订单货物总体积，单位立方厘米, 精确到小数点后3位，会用于计抛 (是否计抛具体商务沟通中 双方约定)
         BigDecimal totalWeight, // 订单货物总重量（郑州空港海关必填）， 若为子母件必填， 单位千克， 精确到小数点后3位，如果提供此值， 必须>0 (子母件需>6)
         BigDecimal totalNetWeight, // 商品总净重
-        String sendStartTm,
+        String sendStartTm, // 要求上门取件开始时间， 格式： YYYY-MM-DD HH24:MM:SS， 示例： 2012-7-30 09:30:00 ，若该字段没有赋值，默认开始时间为当前时间，（可配合上门取件截止时间pickupAppointEndTime扩展字段备注进行下发，若没有给截止时间则系统默认1小时的截止时间）
+        String pickupAppointEndTime, // 上门揽收截止时间，格式: 2023-07-04 12:01:02（预约单传预约截止时间，不赋值默认按当前时间下发，1小时内取件）
         // 要求上门取件开始时间， 格式： YYYY-MM-DD HH24:MM:SS， 示例： 2012-7-30 09:30:00 ，若该字段没有赋值，默认开始时间为当前时间，（可配合上门取件截止时间pickupAppointEndTime扩展字段备注进行下发，若没有给截止时间则系统默认1小时的截止时间）
         Integer isDocall,
         // 支持以下值： 1：要求 0：不要求。为1时系统分配揽收任务给到小哥，小哥需要按照预约时间上门揽收，一般用于高时效产品。 为0时是集收场景，发货商家提前与网点小哥约定每天揽收时段，一般用于集收场景。
