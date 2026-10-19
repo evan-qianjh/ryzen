@@ -128,20 +128,16 @@ public class PluginSFExpressExpressServiceImpl implements PluginSFExpressExpress
     }
 
     @Override
-    public Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, String orderId, OrderCreateReq body) {
-        return orderCreate(oemId, orderId, body, DEFAULT_LANGUAGE);
+    public Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, OrderCreateReq body) {
+        return orderCreate(oemId, body, DEFAULT_LANGUAGE);
     }
 
     @Override
-    public Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, String orderId, OrderCreateReq body, Language language) {
+    public Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, OrderCreateReq body, Language language) {
         PluginSFExpress sfExpress = sfExpressService.mustGet(oemId);
         String apiHost = sfExpress.getApiHost();
         String customerCode = sfExpress.getCustomerCode();
         String checkWord = ryzenStorageService.decrypt(sfExpress.getCheckWord());
-
-        if (orderId == null || orderId.isBlank()) {
-            return Mono.error(new IllegalArgumentException("顺丰客户订单号不能为空"));
-        }
 
         return Mono.fromCallable(
                         () -> GsonUtils.toJson(body))

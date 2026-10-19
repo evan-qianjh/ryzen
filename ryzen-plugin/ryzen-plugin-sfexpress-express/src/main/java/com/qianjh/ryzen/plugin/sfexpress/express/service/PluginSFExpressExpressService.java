@@ -30,12 +30,11 @@ public interface PluginSFExpressExpressService extends PluginExpressService {
     /**
      * 订单创建
      *
-     * @param oemId   OEM ID
-     * @param orderId 订单号
-     * @param body    报文
+     * @param oemId OEM ID
+     * @param body  报文
      * @return 结果
      */
-    Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, String orderId, OrderCreateReq body);
+    Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, OrderCreateReq body);
 
-    Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, String orderId, OrderCreateReq body, Language language);
+    Mono<SfResp<OrderCreateResp>> orderCreate(Long oemId, OrderCreateReq body, Language language);
 }
