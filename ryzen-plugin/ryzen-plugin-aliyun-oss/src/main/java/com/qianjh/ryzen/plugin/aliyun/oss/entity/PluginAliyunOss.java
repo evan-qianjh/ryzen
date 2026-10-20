@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 @TableName(_TablePrefix.PLUGIN + "aliyun_oss")
-public class AliyunOss {
+public class PluginAliyunOss {
     @TableId
     private Long id;
     private Long oemId;

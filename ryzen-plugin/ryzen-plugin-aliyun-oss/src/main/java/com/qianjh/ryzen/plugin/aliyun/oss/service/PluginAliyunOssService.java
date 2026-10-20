@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.plugin.aliyun.oss.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.qianjh.ryzen.plugin.aliyun.oss.entity.AliyunOss;
+import com.qianjh.ryzen.plugin.aliyun.oss.entity.PluginAliyunOss;
 import com.qianjh.ryzen.plugin.aliyun.oss.service.dto.AliyunOssUploadToken;
-import com.qianjh.ryzen.plugin.oss.service.OssService;
+import com.qianjh.ryzen.plugin.oss.service.PluginOssService;
 
 import java.io.IOException;
 
@@ -11,7 +11,7 @@ import java.io.IOException;
  *
  * @author QianJH
  */
-public interface AliyunOssService extends IService<AliyunOss>, OssService {
+public interface PluginAliyunOssService extends IService<PluginAliyunOss>, PluginOssService {
 
     /**
      * 创建账户token

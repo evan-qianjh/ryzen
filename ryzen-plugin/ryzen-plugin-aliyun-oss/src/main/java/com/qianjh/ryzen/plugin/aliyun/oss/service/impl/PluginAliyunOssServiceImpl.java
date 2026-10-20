@@ -4,13 +4,13 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.framework.common.util.DateUtils;
 import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
-import com.qianjh.ryzen.plugin.aliyun.entity.Aliyun;
-import com.qianjh.ryzen.plugin.aliyun.oss.entity.AliyunOss;
-import com.qianjh.ryzen.plugin.aliyun.oss.mapper.AliyunOssMapper;
-import com.qianjh.ryzen.plugin.aliyun.oss.service.AliyunOssService;
+import com.qianjh.ryzen.plugin.aliyun.entity.PluginAliyun;
+import com.qianjh.ryzen.plugin.aliyun.oss.entity.PluginAliyunOss;
+import com.qianjh.ryzen.plugin.aliyun.oss.mapper.PluginAliyunOssMapper;
+import com.qianjh.ryzen.plugin.aliyun.oss.service.PluginAliyunOssService;
 import com.qianjh.ryzen.plugin.aliyun.oss.service.dto.AliyunOssUploadToken;
 import com.qianjh.ryzen.plugin.aliyun.oss.util.AliyunOssUtils;
-import com.qianjh.ryzen.plugin.aliyun.service.AliyunService;
+import com.qianjh.ryzen.plugin.aliyun.service.PluginAliyunService;
 import com.qianjh.ryzen.plugin.oss.dict.ImageStyle;
 import com.qianjh.ryzen.plugin.oss.dict.VideoStyle;
 import lombok.RequiredArgsConstructor;
@@ -40,16 +40,16 @@ import java.util.*;
 @Service
 @Order(1)
 @RequiredArgsConstructor
-public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss> implements AliyunOssService, ApplicationRunner {
+public class PluginAliyunOssServiceImpl extends ServiceImpl<PluginAliyunOssMapper, PluginAliyunOss> implements PluginAliyunOssService, ApplicationRunner {
 
 
     private static final String IMAGE_STYLE_FORMAT = "?x-oss-process=style/";
     private static final String VIDEO_STYLE_FORMAT = "?x-oss-process=video/";
 
-    private static final Map<Long, AliyunOss> OEM_ID__PLUGIN = new HashMap<>();
-    private static final Map<Long, Aliyun> OEM_ID__PARTNER = new HashMap<>();
+    private static final Map<Long, PluginAliyunOss> OEM_ID__PLUGIN = new HashMap<>();
+    private static final Map<Long, PluginAliyun> OEM_ID__PARTNER = new HashMap<>();
 
-    private final AliyunService aliyunService;
+    private final PluginAliyunService aliyunService;
     private final RyzenStorageService ryzenStorageCryptoService;
 
     private static final HttpClient HTTP_CLIENT = HttpClient.newBuilder()
@@ -59,13 +59,13 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
     @Override
     public void run(ApplicationArguments args) throws Exception {
         //
-        List<AliyunOss> plugins = list(Wrappers.emptyWrapper());
-        for (AliyunOss plugin : plugins) {
+        List<PluginAliyunOss> plugins = list(Wrappers.emptyWrapper());
+        for (PluginAliyunOss plugin : plugins) {
             OEM_ID__PLUGIN.put(plugin.getOemId(), plugin);
         }
         //
-        List<Aliyun> partners = aliyunService.list(Wrappers.lambdaQuery());
-        for (Aliyun partner : partners) {
+        List<PluginAliyun> partners = aliyunService.list(Wrappers.lambdaQuery());
+        for (PluginAliyun partner : partners) {
             OEM_ID__PARTNER.put(partner.getOemId(), partner);
         }
     }
@@ -76,7 +76,7 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
      * @param oemId OEM
      * @return OSS
      */
-    private AliyunOss getOss(Long oemId) {
+    private PluginAliyunOss getOss(Long oemId) {
         return OEM_ID__PLUGIN.get(oemId);
     }
 
@@ -86,13 +86,13 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
      * @param oemId OEM
      * @return Aliyun
      */
-    private Aliyun getAliyun(Long oemId) {
+    private PluginAliyun getAliyun(Long oemId) {
         return OEM_ID__PARTNER.get(oemId);
     }
 
     @Override
     public String getDownloadHost(Long oemId) {
-        AliyunOss oss = getOss(oemId);
+        PluginAliyunOss oss = getOss(oemId);
         return oss == null ? null : oss.getDownloadHost();
     }
 
@@ -224,8 +224,8 @@ public class AliyunOssServiceImpl extends ServiceImpl<AliyunOssMapper, AliyunOss
      * @return token
      */
     private AliyunOssUploadToken createToken(Long tenantId, String objectName) {
-        AliyunOss aliyunOss = getOss(tenantId);
-        Aliyun aliyun = getAliyun(tenantId);
+        PluginAliyunOss aliyunOss = getOss(tenantId);
+        PluginAliyun aliyun = getAliyun(tenantId);
 
         String policy = AliyunOssUtils.getPolicy();
         String signature = AliyunOssUtils.getSignature(ryzenStorageCryptoService.decrypt(aliyun.getAccessSecret()), policy);

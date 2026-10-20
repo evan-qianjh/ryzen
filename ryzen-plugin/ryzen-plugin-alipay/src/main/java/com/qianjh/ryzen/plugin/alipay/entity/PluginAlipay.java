@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @TableName(_TablePrefix.PLUGIN + "alipay")
-public class Alipay {
+public class PluginAlipay {
     @TableId
     private Long id;
     private Long oemId;

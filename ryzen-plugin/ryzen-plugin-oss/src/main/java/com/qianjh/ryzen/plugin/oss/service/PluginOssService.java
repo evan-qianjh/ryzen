@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * @author QianJH
  */
-public interface OssService {
+public interface PluginOssService {
 
     /**
      * 获取下载域名

@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.plugin.aliyun.entity;
+package com.qianjh.ryzen.plugin.sms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,11 +9,10 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_TablePrefix.PLUGIN + "aliyun")
-public class Aliyun {
+@TableName(_TablePrefix.PLUGIN + "sms")
+public class PluginSms {
     @TableId
     private Long id;
     private Long oemId;
-    private String accessKey;
-    private String accessSecret;
+    private String signName;
 }

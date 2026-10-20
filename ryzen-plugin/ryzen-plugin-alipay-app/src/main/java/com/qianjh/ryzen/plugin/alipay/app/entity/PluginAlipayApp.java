@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @TableName(_TablePrefix.PLUGIN + "alipay_app")
-public class AlipayApp {
+public class PluginAlipayApp {
     @TableId
     private Long id;
     private Long oemId;
