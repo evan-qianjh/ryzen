@@ -9,10 +9,14 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_TablePrefix.PLUGIN + "meituan")
-public class PluginMeituan {
+@TableName(_TablePrefix.PLUGIN + "meituan_developer")
+public class PluginMeiTuanDeveloper {
     @TableId
     private Long id;
     private Long oemId;
+    private Long meituanId;
+
     private String name;
+    private String developerId;
+    private String signKey;
 }
