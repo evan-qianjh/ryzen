@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.plugin.meituan.entity;
+package com.qianjh.ryzen.plugin.meituan.app.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -9,8 +9,8 @@ import lombok.Data;
  * @author QianJH
  */
 @Data
-@TableName(_TablePrefix.PLUGIN + "meituan_developer")
-public class PluginMeiTuanDeveloper {
+@TableName(_TablePrefix.PLUGIN + "meituan_app")
+public class PluginMeiTuanApp {
     @TableId
     private Long id;
     private Long oemId;
