@@ -1,4 +1,5 @@
 # 工程结构
+
 - ryzen
     - ryzen-framework [框架]
         - ryzen-framework-common [通用]
@@ -32,6 +33,7 @@
         - ryzen-service-user [用户服务]
 
 # Service Controller
+
 - /cli/**                       面向CLI（开发运维使用）
 - /service[/public]/**          面向服务（内部调用）
 - /partner/**                   面向合作方 (如支付宝、微信回调、通知)
@@ -41,21 +43,22 @@
 - /tenant/app[/public]/**           面向租户-APP
 - /saas/app[/public]/**             面向SaaS-APP
 
-
 # 域名规则
-| 参与者 | 接入方式 | 域名                                                      | service前缀 | 备注 |
-|---|---|---------------------------------------------------------|---|---|
-| 合作端 | API | https://partner-api.qianjh.com/{service}/{partner}/xxx  | /partner | |
-| 用户端 | APP | https://user-appapi.qianjh.com/{service}[/public]/xxx   | /user/app | |
-| 用户端 | Open API | https://user-openapi.qianjh.com/{service}[/public]/xxx  | /user/open | |
-| 租户端 | APP | https://tenant-appapi.qianjh.com/{service}[/public]/xxx | /tenant/app | |
-| 租户端 | APP | https://tenant.qianjh.com/api/{service}[/public]/xxx    | /tenant/app | 无跨域方式 |
-| OEM端 | APP | https://oem-appapi.qianjh.com/{service}[/public]/xxx       | /oem/app | |
-| OEM端 | APP | https://oem.qianjh.com/api/{service}[/public]/xxx       | /oem/app | 无跨域方式 |
-| SaaS端 | APP | https://saas-appapi.qianjh.com/{service}[/public]/xxx      | /saas/app | |
-| SaaS端 | APP | https://saas.qianjh.com/api/{service}[/public]/xxx      | /saas/app | 无跨域方式 |
+
+| 参与者   | 接入方式     | 域名                                                      | service前缀   | 备注    |
+|-------|----------|---------------------------------------------------------|-------------|-------|
+| 合作方   | API      | https://partner-api.qianjh.com/{service}/{partner}/xxx  | /partner    |       |
+| 用户端   | APP      | https://user-appapi.qianjh.com/{service}[/public]/xxx   | /user/app   |       |
+| 用户端   | Open API | https://user-openapi.qianjh.com/{service}[/public]/xxx  | /user/open  |       |
+| 租户端   | APP      | https://tenant-appapi.qianjh.com/{service}[/public]/xxx | /tenant/app |       |
+| 租户端   | APP      | https://tenant.qianjh.com/api/{service}[/public]/xxx    | /tenant/app | 无跨域方式 |
+| OEM端  | APP      | https://oem-appapi.qianjh.com/{service}[/public]/xxx    | /oem/app    |       |
+| OEM端  | APP      | https://oem.qianjh.com/api/{service}[/public]/xxx       | /oem/app    | 无跨域方式 |
+| SaaS端 | APP      | https://saas-appapi.qianjh.com/{service}[/public]/xxx   | /saas/app   |       |
+| SaaS端 | APP      | https://saas.qianjh.com/api/{service}[/public]/xxx      | /saas/app   | 无跨域方式 |
 
 # TODO
+
 - 接口鉴权
 - 操作留痕
 - open网关防止请求重放
