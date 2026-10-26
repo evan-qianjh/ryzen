@@ -3,7 +3,7 @@ dependencies {
     api project(":ryzen-framework:ryzen-framework-token")
     api project(":ryzen-framework:ryzen-framework-service")
 
-    api project(":ryzen-model:ryzen-model-tenant")
+    api project(":ryzen-tenant:ryzen-tenant-lib-model")
 
     api 'com.mysql:mysql-connector-j'
     api libs.googleauth

@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: ryzen-websocket-tenant
+    name: ryzen-tenant-ws
   profiles:
     active: dev
   lifecycle:

@@ -32,7 +32,7 @@ include 'ryzen-plugin:ryzen-plugin-sms'
 
 // model
 include 'ryzen-model:ryzen-model-oem'
-include 'ryzen-model:ryzen-model-tenant'
+//include 'ryzen-model:ryzen-model-tenant'
 include 'ryzen-model:ryzen-model-user'
 
 // gateway (port:70XX)
@@ -44,19 +44,25 @@ include 'ryzen-gateway:ryzen-gateway-user-app'
 include 'ryzen-gateway:ryzen-gateway-user-open'
 
 // service
-include 'ryzen-service:ryzen-service-tenant'
+//include 'ryzen-service:ryzen-service-tenant'
 include 'ryzen-service:ryzen-service-user'
 
 // http (port:80XX)
 include 'ryzen-http:ryzen-http-oem'
 include 'ryzen-http:ryzen-http-saas'
-include 'ryzen-http:ryzen-http-tenant'
+//include 'ryzen-http:ryzen-http-tenant'
 include 'ryzen-http:ryzen-http-user'
 
 // websocket (port:81XX)
-include 'ryzen-websocket:ryzen-websocket-tenant'
+//include 'ryzen-websocket:ryzen-websocket-tenant'
 
 // stream (port:82XX)
 include 'ryzen-stream:ryzen-stream-user'
 
 // job (port:83XX)
+
+//
+include 'ryzen-tenant:ryzen-tenant-http'
+include 'ryzen-tenant:ryzen-tenant-ws'
+include 'ryzen-tenant:ryzen-tenant-lib-model'
+include 'ryzen-tenant:ryzen-tenant-lib-service'
