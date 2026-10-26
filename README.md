@@ -11,13 +11,6 @@
         - ryzen-framework-stream [事件流]
         - ryzen-framework-token [令牌]
         - ryzen-framework-websocket [WebSocket]
-    - ryzen-gateway [网关]
-        - ryzen-gateway-oem-app [OEM APP网关]
-        - ryzen-gateway-partner [合作方网关]
-        - ryzen-gateway-saas-app [SaaS APP网关]
-        - ryzen-gateway-tenant-app [租户APP网关]
-        - ryzen-gateway-user-app [用户APP网关]
-        - ryzen-gateway-user-open [用户OpenAPI网关]
     - ryzen-plugin [插件]
         - ryzen-plugin-alipay [插件-支付宝]
         - ryzen-plugin-alipay-app [插件-APP]
@@ -26,11 +19,33 @@
         - ryzen-plugin-app [插件-APP]
         - ryzen-plugin-oss [插件-OSS]
         - ryzen-plugin-sms [插件-短信]
+    - ryzen-model [模型]
+        - ryzen-model-oem [OEM模型]
+        - ryzen-model-tenant [租户模型]
+        - ryzen-model-user [用户模型]
     - ryzen-service [服务]
         - ryzen-service-oem [OEM服务]
         - ryzen-service-saas [SaaS服务]
         - ryzen-service-tenant [租户服务]
         - ryzen-service-user [用户服务]
+    - ryzen-gateway [网关]
+        - ryzen-gateway-oem-app [OEM APP网关]
+        - ryzen-gateway-partner [合作方网关]
+        - ryzen-gateway-saas-app [SaaS APP网关]
+        - ryzen-gateway-tenant-app [租户APP网关]
+        - ryzen-gateway-user-app [用户APP网关]
+        - ryzen-gateway-user-open [用户OpenAPI网关]
+    - ryzen-http [HTTP]
+        - ryzen-http-oem [HTTP-OEM]
+        - ryzen-http-saas [HTTP-SAAS]
+        - ryzen-http-tenant [HTTP-租户]
+        - ryzen-http-user [HTTP-用户]
+    - ryzen-stream [事件]
+        - ryzen-stream-user [用户事件]
+    - ryzen-websocket [WebSocket]
+        - ryzen-websocket-tenant [租户WS]
+    - ryzen-job [任务]
+        - ryzen-job-user [用户任务]
 
 # Service Controller
 
@@ -45,16 +60,16 @@
 
 # 域名规则
 
-| 参与者   | 接入方式     | 域名                                                      | service前缀   | 备注    |
-|-------|----------|---------------------------------------------------------|-------------|-------|
-| 合作方   | API      | https://partner-api.qianjh.com/{service}/{partner}/xxx  | /partner    |       |
-| 用户端   | APP      | https://user-appapi.qianjh.com/{service}[/public]/xxx   | /user/app   |       |
-| 用户端   | Open API | https://user-openapi.qianjh.com/{service}[/public]/xxx  | /user/open  |       |
-| 租户端   | APP      | https://tenant-appapi.qianjh.com/{service}[/public]/xxx | /tenant/app |       |
-| 租户端   | APP      | https://tenant.qianjh.com/api/{service}[/public]/xxx    | /tenant/app | 无跨域方式 |
-| OEM端  | APP      | https://oem-appapi.qianjh.com/{service}[/public]/xxx    | /oem/app    |       |
+| 参与者 | 接入方式 | 域名                                                    | service前缀 | 备注       |
+|--------|----------|---------------------------------------------------------|-------------|------------|
+| 合作方 | API      | https://partner-api.qianjh.com/{service}/{partner}/xxx  | /partner    |            |
+| 用户端 | APP      | https://user-appapi.qianjh.com/{service}[/public]/xxx   | /user/app   |            |
+| 用户端 | Open API | https://user-openapi.qianjh.com/{service}[/public]/xxx  | /user/open  |            |
+| 租户端 | APP      | https://tenant-appapi.qianjh.com/{service}[/public]/xxx | /tenant/app |            |
+| 租户端 | APP      | https://tenant.qianjh.com/api/{service}[/public]/xxx    | /tenant/app | 无跨域方式 |
+| OEM端  | APP      | https://oem-appapi.qianjh.com/{service}[/public]/xxx    | /oem/app    |            |
 | OEM端  | APP      | https://oem.qianjh.com/api/{service}[/public]/xxx       | /oem/app    | 无跨域方式 |
-| SaaS端 | APP      | https://saas-appapi.qianjh.com/{service}[/public]/xxx   | /saas/app   |       |
+| SaaS端 | APP      | https://saas-appapi.qianjh.com/{service}[/public]/xxx   | /saas/app   |            |
 | SaaS端 | APP      | https://saas.qianjh.com/api/{service}[/public]/xxx      | /saas/app   | 无跨域方式 |
 
 # TODO
