@@ -12,38 +12,40 @@
         - ryzen-framework-token [令牌]
         - ryzen-framework-websocket [WebSocket]
     - ryzen-plugin [插件]
-        - ryzen-plugin-alipay [插件-支付宝]
-        - ryzen-plugin-alipay-app [插件-APP]
-        - ryzen-plugin-aliyun [插件-阿里云]
-        - ryzen-plugin-aliyun-oss [插件-阿里云OSS]
-        - ryzen-plugin-app [插件-APP]
-        - ryzen-plugin-oss [插件-OSS]
-        - ryzen-plugin-sms [插件-短信]
+        - ryzen-plugin-aliyun [阿里云]
+        - ryzen-plugin-aliyun-oss [阿里云OSS]
+        - ryzen-plugin-aliyun-sms [阿里云短信]
+        - ryzen-plugin-oss [OSS]
+        - ryzen-plugin-sms [短信]
     - ryzen-gateway [网关]
-        - ryzen-gateway-oem-app [OEM APP网关]
-        - ryzen-gateway-partner [合作方网关]
-        - ryzen-gateway-saas-app [SaaS APP网关]
-        - ryzen-gateway-tenant-app [租户APP网关]
-        - ryzen-gateway-user-app [用户APP网关]
-        - ryzen-gateway-user-open [用户OpenAPI网关]
-    - ryzen-oem [OEM]
-        - ryzen-oem-lib-model [模型]
-        - ryzen-oem-lib-http [HTTP]
-    - ryzen-saas [SaaS]
-        - ryzen-saas-lib-model [模型]
-        - ryzen-saas-http [HTTP]
-    - ryzen-tenant [租户]
-        - ryzen-tenant-lib-model [模型]
-        - ryzen-tenant-lib-service [服务]
-        - ryzen-tenant-http [HTTP]
-        - ryzen-tenant-ws [WS]
+        - ryzen-gateway-partner [合作方]
+        - ryzen-gateway-oem-app [OEM APP]
+        - ryzen-gateway-saas-app [SaaS APP]
+        - ryzen-gateway-tenant-app [租户APP]
+        - ryzen-gateway-user-app [用户APP]
+        - ryzen-gateway-user-open [用户OpenAPI]
     - ryzen-user [用户]
-        - ryzen-user-lib-model [模型]
-        - ryzen-user-lib-service [服务]
-        - ryzen-user-http [请求驱动]
-        - ryzen-user-ws [请求驱动]
-        - ryzen-user-stream [事件驱动]
-        - ryzen-user-job [时间驱动]
+        - ryzen-user-http [HTTP接口]
+        - ryzen-user-ws [WS接口]
+        - ryzen-user-job [定时任务]
+        - ryzen-user-stream [事件处理]
+        - ryzen-user-lib-entity [数据库实体]
+        - ryzen-user-lib-model [开放模型]
+        - ryzen-user-lib-service [业务代码]
+    - ryzen-oem [OEM] （同ryzen-user）
+    - ryzen-saas [SaaS]（同ryzen-user）
+    - ryzen-tenant [租户]（同ryzen-user）
+
+# 业务执行驱动方式
+
+**按什么因素触发业务执行进行分类**
+
+| 驱动方式 | 模块命名       | 说明                  | 事件角色      |
+|----------|----------------|-----------------------|---------------|
+| 请求驱动 | ryzen-*-http   | HTTP接口，遵循RESTful | 生产者        |
+| 请求驱动 | ryzen-*-ws     | WebSocket接口         | 生产者        |
+| 事件驱动 | ryzen-*-stream | 消费MQ消息            | 生产者/消费者 |
+| 时间驱动 | ryzen-*-job    | 定时任务              | 生产者        |
 
 # Service Controller
 
