@@ -53,3 +53,4 @@ include 'ryzen-service:ryzen-service-user'
 include 'ryzen-websocket:ryzen-websocket-tenant'
 
 // stream (port:82XX)
+include 'ryzen-stream:ryzen-stream-user'
