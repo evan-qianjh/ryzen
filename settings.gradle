@@ -38,9 +38,6 @@ include 'ryzen-gateway:ryzen-gateway-tenant-app'
 include 'ryzen-gateway:ryzen-gateway-user-app'
 include 'ryzen-gateway:ryzen-gateway-user-open'
 
-// http (port:80XX)
-include 'ryzen-http:ryzen-http-saas'
-
 // websocket (port:81XX)
 //include 'ryzen-websocket:ryzen-websocket-tenant'
 
@@ -60,3 +57,6 @@ include 'ryzen-user:ryzen-user-stream'
 // ryzen-oem
 include 'ryzen-oem:ryzen-oem-lib-model'
 include 'ryzen-oem:ryzen-oem-http'
+
+// ryzen-saas
+include 'ryzen-saas:ryzen-saas-http'
