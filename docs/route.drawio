@@ -1,53 +1,146 @@
 <mxfile host="Electron">
   <diagram name="Page-1" id="0Wk6h5Bek8FU5cK3-LzH">
-    <mxGraphModel dx="1145" dy="687" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="2003" dy="103" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-10" edge="1" parent="1" source="tL_rLhjgTsmQToy9YRKU-1" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="tL_rLhjgTsmQToy9YRKU-3" value="/user/app">
-          <mxGeometry relative="1" x="0.0161" y="15" as="geometry">
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--95" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--47" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="0vgt2nt6cXvbIFz3SmU--94">
+          <mxGeometry relative="1" x="-0.0011" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--96" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--95" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="/user/app" vertex="1">
+          <mxGeometry relative="1" x="-0.2918" y="2" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-13" edge="1" parent="1" source="tL_rLhjgTsmQToy9YRKU-1" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="tL_rLhjgTsmQToy9YRKU-4" value="/user/app">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--47" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ryzen-gateway-user-app" vertex="1">
+          <mxGeometry height="60" width="200" x="524" y="1319" as="geometry" />
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="ryzen-gateway-user-app" vertex="1">
-          <mxGeometry height="60" width="200" x="290" y="470" as="geometry" />
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--97" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--51" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="0vgt2nt6cXvbIFz3SmU--94">
+          <mxGeometry relative="1" x="-0.0004" as="geometry" />
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-11" edge="1" parent="1" source="tL_rLhjgTsmQToy9YRKU-2" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="tL_rLhjgTsmQToy9YRKU-4" value="/user/open">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--98" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--97" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="/user/open" vertex="1">
+          <mxGeometry relative="1" x="-0.0087" y="-2" as="geometry">
+            <mxPoint x="-42" y="-24" as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-12" edge="1" parent="1" source="tL_rLhjgTsmQToy9YRKU-2" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="tL_rLhjgTsmQToy9YRKU-5" value="/user/open">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--51" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ryzen-gateway-user-open" vertex="1">
+          <mxGeometry height="60" width="200" x="524" y="1477" as="geometry" />
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="ryzen-gateway-user-open" vertex="1">
-          <mxGeometry height="60" width="200" x="290" y="605" as="geometry" />
-        </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="ryzen-service-user" vertex="1">
-          <mxGeometry height="60" width="200" x="631" y="410" as="geometry" />
-        </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="ryzen-service-order" vertex="1">
-          <mxGeometry height="60" width="200" x="631" y="538" as="geometry" />
-        </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="ryzen-service-xxx" vertex="1">
-          <mxGeometry height="60" width="200" x="631" y="665" as="geometry" />
-        </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-8" edge="1" parent="1" source="tL_rLhjgTsmQToy9YRKU-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="tL_rLhjgTsmQToy9YRKU-1" value="user-appapi.qianjh.com/{service}">
-          <mxGeometry relative="1" x="-0.0135" y="15" as="geometry">
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--54" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--56" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;align=left;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="0vgt2nt6cXvbIFz3SmU--47" value="">
+          <mxGeometry relative="1" x="-0.6569" y="-8" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-6" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="user app" vertex="1">
-          <mxGeometry height="80" width="80" x="20" y="460" as="geometry" />
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--55" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--54" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;text-align: left;&quot;&gt;https://user-appapi.qianjh.com/{service}[/public]/**&lt;/span&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1228" y="-2" as="geometry">
+            <mxPoint x="13" y="-28" as="offset" />
+          </mxGeometry>
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-9" edge="1" parent="1" source="tL_rLhjgTsmQToy9YRKU-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="tL_rLhjgTsmQToy9YRKU-2" value="user-openapi.qianjh.com">
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--56" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" value="user app&lt;br&gt;APP" vertex="1">
+          <mxGeometry height="80" width="80" x="137" y="1268" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--57" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--58" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="0vgt2nt6cXvbIFz3SmU--51" value="https://user-openapi.qianjh.com/{service}[/public]/**">
           <mxGeometry relative="1" x="-0.0067" y="14" as="geometry">
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="tL_rLhjgTsmQToy9YRKU-7" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="openapi" vertex="1">
-          <mxGeometry height="80" width="80" x="20" y="595" as="geometry" />
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--58" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" value="openapi" vertex="1">
+          <mxGeometry height="80" width="80" x="137" y="1467" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--99" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--63" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="0vgt2nt6cXvbIFz3SmU--94">
+          <mxGeometry relative="1" x="0.0009" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--100" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--99" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="/tenant/app" vertex="1">
+          <mxGeometry relative="1" x="-0.0537" y="-2" as="geometry">
+            <mxPoint x="-39" y="11" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--63" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ryzen-gateway-tenant-app" vertex="1">
+          <mxGeometry height="60" width="200" x="524" y="1623" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--64" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--66" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="0vgt2nt6cXvbIFz3SmU--63">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--65" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--64" style="edgeLabel;html=1;align=left;verticalAlign=middle;resizable=0;points=[];" value="&lt;div&gt;https://tenant.qianjh.com/api/{service}[/public]/**&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.162" y="2" as="geometry">
+            <mxPoint x="-156" y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--66" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" value="tenant app&lt;br&gt;网页" vertex="1">
+          <mxGeometry height="80" width="80" x="137" y="1613" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--101" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--74" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="0vgt2nt6cXvbIFz3SmU--94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--102" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--101" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="/oem/app" vertex="1">
+          <mxGeometry relative="1" x="-0.5054" as="geometry">
+            <mxPoint x="11" y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--74" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ryzen-gateway-oem-app" vertex="1">
+          <mxGeometry height="60" width="200" x="524" y="1769" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--75" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--77" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="0vgt2nt6cXvbIFz3SmU--74">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--76" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--75" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;div style=&quot;text-align: left;&quot;&gt;https://oem.qianjh.com/api/{service}[/public]/**&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.1316" as="geometry">
+            <mxPoint x="9" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--77" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" value="oem app&lt;br&gt;网页" vertex="1">
+          <mxGeometry height="80" width="80" x="137" y="1759" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--78" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--80" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="0vgt2nt6cXvbIFz3SmU--47">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--79" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--78" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;text-align: left;&quot;&gt;https://www.qianjh.com/{service}[/public]/**&lt;/span&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.2532" as="geometry">
+            <mxPoint x="15" y="26" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--80" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" value="user app&lt;br&gt;网页" vertex="1">
+          <mxGeometry height="80" width="80" x="137" y="1365" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--103" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--90" style="edgeStyle=entityRelationEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="0vgt2nt6cXvbIFz3SmU--94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--104" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--103" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="/saas/app" vertex="1">
+          <mxGeometry relative="1" x="-0.6342" y="2" as="geometry">
+            <mxPoint x="35" y="-5" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--90" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ryzen-gateway-saas-app" vertex="1">
+          <mxGeometry height="60" width="200" x="524" y="1915" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--91" edge="1" parent="1" source="0vgt2nt6cXvbIFz3SmU--93" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="0vgt2nt6cXvbIFz3SmU--90">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--92" connectable="0" parent="0vgt2nt6cXvbIFz3SmU--91" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="&lt;span style=&quot;text-align: left;&quot;&gt;https://saas.qianjh.com/api/{service}[/public]/**&lt;/span&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.3713" y="-2" as="geometry">
+            <mxPoint x="45" y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--93" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;fillColor=#e1d5e7;strokeColor=#9673a6;" value="saas app&lt;br&gt;网页" vertex="1">
+          <mxGeometry height="80" width="80" x="140" y="1905" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--94" parent="1" style="swimlane;startSize=0;dashed=1;" value="" vertex="1">
+          <mxGeometry height="473" width="270" x="951" y="1416" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--52" parent="0vgt2nt6cXvbIFz3SmU--94" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="ryzen-service-user" vertex="1">
+          <mxGeometry height="60" width="200" x="35" y="27" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--53" parent="0vgt2nt6cXvbIFz3SmU--94" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="ryzen-service-xxx" vertex="1">
+          <mxGeometry height="60" width="200" x="35" y="383" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--67" parent="0vgt2nt6cXvbIFz3SmU--94" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="ryzen-service-tenant" vertex="1">
+          <mxGeometry height="60" width="200" x="35" y="116" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--81" parent="0vgt2nt6cXvbIFz3SmU--94" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="ryzen-service-oem" vertex="1">
+          <mxGeometry height="60" width="200" x="35" y="205" as="geometry" />
+        </mxCell>
+        <mxCell id="0vgt2nt6cXvbIFz3SmU--82" parent="0vgt2nt6cXvbIFz3SmU--94" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="ryzen-service-saas" vertex="1">
+          <mxGeometry height="60" width="200" x="35" y="294" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
