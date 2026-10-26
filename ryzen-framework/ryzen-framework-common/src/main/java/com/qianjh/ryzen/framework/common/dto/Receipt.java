@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 回执
+ * @author QianJH
  */
 @Data
 @AllArgsConstructor

@@ -8,6 +8,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * 下标分页
+ * @author QianJH
+ * @param <DTO>
+ */
 @Schema(description = "下标分页")
 @Data
 @AllArgsConstructor
