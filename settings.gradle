@@ -30,9 +30,6 @@ include 'ryzen-plugin:ryzen-plugin-sfexpress'
 include 'ryzen-plugin:ryzen-plugin-sfexpress-express'
 include 'ryzen-plugin:ryzen-plugin-sms'
 
-// model
-include 'ryzen-model:ryzen-model-oem'
-
 // gateway (port:70XX)
 //include 'ryzen-gateway:ryzen-gateway-oem-app'
 include 'ryzen-gateway:ryzen-gateway-partner'
@@ -42,7 +39,6 @@ include 'ryzen-gateway:ryzen-gateway-user-app'
 include 'ryzen-gateway:ryzen-gateway-user-open'
 
 // http (port:80XX)
-include 'ryzen-http:ryzen-http-oem'
 include 'ryzen-http:ryzen-http-saas'
 
 // websocket (port:81XX)
@@ -60,3 +56,7 @@ include 'ryzen-user:ryzen-user-lib-model'
 include 'ryzen-user:ryzen-user-lib-service'
 include 'ryzen-user:ryzen-user-http'
 include 'ryzen-user:ryzen-user-stream'
+
+// ryzen-oem
+include 'ryzen-oem:ryzen-oem-lib-model'
+include 'ryzen-oem:ryzen-oem-http'
