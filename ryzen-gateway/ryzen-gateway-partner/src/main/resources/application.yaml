@@ -67,4 +67,4 @@ spring:
               filters:
                 - StripPrefix=1
                 - PrefixPath=/partner
-              uri: lb://ryzen-http-user
+              uri: lb://ryzen-user-http

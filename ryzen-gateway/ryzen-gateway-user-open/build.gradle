@@ -7,7 +7,7 @@ dependencies {
     implementation project(":ryzen-framework:ryzen-framework-security")
     implementation project(":ryzen-framework:ryzen-framework-http")
 
-    implementation project(":ryzen-model:ryzen-model-user")
+    implementation project(":ryzen-user:ryzen-user-lib-model")
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'

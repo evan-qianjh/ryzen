@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ryzen-http-user
+    name: ryzen-user-http
   profiles:
     active: dev
   cloud:

@@ -9,7 +9,7 @@ dependencies {
     implementation project(":ryzen-framework:ryzen-framework-stream")
     implementation project(":ryzen-framework:ryzen-framework-http")
 
-    implementation project(":ryzen-service:ryzen-service-user")
+    implementation project(":ryzen-user:ryzen-user-lib-service")
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'

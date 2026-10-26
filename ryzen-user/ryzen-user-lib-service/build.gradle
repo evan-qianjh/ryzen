@@ -3,7 +3,7 @@ dependencies {
     api project(":ryzen-framework:ryzen-framework-token")
     api project(":ryzen-framework:ryzen-framework-service")
 
-    api project(":ryzen-model:ryzen-model-user")
+    api project(":ryzen-user:ryzen-user-lib-model")
 
     api 'org.springframework.boot:spring-boot-starter-data-redis'
     api 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
