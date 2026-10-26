@@ -47,30 +47,32 @@
 | 事件驱动 | ryzen-*-stream | 消费MQ消息            | 生产者/消费者 |
 | 时间驱动 | ryzen-*-job    | 定时任务              | 生产者        |
 
-# Service Controller
+# Controller前缀
 
-- /cli/**                       面向CLI（开发运维使用）
-- /service[/public]/**          面向服务（内部调用）
-- /partner/**                   面向合作方 (如支付宝、微信回调、通知)
-- /user/app[/public]/**        面向用户-APP
-- /user/open[/public]/**       面向用户-OpenAPI
-- /oem/app[/public]/**              面向OEM-APP
-- /tenant/app[/public]/**           面向租户-APP
-- /saas/app[/public]/**             面向SaaS-APP
+| PATH                    | 说明                                         |
+|-------------------------|----------------------------------------------|
+| /cli/**                 | 开发/运维使用                                |
+| /service/**             | 服务内部调用                                 |
+| /partner/**             | 面向合作方 (如支付宝/微信支付回调、三方通知) |
+| /user/app[/public]/**   | 面向用户APP接口                              |
+| /user/open[/public]/**  | 面向用户OpenAPI接口                          |
+| /tenant/app[/public]/** | 面向租户APP接口                              |
+| /oem/app[/public]/**    | 面向OEM APP接口                              |
+| /saas/app[/public]/**   | 面向SaaS APP接口                             |
 
 # 域名规则
 
-| 参与者 | 接入方式 | 域名                                                    | service前缀 | 备注       |
-|--------|----------|---------------------------------------------------------|-------------|------------|
-| 合作方 | API      | https://partner-api.qianjh.com/{service}/{partner}/xxx  | /partner    |            |
-| 用户端 | APP      | https://user-appapi.qianjh.com/{service}[/public]/xxx   | /user/app   |            |
-| 用户端 | Open API | https://user-openapi.qianjh.com/{service}[/public]/xxx  | /user/open  |            |
-| 租户端 | APP      | https://tenant-appapi.qianjh.com/{service}[/public]/xxx | /tenant/app |            |
-| 租户端 | APP      | https://tenant.qianjh.com/api/{service}[/public]/xxx    | /tenant/app | 无跨域方式 |
-| OEM端  | APP      | https://oem-appapi.qianjh.com/{service}[/public]/xxx    | /oem/app    |            |
-| OEM端  | APP      | https://oem.qianjh.com/api/{service}[/public]/xxx       | /oem/app    | 无跨域方式 |
-| SaaS端 | APP      | https://saas-appapi.qianjh.com/{service}[/public]/xxx   | /saas/app   |            |
-| SaaS端 | APP      | https://saas.qianjh.com/api/{service}[/public]/xxx      | /saas/app   | 无跨域方式 |
+| 参与者 | 接入方式 | 域名                                                    | Controller前缀 | 备注       |
+|--------|----------|---------------------------------------------------------|----------------|------------|
+| 合作方 | API      | https://partner-api.qianjh.com/{service}/{partner}/xxx  | /partner       |            |
+| 用户端 | APP      | https://user-appapi.qianjh.com/{service}[/public]/xxx   | /user/app      |            |
+| 用户端 | Open API | https://user-openapi.qianjh.com/{service}[/public]/xxx  | /user/open     |            |
+| 租户端 | APP      | https://tenant-appapi.qianjh.com/{service}[/public]/xxx | /tenant/app    |            |
+| 租户端 | APP      | https://tenant.qianjh.com/api/{service}[/public]/xxx    | /tenant/app    | 无跨域方式 |
+| OEM端  | APP      | https://oem-appapi.qianjh.com/{service}[/public]/xxx    | /oem/app       |            |
+| OEM端  | APP      | https://oem.qianjh.com/api/{service}[/public]/xxx       | /oem/app       | 无跨域方式 |
+| SaaS端 | APP      | https://saas-appapi.qianjh.com/{service}[/public]/xxx   | /saas/app      |            |
+| SaaS端 | APP      | https://saas.qianjh.com/api/{service}[/public]/xxx      | /saas/app      | 无跨域方式 |
 
 # TODO
 
