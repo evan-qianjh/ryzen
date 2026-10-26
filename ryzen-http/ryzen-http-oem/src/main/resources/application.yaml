@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ryzen-service-oem
+    name: ryzen-http-oem
   profiles:
     active: dev
   cloud:

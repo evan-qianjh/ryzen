@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: ryzen-service-saas
+    name: ryzen-http-saas
   profiles:
     active: dev
   cloud:
