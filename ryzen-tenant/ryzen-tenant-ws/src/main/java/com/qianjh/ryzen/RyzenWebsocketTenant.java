@@ -20,6 +20,6 @@ public class RyzenWebsocketTenant {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Starter webSocketStarter() {
-        return new Starter(8102, "/");
+        return new Starter(18002, "/");
     }
 }
