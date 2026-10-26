@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation project(":ryzen-framework:ryzen-framework-security")
     implementation project(":ryzen-framework:ryzen-framework-token")
-    implementation project(":ryzen-framework:ryzen-framework-servlet")
+    implementation project(":ryzen-framework:ryzen-framework-http-webmvc")
     implementation project(":ryzen-framework:ryzen-framework-stream")
     implementation project(":ryzen-framework:ryzen-framework-http")
 

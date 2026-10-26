@@ -11,7 +11,7 @@ import com.qianjh.ryzen.framework.common.exception.TokenExpiredException;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.AccountTokenService;
-import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
+import com.qianjh.ryzen.framework.http.webmvc.service.HttpRequestService;
 import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
 import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
 import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;

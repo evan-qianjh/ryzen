@@ -12,7 +12,7 @@ import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
-import com.qianjh.ryzen.framework.http.util.McUtils;
+import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.RolePermissionService;
 import com.qianjh.ryzen.service.RoleService;

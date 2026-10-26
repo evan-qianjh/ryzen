@@ -6,7 +6,7 @@ import com.qianjh.ryzen.entity.AccountToken;
 import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.mapper.AccountTokenMapper;
 import com.qianjh.ryzen.service.AccountTokenService;
-import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
+import com.qianjh.ryzen.framework.http.webmvc.service.HttpRequestService;
 import com.qianjh.ryzen.framework.token.service.TokenService;
 import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
 import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;

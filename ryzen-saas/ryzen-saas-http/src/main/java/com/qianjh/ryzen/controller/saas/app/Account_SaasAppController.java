@@ -10,7 +10,7 @@ import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.controller.saas._SaasAppController;
-import com.qianjh.ryzen.framework.http.util.PageUtils;
+import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.service.AccountService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

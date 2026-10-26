@@ -10,7 +10,7 @@ import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
-import com.qianjh.ryzen.framework.http.util.McUtils;
+import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.AccountRoleService;
 import com.qianjh.ryzen.service.AccountService;

@@ -1,0 +1,9 @@
+dependencies {
+
+    api project(":ryzen-framework:ryzen-framework-http")
+    api project(":ryzen-framework:ryzen-framework-common")
+
+    api 'org.springframework.boot:spring-boot-starter-webflux'
+
+    api libs.mybatis.plus.extension
+}

@@ -5,7 +5,7 @@ import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
-import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
+import com.qianjh.ryzen.framework.http.webmvc.service.HttpRequestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
