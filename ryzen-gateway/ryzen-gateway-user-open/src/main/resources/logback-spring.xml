@@ -69,9 +69,29 @@
         </encoder>
     </appender>
 
-    <!-- request -->
+    <!--  统计日志  -->
+    <appender name="statistics_logger_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}-statistics.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-statistics-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 请求 -->
     <logger name="request_logger" level="DEBUG" additivity="false">
         <appender-ref ref="request_logger_appender"/>
+    </logger>
+
+    <!-- 统计 -->
+    <logger name="statistics_logger" level="DEBUG" additivity="false">
+        <appender-ref ref="statistics_logger_appender"/>
     </logger>
 
     <!-- code level -->

@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 @RequiredArgsConstructor
 public class ApiStatisticsGlobalFilter implements GlobalFilter, Ordered {
-    private static final Logger API_STATISTICS_LOGGER = LoggerFactory.getLogger("API_STATISTICS_LOGGER");
+    private static final Logger API_STATISTICS_LOGGER = LoggerFactory.getLogger("statistics_logger");
 
     public static final Integer ORDER = Integer.MIN_VALUE;
 
