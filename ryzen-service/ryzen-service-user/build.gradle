@@ -1,19 +1,15 @@
-plugins {
-    id 'org.springframework.boot'
-}
-
 dependencies {
-    implementation project(":ryzen-framework:ryzen-framework-security")
-    implementation project(":ryzen-framework:ryzen-framework-token")
-    implementation project(":ryzen-framework:ryzen-framework-service")
+    api project(":ryzen-framework:ryzen-framework-security")
+    api project(":ryzen-framework:ryzen-framework-token")
+    api project(":ryzen-framework:ryzen-framework-service")
 
-    implementation project(":ryzen-model:ryzen-model-user")
+    api project(":ryzen-model:ryzen-model-user")
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
+    api 'org.springframework.boot:spring-boot-starter-data-redis'
+    api 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
 
-    implementation libs.googleauth
-    implementation libs.mybatis.plus.jsqlparser
-    implementation libs.mybatis.plus.spring
-    implementation libs.mybatis.plus.join
+    api libs.googleauth
+    api libs.mybatis.plus.jsqlparser
+    api libs.mybatis.plus.spring
+    api libs.mybatis.plus.join
 }

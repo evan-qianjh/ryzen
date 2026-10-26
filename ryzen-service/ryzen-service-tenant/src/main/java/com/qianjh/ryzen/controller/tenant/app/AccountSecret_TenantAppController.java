@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountSecret;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.model.Resp;
-import com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController;
+import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.AccountSecretService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.framework.security.service.RyzenMessageService;
@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import static com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController.PATH_PREFIX;
+import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "账户安全")

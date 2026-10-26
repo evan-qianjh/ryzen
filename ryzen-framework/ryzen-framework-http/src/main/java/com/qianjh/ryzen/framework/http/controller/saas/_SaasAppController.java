@@ -1,6 +1,6 @@
-package com.qianjh.ryzen.framework.service.controller.saas;
+package com.qianjh.ryzen.framework.http.controller.saas;
 
-import com.qianjh.ryzen.framework.service.controller._Controller;
+import com.qianjh.ryzen.framework.http.controller._Controller;
 
 /**
  * SaaS后台

@@ -11,7 +11,7 @@ import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.util.McUtils;
-import com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController;
+import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.AccountRoleService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.service.RoleService;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController.PATH_PREFIX;
+import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "账户角色")

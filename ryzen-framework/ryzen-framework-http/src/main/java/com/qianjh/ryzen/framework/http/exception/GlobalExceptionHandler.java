@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.service.exception;
+package com.qianjh.ryzen.framework.http.exception;
 
 import com.qianjh.ryzen.framework.common.exception.BusinessException;
 import com.qianjh.ryzen.framework.common.exception.TokenExpiredException;

@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.service.util;
+package com.qianjh.ryzen.framework.http.util;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;

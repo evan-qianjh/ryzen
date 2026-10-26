@@ -7,6 +7,7 @@ dependencies {
     implementation project(":ryzen-framework:ryzen-framework-token")
     implementation project(":ryzen-framework:ryzen-framework-servlet")
     implementation project(":ryzen-framework:ryzen-framework-service")
+    implementation project(":ryzen-framework:ryzen-framework-http")
 
     implementation project(":ryzen-model:ryzen-model-tenant")
 

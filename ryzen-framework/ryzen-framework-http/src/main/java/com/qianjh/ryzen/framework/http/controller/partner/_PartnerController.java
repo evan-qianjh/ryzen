@@ -1,6 +1,6 @@
-package com.qianjh.ryzen.framework.service.controller.partner;
+package com.qianjh.ryzen.framework.http.controller.partner;
 
-import com.qianjh.ryzen.framework.service.controller._Controller;
+import com.qianjh.ryzen.framework.http.controller._Controller;
 
 /**
  * 合作伙伴

@@ -12,7 +12,7 @@ import com.qianjh.ryzen.entity.AccountToken;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.security.service.RyzenMessageService;
 import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
-import com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController;
+import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.util.Objects;
 
-import static com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController.PUBLIC_PATH_PREFIX;
+import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PUBLIC_PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "public-账户Token")

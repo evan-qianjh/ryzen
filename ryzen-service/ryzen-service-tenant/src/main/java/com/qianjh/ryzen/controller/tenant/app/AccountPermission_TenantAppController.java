@@ -6,7 +6,7 @@ import com.qianjh.ryzen.entity.*;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.model.Resp;
-import com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController;
+import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController.PATH_PREFIX;
+import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "账户权限")

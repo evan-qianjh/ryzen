@@ -1,6 +1,6 @@
-package com.qianjh.ryzen.framework.service.controller.tenant;
+package com.qianjh.ryzen.framework.http.controller.tenant;
 
-import com.qianjh.ryzen.framework.service.controller._Controller;
+import com.qianjh.ryzen.framework.http.controller._Controller;
 
 /**
  * 租户后台

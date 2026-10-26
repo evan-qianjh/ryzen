@@ -3,9 +3,8 @@ package com.qianjh.ryzen.controller.oem.app;
 import com.qianjh.ryzen.controller.oem.app.dto.GetAccountsResp;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderOem;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.model.Resp;
-import com.qianjh.ryzen.framework.service.controller.oem._OemAppController;
+import com.qianjh.ryzen.framework.http.controller.oem._OemAppController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
@@ -13,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import static com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController.PATH_PREFIX;
+import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "账户")

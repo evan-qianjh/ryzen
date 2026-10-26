@@ -8,7 +8,7 @@ import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.security.service.RyzenMessageService;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.security.util.RSAUtils;
-import com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController;
+import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.security.interfaces.RSAPublicKey;
 
-import static com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController.PUBLIC_PATH_PREFIX;
+import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PUBLIC_PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "public-消息加密器")

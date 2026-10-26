@@ -1,12 +1,12 @@
-package com.qianjh.ryzen.framework.service.controller.oem;
+package com.qianjh.ryzen.framework.http.controller.tenant;
 
-import com.qianjh.ryzen.framework.service.controller._Controller;
+import com.qianjh.ryzen.framework.http.controller._Controller;
 
 /**
- * OEM
+ * 租户后台
  */
-public abstract class _OemAppController extends _Controller {
-    public static final String PATH_PREFIX = "/oem/app";
+public abstract class _TenantAppController extends _Controller {
+    public static final String PATH_PREFIX = "/tenant/app";
     public static final String PUBLIC_PATH_PREFIX = PATH_PREFIX + PUBLIC;
 
     /**

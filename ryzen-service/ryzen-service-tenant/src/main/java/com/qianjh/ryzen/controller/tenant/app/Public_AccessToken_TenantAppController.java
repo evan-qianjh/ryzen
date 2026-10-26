@@ -9,7 +9,7 @@ import com.qianjh.ryzen.controller.tenant.app.dto.PostAccessTokenReq;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostAccessTokenResp;
 import com.qianjh.ryzen.framework.common.exception.TokenExpiredException;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
-import com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController;
+import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.AccountTokenService;
 import com.qianjh.ryzen.framework.servlet.service.HttpRequestService;
 import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-import static com.qianjh.ryzen.framework.service.controller.tenant._TenantAppController.PUBLIC_PATH_PREFIX;
+import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PUBLIC_PATH_PREFIX;
 
 @Slf4j
 @Tag(name = "public-AccessToken")

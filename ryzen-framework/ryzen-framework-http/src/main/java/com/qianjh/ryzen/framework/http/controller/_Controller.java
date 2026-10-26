@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.framework.service.controller;
+package com.qianjh.ryzen.framework.http.controller;
 
 /**
  * 基础Controller

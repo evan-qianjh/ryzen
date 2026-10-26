@@ -1,6 +1,6 @@
-package com.qianjh.ryzen.framework.service.controller.cli;
+package com.qianjh.ryzen.framework.http.controller.cli;
 
-import com.qianjh.ryzen.framework.service.controller._Controller;
+import com.qianjh.ryzen.framework.http.controller._Controller;
 
 /**
  * 命令行
