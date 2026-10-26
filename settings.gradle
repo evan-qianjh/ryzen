@@ -50,6 +50,7 @@ include 'ryzen-service:ryzen-service-tenant'
 include 'ryzen-service:ryzen-service-user'
 
 // http (port:80XX)
+include 'ryzen-http:ryzen-http-tenant'
 include 'ryzen-http:ryzen-http-user'
 
 // websocket (port:81XX)

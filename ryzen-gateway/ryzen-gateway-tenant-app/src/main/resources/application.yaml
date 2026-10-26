@@ -67,7 +67,7 @@ spring:
               filters:
                 - StripPrefix=1
                 - PrefixPath=/tenant/app
-              uri: lb://ryzen-service-tenant
+              uri: lb://ryzen-http-tenant
             # ----------------------------------------------------------------------
             - id: user
               order: 3
@@ -78,4 +78,4 @@ spring:
               filters:
                 - StripPrefix=1
                 - PrefixPath=/tenant/app
-              uri: lb://ryzen-service-user
+              uri: lb://ryzen-http-user
