@@ -1,6 +1,5 @@
 package com.qianjh.ryzen.framework.http.model;
 
-import com.qianjh.ryzen.framework.http.util.McUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,7 +46,7 @@ public class Resp<T> {
     /* SUCCESS ----------------------------------------------- */
 
     public static Resp<Object> success() {
-        return new Resp<>(RC_SUCCESS, McUtils.i18n(RespMc.SUCCESS), Collections.emptyList(), null);
+        return new Resp<>(RC_SUCCESS, RespMc.SUCCESS.getEn(), Collections.emptyList(), null);
     }
 
     public static <T> Resp<T> success(String mc) {
@@ -63,14 +62,14 @@ public class Resp<T> {
     }
 
     public static <T> Resp<T> successOf(T result) {
-        return new Resp<>(RC_SUCCESS, McUtils.i18n(RespMc.SUCCESS), Collections.emptyList(), result);
+        return new Resp<>(RC_SUCCESS, RespMc.SUCCESS.getEn(), Collections.emptyList(), result);
     }
 
 
     /* FAILURE ----------------------------------------------- */
 
     public static Resp<Object> failure() {
-        return new Resp<>(RC_FAILURE, McUtils.i18n(RespMc.FAILURE), Collections.emptyList(), null);
+        return new Resp<>(RC_FAILURE, RespMc.FAILURE.getEn(), Collections.emptyList(), null);
     }
 
     public static <T> Resp<T> failure(String mc) {
@@ -82,7 +81,7 @@ public class Resp<T> {
     }
 
     public static <T> Resp<T> failureOf(T result) {
-        return new Resp<>(RC_FAILURE, McUtils.i18n(RespMc.FAILURE), Collections.emptyList(), result);
+        return new Resp<>(RC_FAILURE, RespMc.FAILURE.getEn(), Collections.emptyList(), result);
     }
 
     /* Custom ----------------------------------------------- */

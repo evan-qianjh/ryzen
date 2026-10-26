@@ -5,7 +5,6 @@ plugins {
 dependencies {
     implementation project(":ryzen-framework:ryzen-framework-gateway")
     implementation project(":ryzen-framework:ryzen-framework-security")
-    implementation project(":ryzen-framework:ryzen-framework-http")
 
     implementation project(":ryzen-user:ryzen-user-lib-model")
 
