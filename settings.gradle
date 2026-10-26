@@ -43,14 +43,19 @@ include 'ryzen-gateway:ryzen-gateway-tenant-app'
 include 'ryzen-gateway:ryzen-gateway-user-app'
 include 'ryzen-gateway:ryzen-gateway-user-open'
 
-// service (port:80XX)
+// service
 include 'ryzen-service:ryzen-service-oem'
 include 'ryzen-service:ryzen-service-saas'
 include 'ryzen-service:ryzen-service-tenant'
 include 'ryzen-service:ryzen-service-user'
+
+// http (port:80XX)
+include 'ryzen-http:ryzen-http-user'
 
 // websocket (port:81XX)
 include 'ryzen-websocket:ryzen-websocket-tenant'
 
 // stream (port:82XX)
 include 'ryzen-stream:ryzen-stream-user'
+
+// job (port:83XX)
