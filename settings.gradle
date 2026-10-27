@@ -41,6 +41,7 @@ include 'ryzen-gateway:ryzen-gateway-user-open'
 // ryzen-tenant (port:800X)
 include 'ryzen-tenant:ryzen-tenant-http'
 include 'ryzen-tenant:ryzen-tenant-ws'
+include 'ryzen-tenant:ryzen-tenant-lib-entity'
 include 'ryzen-tenant:ryzen-tenant-lib-model'
 include 'ryzen-tenant:ryzen-tenant-lib-service'
 

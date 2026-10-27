@@ -1,0 +1,7 @@
+dependencies {
+    api libs.swagger.annotations
+    api libs.mybatis.plus.annotation
+    compileOnly libs.mybatis
+
+    api project(":ryzen-tenant:ryzen-tenant-lib-model")
+}
