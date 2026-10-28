@@ -9,8 +9,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class RyzenServiceSaas {
+public class RyzenUserHttp {
     static void main(String[] args) {
-        SpringApplication.run(RyzenServiceSaas.class, args);
+        SpringApplication.run(RyzenUserHttp.class, args);
     }
 }

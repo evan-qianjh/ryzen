@@ -9,8 +9,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class RyzenServiceTenant {
+public class RyzenUserStream {
     static void main(String[] args) {
-        SpringApplication.run(RyzenServiceTenant.class, args);
+        SpringApplication.run(RyzenUserStream.class, args);
     }
 }

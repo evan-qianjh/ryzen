@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Bean;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
-public class RyzenWebsocketTenant {
+public class RyzenTenantWs {
     public static void main(String[] args) {
-        SpringApplication.run(RyzenWebsocketTenant.class, args);
+        SpringApplication.run(RyzenTenantWs.class, args);
 
 //        new Starter(8102, "/").start();
     }
