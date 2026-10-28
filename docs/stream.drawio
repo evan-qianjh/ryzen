@@ -149,7 +149,7 @@
             <mxPoint x="-7" y="10" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="4qccycUcPBtWc-iBkBGY-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#ffe6cc;strokeColor=#d79b00;" value="ryzen-service-job" vertex="1">
+        <mxCell id="4qccycUcPBtWc-iBkBGY-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;verticalAlign=top;fillColor=#ffe6cc;strokeColor=#d79b00;" value="ryzen-xxx-job" vertex="1">
           <mxGeometry height="96" width="223" x="82" y="870.5" as="geometry" />
         </mxCell>
         <mxCell id="4qccycUcPBtWc-iBkBGY-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="stream_outbox" vertex="1">
