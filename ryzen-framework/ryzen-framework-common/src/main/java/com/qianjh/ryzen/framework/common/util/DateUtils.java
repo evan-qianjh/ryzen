@@ -58,13 +58,12 @@ public final class DateUtils {
      * @return Begin, End
      */
     public static Pair<LocalDate, LocalDate> splitRange(String range) {
-
         if (StringUtils.isBlank(range)) {
-            return Pair.of(null, null);
+            return null;
         }
         String[] pair = range.split(RANGE_SPLIT);
         if (pair.length != 2) {
-            return Pair.of(null, null);
+            return null;
         }
         return Pair.of(parse(pair[0]), parse(pair[1]));
     }
