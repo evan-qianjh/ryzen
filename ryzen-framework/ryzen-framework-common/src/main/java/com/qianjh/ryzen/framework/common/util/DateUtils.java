@@ -1,6 +1,7 @@
 package com.qianjh.ryzen.framework.common.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,7 @@ public final class DateUtils {
 
     public static final String DEFAULT_FORMATTER = "yyyy-MM-dd";
     public static final String CLEAR_FORMATTER = "yyyyMMdd";
+    public static final String RANGE_SPLIT = "~";
 
     /* java.time.LocalDate  */
 
@@ -47,6 +49,24 @@ public final class DateUtils {
             return null;
         }
         return Period.between(birthday, LocalDate.now()).getYears();
+    }
+
+    /**
+     * 拆分范围日期
+     *
+     * @param range 2026-10-12~2026-10-22
+     * @return Begin, End
+     */
+    public static Pair<LocalDate, LocalDate> splitRange(String range) {
+
+        if (StringUtils.isBlank(range)) {
+            return Pair.of(null, null);
+        }
+        String[] pair = range.split(RANGE_SPLIT);
+        if (pair.length != 2) {
+            return Pair.of(null, null);
+        }
+        return Pair.of(parse(pair[0]), parse(pair[1]));
     }
 
     /* java.util.Date  */
