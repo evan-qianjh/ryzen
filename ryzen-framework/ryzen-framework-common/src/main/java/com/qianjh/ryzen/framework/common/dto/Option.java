@@ -24,4 +24,7 @@ public class Option {
 
     @Schema(description = "分组")
     private String group;
+
+    @Schema(description = "图标")
+    private String icon;
 }
