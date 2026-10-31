@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 选项
+ *
  * @author QianJH
  */
 @Data
@@ -20,4 +21,7 @@ public class Option {
 
     @Schema(description = "标签值")
     private String value;
+
+    @Schema(description = "分组")
+    private String group;
 }
