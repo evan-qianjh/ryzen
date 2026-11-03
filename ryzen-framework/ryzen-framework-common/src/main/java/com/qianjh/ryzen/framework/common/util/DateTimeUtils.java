@@ -2,6 +2,7 @@ package com.qianjh.ryzen.framework.common.util;
 
 import com.qianjh.ryzen.framework.common.dict.CycleUnit;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +14,7 @@ public final class DateTimeUtils {
 
     public static final DateTimeFormatter FORMATTER_DEFAULT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     public static final DateTimeFormatter FORMATTER_SIMPLE = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    public static final String RANGE_SPLIT = "~";
 
     public static String format(LocalDateTime datetime, String format) {
         if (datetime == null) {
@@ -93,6 +95,23 @@ public final class DateTimeUtils {
 
     public static LocalDateTime getTodayEndTime() {
         return LocalDateTime.of(LocalDate.now(), LocalTime.MAX);
+    }
+
+    /**
+     * 拆分范围日期时间
+     *
+     * @param range 2026-10-12 12:00:00~2026-10-22 22:00:21
+     * @return Begin, End
+     */
+    public static Pair<LocalDateTime, LocalDateTime> splitRange(String range) {
+        if (StringUtils.isBlank(range)) {
+            return null;
+        }
+        String[] pair = range.split(RANGE_SPLIT);
+        if (pair.length != 2) {
+            return null;
+        }
+        return Pair.of(parse(pair[0]), parse(pair[1]));
     }
 
     /**
