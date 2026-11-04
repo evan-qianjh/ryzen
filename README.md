@@ -92,6 +92,18 @@ Ryzen希望逐步建设一套能够应用于真实业务项目的微服务基础
 | SaaS端 | APP      | https://saas-appapi.qianjh.com/{service}[/public]/xxx   | /saas/app      |            |
 | SaaS端 | APP      | https://saas.qianjh.com/api/{service}[/public]/xxx      | /saas/app      | 无跨域方式 |
 
+
+# 代码公约
+- Entity（表实体类）中不允许出现表中以外的字段
+- 数据库表中创建/更新时间用LocalDateTime createdTime/updtedTime
+- 代码中涉及到字典的，不允许用魔法值，必须用enum枚举
+- 逻辑删除应该合并到状态字典中，不要额外维护逻辑删除字段
+- 接口请求/响应/事件模型中凡是涉及到字典，一律用枚举名称，不用数字枚举。例如ApikeyState：用NORMAL/EXPIRED/REVOKED，不用0/1/2
+- 数据库查询（含连表查询）优先使用mybatis-plus/mybatis-plus-join，如果难以实现，在class Mapper上用注解实现，不用xml
+- 单表以外的复杂操作，不要在xxxService中直接操作，应该拔高一层去操作。例如：CreateAccountService.create() -> AccountService.create()/AccountSecretService.create()
+- Service应尽量做到跨Controller复用，业务系统service的方法入参一般都含（oemId, tenantId）。
+- 一般不用service.getById(id)，而是自己封装service.getById(oemId, tenantId, id),后者支持按照租户分库分表
+
 # TODO
 
 - 接口鉴权
