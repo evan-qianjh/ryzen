@@ -20,10 +20,6 @@ public abstract class _UserAppController extends _Controller {
      * @return 操作者
      */
     public Operator buildOperator(Long id, String name) {
-        return Operator.builder()
-                .identity(Operator.Identity.USER_ACCOUNT)
-                .id(id)
-                .name(name)
-                .build();
+        return buildOperator(id, name, Operator.Identity.USER_ACCOUNT);
     }
 }

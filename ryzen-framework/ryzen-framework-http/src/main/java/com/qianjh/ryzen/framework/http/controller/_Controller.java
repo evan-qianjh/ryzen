@@ -1,5 +1,11 @@
 package com.qianjh.ryzen.framework.http.controller;
 
+import com.qianjh.ryzen.framework.common.dto.Operator;
+import org.apache.commons.lang3.StringUtils;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 /**
  * 基础Controller
  *
@@ -45,5 +51,17 @@ public abstract class _Controller {
             return Integer.parseInt(defaultSize);
         }
         return Math.min(pageSize, maxSize);
+    }
+
+    public Operator buildOperator(Long id, String name, Operator.Identity identity) {
+        name = StringUtils.isNotBlank(name)
+                ? new String(Base64.getUrlDecoder().decode(name), StandardCharsets.UTF_8)
+                : name;
+
+        return Operator.builder()
+                .identity(identity)
+                .id(id)
+                .name(name)
+                .build();
     }
 }

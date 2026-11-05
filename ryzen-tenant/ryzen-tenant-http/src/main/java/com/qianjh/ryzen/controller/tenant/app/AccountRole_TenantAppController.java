@@ -6,16 +6,17 @@ import com.qianjh.ryzen.controller.tenant.app.dto.PostAccountRoleReq;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountRole;
 import com.qianjh.ryzen.entity.Role;
+import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
+import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
-import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.service.AccountRoleService;
 import com.qianjh.ryzen.service.AccountService;
 import com.qianjh.ryzen.service.RoleService;
-import com.qianjh.ryzen.framework.common.util.IdUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -66,8 +67,11 @@ public class AccountRole_TenantAppController extends _TenantAppController {
     public Resp<Receipt> post(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                               @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                              @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
                               //
                               @RequestBody @Validated PostAccountRoleReq body) {
+        Operator operator = buildOperator(accountId, accountName);
+
         Account account = accountService.getById(oemId, tenantId, body.getAccountId());
         Role role = roleService.getById(oemId, tenantId, body.getRoleId());
         if (account == null || role == null) {

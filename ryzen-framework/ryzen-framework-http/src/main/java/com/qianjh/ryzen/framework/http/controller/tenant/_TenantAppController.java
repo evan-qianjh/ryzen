@@ -32,10 +32,6 @@ public abstract class _TenantAppController extends _Controller {
      * @return 操作者
      */
     public Operator buildOperator(Long id, String name) {
-        return Operator.builder()
-                .identity(Operator.Identity.TENANT_ACCOUNT)
-                .id(id)
-                .name(name)
-                .build();
+        return buildOperator(id, name, Operator.Identity.TENANT_ACCOUNT);
     }
 }

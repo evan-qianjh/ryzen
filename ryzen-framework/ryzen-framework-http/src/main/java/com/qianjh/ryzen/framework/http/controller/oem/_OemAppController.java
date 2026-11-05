@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.framework.http.controller.oem;
 
+import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.http.controller._Controller;
 
 /**
@@ -21,5 +22,16 @@ public abstract class _OemAppController extends _Controller {
     @Override
     public int safePageSize(Integer pageSize) {
         return super.safePageSize(pageSize, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE);
+    }
+
+    /**
+     * 构建操作者
+     *
+     * @param id   ID
+     * @param name 名称
+     * @return 操作者
+     */
+    public Operator buildOperator(Long id, String name) {
+        return buildOperator(id, name, Operator.Identity.OEM_ACCOUNT);
     }
 }
