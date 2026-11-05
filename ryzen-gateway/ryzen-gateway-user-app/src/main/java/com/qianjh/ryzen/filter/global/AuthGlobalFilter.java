@@ -21,7 +21,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.nio.charset.StandardCharsets;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Base64;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -87,7 +89,14 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
             nextRequestBuilder.header(GatewayHeaderUser.TENANT_ID, tokenPayload.getTenantId());
             nextRequestBuilder.header(GatewayHeaderUser.ACCOUNT_ID, tokenPayload.getAccountId());
-            nextRequestBuilder.header(GatewayHeaderUser.ACCOUNT_NAME, tokenPayload.getAccountName());
+
+            // ACCOUNT_NAME 因为有中文乱码问题，这里需要base64.encode，下游需要base64.decode
+            if (StringUtils.hasText(tokenPayload.getAccountName())) {
+                String accountName = Base64.getUrlEncoder()
+                        .withoutPadding()
+                        .encodeToString(tokenPayload.getAccountName().getBytes(StandardCharsets.UTF_8));
+                nextRequestBuilder.header(GatewayHeaderUser.ACCOUNT_NAME, accountName);
+            }
         }
         // remove header
         nextRequestBuilder.headers(h -> h.remove(HEADER_TOKEN_KEY));
