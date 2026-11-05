@@ -20,4 +20,8 @@ public class GatewayHeaderUser extends GatewayHeader {
      * 账户名称
      */
     public static final String ACCOUNT_NAME = PREFIX + "account-name";
+    /**
+     * APIKEY ID
+     */
+    public static final String APIKEY_ID = PREFIX + "apikey-id";
 }

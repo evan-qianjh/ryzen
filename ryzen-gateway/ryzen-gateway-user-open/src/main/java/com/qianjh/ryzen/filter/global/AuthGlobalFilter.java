@@ -159,7 +159,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
     public static Long getHeaderLongVal(HttpHeaders headers, String header) {
         String headerVal = getHeaderVal(headers, header);
-        if(headerVal == null) {
+        if (headerVal == null) {
             return null;
         }
         return Long.parseLong(headerVal);
@@ -242,6 +242,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest nextRequest = request.mutate()
                 .header(GatewayHeaderUser.TENANT_ID, String.valueOf(apiKey.getTenantId()))
                 .header(GatewayHeaderUser.ACCOUNT_ID, String.valueOf(apiKey.getAccountId()))
+                .header(GatewayHeaderUser.APIKEY_ID, String.valueOf(apiKey.getId()))
                 .build();
 
         return chain.filter(exchange.mutate().request(nextRequest).build());
