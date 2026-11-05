@@ -1,3 +1,5 @@
 dependencies {
     api libs.swagger.annotations
+
+    api project(":ryzen-framework:ryzen-framework-common")
 }
