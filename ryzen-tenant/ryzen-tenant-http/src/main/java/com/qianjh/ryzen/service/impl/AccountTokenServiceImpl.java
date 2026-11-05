@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.Account;
 import com.qianjh.ryzen.entity.AccountToken;
 import com.qianjh.ryzen.framework.common.dto.ClientInfo;
-import com.qianjh.ryzen.mapper.AccountTokenMapper;
-import com.qianjh.ryzen.service.AccountTokenService;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
+import com.qianjh.ryzen.framework.common.util.LongUtils;
 import com.qianjh.ryzen.framework.http.webmvc.service.HttpRequestService;
 import com.qianjh.ryzen.framework.token.service.TokenService;
 import com.qianjh.ryzen.framework.token.service.dto.AccessToken;
 import com.qianjh.ryzen.framework.token.service.dto.RefreshToken;
 import com.qianjh.ryzen.framework.token.service.dto.TokenPayload;
-import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.framework.common.util.LongUtils;
+import com.qianjh.ryzen.mapper.AccountTokenMapper;
+import com.qianjh.ryzen.service.AccountTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -53,7 +53,7 @@ public class AccountTokenServiceImpl extends ServiceImpl<AccountTokenMapper, Acc
 
     @Override
     public RefreshToken generateRefreshToken(Account account, RSAPrivateKey privateKey, ClientInfo clientInfo) {
-        return tokenService.generateRefreshToken(account.getOemId(), account.getTenantId(), null, account.getId(), privateKey);
+        return tokenService.generateRefreshToken(account.getOemId(), account.getTenantId(), null, account.getId(), account.getNickname(), privateKey);
     }
 
     @Override

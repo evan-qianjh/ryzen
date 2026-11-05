@@ -34,6 +34,10 @@ public class TokenPayload {
      */
     private String accountId;
     /**
+     * 账户名称
+     */
+    private String accountName;
+    /**
      * 生成时间
      */
     private Long generatedTime;

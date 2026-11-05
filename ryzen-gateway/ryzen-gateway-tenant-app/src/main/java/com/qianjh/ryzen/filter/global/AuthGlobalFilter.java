@@ -87,6 +87,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
             nextRequestBuilder.header(GatewayHeaderTenant.TENANT_ID, tokenPayload.getTenantId());
             nextRequestBuilder.header(GatewayHeaderTenant.ACCOUNT_ID, tokenPayload.getAccountId());
+            nextRequestBuilder.header(GatewayHeaderTenant.ACCOUNT_NAME, tokenPayload.getAccountName());
         }
         // remove header
         nextRequestBuilder.headers(h -> h.remove(HEADER_TOKEN_KEY));

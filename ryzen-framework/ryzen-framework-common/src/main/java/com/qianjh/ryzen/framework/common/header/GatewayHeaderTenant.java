@@ -19,4 +19,8 @@ public class GatewayHeaderTenant extends GatewayHeader {
      * 账户ID
      */
     public static final String ACCOUNT_ID = PREFIX + "account-id";
+    /**
+     * 账户名称
+     */
+    public static final String ACCOUNT_NAME = PREFIX + "account-name";
 }

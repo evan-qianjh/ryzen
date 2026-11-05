@@ -40,7 +40,8 @@ public class TokenServiceImpl implements TokenService {
     private final JwtConfig jwtConfig;
 
     @Override
-    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long subjectId, Long accountId, Duration duration, RSAPrivateKey privateKey) {
+    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long subjectId, Long accountId, String accountName,
+                                             Duration duration, RSAPrivateKey privateKey) {
         // 构建token
         long generatedTime = System.currentTimeMillis();
         long expiresTime = generatedTime + duration.toMillis();
@@ -52,6 +53,7 @@ public class TokenServiceImpl implements TokenService {
                 .tenantId(IdUtils.toString(tenantId))
                 .subjectId(IdUtils.toString(subjectId))
                 .accountId(IdUtils.toString(accountId))
+                .accountName(accountName)
                 .generatedTime(generatedTime)
                 .expiresTime(expiresTime)
                 .build();
@@ -70,9 +72,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long subjectId, Long accountId, RSAPrivateKey privateKey) {
+    public RefreshToken generateRefreshToken(Long oemId, Long tenantId, Long subjectId, Long accountId, String accountName, RSAPrivateKey privateKey) {
         Duration duration = Duration.ofDays(jwtConfig.getRefreshTokenDurationOfDays());
-        return generateRefreshToken(oemId, tenantId, subjectId, accountId, duration, privateKey);
+        return generateRefreshToken(oemId, tenantId, subjectId, accountId, accountName, duration, privateKey);
     }
 
     @Override
@@ -93,6 +95,7 @@ public class TokenServiceImpl implements TokenService {
                 .tenantId(tokenPayload.getTenantId())
                 .subjectId(tokenPayload.getSubjectId())
                 .accountId(tokenPayload.getAccountId())
+                .accountName(tokenPayload.getAccountName())
                 .generatedTime(generatedTime)
                 .expiresTime(expiresTime)
                 .build();

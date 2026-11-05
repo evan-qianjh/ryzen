@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.filter.global;
 
+import com.qianjh.ryzen.framework.common.header.GatewayHeaderUser;
+import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
 import com.qianjh.ryzen.framework.security.config.RsaProperties;
 import com.qianjh.ryzen.framework.security.config.SecurityProperties;
-import com.qianjh.ryzen.framework.gateway.filter.ForgedRequestGlobalFilter;
-import com.qianjh.ryzen.framework.common.header.GatewayHeaderUser;
 import com.qianjh.ryzen.framework.security.service.RyzenTokenService;
 import com.qianjh.ryzen.framework.token.service.TokenService;
 import com.qianjh.ryzen.framework.token.service.dto.TokenPayload;
@@ -87,6 +87,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
             nextRequestBuilder.header(GatewayHeaderUser.TENANT_ID, tokenPayload.getTenantId());
             nextRequestBuilder.header(GatewayHeaderUser.ACCOUNT_ID, tokenPayload.getAccountId());
+            nextRequestBuilder.header(GatewayHeaderUser.ACCOUNT_NAME, tokenPayload.getAccountName());
         }
         // remove header
         nextRequestBuilder.headers(h -> h.remove(HEADER_TOKEN_KEY));
