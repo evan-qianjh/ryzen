@@ -2,7 +2,6 @@ package com.qianjh.ryzen.framework.http.webmvc.service;
 
 import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.http.HttpHeaders;
 
 import java.util.TreeMap;
 
@@ -12,12 +11,6 @@ import java.util.TreeMap;
 public interface HttpRequestService {
 
     ClientInfo getClientInfo(HttpServletRequest request);
-
-    @Deprecated
-    String getHeaderJson(HttpServletRequest request);
-
-    @Deprecated
-    String getHeaderJson(HttpHeaders httpHeaders);
 
     String toJson(Object body);
 

@@ -2,18 +2,16 @@ package com.qianjh.ryzen.framework.http.webmvc.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.framework.common.header.ClientHeader;
 import com.qianjh.ryzen.framework.common.header.GatewayHeader;
-import com.qianjh.ryzen.framework.common.dto.ClientInfo;
 import com.qianjh.ryzen.framework.http.webmvc.service.HttpRequestService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -45,17 +43,6 @@ public class HttpRequestServiceImpl implements HttpRequestService {
                 .build();
         log.debug("ClientInfo ::: path={}, {}", request.getServletPath(), build);
         return build;
-    }
-
-    @Override
-    public String getHeaderJson(HttpServletRequest request) {
-        Map<String, String> headers = getHeaderMap(request);
-        return GSON.toJson(headers);
-    }
-
-    @Override
-    public String getHeaderJson(HttpHeaders httpHeaders) {
-        return GSON.toJson(httpHeaders);
     }
 
     @Override
