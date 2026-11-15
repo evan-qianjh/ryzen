@@ -57,3 +57,10 @@ include 'ryzen-user:ryzen-user-http'
 include 'ryzen-user:ryzen-user-stream'
 include 'ryzen-user:ryzen-user-lib-model'
 include 'ryzen-user:ryzen-user-lib-service'
+
+// ryzen-chats(port: 804X)
+include 'ryzen-chats:ryzen-chats-executor-meituan'
+include 'ryzen-chats:ryzen-chats-scheduler'
+include 'ryzen-chats:ryzen-chats-http'
+include 'ryzen-chats:ryzen-chats-lib-entity'
+include 'ryzen-chats:ryzen-chats-lib-model'
