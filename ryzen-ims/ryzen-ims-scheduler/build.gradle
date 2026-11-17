@@ -1,0 +1,21 @@
+plugins {
+    id 'org.springframework.boot'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+    implementation 'org.springframework.boot:spring-boot-starter-kafka'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
+    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+
+    implementation project(":ryzen-framework:ryzen-framework-common")
+    implementation project(":ryzen-ims:ryzen-ims-lib-service")
+
+    implementation libs.gson
+    implementation libs.mybatis.plus.jsqlparser
+    implementation libs.mybatis.plus.spring
+    implementation libs.mybatis.plus.join
+    implementation 'com.mysql:mysql-connector-j'
+}

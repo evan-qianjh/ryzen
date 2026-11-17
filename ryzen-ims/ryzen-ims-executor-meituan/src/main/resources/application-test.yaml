@@ -1,3 +1,7 @@
+logging:
+  level:
+    com.qianjh.ryzen: info
+
 spring:
   config:
     import: optional:consul:192.168.188.3:8500

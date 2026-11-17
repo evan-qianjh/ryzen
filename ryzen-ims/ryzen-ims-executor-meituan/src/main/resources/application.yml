@@ -59,7 +59,3 @@ ryzen:
     register-topic: ims.executor.register
     heartbeat-topic: ims.executor.heartbeat
     message-topic: ims.executor.message
-
-logging:
-  level:
-    com.qianjh.ryzen: info

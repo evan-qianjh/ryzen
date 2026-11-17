@@ -1,0 +1,66 @@
+server:
+  port: 8041
+  shutdown: graceful
+
+spring:
+  application:
+    name: ryzen-ims-scheduler
+  profiles:
+    active: test
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        service-name: ${spring.application.name}
+        prefer-ip-address: true
+        health-check-critical-timeout: 2m
+      config:
+        prefixes: config
+        default-context: application
+        data-key: data
+        format: yaml
+        watch:
+          enabled: true
+          delay: 3000
+  output:
+    ansi:
+      enabled: detect
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ryzen.mysql.default.host}/${ryzen.mysql.default.schema}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${ryzen.mysql.default.username}
+    password: ${ryzen.mysql.default.password}
+  sql:
+    init:
+      mode: never
+      schema-locations: classpath:db/schema.sql
+  kafka:
+    bootstrap-servers: ${ryzen.kafka.default.servers:localhost:9092}
+    consumer:
+      group-id: ${spring.application.name}
+      auto-offset-reset: earliest
+      enable-auto-commit: false
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    listener:
+      ack-mode: record
+
+ryzen:
+  scheduler:
+    executor-task-request-topic: ims.executor.task.request
+    executor-task-response-topic: ims.executor.task.response
+    executor-message-topic: ims.executor.message
+    executor-register-topic: ims.executor.register
+    executor-heartbeat-topic: ims.executor.heartbeat
+    # scheduler
+    send-request-topic: ims.scheduler.send.request
+    send-response-topic: ims.scheduler.send.response
+    message-topic: ims.scheduler.message
+    # 心跳超时
+    heartbeat-timeout-seconds: 30
+    task-timeout-seconds: 60
+    timeout-check-interval-ms: 5000
