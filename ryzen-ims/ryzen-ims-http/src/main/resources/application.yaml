@@ -24,6 +24,19 @@ spring:
         watch:
           enabled: true
           delay: 3000
+    function:
+      definition: 'imsScheduleRequestSink;'
+    stream:
+      kafka:
+        binder:
+          brokers: ${ryzen.kafka.default.servers}
+          configuration:
+            auto.offset.reset: latest
+      bindings:
+        # ------------------------------------- producer -------------------------------------
+        imsScheduleRequestSink-out-0:
+          destination: ims.schedule.request
+          content-type: application/json
   output:
     ansi:
       enabled: detect
@@ -34,6 +47,7 @@ spring:
     url: jdbc:mysql://${ryzen.mysql.default.host}/${ryzen.mysql.default.schema}?useSSL=false&allowPublicKeyRetrieval=true
     username: ${ryzen.mysql.default.username}
     password: ${ryzen.mysql.default.password}
+
 springdoc:
   api-docs:
     path: /v3/api-docs

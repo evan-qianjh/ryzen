@@ -1,25 +1,38 @@
 package com.qianjh.ryzen.controller.tenant.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetMessagesResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostMessageReq;
+import com.qianjh.ryzen.entity.Conversation;
+import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.Message;
+import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.http.model.Resp;
+import com.qianjh.ryzen.framework.http.model.RespMc;
+import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
+import com.qianjh.ryzen.framework.stream.util.StreamUtils;
+import com.qianjh.ryzen.service.ConversationService;
+import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.MessageService;
+import com.qianjh.ryzen.stream.ImsSchedulerRequestTopicStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
@@ -31,6 +44,9 @@ import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppContro
 public class Message_TenantAppController extends _TenantAppController {
 
     private final MessageService messageService;
+    private final ImAccountService imAccountService;
+    private final ConversationService conversationService;
+    private final ImsSchedulerRequestTopicStreamProducer imsSchedulerRequestTopicStreamProducer;
 
     @Operation(summary = "分页查询对话")
     @GetMapping("/messages")
@@ -74,9 +90,37 @@ public class Message_TenantAppController extends _TenantAppController {
                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                           @RequestBody @Validated PostMessageReq body
     ) {
-        // TODO 生成一个随机码+内容发给调度器
-        // 通过ws推送一个发送中的消息给客户端
-        // 等待调度器执行结果反馈，将结果通过ws推送给客户端
-        return null;
+        Conversation conversation = conversationService.getById(body.conversationId());
+        Assert.notNull(conversation, McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+
+        ImAccount imAccount = imAccountService.getById(conversation.getImAccountId());
+        Assert.notNull(imAccount, McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+
+        // 生成一个随机码+内容发给调度器
+        ImsSchedulerRequest message = ImsSchedulerRequest.builder()
+                .commandCode(UUID.randomUUID().toString())
+                .imType(imAccount.getImType())
+                .accountCode(imAccount.getCode())
+                .conversationCode(conversation.getCode())
+                .content(body.content())
+                .build();
+        imsSchedulerRequestTopicStreamProducer.send(
+                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        );
+
+        // TODO 通过ws推送一个发送中的消息给客户端
+        // TODO 等待调度器执行结果反馈，将结果通过ws推送给客户端
+
+        return Resp.success();
+    }
+
+    @Builder(toBuilder = true)
+    record ImsSchedulerRequest(
+            String commandCode,
+            ImType imType,
+            String accountCode,
+            String conversationCode,
+            String content
+    ) {
     }
 }

@@ -1,11 +1,14 @@
 server:
   port: 8043
+  shutdown: graceful
 
 spring:
   application:
     name: ryzen-ims-stream
   profiles:
     active: test
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
   cloud:
     consul:
       discovery:
@@ -21,19 +24,19 @@ spring:
         watch:
           enabled: true
           delay: 3000
-#    function:
-#      definition: 'thinkOrderSource;'
+    function:
+      definition: 'imsScheduleResponseSource;'
     stream:
       kafka:
         binder:
           brokers: ${ryzen.kafka.default.servers}
           configuration:
             auto.offset.reset: latest
-#      bindings:
-#        thinkOrderSource-in-0:
-#          destination: think_order
-#          content-type: application/json
-#          group: ${spring.application.name}
+      bindings:
+        imsScheduleResponseSource-in-0:
+          destination: ims.schedule.response
+          content-type: application/json
+          group: ${spring.application.name}
   output:
     ansi:
       enabled: detect

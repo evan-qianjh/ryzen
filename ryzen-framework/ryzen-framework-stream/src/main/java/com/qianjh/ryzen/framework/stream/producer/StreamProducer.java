@@ -53,6 +53,12 @@ public interface StreamProducer {
         }
     }
 
+    default void send(Message<String> message) {
+        while (getSinks().tryEmitNext(message).isFailure()) {
+            LockSupport.parkNanos(100);
+        }
+    }
+
     default void publish(StreamPayload<?> payload, String shardingKey, Long oemId) {
         // build
         Message<String> message = buildMessage(payload, shardingKey, payload.getDomain(), payload.getType(), oemId, getProducer());
