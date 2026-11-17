@@ -3,9 +3,8 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.enums.ExecutorOperationType;
-import com.qianjh.ryzen.enums.ExecutorStatus;
 import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.enums.MessageDirection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,22 +16,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName("ims_executor")
-public class Executor {
+@TableName(_Schema.TABLE_PREFIX + "scheduler_message")
+public class SchedulerMessage {
+
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     private ImType imType;
-    private String code;
+    private String messageCode;
+    private MessageDirection direction;
 
     private String accountCode;
-
-    private ExecutorStatus status;
-    private ExecutorOperationType currentOperation;
-    private String currentTaskId;
-    private LocalDateTime registeredTime;
-    private LocalDateTime lastHeartbeatTime;
-    private String errorMessage;
+    private String conversationCode;
+    private String senderCode;
+    private String senderAvatar;
+    private LocalDateTime sentAt;
+    private String content;
 
     private LocalDateTime createdTime;
 }

@@ -14,9 +14,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @EnableConfigurationProperties(SchedulerProperties.class)
-public class RyzenChatsScheduler {
+public class RyzenImsScheduler {
 
     static void main(String[] args) {
-        SpringApplication.run(RyzenChatsScheduler.class, args);
+        SpringApplication.run(RyzenImsScheduler.class, args);
     }
 }

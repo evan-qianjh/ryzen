@@ -3,7 +3,8 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.enums.ExecutorTaskStatus;
+import com.qianjh.ryzen.enums.ExecutorOperationType;
+import com.qianjh.ryzen.enums.ExecutorStatus;
 import com.qianjh.ryzen.enums.ImType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,29 +17,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName("ims_executor_task")
-public class ExecutorTask {
+@TableName(_Schema.TABLE_PREFIX + "executor")
+public class Executor {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    private String commandCode;
     private ImType imType;
+    private String code;
+
     private String accountCode;
-    private String conversationCode;
-    private String content;
 
-    private ExecutorTaskStatus status;
-
-    private Long executorId;
-
-    private LocalDateTime dispatchTime;
-    private LocalDateTime acceptedTime;
-    private LocalDateTime startTime;
-    private LocalDateTime finishTime;
-    private LocalDateTime deadlineTime;
+    private ExecutorStatus status;
+    private ExecutorOperationType currentOperation;
+    private String currentTaskId;
+    private LocalDateTime registeredTime;
+    private LocalDateTime lastHeartbeatTime;
     private String errorMessage;
-
-    private String receiptCode;
 
     private LocalDateTime createdTime;
 }

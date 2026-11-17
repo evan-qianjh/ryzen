@@ -1,9 +1,8 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.entity.Message;
+import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.model.ExecutorMessage;
-import com.qianjh.ryzen.model.SchedulerMessage;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class CollectedMessageService {
     private final KafkaSchedulerTransport transport;
-    private final MessageService messageService;
+    private final SchedulerMessageService schedulerMessageService;
 
     public void forward(ExecutorMessage event) {
         if (event == null || blank(event.executorCode()) || blank(event.accountCode())
@@ -26,15 +25,15 @@ public class CollectedMessageService {
         }
 
         // 落地去重
-        Message entity = messageService.getByUk(event.imType(), event.messageCode());
+        SchedulerMessage entity = schedulerMessageService.getByUk(event.imType(), event.messageCode());
         if (entity != null) {
             return;
         }
 
-        Message message = messageService.create(event);
+        SchedulerMessage schedulerMessage = schedulerMessageService.create(event);
 
         try {
-            transport.publishCollectedMessage(convert(message)).get(10, TimeUnit.SECONDS);
+            transport.publishCollectedMessage(convert(schedulerMessage)).get(10, TimeUnit.SECONDS);
             log.debug("Collected message forwarded: messageCode={}, accountCode={}, conversationCode={}",
                     event.messageCode(), event.accountCode(), event.conversationCode());
         } catch (InterruptedException e) {
@@ -46,8 +45,8 @@ public class CollectedMessageService {
         }
     }
 
-    private SchedulerMessage convert(Message entity) {
-        return SchedulerMessage.builder()
+    private com.qianjh.ryzen.model.SchedulerMessage convert(SchedulerMessage entity) {
+        return com.qianjh.ryzen.model.SchedulerMessage.builder()
                 .imType(entity.getImType())
                 .direction(entity.getDirection())
                 .accountCode(entity.getAccountCode())
