@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: ryzen-ims-scheduler
+    name: ryzen-ims-rpa-scheduler
   profiles:
     active: test
   lifecycle:
