@@ -58,8 +58,8 @@ include 'ryzen-user:ryzen-user-stream'
 include 'ryzen-user:ryzen-user-lib-model'
 include 'ryzen-user:ryzen-user-lib-service'
 
-// ryzen-chats(port: 804X)
-include 'ryzen-chats:ryzen-chats-http'
-include 'ryzen-chats:ryzen-chats-ws'
-include 'ryzen-chats:ryzen-chats-lib-entity'
-include 'ryzen-chats:ryzen-chats-lib-model'
+// ryzen-ims(port: 804X)
+include 'ryzen-ims:ryzen-ims-http'
+include 'ryzen-ims:ryzen-ims-ws'
+include 'ryzen-ims:ryzen-ims-lib-entity'
+include 'ryzen-ims:ryzen-ims-lib-model'
