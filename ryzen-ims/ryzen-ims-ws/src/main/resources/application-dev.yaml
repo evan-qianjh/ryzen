@@ -1,0 +1,8 @@
+spring:
+  config:
+    import: optional:consul:192.168.187.1:8500
+  cloud:
+    inetutils:
+      preferred-networks:
+        - 192.168.187
+        - 10.168.211

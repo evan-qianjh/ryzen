@@ -1,0 +1,15 @@
+{
+  "id": "1",
+  "action":"login",
+  "params": [
+    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTQ5MDk3MDYsImlkIjoiYmE4NWU1YjctMDg1My00ZTRjLTk0MDEtOTY0YWI5ZDFiOWMwIiwib2VtSWQiOiIxIiwidGVuYW50SWQiOiIxIiwiYWNjb3VudElkIjoiMSIsImdlbmVyYXRlZFRpbWUiOjE3OTQ5MDg4MDY0NTMsImV4cGlyZXNUaW1lIjoxNzk0OTA5NzA2NDUzfQ.MrYhbxmKVVNF5iSZ6lte3_YTHlJ3UtRO-9bxaLBS5q_zeBsk6UP--h1Ib7ENiAa4EeJC7ubjpsOZ3p4FgbpL5qXe1Y8rqTIj1xEtHN2ujcJnKXxYL6wh1RnReFAf8QygEGFcy8Q--BW2HSKj5yGv0LX6OjNdGUW_QBwy6mzPeeRJ5kJOlWE-pTQgISefaVuXXjFoaCgi6K_3nB2-ozshPaljbDvnKgZ1aqZrlx3yM9nx0kZH1ioiYtow_43dmUJ4fyMtQaZB8JzzXakTIQDnSxrwknaQQR833CeXT9NI1wYgLvAmejqIllU5jsVPsRPt1mc96jgSL86KwQJNcLRRYw"
+  ]
+}
+
+{
+  "id": "1",
+  "action":"subscribe",
+  "params": [
+    "private#ims_message"
+  ]
+}

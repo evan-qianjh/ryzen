@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation project(":ryzen-framework:ryzen-framework-security")
     implementation project(":ryzen-framework:ryzen-framework-token")
-//    implementation project(":ryzen-framework:ryzen-framework-servlet")
+    implementation project(":ryzen-framework:ryzen-framework-stream")
     implementation project(":ryzen-framework:ryzen-framework-websocket")
 
 
@@ -15,6 +15,7 @@ dependencies {
 
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
 
 
 //    implementation 'org.postgresql:postgresql'

@@ -20,6 +20,6 @@ public class RyzenImsWs {
 
     @Bean(initMethod = "start", destroyMethod = "stop")
     public Starter webSocketStarter() {
-        return new Starter(18002, "/");
+        return new Starter(18042, "/");
     }
 }
