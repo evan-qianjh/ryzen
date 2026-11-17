@@ -9,7 +9,7 @@ dependencies {
     implementation project(":ryzen-framework:ryzen-framework-websocket")
 
 
-    implementation project(":ryzen-ims:ryzen-ims-lib-model")
+    implementation project(":ryzen-ims:ryzen-ims-lib-service")
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 

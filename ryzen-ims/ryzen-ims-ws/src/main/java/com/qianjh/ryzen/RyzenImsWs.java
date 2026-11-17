@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 @EnableDiscoveryClient
 @SpringBootApplication
 public class RyzenImsWs {
-    public static void main(String[] args) {
+    static void main(String[] args) {
         SpringApplication.run(RyzenImsWs.class, args);
 
 //        new Starter(8102, "/").start();
