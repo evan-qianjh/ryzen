@@ -1,0 +1,59 @@
+server:
+  port: 8043
+
+spring:
+  application:
+    name: ryzen-ims-stream
+  profiles:
+    active: test
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        service-name: ${spring.application.name}
+        prefer-ip-address: true
+        health-check-critical-timeout: 2m
+      config:
+        prefixes: config
+        default-context: application
+        data-key: data
+        format: yaml
+        watch:
+          enabled: true
+          delay: 3000
+#    function:
+#      definition: 'thinkOrderSource;'
+    stream:
+      kafka:
+        binder:
+          brokers: ${ryzen.kafka.default.servers}
+          configuration:
+            auto.offset.reset: latest
+#      bindings:
+#        thinkOrderSource-in-0:
+#          destination: think_order
+#          content-type: application/json
+#          group: ${spring.application.name}
+  output:
+    ansi:
+      enabled: detect
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${ryzen.mysql.default.host}/${ryzen.mysql.default.schema}?useSSL=false&allowPublicKeyRetrieval=true
+    username: ${ryzen.mysql.default.username}
+    password: ${ryzen.mysql.default.password}
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  group-configs:
+    - group: 'cli'
+      display-name: '命令行'
+      paths-to-match:
+        - '/cli/**'
