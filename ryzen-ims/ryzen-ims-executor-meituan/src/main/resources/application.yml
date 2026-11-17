@@ -1,0 +1,65 @@
+server:
+  port: 8045
+  shutdown: graceful
+
+spring:
+  application:
+    name: ryzen-ims-executor-meituan-001
+  profiles:
+    active: test
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+        service-name: ${spring.application.name}
+        prefer-ip-address: true
+        health-check-critical-timeout: 2m
+      config:
+        prefixes: config
+        default-context: application
+        data-key: data
+        format: yaml
+        watch:
+          enabled: true
+          delay: 3000
+  output:
+    ansi:
+      enabled: detect
+  main:
+    allow-bean-definition-overriding: true
+  kafka:
+    bootstrap-servers: ${ryzen.kafka.default.servers}
+    consumer:
+      group-id: ${spring.application.name}
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+ryzen:
+  executor:
+    executor-code: ${spring.application.name}
+    account-code: 123
+    platform-url: https://g.dianping.com/srimworkbench/home/index.html?appId=104&clientType=100900#/im/page/workbench/reception
+    browser-channel: chrome
+    headless: false
+    user-data-dir: ./browser-data/meituan/${ryzen.executor.account-code}
+    collect-interval: 5s
+    login-check-interval: 2s
+    heartbeat-interval-ms: 10000
+    # 必须替换为当前美团页面中“已登录后稳定存在”的元素选择器。
+    login-success-selector: ".shop-select-trigger__text"
+    task-request-topic: ims.executor.task.request
+    task-response-topic: ims.executor.task.response
+    register-topic: ims.executor.register
+    heartbeat-topic: ims.executor.heartbeat
+    message-topic: ims.executor.message
+
+logging:
+  level:
+    com.qianjh.ryzen: info
