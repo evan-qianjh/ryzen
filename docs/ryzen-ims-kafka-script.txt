@@ -1,0 +1,6 @@
+echo '{"taskId":10004,"imType":"MEI_TUAN", "executorCode":"ryzen-ims-executor-meituan-001","accountCode":"123","conversationCode":"2120435031268417563","content":"你好呀"}' |
+bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.task.request
+
+
+echo '{"commandCode":"10001","imType":"MEI_TUAN","accountCode":"123","conversationCode":"2120435031268417563","content":"你好呀"}' |
+bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.scheduler.send
