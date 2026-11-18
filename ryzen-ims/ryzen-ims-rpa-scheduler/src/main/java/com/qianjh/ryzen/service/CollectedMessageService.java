@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service;
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.model.ExecutorMessage;
-import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
+import com.qianjh.ryzen.transport.SchedulerKafkaTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class CollectedMessageService {
-    private final KafkaSchedulerTransport transport;
+    private final SchedulerKafkaTransport transport;
     private final SchedulerMessageService schedulerMessageService;
 
     public void forward(ExecutorMessage event) {

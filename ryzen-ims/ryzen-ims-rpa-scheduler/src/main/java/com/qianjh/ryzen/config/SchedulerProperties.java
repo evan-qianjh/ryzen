@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "ryzen.scheduler")
 public class SchedulerProperties {
-
+    private String executorCommandTopic = "ims.executor.command";
     /**
      * 执行器任务topic
      */
@@ -28,6 +28,10 @@ public class SchedulerProperties {
      */
     private String executorHeartbeatTopic = "ims.executor.heartbeat";
 
+
+
+
+    private String commandTopic = "ims.scheduler.command";
     /**
      * 发送命令topic
      */
@@ -50,5 +54,5 @@ public class SchedulerProperties {
     /**
      * 超时检测间隔
      */
-    private long timeoutCheckIntervalMs = 5_000;
+    private long timeoutCheckIntervalSeconds = 5;
 }

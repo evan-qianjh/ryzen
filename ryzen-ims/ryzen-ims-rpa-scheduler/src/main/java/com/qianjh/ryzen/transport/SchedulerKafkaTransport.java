@@ -3,6 +3,7 @@ package com.qianjh.ryzen.transport;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.SchedulerProperties;
+import com.qianjh.ryzen.model.ExecutorCommand;
 import com.qianjh.ryzen.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.model.SchedulerMessage;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +15,20 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 @RequiredArgsConstructor
-public class KafkaSchedulerTransport {
+public class SchedulerKafkaTransport {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final SchedulerProperties properties;
     private final Gson gson = new GsonBuilder().serializeNulls().create();
+
+    /**
+     * 向执行器发送指令
+     *
+     * @param command 指令
+     * @return 结果
+     */
+    public CompletableFuture<SendResult<String, String>> executorCommand(ExecutorCommand command) {
+        return send(properties.getExecutorCommandTopic(), command.executorCode(), command);
+    }
 
     /**
      * 分发任务给执行器

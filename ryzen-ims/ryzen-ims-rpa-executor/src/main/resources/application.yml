@@ -30,6 +30,7 @@ ryzen:
     collect-interval-seconds: 5
     heartbeat-interval-seconds: 10
     login-check-interval-seconds: 2
+    command-topic: ims.executor.command
     register-topic: ims.executor.register
     heartbeat-topic: ims.executor.heartbeat
     message-topic: ims.executor.message

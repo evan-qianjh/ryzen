@@ -2,12 +2,10 @@ package com.qianjh.ryzen.transport;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.qianjh.ryzen.model.ExecutorMessage;
-import com.qianjh.ryzen.model.ExecutorSnapshot;
-import com.qianjh.ryzen.model.ExecutorTaskResponse;
-import com.qianjh.ryzen.model.SchedulerRequest;
+import com.qianjh.ryzen.model.*;
 import com.qianjh.ryzen.service.CollectedMessageService;
 import com.qianjh.ryzen.service.ExecutorRegistryService;
+import com.qianjh.ryzen.service.SchedulerCommandService;
 import com.qianjh.ryzen.service.SendTaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +20,17 @@ public class SchedulerKafkaListener {
     private final SendTaskService sendTaskService;
     private final ExecutorRegistryService executorRegistryService;
     private final CollectedMessageService collectedMessageService;
+    private final SchedulerCommandService schedulerCommandService;
+
+    /**
+     * 聚合聊天发送消息
+     *
+     * @param payload 报文
+     */
+    @KafkaListener(topics = "${ryzen.scheduler.command}", groupId = "${spring.kafka.consumer.group-id}")
+    public void onCommand(String payload) {
+        handle("command", payload, SchedulerCommand.class, schedulerCommandService::handle);
+    }
 
     /**
      * 聚合聊天发送消息

@@ -14,7 +14,7 @@ import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import com.qianjh.ryzen.service.SendTaskService;
 import com.qianjh.ryzen.service.TaskDispatchService;
-import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
+import com.qianjh.ryzen.transport.SchedulerKafkaTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class SendTaskServiceImpl implements SendTaskService {
     private final SchedulerProperties properties;
     private final ExecutorService executorService;
-    private final KafkaSchedulerTransport transport;
+    private final SchedulerKafkaTransport transport;
     private final ExecutorTaskService executorTaskService;
     private final TaskDispatchService taskDispatchService;
 

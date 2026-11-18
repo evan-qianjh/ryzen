@@ -35,7 +35,7 @@ public class ExecutorListener {
         }
     }
 
-    @KafkaListener(topics = "ims.executor.command")
+    @KafkaListener(topics = "${ryzen.executor.command-topic}")
     public void onCommand(String payload) {
         try {
             ExecutorCommand task = gson.fromJson(payload, ExecutorCommand.class);

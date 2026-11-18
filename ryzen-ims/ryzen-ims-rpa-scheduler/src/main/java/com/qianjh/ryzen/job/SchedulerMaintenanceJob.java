@@ -23,7 +23,7 @@ public class SchedulerMaintenanceJob {
     private final ExecutorService executorService;
     private final ExecutorTaskService executorTaskService;
 
-    @Scheduled(fixedDelayString = "${ryzen.scheduler.timeout-check-interval-ms:5000}")
+    @Scheduled(fixedDelayString = "${ryzen.scheduler.timeout-check-interval-seconds:5}")
     public void checkTimeouts() {
         LocalDateTime now = LocalDateTime.now();
         // 标记超时待处理任务
