@@ -49,6 +49,23 @@ spring:
     listener:
       ack-mode: record
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  group-configs:
+    - group: 'cli'
+      display-name: '命令行'
+      paths-to-match:
+        - '/cli/**'
+    - group: 'tenant-app'
+      display-name: '租户-APP'
+      paths-to-match:
+        - '/tenant/app/**'
+
 ryzen:
   scheduler:
     executor-task-request-topic: ims.executor.task.request
