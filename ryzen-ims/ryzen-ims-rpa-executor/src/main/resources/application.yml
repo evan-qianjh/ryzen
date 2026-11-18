@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ryzen-ims-rpa-executor-001
+    name: ryzen-ims-rpa-executor
   profiles:
     active: test
   lifecycle:
@@ -13,7 +13,7 @@ spring:
   kafka:
     bootstrap-servers: ${ryzen.kafka.default.servers}
     consumer:
-      group-id: ${spring.application.name}
+      group-id: ${spring.application.name}-${ryzen.executor.executor-code}
       auto-offset-reset: latest
       enable-auto-commit: true
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
@@ -24,7 +24,7 @@ spring:
 
 ryzen:
   executor:
-    executor-code: ${spring.application.name}
+    executor-code: 001
     browser-channel: chrome
     headless: false
     collect-interval: 5s
