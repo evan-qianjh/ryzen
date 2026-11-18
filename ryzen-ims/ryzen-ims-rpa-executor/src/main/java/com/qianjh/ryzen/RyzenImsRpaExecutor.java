@@ -12,8 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 @SpringBootApplication
 @EnableConfigurationProperties(ExecutorProperties.class)
-public class RyzenImsRpaExecutorMeituan {
+public class RyzenImsRpaExecutor {
     static void main(String[] args) {
-        SpringApplication.run(RyzenImsRpaExecutorMeituan.class, args);
+        SpringApplication.run(RyzenImsRpaExecutor.class, args);
     }
 }

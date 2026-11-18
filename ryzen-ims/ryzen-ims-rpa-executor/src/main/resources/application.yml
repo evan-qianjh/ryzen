@@ -44,16 +44,12 @@ spring:
 ryzen:
   executor:
     executor-code: ${spring.application.name}
-    account-code: 123
-    platform-url: https://g.dianping.com/srimworkbench/home/index.html?appId=104&clientType=100900#/im/page/workbench/reception
     browser-channel: chrome
     headless: false
-    user-data-dir: ./browser-data/meituan/${ryzen.executor.account-code}
     collect-interval: 5s
     login-check-interval: 2s
     heartbeat-interval-ms: 10000
     # 必须替换为当前美团页面中“已登录后稳定存在”的元素选择器。
-    login-success-selector: ".shop-select-trigger__text"
     task-request-topic: ims.executor.task.request
     task-response-topic: ims.executor.task.response
     register-topic: ims.executor.register

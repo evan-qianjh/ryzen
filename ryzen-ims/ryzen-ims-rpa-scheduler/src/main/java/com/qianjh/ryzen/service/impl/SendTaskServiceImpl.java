@@ -131,7 +131,7 @@ public class SendTaskServiceImpl implements SendTaskService {
 
         ExecutorTaskStatus status;
         try {
-            status = ExecutorTaskStatus.valueOf(response.status());
+            status = response.status();
         } catch (Exception e) {
             log.warn("Ignore unsupported task status: {}", response.status());
             return;

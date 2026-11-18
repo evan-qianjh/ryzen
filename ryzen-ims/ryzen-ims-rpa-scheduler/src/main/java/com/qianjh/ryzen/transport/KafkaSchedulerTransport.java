@@ -43,7 +43,7 @@ public class KafkaSchedulerTransport {
      * 发送
      *
      * @param topic   topic
-     * @param key     key
+     * @param key     code
      * @param payload payload
      * @return 结果
      */

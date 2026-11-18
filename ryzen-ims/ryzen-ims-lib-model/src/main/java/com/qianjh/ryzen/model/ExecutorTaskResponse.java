@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.model;
 
+import com.qianjh.ryzen.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.enums.ImType;
 import lombok.Builder;
 
@@ -20,7 +21,7 @@ public record ExecutorTaskResponse(
         String executorCode,
         String accountCode,
         Long taskId,
-        String status,
+        ExecutorTaskStatus status,
         String errorMessage,
         Long finishedAt,
         String receiptCode

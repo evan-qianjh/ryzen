@@ -7,6 +7,7 @@ import com.microsoft.playwright.Playwright;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.enums.MessageDirection;
+import com.qianjh.ryzen.model.Assignment;
 import com.qianjh.ryzen.model.ExecutorMessage;
 import com.qianjh.ryzen.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
@@ -33,13 +34,14 @@ public class PlaywrightBrowserSession implements BrowserSession {
     private final BrowserContext context;
     private final Page page;
     private final ExecutorProperties properties;
+    private final Assignment assignment;
 
     // 对话最后一条消息ID
     private final Map<String, Long> CHAT_LAST_MSG = new HashMap<>();
 
     @Override
     public boolean isLoggedIn() {
-        String selector = properties.getLoginSuccessSelector();
+        String selector = assignment.imType().getLoginSuccessSelector();
         if (selector == null || selector.isBlank()) {
             throw new IllegalStateException("Configure ryzen.executor.login-success-selector before starting the executor");
         }
@@ -200,7 +202,7 @@ public class PlaywrightBrowserSession implements BrowserSession {
                             .imType(ImType.MEI_TUAN)
                             .direction(direction)
                             .executorCode(properties.getExecutorCode())
-                            .accountCode(properties.getAccountCode())
+                            .accountCode(assignment.accountCode())
                             .messageCode(messageId)
                             .conversationCode(chatCode)
                             .senderCode(senderName)
