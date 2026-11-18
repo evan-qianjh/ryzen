@@ -6,19 +6,22 @@ import com.qianjh.ryzen.controller.tenant.app.dto.GetImAccountsResp;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.enums.ImAccountStatus;
 import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.enums.SchedulerCommandType;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.http.model.Resp;
+import com.qianjh.ryzen.framework.http.model.RespMc;
+import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
+import com.qianjh.ryzen.model.SchedulerCommand;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.stream.ImsSchedulerCommandTopicStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
@@ -87,14 +90,30 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                          @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                          @PathVariable Long id) {
-        // TODO
-        ImsSchedulerCommand message = ImsSchedulerCommand.builder()
+        ImAccount imAccount = imAccountService.getById(oemId, tenantId, id);
+        if (imAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+        // 判断状态
+        if (imAccount.getStatus() != ImAccountStatus.STOPPED) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_CONFLICT));
+        }
+
+        // command
+        SchedulerCommand message = SchedulerCommand.builder()
                 .code(UUID.randomUUID().toString().replace("-", ""))
+                .type(SchedulerCommandType.STARTUP)
+                .imType(imAccount.getImType())
+                .accountCode(imAccount.getCode())
                 .build();
         imsSchedulerCommandTopicStreamProducer.send(
                 MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
         );
-        return null;
+
+        // STARTING
+        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.STARTING);
+
+        return success ? Resp.success() : Resp.failure();
     }
 
     @Operation(summary = "停止")
@@ -103,15 +122,21 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                         @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                         @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                         @PathVariable Long id) {
-        // TODO
-        return null;
+        ImAccount imAccount = imAccountService.getById(oemId, tenantId, id);
+        if (imAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+
+        SchedulerCommand message = SchedulerCommand.builder()
+                .code(UUID.randomUUID().toString().replace("-", ""))
+                .type(SchedulerCommandType.SHUTDOWN)
+                .imType(imAccount.getImType())
+                .accountCode(imAccount.getCode())
+                .build();
+        imsSchedulerCommandTopicStreamProducer.send(
+                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        );
+        return Resp.success();
     }
 
-    @Builder(toBuilder = true)
-    record ImsSchedulerCommand(
-            String code,
-            ImType imType,
-            String accountCode
-    ) {
-    }
 }
