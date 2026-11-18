@@ -27,7 +27,10 @@ public class KafkaSchedulerListener {
      *
      * @param payload 报文
      */
-    @KafkaListener(topics = "${ryzen.scheduler.command}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+            topics = "${ryzen.scheduler.command}",
+            groupId = "${spring.kafka.consumer.group-id}"
+    )
     public void onCommand(String payload) {
         handle("command", payload, SchedulerCommand.class, schedulerCommandService::handle);
     }
@@ -37,7 +40,10 @@ public class KafkaSchedulerListener {
      *
      * @param payload 报文
      */
-    @KafkaListener(topics = "${ryzen.scheduler.send-request-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+            topics = "${ryzen.scheduler.send-request-topic}",
+            groupId = "${spring.kafka.consumer.group-id}"
+    )
     public void onSendRequest(String payload) {
         handle("send request", payload, SchedulerRequest.class, sendTaskService::accept);
     }
@@ -47,7 +53,11 @@ public class KafkaSchedulerListener {
      *
      * @param payload 报文
      */
-    @KafkaListener(topics = "${ryzen.scheduler.executor-register-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+            topics = "${ryzen.scheduler.executor-register-topic}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "publicKafkaListenerContainerFactory"
+    )
     public void onExecutorRegister(String payload) {
         handle("executor register", payload, ExecutorSnapshot.class, executorRegistryService::register);
     }
@@ -57,7 +67,11 @@ public class KafkaSchedulerListener {
      *
      * @param payload 报文
      */
-    @KafkaListener(topics = "${ryzen.scheduler.executor-heartbeat-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+            topics = "${ryzen.scheduler.executor-heartbeat-topic}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "publicKafkaListenerContainerFactory"
+    )
     public void onExecutorHeartbeat(String payload) {
         handle("executor heartbeat", payload, ExecutorSnapshot.class, executorRegistryService::heartbeat);
     }
@@ -67,7 +81,11 @@ public class KafkaSchedulerListener {
      *
      * @param payload 报文
      */
-    @KafkaListener(topics = "${ryzen.scheduler.executor-status-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+            topics = "${ryzen.scheduler.executor-status-topic}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "publicKafkaListenerContainerFactory"
+    )
     public void onExecutorStatus(String payload) {
         handle("executor status", payload, ExecutorSnapshot.class, executorRegistryService::status);
     }
@@ -77,7 +95,11 @@ public class KafkaSchedulerListener {
      *
      * @param payload 报文
      */
-    @KafkaListener(topics = "${ryzen.scheduler.executor-task-response-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+            topics = "${ryzen.scheduler.executor-task-response-topic}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "publicKafkaListenerContainerFactory"
+    )
     public void onExecutorTaskResponse(String payload) {
         handle("executor task response", payload, ExecutorTaskResponse.class, sendTaskService::handleTaskResponse);
     }
@@ -87,7 +109,11 @@ public class KafkaSchedulerListener {
      *
      * @param payload 报文
      */
-    @KafkaListener(topics = "${ryzen.scheduler.executor-message-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(
+            topics = "${ryzen.scheduler.executor-message-topic}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "publicKafkaListenerContainerFactory"
+    )
     public void onCollectedMessage(String payload) {
         handle("collected message", payload, ExecutorMessage.class, collectedMessageService::forward);
     }

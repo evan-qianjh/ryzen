@@ -16,7 +16,8 @@ import java.util.concurrent.CompletableFuture;
 @Component
 @RequiredArgsConstructor
 public class KafkaSchedulerTransport {
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, String> defaultKafkaTemplate;
+    private final KafkaTemplate<String, String> publicKafkaTemplate;
     private final SchedulerProperties properties;
     private final Gson gson = new GsonBuilder().serializeNulls().create();
 
@@ -27,7 +28,11 @@ public class KafkaSchedulerTransport {
      * @return 结果
      */
     public CompletableFuture<SendResult<String, String>> executorCommand(ExecutorCommand command) {
-        return send(properties.getExecutorCommandTopic(), command.executorCode(), command);
+        return publicKafkaTemplate.send(
+                properties.getExecutorCommandTopic(),
+                command.executorCode(),
+                gson.toJson(command)
+        );
     }
 
     /**
@@ -37,7 +42,11 @@ public class KafkaSchedulerTransport {
      * @return 结果
      */
     public CompletableFuture<SendResult<String, String>> executorTask(ExecutorTaskRequest task) {
-        return send(properties.getExecutorTaskRequestTopic(), task.accountCode(), task);
+        return publicKafkaTemplate.send(
+                properties.getExecutorTaskRequestTopic(),
+                task.accountCode(),
+                gson.toJson(task)
+        );
     }
 
     /**
@@ -47,18 +56,10 @@ public class KafkaSchedulerTransport {
      * @return 结果
      */
     public CompletableFuture<SendResult<String, String>> schedulerMessage(SchedulerMessage message) {
-        return send(properties.getMessageTopic(), message.messageCode(), message);
-    }
-
-    /**
-     * 发送
-     *
-     * @param topic   topic
-     * @param key     id
-     * @param payload payload
-     * @return 结果
-     */
-    private CompletableFuture<SendResult<String, String>> send(String topic, String key, Object payload) {
-        return kafkaTemplate.send(topic, key, gson.toJson(payload));
+        return defaultKafkaTemplate.send(
+                properties.getMessageTopic(),
+                message.messageCode(),
+                gson.toJson(message)
+        );
     }
 }
