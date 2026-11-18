@@ -102,7 +102,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         // command
         SchedulerCommand message = SchedulerCommand.builder()
                 .code(UUID.randomUUID().toString().replace("-", ""))
-                .type(SchedulerCommandType.STARTUP)
+                .type(SchedulerCommandType.ASSIGN)
                 .imType(imAccount.getImType())
                 .accountCode(imAccount.getCode())
                 .build();
@@ -129,7 +129,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         SchedulerCommand message = SchedulerCommand.builder()
                 .code(UUID.randomUUID().toString().replace("-", ""))
-                .type(SchedulerCommandType.SHUTDOWN)
+                .type(SchedulerCommandType.RELEASE)
                 .imType(imAccount.getImType())
                 .accountCode(imAccount.getCode())
                 .build();

@@ -2,19 +2,19 @@ package com.qianjh.ryzen.enums;
 
 public enum ExecutorCommandType {
     /**
-     * 分配
+     * 启动
      */
-    ASSIGN,
+    START,
     /**
-     * 释放
+     * 停止
      */
-    RELEASE,
+    STOP,
     /**
      * 重启
      */
     RESTART,
     /**
-     * 停止
+     * 关机
      */
     SHUTDOWN
 }

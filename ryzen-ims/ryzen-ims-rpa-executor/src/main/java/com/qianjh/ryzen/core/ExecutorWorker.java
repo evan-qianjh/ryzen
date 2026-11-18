@@ -70,7 +70,7 @@ public class ExecutorWorker {
 
 
     @PostConstruct
-    public void start() {
+    public void startup() {
         workerThread = new Thread(this::run, "browser-worker");
         workerThread.setDaemon(true);
         workerThread.start();
@@ -316,19 +316,20 @@ public class ExecutorWorker {
         }
 
         switch (command.type()) {
-            case ASSIGN -> assign(command.assignment());
-            case RELEASE -> release();
+            case START -> start(command.assignment());
+            case STOP -> stop();
             case RESTART -> restart();
-            case SHUTDOWN -> running = false;
+//            case SHUTDOWN -> running = false;
+            case SHUTDOWN -> shutdown();
         }
     }
 
     /**
-     * 分配账号
+     * 启动
      *
      * @param newAssignment 新的指派
      */
-    private void assign(Assignment newAssignment) {
+    private void start(Assignment newAssignment) {
         if (assignment != null) {
             log.warn("Executor already has an account assigned");
             return;
@@ -345,9 +346,9 @@ public class ExecutorWorker {
     }
 
     /**
-     * 释放账号
+     * 停止
      */
-    private void release() {
+    private void stop() {
         Assignment current = this.assignment;
 
         if (current == null) {
@@ -373,6 +374,50 @@ public class ExecutorWorker {
         this.status = ExecutorStatus.IDLE;
 
         log.info("账号释放完成, executorKey={}, accountCode={}", properties.getCode(), current.accountCode());
+    }
+
+    /**
+     * 重启会话
+     */
+    private void restart() {
+        Assignment current = this.assignment;
+
+        if (current == null) {
+            log.warn("当前没有账号分配，无法重启 Session");
+            return;
+        }
+
+        log.info("准备重启浏览器会话, executorKey={}, accountKey={}",
+                properties.getCode(),
+                current.accountCode());
+
+        // 停止接收新任务
+        this.status = ExecutorStatus.INITIALIZING;
+
+        // 取消尚未执行的任务
+        cancelPendingTasks("SESSION_RESTART");
+
+        // 关闭旧会话
+        closeSession();
+
+        try {
+            // 创建新会话
+            this.session = browserSessionFactory.open(current);
+
+            // 进入登录等待状态
+            this.status = ExecutorStatus.WAIT_LOGIN;
+
+            log.info("浏览器会话重启完成，等待登录, accountKey={}",
+                    current.accountCode());
+
+        } catch (Exception e) {
+            this.status = ExecutorStatus.ERROR;
+
+            log.error("浏览器会话重启失败, accountKey={}",
+                    current.accountCode(), e);
+
+            // TODO reportExecutorError(e);
+        }
     }
 
     /**
@@ -509,52 +554,9 @@ public class ExecutorWorker {
                 cancelledTasks.size());
     }
 
-    /**
-     * 重启会话
-     */
-    private void restart() {
-        Assignment current = this.assignment;
-
-        if (current == null) {
-            log.warn("当前没有账号分配，无法重启 Session");
-            return;
-        }
-
-        log.info("准备重启浏览器会话, executorKey={}, accountKey={}",
-                properties.getCode(),
-                current.accountCode());
-
-        // 停止接收新任务
-        this.status = ExecutorStatus.INITIALIZING;
-
-        // 取消尚未执行的任务
-        cancelPendingTasks("SESSION_RESTART");
-
-        // 关闭旧会话
-        closeSession();
-
-        try {
-            // 创建新会话
-            this.session = browserSessionFactory.open(current);
-
-            // 进入登录等待状态
-            this.status = ExecutorStatus.WAIT_LOGIN;
-
-            log.info("浏览器会话重启完成，等待登录, accountKey={}",
-                    current.accountCode());
-
-        } catch (Exception e) {
-            this.status = ExecutorStatus.ERROR;
-
-            log.error("浏览器会话重启失败, accountKey={}",
-                    current.accountCode(), e);
-
-            // TODO reportExecutorError(e);
-        }
-    }
 
     @PreDestroy
-    public void stop() {
+    public void shutdown() {
         running = false;
         if (workerThread != null) {
             workerThread.interrupt();

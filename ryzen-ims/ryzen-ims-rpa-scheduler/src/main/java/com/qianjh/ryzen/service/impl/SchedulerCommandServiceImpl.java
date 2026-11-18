@@ -39,7 +39,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
     public void handle(SchedulerCommand command) {
         switch (command.type()) {
             // 启动
-            case STARTUP -> {
+            case ASSIGN -> {
                 // 查出最近分配过且IDLE的executor
                 Assignment lastAssignment = assignmentMapper.selectOne(new MPJLambdaWrapper<Assignment>()
                         .innerJoin(Executor.class, Executor::getId, Assignment::getExecutorId)
@@ -70,7 +70,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                 // build
                 ExecutorCommand executorCommand = ExecutorCommand.builder()
                         .code(null)
-                        .type(ExecutorCommandType.ASSIGN)
+                        .type(ExecutorCommandType.START)
                         .executorCode(executor.getCode())
                         .assignment(com.qianjh.ryzen.model.Assignment.builder()
                                 .id(assignment.getId())
@@ -86,7 +86,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                 }
             }
             // 停止
-            case SHUTDOWN -> {
+            case RELEASE -> {
                 Executor executor = executorService.getByAccount(command.imType(), command.accountCode());
                 if (executor == null) {
                     log.error("获取执行器失败 ::: {}", command);
@@ -95,7 +95,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
 
                 ExecutorCommand executorCommand = ExecutorCommand.builder()
                         .code(null)
-                        .type(ExecutorCommandType.RELEASE)
+                        .type(ExecutorCommandType.STOP)
                         .executorCode(executor.getCode())
                         .build();
                 try {

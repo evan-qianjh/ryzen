@@ -2,11 +2,11 @@ package com.qianjh.ryzen.enums;
 
 public enum SchedulerCommandType {
     /**
-     * 启动
+     * 分配
      */
-    STARTUP,
+    ASSIGN,
     /**
-     * 停止
+     * 释放
      */
-    SHUTDOWN
+    RELEASE
 }
