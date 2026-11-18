@@ -201,7 +201,7 @@ public class PlaywrightBrowserSession implements BrowserSession {
                     ExecutorMessage.builder()
                             .imType(ImType.MEI_TUAN)
                             .direction(direction)
-                            .executorCode(properties.getExecutorCode())
+                            .executorCode(properties.getCode())
                             .accountCode(assignment.accountCode())
                             .messageCode(messageId)
                             .conversationCode(chatCode)

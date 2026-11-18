@@ -26,6 +26,8 @@ echo '{"commandKey":"cmd-002","executorCode":"001","type":"RELEASE"}' |
 bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
 ```
 
+
+## Topic
 | topic                      | 描述                         | 方向                  | executer权限 | scheduler权限 | stream权限 |
 |----------------------------|------------------------------|-----------------------|--------------|---------------|------------|
 | ims.executor.command       | 调度器给执行器下发指令       | scheduler -> executer | R            | W             | -          |
@@ -37,3 +39,7 @@ bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims
 | ims.scheduler.message      | 调度器采集的消息推给接入方   | scheduler -> stream   | -            | W             | R          |
 | ims.scheduler.send.request | 接入方发给调度器的发送请求   | stream -> scheduler   | -            | R             | W          |
 
+# kafka ACL
+执行器账号: ryzen-ims-executor-001
+
+调度器账号: ryzen-ims-scheduler

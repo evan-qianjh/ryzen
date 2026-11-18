@@ -19,7 +19,7 @@ public class ExecutorHeartbeat {
     private final ExecutorWorker worker;
     private final ExecutorTransport transport;
 
-    @Scheduled(fixedDelayString = "${ryzen.executor.heartbeat-interval-ms:10000}")
+    @Scheduled(fixedDelayString = "${ryzen.executor.heartbeat-interval-seconds:10}")
     public void heartbeat() {
         ExecutorSnapshot snapshot = worker.snapshot();
         transport.heartbeat(snapshot);

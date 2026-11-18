@@ -102,7 +102,7 @@ public class ExecutorWorker {
         }
 
         // 忽略其他执行器任务
-        if (!properties.getExecutorCode().equals(task.executorCode())
+        if (!properties.getCode().equals(task.executorCode())
                 || !current.accountCode().equals(task.accountCode())
                 || !current.code().equals(task.assignmentCode())
                 || !current.fencingToken().equals(task.fencingToken())
@@ -187,7 +187,7 @@ public class ExecutorWorker {
                     }
                     // 未登录
                     else {
-                        Thread.sleep(properties.getLoginCheckInterval().toMillis());
+                        Thread.sleep(properties.getLoginCheckIntervalSeconds() * 1000);
                         continue;
                     }
                 }
@@ -223,7 +223,7 @@ public class ExecutorWorker {
                     // ------------------------------------------
                     Instant now = Instant.now();
 
-                    if (!now.isBefore(lastCollectedAt.plus(properties.getCollectInterval()))) {
+                    if (!now.isBefore(lastCollectedAt.plusSeconds(properties.getCollectIntervalSeconds()))) {
 
                         executeCollect(session);
 
@@ -277,7 +277,7 @@ public class ExecutorWorker {
 
         return ExecutorSnapshot.builder()
                 .imType(ImType.MEI_TUAN)
-                .executorCode(properties.getExecutorCode())
+                .executorCode(properties.getCode())
                 .accountCode(current == null ? null : current.accountCode())
                 .assignmentCode(current == null ? null : current.code())
                 .fencingToken(current == null ? null : current.fencingToken())
@@ -311,7 +311,7 @@ public class ExecutorWorker {
      */
     private void handleCommand(ExecutorCommand command) {
         // 非当前执行器
-        if (!properties.getExecutorCode().equals(command.executorCode())) {
+        if (!properties.getCode().equals(command.executorCode())) {
             return;
         }
 
@@ -372,7 +372,7 @@ public class ExecutorWorker {
         // 恢复空闲状态
         this.status = ExecutorStatus.IDLE;
 
-        log.info("账号释放完成, executorKey={}, accountCode={}", properties.getExecutorCode(), current.accountCode());
+        log.info("账号释放完成, executorKey={}, accountCode={}", properties.getCode(), current.accountCode());
     }
 
     /**
@@ -430,7 +430,7 @@ public class ExecutorWorker {
 
             ExecutorTaskResponse result = ExecutorTaskResponse.builder()
                     .imType(ImType.MEI_TUAN)
-                    .executorCode(properties.getExecutorCode())
+                    .executorCode(properties.getCode())
                     .accountCode(assignment.accountCode())
                     .taskId(task.taskId())
                     .status(ExecutorTaskStatus.SUCCESS)
@@ -446,7 +446,7 @@ public class ExecutorWorker {
             log.error("Send task outcome is unknown: {}", task.taskId(), e);
             ExecutorTaskResponse result = ExecutorTaskResponse.builder()
                     .imType(ImType.MEI_TUAN)
-                    .executorCode(properties.getExecutorCode())
+                    .executorCode(properties.getCode())
                     .accountCode(assignment.accountCode())
                     .taskId(task.taskId())
                     .status(ExecutorTaskStatus.UNKNOWN)
@@ -490,7 +490,7 @@ public class ExecutorWorker {
                 transport.taskFinished(
                         ExecutorTaskResponse.builder()
                                 .imType(task.imType())
-                                .executorCode(properties.getExecutorCode())
+                                .executorCode(properties.getCode())
                                 .accountCode(current.accountCode())
                                 .taskId(task.taskId())
                                 .status(ExecutorTaskStatus.CANCELED)
@@ -504,7 +504,7 @@ public class ExecutorWorker {
         }
 
         log.info("取消待执行任务, executorKey={}, accountKey={}, count={}",
-                properties.getExecutorCode(),
+                properties.getCode(),
                 current.accountCode(),
                 cancelledTasks.size());
     }
@@ -521,7 +521,7 @@ public class ExecutorWorker {
         }
 
         log.info("准备重启浏览器会话, executorKey={}, accountKey={}",
-                properties.getExecutorCode(),
+                properties.getCode(),
                 current.accountCode());
 
         // 停止接收新任务
