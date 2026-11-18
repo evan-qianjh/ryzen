@@ -16,5 +16,5 @@ public enum ExecutorCommandType {
     /**
      * 停止
      */
-    STOP
+    SHUTDOWN
 }

@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder(toBuilder = true)
 public record Assignment(
-        String code,
+        Long id,
         Long fencingToken,
 
         ImType imType,

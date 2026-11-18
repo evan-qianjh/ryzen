@@ -11,7 +11,7 @@ public interface ExecutorService extends IService<Executor> {
 
     Executor getByCode(ImType type, String code);
 
-    Executor getByAccountCode(ImType type, String accountCode);
+    Executor getByAccount(ImType type, String accountCode);
 
     Executor create(ImType type, String code);
 

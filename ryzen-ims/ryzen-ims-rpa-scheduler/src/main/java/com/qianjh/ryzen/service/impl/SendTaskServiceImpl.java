@@ -55,7 +55,7 @@ public class SendTaskServiceImpl implements SendTaskService {
         if (!task.getImType().equals(request.imType())
                 || !task.getAccountCode().equals(request.accountCode())
                 || !task.getConversationCode().equals(request.conversationCode())) {
-            throw new IllegalArgumentException("code was reused with a different payload: " + request.code());
+            throw new IllegalArgumentException("id was reused with a different payload: " + request.code());
         }
 
         // 待执行
@@ -77,7 +77,7 @@ public class SendTaskServiceImpl implements SendTaskService {
         }
 
         // 找出执行器
-        Executor executor = executorService.getByAccountCode(imType, accountCode);
+        Executor executor = executorService.getByAccount(imType, accountCode);
 
         // 如果没有可用的执行器
         if (executor == null || executor.getStatus() != ExecutorStatus.READY) {

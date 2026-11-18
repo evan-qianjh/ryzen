@@ -8,7 +8,7 @@ import lombok.Builder;
  */
 @Builder(toBuilder = true)
 public record ExecutorTaskRequest(
-        String assignmentCode,
+        Long assignmentId,
         Long fencingToken,
         ImType imType,
         String accountCode,

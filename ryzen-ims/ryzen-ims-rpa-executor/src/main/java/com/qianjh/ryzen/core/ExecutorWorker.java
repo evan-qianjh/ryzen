@@ -104,7 +104,7 @@ public class ExecutorWorker {
         // 忽略其他执行器任务
         if (!properties.getCode().equals(task.executorCode())
                 || !current.accountCode().equals(task.accountCode())
-                || !current.code().equals(task.assignmentCode())
+                || !current.id().equals(task.assignmentId())
                 || !current.fencingToken().equals(task.fencingToken())
         ) {
             log.debug("Ignore task targeted at another executor/account: {}", task.taskId());
@@ -279,7 +279,7 @@ public class ExecutorWorker {
                 .imType(ImType.MEI_TUAN)
                 .executorCode(properties.getCode())
                 .accountCode(current == null ? null : current.accountCode())
-                .assignmentCode(current == null ? null : current.code())
+                .assignmentId(current == null ? null : current.id())
                 .fencingToken(current == null ? null : current.fencingToken())
                 .status(status)
                 .currentOperation(currentOperation)
@@ -319,7 +319,7 @@ public class ExecutorWorker {
             case ASSIGN -> assign(command.assignment());
             case RELEASE -> release();
             case RESTART -> restart();
-            case STOP -> running = false;
+            case SHUTDOWN -> running = false;
         }
     }
 
@@ -355,7 +355,7 @@ public class ExecutorWorker {
             return;
         }
 
-        log.info("释放账号, accountCode={}, code={}", current.accountCode(), current.code());
+        log.info("释放账号, accountCode={}, id={}", current.accountCode(), current.id());
 
         // 停止接收新任务
         this.status = ExecutorStatus.INITIALIZING;
@@ -480,7 +480,7 @@ public class ExecutorWorker {
         for (QueuedSend queue : cancelledTasks) {
             ExecutorTaskRequest task = queue.task;
             // 只取消当前账号分配下的任务
-            if (!Objects.equals(task.assignmentCode(), current.code())) {
+            if (!Objects.equals(task.assignmentId(), current.id())) {
                 // 理论上不应该出现其他分配的任务，避免误取消
                 sendQueue.offer(queue);
                 continue;

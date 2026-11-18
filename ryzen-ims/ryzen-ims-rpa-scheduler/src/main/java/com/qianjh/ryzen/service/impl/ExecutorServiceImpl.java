@@ -26,7 +26,7 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
     }
 
     @Override
-    public Executor getByAccountCode(ImType type, String accountCode) {
+    public Executor getByAccount(ImType type, String accountCode) {
         return getOne(new LambdaQueryWrapper<Executor>()
                 .eq(Executor::getImType, type)
                 .eq(Executor::getAccountCode, accountCode)

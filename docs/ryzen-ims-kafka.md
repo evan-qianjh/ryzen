@@ -1,8 +1,38 @@
+### 接入方让scheduler启动账号
+
+```shell
+echo '{"code":"cmd-001","type":"STARTUP","imType":"MEI_TUAN","accountCode":"123"}' |
+bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.scheduler.command
+```
+
+### 接入方让scheduler停止账号
+
+```shell
+echo '{"code":"cmd-001","type":"SHUTDOWN","imType":"MEI_TUAN","accountCode":"123"}' |
+bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.scheduler.command
+```
+
 ### 接入方让scheduler发送消息
 
 ```shell
 echo '{"commandCode":"10001","imType":"MEI_TUAN","accountCode":"123","conversationCode":"2120435031268417563","content":"你好呀"}' |
 bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.scheduler.send
+```
+
+<hr />
+
+### scheduler分配executor
+
+```shell
+echo '{"id":"cmd-001","executorCode":"001","type":"ASSIGN","assignment":{"id":"assignment-001","imType":"MEI_TUAN","accountCode":"123","fencingToken":1001}}' |
+bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
+```
+
+### scheduler释放executor
+
+```shell
+echo '{"id":"cmd-002","executorCode":"001","type":"RELEASE"}' |
+bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
 ```
 
 ### scheduler让executor发送消息
@@ -12,31 +42,7 @@ echo '{"taskId":10004,"imType":"MEI_TUAN", "executorCode":"001","accountCode":"1
 bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.task.request
 ```
 
-### 接入方让scheduler分配执行器
-
-```shell
-echo '{"code":"cmd-001","type":"ASSIGN","imType":"MEI_TUAN","accountCode":"123"}'
-```
-
-### 接入方让scheduler释放执行器
-
-```shell
-echo '{"code":"cmd-001","type":"RELEASE","imType":"MEI_TUAN","accountCode":"123"}'
-```
-
-### scheduler分配executor
-
-```shell
-echo '{"code":"cmd-001","executorCode":"001","type":"ASSIGN","assignment":{"code":"assignment-001","imType":"MEI_TUAN","accountCode":"123","fencingToken":1001}}' |
-bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
-```
-
-### scheduler释放executor
-
-```shell
-echo '{"code":"cmd-002","executorCode":"001","type":"RELEASE"}' |
-bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
-```
+<hr />
 
 ## kafka-public
 

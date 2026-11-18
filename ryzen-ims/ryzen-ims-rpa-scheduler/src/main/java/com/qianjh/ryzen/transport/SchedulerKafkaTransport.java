@@ -54,7 +54,7 @@ public class SchedulerKafkaTransport {
      * 发送
      *
      * @param topic   topic
-     * @param key     code
+     * @param key     id
      * @param payload payload
      * @return 结果
      */
