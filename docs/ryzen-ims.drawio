@@ -176,7 +176,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="sgI8TpdLQj7p2PicKRae-23" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;rotation=90;" value="" vertex="1">
-          <mxGeometry height="223" width="60" x="430.5" y="872.5" as="geometry" />
+          <mxGeometry height="223" width="60" x="431.5" y="807.5" as="geometry" />
         </mxCell>
         <mxCell id="sgI8TpdLQj7p2PicKRae-24" edge="1" parent="1" source="sgI8TpdLQj7p2PicKRae-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#d5e8d4;strokeColor=#82b366;" target="sgI8TpdLQj7p2PicKRae-23">
           <mxGeometry relative="1" as="geometry" />
@@ -187,7 +187,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="sgI8TpdLQj7p2PicKRae-25" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="注册/心跳&lt;div&gt;kafka&lt;/div&gt;&lt;div&gt;ims.executor.register&lt;/div&gt;&lt;div&gt;ims.executor.heartbeat&lt;/div&gt;" vertex="1">
-          <mxGeometry height="30" width="60" x="425.75" y="969" as="geometry" />
+          <mxGeometry height="30" width="60" x="426.75" y="904" as="geometry" />
         </mxCell>
         <mxCell id="sgI8TpdLQj7p2PicKRae-27" edge="1" parent="1" source="sgI8TpdLQj7p2PicKRae-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontColor=#FFB570;fillColor=#ffe6cc;strokeColor=#d79b00;" target="sgI8TpdLQj7p2PicKRae-23">
           <mxGeometry relative="1" as="geometry" />
@@ -226,14 +226,20 @@
         <mxCell id="sgI8TpdLQj7p2PicKRae-36" parent="1" style="swimlane;startSize=0;" value="聚合聊天服务" vertex="1">
           <mxGeometry height="204" width="200" x="1248" y="1062" as="geometry" />
         </mxCell>
-        <mxCell id="evLPilckgvB3638-_uI4-3" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="账号调度" vertex="1">
-          <mxGeometry height="40" width="120" x="40" y="22" as="geometry" />
+        <mxCell id="evLPilckgvB3638-_uI4-3" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="接待调度" vertex="1">
+          <mxGeometry height="40" width="120" x="40" y="108" as="geometry" />
         </mxCell>
-        <mxCell id="evLPilckgvB3638-_uI4-4" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="消息存档" vertex="1">
-          <mxGeometry height="36" width="120" x="40" y="74" as="geometry" />
+        <mxCell id="evLPilckgvB3638-_uI4-4" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="客服账号" vertex="1">
+          <mxGeometry height="36" width="57" x="40" y="63" as="geometry" />
         </mxCell>
-        <mxCell id="AVvflabqGcv-pRj6uG-Y-4" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="message" vertex="1">
-          <mxGeometry height="36" width="120" x="40" y="125" as="geometry" />
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-29" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="IM账号" vertex="1">
+          <mxGeometry height="36" width="57" x="103" y="63" as="geometry" />
+        </mxCell>
+        <mxCell id="AVvflabqGcv-pRj6uG-Y-4" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="消息" vertex="1">
+          <mxGeometry height="36" width="120" x="40" y="18" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-30" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="IM账号调度" vertex="1">
+          <mxGeometry height="40" width="120" x="40" y="157" as="geometry" />
         </mxCell>
         <mxCell id="sgI8TpdLQj7p2PicKRae-39" edge="1" parent="1" source="sgI8TpdLQj7p2PicKRae-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fontColor=#FFB570;fillColor=#ffe6cc;strokeColor=#d79b00;" target="sgI8TpdLQj7p2PicKRae-32" value="订阅">
           <mxGeometry relative="1" x="-0.0681" y="-15" as="geometry">
@@ -315,13 +321,13 @@
         <mxCell id="evLPilckgvB3638-_uI4-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="收到的消息&lt;br&gt;&lt;div&gt;kafka&lt;/div&gt;&lt;div&gt;ims.scheduler.&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;message&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="184.5" x="972" y="1314" as="geometry" />
         </mxCell>
-        <mxCell id="evLPilckgvB3638-_uI4-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="发送响应&lt;br&gt;&lt;div&gt;kafka&lt;/div&gt;&lt;div&gt;ims.scheduler&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;.response&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="evLPilckgvB3638-_uI4-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="发消息响应&lt;br&gt;&lt;div&gt;kafka&lt;/div&gt;&lt;div&gt;ims.scheduler&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;.response&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="173.75" x="976.61" y="1201" as="geometry" />
         </mxCell>
         <mxCell id="evLPilckgvB3638-_uI4-5" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;rotation=90;" value="" vertex="1">
           <mxGeometry height="184.5" width="60" x="1034.25" y="1020.75" as="geometry" />
         </mxCell>
-        <mxCell id="evLPilckgvB3638-_uI4-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="发送请求&lt;br&gt;&lt;div&gt;kafka&lt;/div&gt;&lt;div&gt;ims.scheduler&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;.request&lt;/span&gt;&lt;/div&gt;" vertex="1">
+        <mxCell id="evLPilckgvB3638-_uI4-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="发消息请求&lt;br&gt;&lt;div&gt;kafka&lt;/div&gt;&lt;div&gt;ims.scheduler&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;.request&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="178.75" x="974.1099999999999" y="1099" as="geometry" />
         </mxCell>
         <mxCell id="sgI8TpdLQj7p2PicKRae-18" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;任务结果&lt;/div&gt;kafka&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ims.executor.&lt;/span&gt;task&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;.response&lt;/span&gt;&lt;/div&gt;" vertex="1">
@@ -374,6 +380,30 @@
         </mxCell>
         <mxCell id="m9426XtJ_nnhGeJi8TM9-19" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;TODO&lt;/h1&gt;&lt;p&gt;执行器可以启动后就绪等待分配imType+accountCode&lt;/p&gt;&lt;p&gt;执行器部署在非可信服务器上，如果保障kafka通讯安全？&lt;/p&gt;&lt;p&gt;&amp;nbsp; - 如果走混合云思路kafka+SASL_SSL+ACL，topic权限要严格控制避免越权&lt;/p&gt;&lt;p&gt;&amp;nbsp; - 如果走执行器通过ws与网关器网关，要注意消息丢失问题&lt;/p&gt;" vertex="1">
           <mxGeometry height="174" width="412" x="1146" y="1439" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-20" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;rotation=90;" value="" vertex="1">
+          <mxGeometry height="223" width="60" x="426.75" y="897.5" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-21" edge="1" parent="1" source="sgI8TpdLQj7p2PicKRae-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#d5e8d4;strokeColor=#82b366;" target="m9426XtJ_nnhGeJi8TM9-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-22" edge="1" parent="1" source="sgI8TpdLQj7p2PicKRae-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;fillColor=#ffe6cc;strokeColor=#d79b00;" target="m9426XtJ_nnhGeJi8TM9-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="&lt;div&gt;指令&lt;/div&gt;kafka&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;ims.executor.command&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="110" x="404" y="994" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-28" edge="1" parent="1" source="m9426XtJ_nnhGeJi8TM9-25" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="sgI8TpdLQj7p2PicKRae-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-25" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;rotation=90;" value="" vertex="1">
+          <mxGeometry height="184.5" width="60" x="1034.25" y="914.75" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-26" edge="1" parent="1" source="sgI8TpdLQj7p2PicKRae-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="m9426XtJ_nnhGeJi8TM9-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m9426XtJ_nnhGeJi8TM9-27" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="指令&lt;br&gt;&lt;div&gt;kafka&lt;/div&gt;&lt;div&gt;ims.scheduler&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;.command&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="178.75" x="976.61" y="994" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
