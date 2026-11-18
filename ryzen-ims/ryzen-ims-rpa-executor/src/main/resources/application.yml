@@ -1,7 +1,3 @@
-server:
-  port: 8045
-  shutdown: graceful
-
 spring:
   application:
     name: ryzen-ims-rpa-executor-001
@@ -9,21 +5,6 @@ spring:
     active: test
   lifecycle:
     timeout-per-shutdown-phase: 30s
-  cloud:
-    consul:
-      discovery:
-        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
-        service-name: ${spring.application.name}
-        prefer-ip-address: true
-        health-check-critical-timeout: 2m
-      config:
-        prefixes: config
-        default-context: application
-        data-key: data
-        format: yaml
-        watch:
-          enabled: true
-          delay: 3000
   output:
     ansi:
       enabled: detect
