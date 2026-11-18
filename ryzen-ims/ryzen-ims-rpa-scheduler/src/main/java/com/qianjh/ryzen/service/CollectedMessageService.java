@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service;
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.model.ExecutorMessage;
-import com.qianjh.ryzen.transport.SchedulerKafkaTransport;
+import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 @Service
 @RequiredArgsConstructor
 public class CollectedMessageService {
-    private final SchedulerKafkaTransport transport;
+    private final KafkaSchedulerTransport transport;
     private final SchedulerMessageService schedulerMessageService;
 
     public void forward(ExecutorMessage event) {
@@ -33,7 +33,7 @@ public class CollectedMessageService {
         SchedulerMessage schedulerMessage = schedulerMessageService.create(event);
 
         try {
-            transport.publishCollectedMessage(convert(schedulerMessage)).get(10, TimeUnit.SECONDS);
+            transport.schedulerMessage(convert(schedulerMessage)).get(10, TimeUnit.SECONDS);
             log.debug("Collected message forwarded: messageCode={}, accountCode={}, conversationCode={}",
                     event.messageCode(), event.accountCode(), event.conversationCode());
         } catch (InterruptedException e) {

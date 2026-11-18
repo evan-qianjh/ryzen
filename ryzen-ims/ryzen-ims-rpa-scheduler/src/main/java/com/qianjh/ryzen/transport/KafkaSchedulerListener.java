@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SchedulerKafkaListener {
+public class KafkaSchedulerListener {
     private final Gson gson = new GsonBuilder().create();
     private final SendTaskService sendTaskService;
     private final ExecutorRegistryService executorRegistryService;

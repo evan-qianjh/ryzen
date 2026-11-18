@@ -1,10 +1,11 @@
-package com.qianjh.ryzen.transport;
+package com.qianjh.ryzen.transport.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.model.*;
+import com.qianjh.ryzen.transport.ExecutorTransport;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;

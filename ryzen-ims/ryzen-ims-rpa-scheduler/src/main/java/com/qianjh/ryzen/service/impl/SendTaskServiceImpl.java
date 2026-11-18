@@ -14,7 +14,7 @@ import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import com.qianjh.ryzen.service.SendTaskService;
 import com.qianjh.ryzen.service.TaskDispatchService;
-import com.qianjh.ryzen.transport.SchedulerKafkaTransport;
+import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
 public class SendTaskServiceImpl implements SendTaskService {
     private final SchedulerProperties properties;
     private final ExecutorService executorService;
-    private final SchedulerKafkaTransport transport;
+    private final KafkaSchedulerTransport transport;
     private final ExecutorTaskService executorTaskService;
     private final TaskDispatchService taskDispatchService;
 
@@ -103,7 +103,7 @@ public class SendTaskServiceImpl implements SendTaskService {
                 .build();
         try {
             // 等待 Kafka broker 确认后再结束本次调度调用；失败时结果可能不确定，不自动重发。
-            transport.dispatch(payload).get(10, TimeUnit.SECONDS);
+            transport.executorTask(payload).get(10, TimeUnit.SECONDS);
             log.info("Task dispatched: taskId={}, executorId={}, accountCode={}",
                     task.getId(), executor.getId(), accountCode);
         } catch (InterruptedException e) {

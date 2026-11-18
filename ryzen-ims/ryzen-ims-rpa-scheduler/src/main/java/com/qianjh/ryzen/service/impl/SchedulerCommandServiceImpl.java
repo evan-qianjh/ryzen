@@ -12,7 +12,7 @@ import com.qianjh.ryzen.model.SchedulerCommand;
 import com.qianjh.ryzen.service.AssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.SchedulerCommandService;
-import com.qianjh.ryzen.transport.SchedulerKafkaTransport;
+import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeoutException;
 @RequiredArgsConstructor
 public class SchedulerCommandServiceImpl implements SchedulerCommandService {
 
-    private final SchedulerKafkaTransport transport;
+    private final KafkaSchedulerTransport transport;
     private final AssignmentService assignmentService;
     private final AssignmentMapper assignmentMapper;
     private final ExecutorService executorService;
@@ -52,8 +52,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                 Executor executor;
                 if (lastAssignment != null) {
                     executor = executorService.getById(lastAssignment.getExecutorId());
-                } else {
-                    // 如果没有则获取最早注册IDLE
+                } else { // 如果没有则获取最早注册IDLE
                     executor = executorService.getOne(new LambdaQueryWrapper<Executor>()
                             .eq(Executor::getStatus, ExecutorStatus.IDLE)
                             .orderByAsc(Executor::getRegisteredTime)

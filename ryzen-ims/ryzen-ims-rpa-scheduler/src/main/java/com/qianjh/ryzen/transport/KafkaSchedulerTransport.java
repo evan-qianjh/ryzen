@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Component
 @RequiredArgsConstructor
-public class SchedulerKafkaTransport {
+public class KafkaSchedulerTransport {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final SchedulerProperties properties;
     private final Gson gson = new GsonBuilder().serializeNulls().create();
@@ -36,7 +36,7 @@ public class SchedulerKafkaTransport {
      * @param task 任务
      * @return 结果
      */
-    public CompletableFuture<SendResult<String, String>> dispatch(ExecutorTaskRequest task) {
+    public CompletableFuture<SendResult<String, String>> executorTask(ExecutorTaskRequest task) {
         return send(properties.getExecutorTaskRequestTopic(), task.accountCode(), task);
     }
 
@@ -46,7 +46,7 @@ public class SchedulerKafkaTransport {
      * @param message 消息
      * @return 结果
      */
-    public CompletableFuture<SendResult<String, String>> publishCollectedMessage(SchedulerMessage message) {
+    public CompletableFuture<SendResult<String, String>> schedulerMessage(SchedulerMessage message) {
         return send(properties.getMessageTopic(), message.messageCode(), message);
     }
 
