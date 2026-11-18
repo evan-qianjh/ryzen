@@ -4,7 +4,7 @@ server:
 
 spring:
   application:
-    name: ryzen-ims-rpa-executor-meituan-001
+    name: ryzen-ims-rpa-executor-001
   profiles:
     active: test
   lifecycle:

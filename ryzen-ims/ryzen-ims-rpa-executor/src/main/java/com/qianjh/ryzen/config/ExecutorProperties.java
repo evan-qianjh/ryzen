@@ -17,7 +17,7 @@ public class ExecutorProperties {
     /**
      * 执行器
      */
-    private String executorCode = "ryzen-ims-rpa-executor-meituan-001";
+    private String executorCode = "ryzen-ims-rpa-executor-001";
     /**
      * 目标平台账号
      */
