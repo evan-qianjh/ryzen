@@ -35,6 +35,16 @@ public class KafkaExecutorTransport implements ExecutorTransport {
     }
 
     @Override
+    public void started(ExecutorSnapshot snapshot) {
+        send(properties.getStatusTopic(), snapshot.executorCode(), snapshot);
+    }
+
+    @Override
+    public void stopped(ExecutorSnapshot snapshot) {
+        send(properties.getStatusTopic(), snapshot.executorCode(), snapshot);
+    }
+
+    @Override
     public void taskAccepted(ExecutorTaskRequest task) {
         send(properties.getTaskResponseTopic(), IdUtils.toString(task.taskId()), new TaskLifecycleEvent(task.taskId(), "ACCEPTED", null));
     }

@@ -55,6 +55,10 @@ public class ExecutorProperties {
      */
     private String heartbeatTopic = "ims.executor.heartbeat";
     /**
+     * 状态topic
+     */
+    private String statusTopic = "ims.executor.status";
+    /**
      * 消息topic（执行器采集到的消息）
      */
     private String messageTopic = "ims.executor.message";

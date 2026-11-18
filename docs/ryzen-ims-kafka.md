@@ -48,14 +48,15 @@ bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims
 
 ### topic
 
-| topic                      | 描述                         | 方向                  | executer | scheduler |
-|----------------------------|------------------------------|-----------------------|----------|-----------|
-| ims.executor.command       | 调度器给执行器下发指令       | scheduler -> executer | R        | W         |
-| ims.executor.register      | 执行器向调度器注册           | executer -> scheduler | W        | R         | 
-| ims.executor.heartbeat     | 执行器向调度器汇报心跳       | executer -> scheduler | W        | R         | 
-| ims.executor.message       | 执行器采集的消息推给调度器   | executer -> scheduler | W        | R         | 
-| ims.executor.task.request  | 调度器发给执行器的任务请求   | scheduler -> executer | R        | W         | 
-| ims.executor.task.response | 执行器反馈给调度器的任务响应 | executer -> scheduler | W        | R         | 
+| topic                      | 描述     | 方向                  | executer | scheduler |
+|----------------------------|----------|-----------------------|----------|-----------|
+| ims.executor.command       | 指令     | scheduler -> executer | R        | W         |
+| ims.executor.register      | 注册     | executer -> scheduler | W        | R         | 
+| ims.executor.heartbeat     | 心跳     | executer -> scheduler | W        | R         | 
+| ims.executor.status        | 状态     | executer -> scheduler | W        | R         | 
+| ims.executor.message       | 消息     | executer -> scheduler | W        | R         |
+| ims.executor.task.request  | 任务请求 | scheduler -> executer | R        | W         | 
+| ims.executor.task.response | 任务响应 | executer -> scheduler | W        | R         | 
 
 ### ACL
 

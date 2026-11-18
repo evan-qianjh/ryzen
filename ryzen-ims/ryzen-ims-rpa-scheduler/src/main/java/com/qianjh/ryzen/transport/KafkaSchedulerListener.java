@@ -63,6 +63,16 @@ public class KafkaSchedulerListener {
     }
 
     /**
+     * 执行器状态
+     *
+     * @param payload 报文
+     */
+    @KafkaListener(topics = "${ryzen.scheduler.executor-status-topic}", groupId = "${spring.kafka.consumer.group-id}")
+    public void onExecutorStatus(String payload) {
+        handle("executor status", payload, ExecutorSnapshot.class, executorRegistryService::status);
+    }
+
+    /**
      * 执行器反馈的任务结果
      *
      * @param payload 报文

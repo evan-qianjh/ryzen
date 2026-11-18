@@ -27,6 +27,10 @@ public class SchedulerProperties {
      * 执行器心跳topic
      */
     private String executorHeartbeatTopic = "ims.executor.heartbeat";
+    /**
+     * 执行期状态topic
+     */
+    private String executorStatusTopic = "ims.executor.status";
 
 
 

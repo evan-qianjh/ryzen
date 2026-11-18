@@ -49,6 +49,20 @@ public class ExecutorRegistryService {
         }
     }
 
+    public void status(ExecutorSnapshot snapshot) {
+        validate(snapshot);
+        Executor executor = executorService.getByCode(snapshot.imType(), snapshot.executorCode());
+        if (executor == null) {
+            log.warn("Heartbeat received from unregistered executor: {}", snapshot.executorCode());
+            return;
+        }
+
+        if (snapshot.status() == ExecutorStatus.STARTED || snapshot.status() == ExecutorStatus.STOPPED) {
+            // TODO 通知接入方，更新IM账号状态
+
+        }
+    }
+
     private void validate(ExecutorSnapshot snapshot) {
         if (snapshot == null || blank(snapshot.executorCode()) || blank(snapshot.accountCode()) || snapshot.status() == null) {
             throw new IllegalArgumentException("Invalid executor snapshot");

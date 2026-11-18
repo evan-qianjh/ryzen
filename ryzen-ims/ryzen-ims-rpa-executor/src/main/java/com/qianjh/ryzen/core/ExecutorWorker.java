@@ -142,7 +142,7 @@ public class ExecutorWorker {
                 if (assignment == null) {
                     status = ExecutorStatus.IDLE;
 
-                    // 阻塞在此
+                    // 阻塞获取
                     ExecutorCommand command = commandQueue.take();
                     handleCommand(command);
 
@@ -153,7 +153,7 @@ public class ExecutorWorker {
                 // 2. 已分配账号，但尚未创建浏览器会话
                 // ==================================================
                 if (session == null) {
-                    status = ExecutorStatus.INITIALIZING;
+                    status = ExecutorStatus.STARTING;
 
                     session = browserSessionFactory.open(assignment);
 
@@ -162,8 +162,7 @@ public class ExecutorWorker {
 
                     status = ExecutorStatus.WAIT_LOGIN;
 
-                    log.info("Waiting for login ::: accountCode={}",
-                            assignment.accountCode());
+                    log.info("Waiting for login ::: accountCode={}", assignment.accountCode());
                 }
 
                 // ==================================================
@@ -180,6 +179,9 @@ public class ExecutorWorker {
 
                     // 已登录
                     if (session.isLoggedIn()) {
+                        status = ExecutorStatus.STARTED;
+                        transport.started(snapshot());
+
                         status = ExecutorStatus.READY;
                         errorMessage = null;
 
@@ -340,7 +342,7 @@ public class ExecutorWorker {
 
         assignment = newAssignment;
 
-        status = ExecutorStatus.INITIALIZING;
+        status = ExecutorStatus.STARTING;
 
         log.info("Account assigned ::: accountCode={}", assignment.accountCode());
     }
@@ -359,7 +361,10 @@ public class ExecutorWorker {
         log.info("释放账号, accountCode={}, id={}", current.accountCode(), current.id());
 
         // 停止接收新任务
-        this.status = ExecutorStatus.INITIALIZING;
+//        this.status = ExecutorStatus.STARTING;
+        this.status = ExecutorStatus.STOPPED;
+        transport.stopped(snapshot());
+
 
         // 取消未执行任务
         cancelPendingTasks("ACCOUNT_RELEASED");
@@ -392,7 +397,7 @@ public class ExecutorWorker {
                 current.accountCode());
 
         // 停止接收新任务
-        this.status = ExecutorStatus.INITIALIZING;
+        this.status = ExecutorStatus.STARTING;
 
         // 取消尚未执行的任务
         cancelPendingTasks("SESSION_RESTART");

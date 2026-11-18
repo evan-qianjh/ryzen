@@ -83,3 +83,4 @@ ryzen:
     executor-message-topic: ims.executor.message
     executor-register-topic: ims.executor.register
     executor-heartbeat-topic: ims.executor.heartbeat
+    executor-status-topic: ims.executor.status
