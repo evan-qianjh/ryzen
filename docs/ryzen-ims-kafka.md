@@ -27,14 +27,14 @@ echo '{"code":"cmd-001","type":"RELEASE","imType":"MEI_TUAN","accountCode":"123"
 ### scheduler分配executor
 
 ```shell
-echo '{"commandKey":"cmd-001","executorCode":"001","type":"ASSIGN","assignment":{"code":"assignment-001","imType":"MEI_TUAN","accountCode":"123","fencingToken":1001}}' |
+echo '{"code":"cmd-001","executorCode":"001","type":"ASSIGN","assignment":{"code":"assignment-001","imType":"MEI_TUAN","accountCode":"123","fencingToken":1001}}' |
 bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
 ```
 
 ### scheduler释放executor
 
 ```shell
-echo '{"commandKey":"cmd-002","executorCode":"001","type":"RELEASE"}' |
+echo '{"code":"cmd-002","executorCode":"001","type":"RELEASE"}' |
 bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
 ```
 

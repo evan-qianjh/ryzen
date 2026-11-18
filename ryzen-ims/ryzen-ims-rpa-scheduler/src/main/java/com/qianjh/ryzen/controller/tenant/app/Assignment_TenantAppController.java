@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.controller.tenant.app;
 
-import com.qianjh.ryzen.controller.tenant.app.dto.PostImAccountAssignmentReq;
+import com.qianjh.ryzen.controller.tenant.app.dto.PostAssignmentReq;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
@@ -15,18 +15,19 @@ import org.springframework.web.bind.annotation.*;
 import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
 @Slf4j
-@Tag(name = "IM账号分配")
+@Tag(name = "分配")
 @RestController
 @RequestMapping(PATH_PREFIX)
 @RequiredArgsConstructor
-public class ImAccountAssignment_TenantAppController extends _TenantAppController {
+public class Assignment_TenantAppController extends _TenantAppController {
 
     @Operation(summary = "创建")
-    @PostMapping("/im-account-assignment")
+    @PostMapping("/assignment")
     public Resp<Receipt> post(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                               @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
-                              @RequestBody @Validated PostImAccountAssignmentReq body) {
+                              @RequestBody @Validated PostAssignmentReq body) {
+
         // TODO
         return Resp.successOf(null);
     }

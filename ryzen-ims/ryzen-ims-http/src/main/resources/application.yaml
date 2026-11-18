@@ -25,7 +25,7 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'imsScheduleRequestSink;'
+      definition: 'imsScheduleCommandSink;imsScheduleRequestSink;'
     stream:
       kafka:
         binder:
@@ -34,6 +34,9 @@ spring:
             auto.offset.reset: latest
       bindings:
         # ------------------------------------- producer -------------------------------------
+        imsScheduleCommandSink-out-0:
+          destination: ims.schedule.command
+          content-type: application/json
         imsScheduleRequestSink-out-0:
           destination: ims.schedule.request
           content-type: application/json

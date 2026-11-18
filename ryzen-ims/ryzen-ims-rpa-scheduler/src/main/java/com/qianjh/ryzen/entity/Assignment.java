@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "im_account_assignment")
-public class ImAccountAssignment {
+@TableName(_Schema.TABLE_PREFIX + "assignment")
+public class Assignment {
 
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;

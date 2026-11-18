@@ -5,9 +5,9 @@ import lombok.Builder;
 
 @Builder(toBuilder = true)
 public record ExecutorCommand(
-        String commandKey,
-        String executorCode,
+        String code,
         ExecutorCommandType type,
+        String executorCode,
         Assignment assignment
 ) {
 }
