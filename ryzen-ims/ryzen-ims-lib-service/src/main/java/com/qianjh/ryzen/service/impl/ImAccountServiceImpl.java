@@ -3,7 +3,8 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.enums.ImAccountStatus;
+import com.qianjh.ryzen.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.enums.ImAccountWorkStatus;
 import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.mapper.ImAccountMapper;
@@ -26,10 +27,8 @@ public class ImAccountServiceImpl extends ServiceImpl<ImAccountMapper, ImAccount
     }
 
     @Override
-    public ImAccount getByUk(Long oemId, Long tenantId, ImType imType, String accountCode) {
+    public ImAccount getByUk(ImType imType, String accountCode) {
         return getOne(new LambdaQueryWrapper<ImAccount>()
-                .eq(ImAccount::getOemId, oemId)
-                .eq(ImAccount::getTenantId, tenantId)
                 .eq(ImAccount::getImType, imType)
                 .eq(ImAccount::getCode, accountCode)
         );
@@ -44,7 +43,8 @@ public class ImAccountServiceImpl extends ServiceImpl<ImAccountMapper, ImAccount
                 .imType(body.imType())
                 .code(body.accountCode())
                 .remark(body.remark())
-                .status(ImAccountStatus.STOPPED)
+                .assignStatus(ImAccountAssignStatus.NONE)
+                .workStatus(ImAccountWorkStatus.NONE)
                 .createdTime(LocalDateTime.now())
                 .build();
         save(entity);
@@ -53,15 +53,53 @@ public class ImAccountServiceImpl extends ServiceImpl<ImAccountMapper, ImAccount
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateStatus(ImAccount entity, ImAccountStatus before, ImAccountStatus after, Operator operator) {
+    public boolean updateAssignStatus(ImAccount entity, ImAccountAssignStatus before, ImAccountAssignStatus after, Operator operator) {
         return lambdaUpdate()
-                .set(ImAccount::getStatus, after)
+                .set(ImAccount::getAssignStatus, after)
                 //
                 .eq(ImAccount::getOemId, entity.getOemId())
                 .eq(ImAccount::getTenantId, entity.getTenantId())
                 .eq(ImAccount::getId, entity.getId())
                 //
-                .eq(ImAccount::getStatus, before)
+                .eq(ImAccount::getAssignStatus, before)
+                .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean updateWorkStatus(ImAccount entity, ImAccountWorkStatus before, ImAccountWorkStatus after, Operator operator) {
+        return lambdaUpdate()
+                .set(ImAccount::getWorkStatus, after)
+                //
+                .eq(ImAccount::getOemId, entity.getOemId())
+                .eq(ImAccount::getTenantId, entity.getTenantId())
+                .eq(ImAccount::getId, entity.getId())
+                //
+                .eq(ImAccount::getWorkStatus, before)
+                .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean recordAssignment(ImAccount entity, Long executorAssignmentId) {
+        return lambdaUpdate()
+                .set(ImAccount::getExecutorAssignmentId, executorAssignmentId)
+                //
+                .eq(ImAccount::getOemId, entity.getOemId())
+                .eq(ImAccount::getTenantId, entity.getTenantId())
+                .eq(ImAccount::getId, entity.getId())
+                .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean clearAssignment(ImAccount entity) {
+        return lambdaUpdate()
+                .setSql("executor_assignment_id = NULL")
+                //
+                .eq(ImAccount::getOemId, entity.getOemId())
+                .eq(ImAccount::getTenantId, entity.getTenantId())
+                .eq(ImAccount::getId, entity.getId())
                 .update();
     }
 }

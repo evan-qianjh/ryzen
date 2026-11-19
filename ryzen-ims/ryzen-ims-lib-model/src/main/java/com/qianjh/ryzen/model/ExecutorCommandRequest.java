@@ -4,7 +4,7 @@ import com.qianjh.ryzen.enums.ExecutorCommandType;
 import lombok.Builder;
 
 @Builder(toBuilder = true)
-public record ExecutorCommand(
+public record ExecutorCommandRequest(
         String code,
         ExecutorCommandType type,
         String executorCode,

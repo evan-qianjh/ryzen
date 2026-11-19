@@ -8,5 +8,13 @@ public enum SchedulerCommandType {
     /**
      * 释放
      */
-    RELEASE
+    RELEASE,
+    /**
+     * 启动
+     */
+    START,
+    /**
+     * 停止
+     */
+    STOP,
 }

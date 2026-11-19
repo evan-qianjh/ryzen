@@ -10,8 +10,9 @@ import com.qianjh.ryzen.enums.ExecutorStatus;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
-import com.qianjh.ryzen.model.ExecutorCommand;
-import com.qianjh.ryzen.model.SchedulerCommand;
+import com.qianjh.ryzen.model.ExecutorCommandRequest;
+import com.qianjh.ryzen.model.SchedulerCommandRequest;
+import com.qianjh.ryzen.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.SchedulerCommandService;
@@ -37,95 +38,198 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
     private final KafkaSchedulerTransport transport;
     private final ExecutorAssignmentMapper assignmentMapper;
     private final ExecutorAssignmentService assignmentService;
+    private final ExecutorAssignmentService executorAssignmentService;
 
     @Override
-    public void handle(SchedulerCommand command) {
-        switch (command.type()) {
-            // 启动
-            case ASSIGN -> {
-                // 查出最近分配过且IDLE的executor
-                ExecutorAssignment lastAssignment = assignmentMapper.selectJoinOne(new MPJLambdaWrapper<ExecutorAssignment>()
-                        .selectAll(ExecutorAssignment.class)
-                        .innerJoin(Executor.class, Executor::getId, ExecutorAssignment::getExecutorId)
-                        .eq(ExecutorAssignment::getImType, command.imType())
-                        .eq(ExecutorAssignment::getAccountCode, command.accountCode())
-                        .eq(Executor::getStatus, ExecutorStatus.IDLE)
-                        .orderByDesc(ExecutorAssignment::getId)
-                        .last(" limit 1")
-                );
-                Executor executor;
-                if (lastAssignment != null) {
-                    executor = executorService.getById(lastAssignment.getExecutorId());
-                } else { // 如果没有则获取最早注册IDLE
-                    executor = executorService.getOne(new LambdaQueryWrapper<Executor>()
-                            .eq(Executor::getStatus, ExecutorStatus.IDLE)
-                            .orderByAsc(Executor::getRegisteredTime)
-                    );
-                }
-                if (executor == null) {
-                    log.error("获取执行器失败 ::: {}", command);
-                    return;
-                }
-
-                // 创建新的分配
-                ExecutorAssignment assignment = assignmentService.create(executor, command.imType(), command.accountCode());
-                executorService.assign(executor, assignment);
-
-                // build
-                ExecutorCommand executorCommand = ExecutorCommand.builder()
-                        .code(IdUtils.generateUUID())
-                        .type(ExecutorCommandType.START)
-                        .executorCode(executor.getCode())
-                        .assignment(com.qianjh.ryzen.model.Assignment.builder()
-                                .id(assignment.getId())
-                                .fencingToken(null)
-                                .imType(assignment.getImType())
-                                .accountCode(assignment.getAccountCode())
-                                .build())
-                        .build();
-                try {
-                    transport.executorCommand(executorCommand).get(10, TimeUnit.SECONDS);
-                } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            // 停止
-            case RELEASE -> {
-//                ExecutorAssignment assignment = assignmentService.getById(command.assignmentId());
-//                if(assignment == null) {
-//                    log.error("获取执行器分配失败 ::: {}", command);
-//                    return;
-//                }
-                // TODO 不严谨，临时用下，应该改成上面通过assignmentId来停止
-                ExecutorAssignment assignment = assignmentService.getOne(new LambdaQueryWrapper<ExecutorAssignment>()
-                        .eq(ExecutorAssignment::getImType, command.imType())
-                        .eq(ExecutorAssignment::getAccountCode, command.accountCode())
-                        .orderByDesc(ExecutorAssignment::getId)
-                        .last(" limit 1")
-                );
-
-                Executor executor = executorService.getById(assignment.getExecutorId());
-                if (executor == null) {
-                    log.error("获取执行器失败 ::: {}", command);
-                    return;
-                }
-
+    public void handle(SchedulerCommandRequest request) {
+        try {
+            switch (request.type()) {
+                // 分配
+                case ASSIGN -> assign(request);
                 // 释放
-                // TODO 不严谨，应该放在command回调中执行
-                assignmentService.updateStatus(assignment, assignment.getStatus(), ExecutorAssignmentStatus.RELEASED, Operator.builder().build());
-                executorService.release(executor, assignment);
-
-                ExecutorCommand executorCommand = ExecutorCommand.builder()
-                        .code(IdUtils.generateUUID())
-                        .type(ExecutorCommandType.STOP)
-                        .executorCode(executor.getCode())
-                        .build();
-                try {
-                    transport.executorCommand(executorCommand).get(10, TimeUnit.SECONDS);
-                } catch (InterruptedException | ExecutionException | TimeoutException e) {
-                    throw new RuntimeException(e);
-                }
+                case RELEASE -> release(request);
+                case START -> start(request);
+                case STOP -> stop(request);
             }
+        } catch (Exception e) {
+            log.error("处理指令失败 ::: request={}", request, e);
+            transport.schedulerCommandResponse(
+                    SchedulerCommandResponse.builder()
+                            .code(request.code())
+                            .type(request.type())
+                            .imType(request.imType())
+                            .accountCode(request.accountCode())
+                            .assignmentId(request.assignmentId())
+                            //
+                            .success(false)
+                            .errorMessage(e.getMessage())
+                            .build());
         }
     }
+
+    /**
+     * 启动
+     *
+     * @param request 请求
+     */
+    void start(SchedulerCommandRequest request) {
+        ExecutorAssignment assignment = executorAssignmentService.getById(request.assignmentId());
+        if (assignment == null) {
+            throw new RuntimeException("指派不存在");
+        }
+
+        Executor executor = executorService.getById(assignment.getExecutorId());
+        if (executor == null) {
+            throw new RuntimeException("执行器不存在");
+        }
+
+        try {
+            // 执行器指令请求
+            transport.executorCommandRequest(ExecutorCommandRequest.builder()
+                    .code(IdUtils.generateUUID())
+                    .type(ExecutorCommandType.START)
+                    .executorCode(executor.getCode())
+                    .assignment(com.qianjh.ryzen.model.Assignment.builder()
+                            .id(assignment.getId())
+                            .fencingToken(null)
+                            .imType(assignment.getImType())
+                            .accountCode(assignment.getAccountCode())
+                            .build())
+                    .build()
+            ).get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 停止
+     *
+     * @param request 请求
+     */
+    void stop(SchedulerCommandRequest request) {
+        ExecutorAssignment assignment = executorAssignmentService.getById(request.assignmentId());
+        if (assignment == null) {
+            throw new RuntimeException("指派不存在");
+        }
+
+        Executor executor = executorService.getById(assignment.getExecutorId());
+        if (executor == null) {
+            throw new RuntimeException("执行器不存在");
+        }
+
+        try {
+            // 执行器指令请求
+            transport.executorCommandRequest(
+                    ExecutorCommandRequest.builder()
+                            .code(IdUtils.generateUUID())
+                            .type(ExecutorCommandType.STOP)
+                            .executorCode(executor.getCode())
+                            .build()
+            ).get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 分配
+     *
+     * @param request 请求
+     */
+    void assign(SchedulerCommandRequest request) {
+        // 查出最近分配过且IDLE的executor
+        ExecutorAssignment lastAssignment = assignmentMapper.selectJoinOne(new MPJLambdaWrapper<ExecutorAssignment>()
+                .selectAll(ExecutorAssignment.class)
+                .innerJoin(Executor.class, Executor::getId, ExecutorAssignment::getExecutorId)
+                .eq(ExecutorAssignment::getImType, request.imType())
+                .eq(ExecutorAssignment::getAccountCode, request.accountCode())
+                .eq(Executor::getStatus, ExecutorStatus.IDLE)
+                .orderByDesc(ExecutorAssignment::getId)
+                .last(" limit 1")
+        );
+        Executor executor;
+        if (lastAssignment != null) {
+            executor = executorService.getById(lastAssignment.getExecutorId());
+        } else { // 如果没有则获取最早注册IDLE
+            executor = executorService.getOne(new LambdaQueryWrapper<Executor>()
+                    .eq(Executor::getStatus, ExecutorStatus.IDLE)
+                    .orderByAsc(Executor::getRegisteredTime)
+            );
+        }
+        if (executor == null) {
+            throw new RuntimeException("没有可用的执行器");
+        }
+
+        // 创建新的分配
+        ExecutorAssignment assignment = assignmentService.create(executor, request.imType(), request.accountCode());
+        executorService.assign(executor, assignment);
+
+        try {
+            // 调度器指令响应
+            transport.schedulerCommandResponse(
+                    SchedulerCommandResponse.builder()
+                            .code(request.code())
+                            .type(request.type())
+                            .imType(request.imType())
+                            .accountCode(request.accountCode())
+                            .assignmentId(assignment.getId())
+                            .success(true)
+                            .build()
+            ).get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 释放
+     *
+     * @param request 请求
+     */
+    void release(SchedulerCommandRequest request) {
+        ExecutorAssignment assignment;
+        if (request.assignmentId() != null) { // 精确
+            assignment = assignmentService.getById(request.assignmentId());
+            if (assignment == null) {
+                log.error("获取执行器分配失败 ::: {}", request);
+                return;
+            }
+        } else { // 兜底
+            assignment = assignmentService.getOne(new LambdaQueryWrapper<ExecutorAssignment>()
+                    .eq(ExecutorAssignment::getImType, request.imType())
+                    .eq(ExecutorAssignment::getAccountCode, request.accountCode())
+                    .orderByDesc(ExecutorAssignment::getId)
+                    .last(" limit 1")
+            );
+        }
+
+        Executor executor = executorService.getById(assignment.getExecutorId());
+        if (executor == null) {
+            log.error("获取执行器失败 ::: {}", request);
+            return;
+        }
+
+        // 释放
+        // TODO 不严谨，应该放在command回调中执行
+        assignmentService.updateStatus(assignment, assignment.getStatus(), ExecutorAssignmentStatus.RELEASED, Operator.builder().build());
+        executorService.release(executor, assignment);
+
+        try {
+            // 调度器指令响应
+            transport.schedulerCommandResponse(
+                    SchedulerCommandResponse.builder()
+                            .code(request.code())
+                            .type(request.type())
+                            .imType(request.imType())
+                            .accountCode(request.accountCode())
+                            .assignmentId(request.assignmentId())
+                            .build()
+            ).get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

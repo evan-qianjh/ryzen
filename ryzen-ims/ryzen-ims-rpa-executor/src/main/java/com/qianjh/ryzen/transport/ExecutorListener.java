@@ -2,7 +2,7 @@ package com.qianjh.ryzen.transport;
 
 import com.google.gson.Gson;
 import com.qianjh.ryzen.core.ExecutorWorker;
-import com.qianjh.ryzen.model.ExecutorCommand;
+import com.qianjh.ryzen.model.ExecutorCommandRequest;
 import com.qianjh.ryzen.model.ExecutorTaskRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class ExecutorListener {
     @KafkaListener(topics = "${ryzen.executor.command-request-topic}")
     public void onCommand(String payload) {
         try {
-            ExecutorCommand task = gson.fromJson(payload, ExecutorCommand.class);
+            ExecutorCommandRequest task = gson.fromJson(payload, ExecutorCommandRequest.class);
             worker.acceptCommand(task);
         } catch (Exception e) {
             log.error("Invalid executor command payload: {}", payload, e);

@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.model;
 
+import com.qianjh.ryzen.enums.ExecutorCommandType;
 import lombok.Builder;
 
 /**
@@ -10,8 +11,9 @@ import lombok.Builder;
  */
 @Builder(toBuilder = true)
 public record ExecutorCommandResponse(
+        String code,
+        ExecutorCommandType type,
         String executorCode,
         Long assignmentId
-        // TODO
 ) {
 }

@@ -3,7 +3,8 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.enums.ImAccountStatus;
+import com.qianjh.ryzen.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.enums.ImAccountWorkStatus;
 import com.qianjh.ryzen.enums.ImType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,7 +34,12 @@ public class ImAccount {
     private String code;
     private String remark;
 
-    private ImAccountStatus status;
+    // NEW,ASSIGNING,ASSIGNED,RELEASING,RELEASED
+    private ImAccountAssignStatus assignStatus;
+
+    // NEW,STARTING,STARTED,STOPPING,STOPPED
+    private ImAccountWorkStatus workStatus;
+
     private Long executorAssignmentId;
 
     private LocalDateTime createdTime;

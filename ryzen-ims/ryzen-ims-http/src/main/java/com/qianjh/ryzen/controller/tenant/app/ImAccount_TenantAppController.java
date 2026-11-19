@@ -4,7 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetImAccountsResp;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.enums.ImAccountStatus;
+import com.qianjh.ryzen.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.enums.ImAccountWorkStatus;
 import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.enums.SchedulerCommandType;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
@@ -19,7 +20,7 @@ import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
-import com.qianjh.ryzen.model.SchedulerCommand;
+import com.qianjh.ryzen.model.SchedulerCommandRequest;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 import com.qianjh.ryzen.stream.ImsSchedulerCommandRequestStreamProducer;
@@ -55,7 +56,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                                                     //
                                                     @RequestParam(required = false) String code,
                                                     @RequestParam(required = false) ImType imType,
-                                                    @RequestParam(required = false) ImAccountStatus status,
+                                                    @RequestParam(required = false) ImAccountAssignStatus status,
                                                     //
                                                     @RequestParam(required = false, defaultValue = DEFAULT_PAGE_INDEX) Integer pageIndex,
                                                     @RequestParam(required = false, defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
@@ -64,7 +65,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                 .eq(ImAccount::getTenantId, tenantId)
                 .eq(StringUtils.hasText(code), ImAccount::getCode, code)
                 .eq(imType != null, ImAccount::getImType, imType)
-                .eq(status != null, ImAccount::getStatus, status)
+                .eq(status != null, ImAccount::getAssignStatus, status)
                 .orderByDesc(ImAccount::getId)
         );
 
@@ -77,7 +78,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                         .id(IdUtils.toString(e.getId()))
                         .code(e.getCode())
                         .imType(e.getImType())
-                        .status(e.getStatus())
+                        .status(e.getAssignStatus())
                         .remark(e.getRemark())
                         .createdTime(DateTimeUtils.getTime(e.getCreatedTime()))
                         .build()
@@ -94,7 +95,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
                           @RequestBody @Validated TenantPostImAccountReq body) {
-        ImAccount entity = imAccountService.getByUk(oemId, tenantId, body.imType(), body.accountCode());
+        ImAccount entity = imAccountService.getByUk(body.imType(), body.accountCode());
         if (entity != null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
         }
@@ -103,6 +104,72 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         entity = imAccountService.create(oemId, tenantId, body, operator);
 
         return Resp.successOf(Receipt.build(entity.getId()));
+    }
+
+    @Operation(summary = "分配")
+    @PostMapping("/im-account/{id}/assign")
+    public Resp<?> assign(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                          @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
+                          @PathVariable Long id) {
+        ImAccount imAccount = imAccountService.getById(oemId, tenantId, id);
+        if (imAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+        // 判断状态
+        if (imAccount.getAssignStatus() != ImAccountAssignStatus.NONE && imAccount.getAssignStatus() != ImAccountAssignStatus.RELEASED) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_CONFLICT));
+        }
+
+        Operator operator = buildOperator(accountId, accountName);
+
+        // command
+        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
+                .code(IdUtils.generateUUID())
+                .type(SchedulerCommandType.ASSIGN)
+                .imType(imAccount.getImType())
+                .accountCode(imAccount.getCode())
+                .build();
+        imsSchedulerCommandTopicStreamProducer.send(
+                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        );
+
+        // ASSIGNING
+        boolean success = imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.ASSIGNING, operator);
+
+        return success ? Resp.success() : Resp.failure();
+    }
+
+    @Operation(summary = "释放")
+    @PostMapping("/im-account/{id}/release")
+    public Resp<?> release(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                           @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
+                           @PathVariable Long id) {
+        ImAccount imAccount = imAccountService.getById(oemId, tenantId, id);
+        if (imAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+
+        Operator operator = buildOperator(accountId, accountName);
+
+        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
+                .code(IdUtils.generateUUID())
+                .type(SchedulerCommandType.RELEASE)
+                .imType(imAccount.getImType())
+                .accountCode(imAccount.getCode())
+                .assignmentId(imAccount.getExecutorAssignmentId())
+                .build();
+        imsSchedulerCommandTopicStreamProducer.send(
+                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        );
+
+        // RELEASING
+        boolean success = imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.RELEASING, operator);
+
+        return success ? Resp.success() : Resp.failure();
     }
 
     @Operation(summary = "启动")
@@ -117,25 +184,25 @@ public class ImAccount_TenantAppController extends _TenantAppController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
         // 判断状态
-        if (imAccount.getStatus() != ImAccountStatus.STOPPED) {
+        if (imAccount.getWorkStatus() != ImAccountWorkStatus.NONE
+                && imAccount.getWorkStatus() != ImAccountWorkStatus.STOPPED) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_CONFLICT));
         }
 
         Operator operator = buildOperator(accountId, accountName);
 
         // command
-        SchedulerCommand message = SchedulerCommand.builder()
+        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
                 .code(IdUtils.generateUUID())
-                .type(SchedulerCommandType.ASSIGN)
-                .imType(imAccount.getImType())
-                .accountCode(imAccount.getCode())
+                .type(SchedulerCommandType.START)
+                .assignmentId(imAccount.getExecutorAssignmentId())
                 .build();
         imsSchedulerCommandTopicStreamProducer.send(
                 MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
         );
 
-        // ASSIGNING
-        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.ASSIGNING, operator);
+        // STARTING
+        boolean success = imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), ImAccountWorkStatus.STARTING, operator);
 
         return success ? Resp.success() : Resp.failure();
     }
@@ -154,20 +221,23 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         Operator operator = buildOperator(accountId, accountName);
 
-        SchedulerCommand message = SchedulerCommand.builder()
+        // command
+        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
                 .code(IdUtils.generateUUID())
-                .type(SchedulerCommandType.RELEASE)
-                .imType(imAccount.getImType())
-                .accountCode(imAccount.getCode())
+                .type(SchedulerCommandType.STOP)
+                .assignmentId(imAccount.getExecutorAssignmentId())
                 .build();
         imsSchedulerCommandTopicStreamProducer.send(
                 MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
         );
 
-        // RELEASING
-        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.RELEASING, operator);
+        //
+        if (imAccount.getWorkStatus() != ImAccountWorkStatus.STARTED) {
+            return Resp.success();
+        }
+
+        boolean success = imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), ImAccountWorkStatus.STOPPING, operator);
 
         return success ? Resp.success() : Resp.failure();
     }
-
 }

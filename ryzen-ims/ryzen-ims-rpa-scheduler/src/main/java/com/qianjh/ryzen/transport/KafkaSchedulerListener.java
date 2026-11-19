@@ -3,10 +3,7 @@ package com.qianjh.ryzen.transport;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.model.*;
-import com.qianjh.ryzen.service.CollectedMessageService;
-import com.qianjh.ryzen.service.ExecutorRegistryService;
-import com.qianjh.ryzen.service.SchedulerCommandService;
-import com.qianjh.ryzen.service.SendTaskService;
+import com.qianjh.ryzen.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -19,11 +16,12 @@ public class KafkaSchedulerListener {
     private final Gson gson = new GsonBuilder().create();
     private final SendTaskService sendTaskService;
     private final ExecutorRegistryService executorRegistryService;
+    private final ExecutorCommandService executorCommandService;
     private final CollectedMessageService collectedMessageService;
     private final SchedulerCommandService schedulerCommandService;
 
     /**
-     * 聚合聊天发送消息
+     * 命令
      *
      * @param payload 报文
      */
@@ -33,7 +31,7 @@ public class KafkaSchedulerListener {
     )
     public void onCommand(String payload) {
         log.info("收到指令 ::: {}", payload);
-        handle("command", payload, SchedulerCommand.class, schedulerCommandService::handle);
+        handle("command", payload, SchedulerCommandRequest.class, schedulerCommandService::handle);
     }
 
     /**
@@ -60,7 +58,7 @@ public class KafkaSchedulerListener {
             containerFactory = "publicKafkaListenerContainerFactory"
     )
     public void onExecutorCommandResponse(String payload) {
-        handle("executor register", payload, ExecutorSnapshot.class, executorRegistryService::register);
+        handle("executor command response", payload, ExecutorCommandResponse.class, executorCommandService::handle);
     }
 
     /**

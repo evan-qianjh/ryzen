@@ -5,8 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.config.SchedulerProperties;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
-import com.qianjh.ryzen.model.ExecutorCommand;
+import com.qianjh.ryzen.model.ExecutorCommandRequest;
 import com.qianjh.ryzen.model.ExecutorTaskRequest;
+import com.qianjh.ryzen.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.model.SchedulerMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -25,16 +26,30 @@ public class KafkaSchedulerTransport {
     private final Gson gson = new GsonBuilder().serializeNulls().create();
 
     /**
-     * 向执行器发送指令
+     * 向执行器发送指令请求
      *
-     * @param command 指令
+     * @param request 请求
      * @return 结果
      */
-    public CompletableFuture<SendResult<String, String>> executorCommand(ExecutorCommand command) {
+    public CompletableFuture<SendResult<String, String>> executorCommandRequest(ExecutorCommandRequest request) {
         return publicKafkaTemplate.send(
                 executorProperties.getCommandRequestTopic(),
-                command.executorCode(),
-                gson.toJson(command)
+                request.executorCode(),
+                gson.toJson(request)
+        );
+    }
+
+    /**
+     * 调度器回复指令响应
+     *
+     * @param response 响应
+     * @return 结果
+     */
+    public CompletableFuture<SendResult<String, String>> schedulerCommandResponse(SchedulerCommandResponse response) {
+        return publicKafkaTemplate.send(
+                executorProperties.getCommandResponseTopic(),
+                response.code(), // TODO
+                gson.toJson(response)
         );
     }
 

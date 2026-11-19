@@ -46,7 +46,7 @@ public class ExecutorWorker {
     /**
      * 指令队列
      */
-    private final BlockingQueue<ExecutorCommand> commandQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<ExecutorCommandRequest> commandQueue = new LinkedBlockingQueue<>();
     /**
      * 发送队列
      */
@@ -81,7 +81,7 @@ public class ExecutorWorker {
      *
      * @param command 指令
      */
-    public void acceptCommand(ExecutorCommand command) {
+    public void acceptCommand(ExecutorCommandRequest command) {
         commandQueue.offer(command);
     }
 
@@ -142,7 +142,7 @@ public class ExecutorWorker {
                     status = ExecutorStatus.IDLE;
 
                     // 阻塞获取
-                    ExecutorCommand command = commandQueue.take();
+                    ExecutorCommandRequest command = commandQueue.take();
                     handleCommand(command);
 
                     continue;
@@ -294,7 +294,7 @@ public class ExecutorWorker {
      * 处理待执行的指令
      */
     private void handlePendingCommand() {
-        ExecutorCommand command;
+        ExecutorCommandRequest command;
 
         while ((command = commandQueue.poll()) != null) {
             handleCommand(command);
@@ -310,7 +310,7 @@ public class ExecutorWorker {
      *
      * @param command 指令
      */
-    private void handleCommand(ExecutorCommand command) {
+    private void handleCommand(ExecutorCommandRequest command) {
         // 非当前执行器
         if (!properties.getCode().equals(command.executorCode())) {
             return;
