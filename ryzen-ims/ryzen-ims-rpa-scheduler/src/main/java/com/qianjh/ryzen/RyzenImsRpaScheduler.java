@@ -1,5 +1,6 @@
 package com.qianjh.ryzen;
 
+import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.config.SchedulerProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,7 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableDiscoveryClient
 @EnableScheduling
 @SpringBootApplication
-@EnableConfigurationProperties(SchedulerProperties.class)
+@EnableConfigurationProperties({SchedulerProperties.class, ExecutorProperties.class})
 public class RyzenImsRpaScheduler {
 
     static void main(String[] args) {

@@ -2,6 +2,7 @@ package com.qianjh.ryzen.transport;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.config.SchedulerProperties;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.model.ExecutorCommand;
@@ -19,7 +20,8 @@ import java.util.concurrent.CompletableFuture;
 public class KafkaSchedulerTransport {
     private final KafkaTemplate<String, String> defaultKafkaTemplate;
     private final KafkaTemplate<String, String> publicKafkaTemplate;
-    private final SchedulerProperties properties;
+    private final SchedulerProperties schedulerProperties;
+    private final ExecutorProperties executorProperties;
     private final Gson gson = new GsonBuilder().serializeNulls().create();
 
     /**
@@ -30,7 +32,7 @@ public class KafkaSchedulerTransport {
      */
     public CompletableFuture<SendResult<String, String>> executorCommand(ExecutorCommand command) {
         return publicKafkaTemplate.send(
-                properties.getExecutorCommandRequestTopic(),
+                executorProperties.getCommandRequestTopic(),
                 command.executorCode(),
                 gson.toJson(command)
         );
@@ -44,7 +46,7 @@ public class KafkaSchedulerTransport {
      */
     public CompletableFuture<SendResult<String, String>> executorTask(ExecutorTaskRequest task) {
         return publicKafkaTemplate.send(
-                properties.getExecutorTaskRequestTopic(),
+                executorProperties.getTaskRequestTopic(),
                 IdUtils.toString(task.assignmentId()),
                 gson.toJson(task)
         );
@@ -58,7 +60,7 @@ public class KafkaSchedulerTransport {
      */
     public CompletableFuture<SendResult<String, String>> schedulerMessage(SchedulerMessage message) {
         return defaultKafkaTemplate.send(
-                properties.getMessageTopic(),
+                schedulerProperties.getMessageTopic(),
                 message.messageCode(),
                 gson.toJson(message)
         );

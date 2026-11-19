@@ -50,12 +50,12 @@ public class KafkaSchedulerListener {
     }
 
     /**
-     * 执行器注册
+     * 执行器命令响应
      *
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.executor-command-response-topic}",
+            topics = "${ryzen.executor.command-response-topic}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
@@ -69,7 +69,7 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.executor-register-topic}",
+            topics = "${ryzen.executor.register-topic}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
@@ -83,7 +83,7 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.executor-heartbeat-topic}",
+            topics = "${ryzen.executor.heartbeat-topic}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
@@ -97,7 +97,7 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.executor-status-topic}",
+            topics = "${ryzen.executor.status-topic}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
@@ -111,7 +111,7 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.executor-task-response-topic}",
+            topics = "${ryzen.executor.task-response-topic}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
@@ -125,7 +125,7 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.executor-message-topic}",
+            topics = "${ryzen.executor.message-topic}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
