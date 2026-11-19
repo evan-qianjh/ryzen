@@ -1,7 +1,7 @@
 logging:
   level:
     com.qianjh.ryzen: INFO
-    com.qianjh.ryzen.mapper: debug
+    com.qianjh.ryzen.mapper: INFO
 
 spring:
   config:

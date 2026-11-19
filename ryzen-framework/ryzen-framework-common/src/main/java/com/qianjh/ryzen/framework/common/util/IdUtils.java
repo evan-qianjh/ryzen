@@ -1,5 +1,7 @@
 package com.qianjh.ryzen.framework.common.util;
 
+import java.util.UUID;
+
 public final class IdUtils {
 
     public static String toString(Long id) {
@@ -27,5 +29,13 @@ public final class IdUtils {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    /**
+     * 下一个
+     * @return
+     */
+    public static String generateUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

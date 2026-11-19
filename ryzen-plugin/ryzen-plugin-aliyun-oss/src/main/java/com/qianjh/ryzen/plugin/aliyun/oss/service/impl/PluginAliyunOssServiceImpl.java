@@ -3,6 +3,7 @@ package com.qianjh.ryzen.plugin.aliyun.oss.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.framework.common.util.DateUtils;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.security.service.RyzenStorageService;
 import com.qianjh.ryzen.plugin.aliyun.entity.PluginAliyun;
 import com.qianjh.ryzen.plugin.aliyun.oss.entity.PluginAliyunOss;
@@ -249,7 +250,7 @@ public class PluginAliyunOssServiceImpl extends ServiceImpl<PluginAliyunOssMappe
         }
 
         // multipart/form-data 请求中的分隔符
-        String boundary = "----RyzenOSS" + UUID.randomUUID().toString().replace("-", "");
+        String boundary = "----RyzenOSS" + IdUtils.generateUUID();
 
         ByteArrayOutputStream body = new ByteArrayOutputStream();
 

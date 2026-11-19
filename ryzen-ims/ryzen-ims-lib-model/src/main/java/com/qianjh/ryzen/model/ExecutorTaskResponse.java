@@ -8,7 +8,6 @@ import lombok.Builder;
  * 任务结果
  *
  * @param executorCode 执行器标识
- * @param accountCode  账号ID
  * @param taskId       任务ID
  * @param status       状态
  * @param errorMessage 错误信息
@@ -17,9 +16,10 @@ import lombok.Builder;
  */
 @Builder(toBuilder = true)
 public record ExecutorTaskResponse(
-        ImType imType,
+        Long assignmentId,
         String executorCode,
-        String accountCode,
+//        ImType imType,
+//        String accountCode,
         Long taskId,
         ExecutorTaskStatus status,
         String errorMessage,

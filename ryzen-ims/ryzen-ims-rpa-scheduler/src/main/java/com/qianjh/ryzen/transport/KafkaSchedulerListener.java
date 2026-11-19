@@ -32,6 +32,7 @@ public class KafkaSchedulerListener {
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void onCommand(String payload) {
+        log.info("收到指令 ::: {}", payload);
         handle("command", payload, SchedulerCommand.class, schedulerCommandService::handle);
     }
 

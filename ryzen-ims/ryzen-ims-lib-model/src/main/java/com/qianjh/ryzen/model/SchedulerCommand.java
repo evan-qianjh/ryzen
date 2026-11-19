@@ -15,6 +15,7 @@ public record SchedulerCommand(
         String code,
         SchedulerCommandType type,
         ImType imType,
-        String accountCode
+        String accountCode,
+        Long assignmentId
 ) {
 }

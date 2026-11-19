@@ -103,7 +103,6 @@ public class ExecutorWorker {
 
         // 忽略其他执行器任务
         if (!properties.getCode().equals(task.executorCode())
-                || !current.accountCode().equals(task.accountCode())
                 || !current.id().equals(task.assignmentId())
                 || !current.fencingToken().equals(task.fencingToken())
         ) {
@@ -479,9 +478,9 @@ public class ExecutorWorker {
             String receiptCode = session.sendMessage(task.conversationCode(), task.content());
 
             ExecutorTaskResponse result = ExecutorTaskResponse.builder()
-                    .imType(ImType.MEI_TUAN)
                     .executorCode(properties.getCode())
-                    .accountCode(assignment.accountCode())
+//                    .imType(ImType.MEI_TUAN)
+//                    .accountCode(assignment.accountCode())
                     .taskId(task.taskId())
                     .status(ExecutorTaskStatus.SUCCESS)
                     .errorMessage(null)
@@ -495,9 +494,10 @@ public class ExecutorWorker {
             errorMessage = "SEND: " + e.getMessage();
             log.error("Send task outcome is unknown: {}", task.taskId(), e);
             ExecutorTaskResponse result = ExecutorTaskResponse.builder()
-                    .imType(ImType.MEI_TUAN)
+                    .assignmentId(assignment.id())
                     .executorCode(properties.getCode())
-                    .accountCode(assignment.accountCode())
+//                    .imType(ImType.MEI_TUAN)
+//                    .accountCode(assignment.accountCode())
                     .taskId(task.taskId())
                     .status(ExecutorTaskStatus.UNKNOWN)
                     .errorMessage(e.getMessage())
@@ -539,9 +539,9 @@ public class ExecutorWorker {
             try {
                 transport.taskFinished(
                         ExecutorTaskResponse.builder()
-                                .imType(task.imType())
                                 .executorCode(properties.getCode())
-                                .accountCode(current.accountCode())
+//                                .imType(task.imType())
+//                                .accountCode(current.accountCode())
                                 .taskId(task.taskId())
                                 .status(ExecutorTaskStatus.CANCELED)
                                 .errorMessage(reason)

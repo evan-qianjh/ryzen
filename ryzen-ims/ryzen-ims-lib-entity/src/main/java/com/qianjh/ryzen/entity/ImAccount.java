@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @TableName(_Schema.TABLE_PREFIX + "im_account")
 public class ImAccount {
 
-    @TableId(type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long oemId;
     private Long tenantId;
@@ -34,6 +34,7 @@ public class ImAccount {
     private String remark;
 
     private ImAccountStatus status;
+    private Long executorAssignmentId;
 
     private LocalDateTime createdTime;
 }

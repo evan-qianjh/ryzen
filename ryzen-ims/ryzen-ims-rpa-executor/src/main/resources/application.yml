@@ -24,7 +24,7 @@ spring:
 
 ryzen:
   executor:
-    code: 001
+    code: '1001'
     headless: false
     browser-channel: chrome
     collect-interval-seconds: 5

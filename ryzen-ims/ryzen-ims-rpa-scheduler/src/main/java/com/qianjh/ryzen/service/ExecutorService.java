@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 
 public interface ExecutorService extends IService<Executor> {
 
-    Executor getByCode(ImType type, String code);
+    Executor getByCode(String code);
 
-    Executor getByAccount(ImType type, String accountCode);
+    Executor getByAssignment(Long assignmentId);
 
-    Executor create(ImType type, String code);
+    Executor create(String code);
 
-    Executor createIfAbsent(ImType type, String code);
+    Executor createIfAbsent(String code);
 
     /**
      * 注册

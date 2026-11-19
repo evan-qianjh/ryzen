@@ -98,7 +98,7 @@ public class Message_TenantAppController extends _TenantAppController {
 
         // 生成一个随机码+内容发给调度器
         ImsSchedulerRequest message = ImsSchedulerRequest.builder()
-                .code(UUID.randomUUID().toString().replace("-", ""))
+                .code(IdUtils.generateUUID())
                 .imType(imAccount.getImType())
                 .accountCode(imAccount.getCode())
                 .conversationCode(conversation.getCode())

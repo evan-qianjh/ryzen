@@ -20,13 +20,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "assignment")
-public class Assignment {
+@TableName(_Schema.TABLE_PREFIX + "executor_assignment")
+public class ExecutorAssignment {
 
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
-//    private Long oemId;
-//    private Long tenantId;
 
     private Long executorId;
 

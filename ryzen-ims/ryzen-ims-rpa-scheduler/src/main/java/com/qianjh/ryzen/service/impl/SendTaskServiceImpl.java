@@ -5,7 +5,6 @@ import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.enums.ExecutorStatus;
 import com.qianjh.ryzen.enums.ExecutorTaskStatus;
-import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.model.ExecutorTaskResponse;
@@ -18,7 +17,6 @@ import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
@@ -49,11 +47,10 @@ public class SendTaskServiceImpl implements SendTaskService {
         }
 
         // 创建执行器任务
-        ExecutorTask task = executorTaskService.createIfAbsent(request.code(), request.imType(), request.accountCode(), request.conversationCode(), request.content(), deadlineTime);
+        ExecutorTask task = executorTaskService.createIfAbsent(request.code(), request.assignmentId(), request.conversationCode(), request.content(), deadlineTime);
 
         // 校验
-        if (!task.getImType().equals(request.imType())
-                || !task.getAccountCode().equals(request.accountCode())
+        if (!task.getAssignmentId().equals(request.assignmentId())
                 || !task.getConversationCode().equals(request.conversationCode())) {
             throw new IllegalArgumentException("id was reused with a different payload: " + request.code());
         }
@@ -61,41 +58,43 @@ public class SendTaskServiceImpl implements SendTaskService {
         // 待执行
         if (task.getStatus() == ExecutorTaskStatus.PENDING) {
             // 调度
-            dispatchTaskRequest(request.imType(), request.accountCode());
+            dispatchTaskRequest(request.assignmentId());
         }
     }
 
     /**
      * 分发待执行
      *
-     * @param accountCode
+     * @param assignmentId
      */
     @Override
-    public void dispatchTaskRequest(ImType imType, String accountCode) {
-        if (!StringUtils.hasText(accountCode)) {
+    public void dispatchTaskRequest(Long assignmentId) {
+        if (assignmentId == null) {
+            log.error("dispatchTaskRequest assignmentId is null");
             return;
         }
 
         // 找出执行器
-        Executor executor = executorService.getByAccount(imType, accountCode);
+        Executor executor = executorService.getByAssignment(assignmentId);
 
         // 如果没有可用的执行器
         if (executor == null || executor.getStatus() != ExecutorStatus.READY) {
-            log.warn("无可用执行器 ::: imType={}, accountCode={}", imType, accountCode);
+            log.warn("无可用执行器 ::: assignmentId={}", assignmentId);
             return;
         }
 
         // 预留执行器并领取任务，注意避免并发调度或进程中断造成双派发。
         ExecutorTask task = taskDispatchService.claimNextTask(executor);
         if (task == null) {
-            log.warn("无可调度任务 ::: imType={}, accountCode={}", imType, accountCode);
+            log.warn("无可调度任务 ::: assignmentId={}", assignmentId);
             return;
         }
 
         // build
         ExecutorTaskRequest payload = ExecutorTaskRequest.builder()
-                .imType(executor.getImType())
-                .accountCode(accountCode)
+                .assignmentId(assignmentId)
+//                .imType(executor.getImType())
+//                .accountCode(accountCode)
                 .executorCode(executor.getCode())
                 .taskId(task.getId())
                 .conversationCode(task.getConversationCode())
@@ -104,8 +103,8 @@ public class SendTaskServiceImpl implements SendTaskService {
         try {
             // 等待 Kafka broker 确认后再结束本次调度调用；失败时结果可能不确定，不自动重发。
             transport.executorTask(payload).get(10, TimeUnit.SECONDS);
-            log.info("Task dispatched: taskId={}, executorId={}, accountCode={}",
-                    task.getId(), executor.getId(), accountCode);
+            log.info("Task dispatched: taskId={}, executorId={}, assignmentId={}",
+                    task.getId(), executor.getId(), assignmentId);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             executorTaskService.markDispatchUnknown(task, e.getMessage());
@@ -124,7 +123,7 @@ public class SendTaskServiceImpl implements SendTaskService {
      */
     @Override
     public void handleTaskResponse(ExecutorTaskResponse response) {
-        if (response == null || response.executorCode() == null || blank(response.accountCode()) || response.taskId() == null) {
+        if (response == null || response.executorCode() == null || response.assignmentId() == null || response.taskId() == null) {
             log.warn("Ignore invalid executor task event: {}", response);
             return;
         }
@@ -138,7 +137,7 @@ public class SendTaskServiceImpl implements SendTaskService {
         }
 
         // 执行器
-        Executor executor = executorService.getByCode(response.imType(), response.executorCode());
+        Executor executor = executorService.getByCode(response.executorCode());
         if (executor == null) {
             log.warn("Task event references unknown executor={}", response.executorCode());
             return;
@@ -164,7 +163,7 @@ public class SendTaskServiceImpl implements SendTaskService {
                 || status == ExecutorTaskStatus.FAILED
                 || status == ExecutorTaskStatus.UNKNOWN) {
             executorService.markExecutorReadyAfterTask(executor.getId(), response.taskId());
-            dispatchTaskRequest(response.imType(), response.accountCode());
+            dispatchTaskRequest(response.assignmentId());
 
             // TODO 给聚合服务执行结果
         }

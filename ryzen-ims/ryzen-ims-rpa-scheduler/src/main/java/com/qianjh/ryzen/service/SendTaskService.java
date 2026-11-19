@@ -19,7 +19,7 @@ public interface SendTaskService {
      * @param imType      IM类型
      * @param accountCode 账户
      */
-    void dispatchTaskRequest(ImType imType, String accountCode);
+    void dispatchTaskRequest(Long assignmentId);
 
     /**
      * 处理任务结果

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.enums.ExecutorOperationType;
 import com.qianjh.ryzen.enums.ExecutorStatus;
-import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.mapper.ExecutorMapper;
 import com.qianjh.ryzen.model.ExecutorSnapshot;
@@ -18,32 +17,29 @@ import java.time.LocalDateTime;
 @Service
 public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> implements ExecutorService {
     @Override
-    public Executor getByCode(ImType type, String code) {
+    public Executor getByCode(String code) {
         return getOne(new LambdaQueryWrapper<Executor>()
-                .eq(Executor::getImType, type)
                 .eq(Executor::getCode, code)
         );
     }
 
     @Override
-    public Executor getByAccount(ImType type, String accountCode) {
+    public Executor getByAssignment(Long assignmentId) {
         return getOne(new LambdaQueryWrapper<Executor>()
-                .eq(Executor::getImType, type)
-                .eq(Executor::getAccountCode, accountCode)
+                .eq(Executor::getCurrentAssigmentId, assignmentId)
         );
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Executor create(ImType type, String code) {
+    public Executor create(String code) {
         Executor entity = Executor.builder()
-                .imType(type)
                 .code(code)
-                .accountCode(null)
                 .status(ExecutorStatus.OFFLINE)
+                .currentAssigmentId(null)
                 .currentOperation(ExecutorOperationType.NONE)
                 .currentTaskId(null)
-                .registeredTime(LocalDateTime.now())
+                .registeredTime(null)
                 .lastHeartbeatTime(null)
                 .errorMessage(null)
                 .createdTime(LocalDateTime.now())
@@ -54,12 +50,12 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Executor createIfAbsent(ImType type, String code) {
-        Executor entity = getByCode(type, code);
+    public Executor createIfAbsent(String code) {
+        Executor entity = getByCode(code);
         if (entity != null) {
             return entity;
         }
-        return create(type, code);
+        return create(code);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -67,8 +63,6 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
     public boolean register(Executor executor, ExecutorSnapshot snapshot) {
         LocalDateTime time = DateTimeUtils.parseMillis(snapshot.time());
         return lambdaUpdate()
-                .set(Executor::getAccountCode, snapshot.accountCode())
-                //
                 .set(Executor::getStatus, snapshot.status())
                 .set(Executor::getCurrentOperation, snapshot.currentOperation())
                 .set(Executor::getCurrentTaskId, snapshot.currentTaskId())
@@ -91,7 +85,6 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
                 .set(Executor::getLastHeartbeatTime, DateTimeUtils.parseMillis(snapshot.time()))
                 //
                 .eq(Executor::getId, executor.getId())
-                .eq(Executor::getAccountCode, snapshot.accountCode())
                 .update();
     }
 

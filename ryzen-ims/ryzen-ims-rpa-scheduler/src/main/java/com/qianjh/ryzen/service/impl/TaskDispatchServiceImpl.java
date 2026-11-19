@@ -30,7 +30,7 @@ public class TaskDispatchServiceImpl implements TaskDispatchService {
     @Override
     public ExecutorTask claimNextTask(Executor executor) {
         // 锁任务
-        ExecutorTask task = executorTaskMapper.lock(executor.getAccountCode(), ExecutorTaskStatus.PENDING);
+        ExecutorTask task = executorTaskMapper.lock(executor.getCurrentAssigmentId(), ExecutorTaskStatus.PENDING);
         if (task == null) {
             return null;
         }

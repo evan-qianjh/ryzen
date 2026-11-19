@@ -13,10 +13,10 @@ public interface ExecutorTaskMapper extends BaseMapper<ExecutorTask> {
     @Select(" SELECT * FROM " +
             "   ims_executor_task " +
             " WHERE " +
-            "   account_code = #{accountCode} " +
+            "   assignment_id = #{assignmentId} " +
             "   AND status = #{status}" +
             " ORDER BY created_time ASC, id ASC" +
             " LIMIT 1 " +
             " FOR UPDATE")
-    ExecutorTask lock(@Param("accountCode") String accountCode, @Param("status") ExecutorTaskStatus status);
+    ExecutorTask lock(@Param("assignmentId") Long assignmentId, @Param("status") ExecutorTaskStatus status);
 }

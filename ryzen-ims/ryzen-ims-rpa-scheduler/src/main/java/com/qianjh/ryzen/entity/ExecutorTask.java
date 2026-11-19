@@ -22,8 +22,9 @@ public class ExecutorTask {
     private Long id;
 
     private String commandCode;
-    private ImType imType;
-    private String accountCode;
+//    private ImType imType;
+//    private String accountCode;
+    private Long assignmentId;
     private String conversationCode;
     private String content;
 

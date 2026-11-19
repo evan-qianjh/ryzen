@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.plugin.oss.service;
 
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.plugin.oss.dict.ImageStyle;
 import com.qianjh.ryzen.plugin.oss.dict.VideoStyle;
 
@@ -81,7 +82,7 @@ public interface PluginOssService {
         StringBuilder sb = new StringBuilder();
 
         // 文件名
-        String name = UUID.randomUUID().toString().replace("-", "");
+        String name = IdUtils.generateUUID();
 
         // name
         sb.append(name);

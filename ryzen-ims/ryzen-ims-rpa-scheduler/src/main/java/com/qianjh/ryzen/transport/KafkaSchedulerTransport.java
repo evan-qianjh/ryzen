@@ -3,6 +3,7 @@ package com.qianjh.ryzen.transport;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.SchedulerProperties;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.model.ExecutorCommand;
 import com.qianjh.ryzen.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.model.SchedulerMessage;
@@ -44,7 +45,7 @@ public class KafkaSchedulerTransport {
     public CompletableFuture<SendResult<String, String>> executorTask(ExecutorTaskRequest task) {
         return publicKafkaTemplate.send(
                 properties.getExecutorTaskRequestTopic(),
-                task.accountCode(),
+                IdUtils.toString(task.assignmentId()),
                 gson.toJson(task)
         );
     }

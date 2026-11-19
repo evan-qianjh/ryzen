@@ -35,11 +35,12 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ExecutorTask create(String commandCode, ImType imType, String accountCode, String conversationCode, String content, LocalDateTime deadlineTime) {
+    public ExecutorTask create(String commandCode, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime) {
         ExecutorTask entity = ExecutorTask.builder()
                 .commandCode(commandCode)
-                .imType(imType)
-                .accountCode(accountCode)
+                .assignmentId(assignmentId)
+//                .imType(imType)
+//                .accountCode(accountCode)
                 .conversationCode(conversationCode)
                 .content(content)
                 .status(ExecutorTaskStatus.PENDING)
@@ -52,12 +53,12 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ExecutorTask createIfAbsent(String commandCode, ImType imType, String accountCode, String conversationCode, String content, LocalDateTime deadlineTime) {
+    public ExecutorTask createIfAbsent(String commandCode, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime) {
         ExecutorTask entity = getByUk(commandCode);
         if (entity != null) {
             return entity;
         }
-        return create(commandCode, imType, accountCode, conversationCode, content, deadlineTime);
+        return create(commandCode, assignmentId, conversationCode, content, deadlineTime);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -112,7 +113,7 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
                         //
                         .eq(ExecutorTask::getId, event.taskId())
                         .eq(ExecutorTask::getExecutorId, executor.getId())
-                        .eq(ExecutorTask::getAccountCode, event.accountCode())
+                        .eq(ExecutorTask::getAssignmentId, event.assignmentId())
                         .in(ExecutorTask::getStatus, List.of(ExecutorTaskStatus.PENDING, ExecutorTaskStatus.DISPATCHED))
                         //
                         .update();
@@ -124,7 +125,7 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
                         //
                         .eq(ExecutorTask::getId, event.taskId())
                         .eq(ExecutorTask::getExecutorId, executor.getId())
-                        .eq(ExecutorTask::getAccountCode, event.accountCode())
+                        .eq(ExecutorTask::getAssignmentId, event.assignmentId())
                         .in(ExecutorTask::getStatus, List.of(ExecutorTaskStatus.DISPATCHED, ExecutorTaskStatus.ACCEPTED))
                         //
                         .update();
@@ -138,7 +139,7 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
                         //
                         .eq(ExecutorTask::getId, event.taskId())
                         .eq(ExecutorTask::getExecutorId, executor.getId())
-                        .eq(ExecutorTask::getAccountCode, event.accountCode())
+                        .eq(ExecutorTask::getAssignmentId, event.assignmentId())
                         .in(ExecutorTask::getStatus, List.of(ExecutorTaskStatus.DISPATCHED, ExecutorTaskStatus.ACCEPTED, ExecutorTaskStatus.RUNNING, ExecutorTaskStatus.UNKNOWN))
                         //
                         .update();

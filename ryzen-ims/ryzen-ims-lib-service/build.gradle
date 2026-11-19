@@ -1,7 +1,8 @@
 dependencies {
     api project(":ryzen-framework:ryzen-framework-security")
-
     api project(":ryzen-ims:ryzen-ims-lib-entity")
+
+    api 'org.springframework.boot:spring-boot-starter-validation'
 
     api 'com.mysql:mysql-connector-j'
     api libs.mybatis.plus.jsqlparser

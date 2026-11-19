@@ -19,13 +19,14 @@ import java.time.LocalDateTime;
 @Builder(toBuilder = true)
 @TableName(_Schema.TABLE_PREFIX + "executor")
 public class Executor {
-    @TableId(type = IdType.ASSIGN_ID)
+    @TableId(type = IdType.AUTO)
     private Long id;
 
-    private ImType imType;
     private String code;
 
-    private String accountCode;
+//    private ImType imType;
+//    private String accountCode;
+    private Long currentAssigmentId;
 
     private ExecutorStatus status;
     private ExecutorOperationType currentOperation;

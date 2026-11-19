@@ -10,8 +10,8 @@ import lombok.Builder;
 public record ExecutorTaskRequest(
         Long assignmentId,
         Long fencingToken,
-        ImType imType,
-        String accountCode,
+//        ImType imType,
+//        String accountCode,
         String executorCode,
         Long taskId,
         String conversationCode,

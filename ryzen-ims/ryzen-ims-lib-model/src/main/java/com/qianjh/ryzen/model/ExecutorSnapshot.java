@@ -22,10 +22,12 @@ import lombok.Builder;
 @Builder(toBuilder = true)
 public record ExecutorSnapshot(
         String executorCode,
+
         ImType imType,
         String accountCode,
         Long assignmentId,
         Long fencingToken,
+
         ExecutorStatus status,
         ExecutorOperationType currentOperation,
         Long currentTaskId,

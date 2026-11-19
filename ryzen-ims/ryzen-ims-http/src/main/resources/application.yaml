@@ -35,7 +35,7 @@ spring:
       bindings:
         # ------------------------------------- producer -------------------------------------
         imsScheduleCommandSink-out-0:
-          destination: ims.schedule.command
+          destination: ims.scheduler.command
           content-type: application/json
         imsScheduleRequestSink-out-0:
           destination: ims.schedule.request

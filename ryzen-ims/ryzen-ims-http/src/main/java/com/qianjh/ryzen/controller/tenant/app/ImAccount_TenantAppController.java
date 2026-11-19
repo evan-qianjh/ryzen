@@ -8,6 +8,8 @@ import com.qianjh.ryzen.enums.ImAccountStatus;
 import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.enums.SchedulerCommandType;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
+import com.qianjh.ryzen.framework.common.dto.Operator;
+import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
@@ -19,6 +21,7 @@ import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
 import com.qianjh.ryzen.model.SchedulerCommand;
 import com.qianjh.ryzen.service.ImAccountService;
+import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 import com.qianjh.ryzen.stream.ImsSchedulerCommandTopicStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -84,11 +88,30 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         return Resp.successOf(result);
     }
 
+    @Operation(summary = "创建")
+    @PostMapping("/im-account")
+    public Resp<?> create(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                          @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
+                          @RequestBody @Validated TenantPostImAccountReq body) {
+        ImAccount entity = imAccountService.getByUk(oemId, tenantId, body.imType(), body.accountCode());
+        if (entity != null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
+        }
+        Operator operator = buildOperator(accountId, accountName);
+
+        entity = imAccountService.create(oemId, tenantId, body, operator);
+
+        return Resp.successOf(Receipt.build(entity.getId()));
+    }
+
     @Operation(summary = "启动")
     @PostMapping("/im-account/{id}/start")
     public Resp<?> start(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                          @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                         @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
                          @PathVariable Long id) {
         ImAccount imAccount = imAccountService.getById(oemId, tenantId, id);
         if (imAccount == null) {
@@ -99,9 +122,11 @@ public class ImAccount_TenantAppController extends _TenantAppController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_CONFLICT));
         }
 
+        Operator operator = buildOperator(accountId, accountName);
+
         // command
         SchedulerCommand message = SchedulerCommand.builder()
-                .code(UUID.randomUUID().toString().replace("-", ""))
+                .code(IdUtils.generateUUID())
                 .type(SchedulerCommandType.ASSIGN)
                 .imType(imAccount.getImType())
                 .accountCode(imAccount.getCode())
@@ -111,7 +136,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         );
 
         // STARTING
-        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.STARTING);
+        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.STARTING, operator);
 
         return success ? Resp.success() : Resp.failure();
     }
@@ -121,14 +146,17 @@ public class ImAccount_TenantAppController extends _TenantAppController {
     public Resp<?> stop(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                         @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                         @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                        @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
                         @PathVariable Long id) {
         ImAccount imAccount = imAccountService.getById(oemId, tenantId, id);
         if (imAccount == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
 
+        Operator operator = buildOperator(accountId, accountName);
+
         SchedulerCommand message = SchedulerCommand.builder()
-                .code(UUID.randomUUID().toString().replace("-", ""))
+                .code(IdUtils.generateUUID())
                 .type(SchedulerCommandType.RELEASE)
                 .imType(imAccount.getImType())
                 .accountCode(imAccount.getCode())

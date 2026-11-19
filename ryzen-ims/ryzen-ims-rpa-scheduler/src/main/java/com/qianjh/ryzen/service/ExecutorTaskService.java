@@ -15,9 +15,9 @@ public interface ExecutorTaskService extends IService<ExecutorTask> {
 
     ExecutorTask getByCommandCode(String commandCode);
 
-    ExecutorTask create(String commandCode, ImType imType, String accountCode, String conversationCode, String content, LocalDateTime deadlineTime);
+    ExecutorTask create(String commandCode, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
 
-    ExecutorTask createIfAbsent(String commandCode, ImType imType, String accountCode, String conversationCode, String content, LocalDateTime deadlineTime);
+    ExecutorTask createIfAbsent(String commandCode, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
 
     /**
      * 待执行任务标记超时

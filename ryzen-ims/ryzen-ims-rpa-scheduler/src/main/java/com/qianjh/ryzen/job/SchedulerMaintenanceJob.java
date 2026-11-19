@@ -47,8 +47,8 @@ public class SchedulerMaintenanceJob {
         for (Executor executor : executors) {
             boolean success = executorService.offline(executor, cutoff);
             log.atLevel(success ? Level.INFO : Level.WARN)
-                    .log("Executor marked OFFLINE: executorCode={}, accountCode={}",
-                            executor.getId(), executor.getAccountCode()
+                    .log("Executor marked OFFLINE: executorCode={}, assigmentId={}",
+                            executor.getId(), executor.getCurrentAssigmentId()
                     );
         }
     }
