@@ -35,6 +35,11 @@ public class KafkaExecutorTransport implements ExecutorTransport {
     }
 
     @Override
+    public void command(ExecutorCommandResponse response) {
+        send(properties.getCommandResponseTopic(), response.executorCode(), response);
+    }
+
+    @Override
     public void started(ExecutorSnapshot snapshot) {
         send(properties.getStatusTopic(), snapshot.executorCode(), snapshot);
     }
@@ -60,7 +65,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
     }
 
     @Override
-    public void collectedMessage(ExecutorMessage message) {
+    public void message(ExecutorMessage message) {
         send(properties.getMessageTopic(), message.conversationCode(), message);
     }
 

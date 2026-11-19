@@ -451,7 +451,7 @@ public class ExecutorWorker {
         currentTaskId = null;
         try {
             for (ExecutorMessage message : session.collectMessages()) {
-                transport.collectedMessage(message);
+                transport.message(message);
             }
         } catch (Exception e) {
             errorMessage = "COLLECT: " + e.getMessage();

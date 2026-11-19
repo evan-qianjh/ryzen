@@ -1,9 +1,11 @@
 package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.entity.ExecutorAssignment;
 import com.qianjh.ryzen.entity.Executor;
+import com.qianjh.ryzen.entity.ExecutorAssignment;
+import com.qianjh.ryzen.enums.ExecutorAssignmentStatus;
 import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,20 @@ public class ExecutorAssignmentServiceImpl extends ServiceImpl<ExecutorAssignmen
                 .executorId(executor.getId())
                 .imType(imType)
                 .accountCode(accountCode)
+                .status(ExecutorAssignmentStatus.ASSIGNED)
                 .createdTime(LocalDateTime.now())
                 .build();
         save(entity);
         return entity;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean updateStatus(ExecutorAssignment entity, ExecutorAssignmentStatus before, ExecutorAssignmentStatus after, Operator operator) {
+        return lambdaUpdate()
+                .set(ExecutorAssignment::getStatus, after)
+                .eq(ExecutorAssignment::getId, entity.getId())
+                .eq(ExecutorAssignment::getStatus, before)
+                .update();
     }
 }

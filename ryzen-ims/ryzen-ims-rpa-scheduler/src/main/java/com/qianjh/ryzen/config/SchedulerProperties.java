@@ -6,7 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "ryzen.scheduler")
 public class SchedulerProperties {
-    private String executorCommandTopic = "ims.executor.command";
+    private String executorCommandRequestTopic = "ims.executor.command.request";
+    private String executorCommandResponseTopic = "ims.executor.command.response";
     /**
      * 执行器任务topic
      */
@@ -33,15 +34,16 @@ public class SchedulerProperties {
     private String executorStatusTopic = "ims.executor.status";
 
 
-
-
-    private String commandTopic = "ims.scheduler.command";
     /**
-     * 发送命令topic
+     * 命令topic
      */
-    private String sendRequestTopic = "ims.scheduler.send.request";
-    // TODO sendResponseTopic
-    private String sendResponseTopic = "ims.scheduler.send.response";
+    private String commandRequestTopic = "ims.scheduler.command.request";
+    private String commandResponseTopic = "ims.scheduler.command.response";
+    /**
+     * 任务topic
+     */
+    private String taskRequestTopic = "ims.scheduler.task.request";
+    private String taskResponseTopic = "ims.scheduler.task.response";
     /**
      * 聚合消息topic
      */

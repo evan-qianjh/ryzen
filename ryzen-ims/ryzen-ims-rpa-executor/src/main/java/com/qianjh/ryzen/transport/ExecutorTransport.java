@@ -1,10 +1,7 @@
 package com.qianjh.ryzen.transport;
 
 
-import com.qianjh.ryzen.model.ExecutorMessage;
-import com.qianjh.ryzen.model.ExecutorSnapshot;
-import com.qianjh.ryzen.model.ExecutorTaskRequest;
-import com.qianjh.ryzen.model.ExecutorTaskResponse;
+import com.qianjh.ryzen.model.*;
 
 /**
  * 执行器通信层
@@ -25,6 +22,14 @@ public interface ExecutorTransport {
      * @param snapshot 快照
      */
     void heartbeat(ExecutorSnapshot snapshot);
+
+    /**
+     *
+     * 指令
+     *
+     * @param response 响应
+     */
+    void command(ExecutorCommandResponse response);
 
     /**
      * 启动
@@ -66,5 +71,5 @@ public interface ExecutorTransport {
      *
      * @param message 消息
      */
-    void collectedMessage(ExecutorMessage message);
+    void message(ExecutorMessage message);
 }

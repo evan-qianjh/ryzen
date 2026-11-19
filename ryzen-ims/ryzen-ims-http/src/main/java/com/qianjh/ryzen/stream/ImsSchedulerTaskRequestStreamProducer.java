@@ -15,14 +15,14 @@ import java.util.function.Supplier;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImsSchedulerRequestTopicStreamProducer implements StreamProducer {
+public class ImsSchedulerTaskRequestStreamProducer implements StreamProducer {
     private final Producer producer;
 
     private final Sinks.Many<Message<String>> sinks =
             Sinks.many().multicast().onBackpressureBuffer();
 
     @Bean
-    Supplier<Flux<Message<String>>> imsScheduleRequestSink() {
+    Supplier<Flux<Message<String>>> imsSchedulerTaskRequestSink() {
         return sinks::asFlux;
     }
 

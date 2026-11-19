@@ -3,6 +3,7 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.qianjh.ryzen.enums.ExecutorAssignmentStatus;
 import com.qianjh.ryzen.enums.ImType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,8 @@ public class ExecutorAssignment {
 
     private ImType imType;
     private String accountCode;
+
+    private ExecutorAssignmentStatus status;
 
     private LocalDateTime createdTime;
 }

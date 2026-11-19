@@ -3,6 +3,7 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.Executor;
+import com.qianjh.ryzen.entity.ExecutorAssignment;
 import com.qianjh.ryzen.enums.ExecutorOperationType;
 import com.qianjh.ryzen.enums.ExecutorStatus;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
@@ -100,6 +101,26 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
                 .eq(Executor::getId, executor.getId())
                 .lt(Executor::getLastHeartbeatTime, cutoff)
                 .ne(Executor::getStatus, ExecutorStatus.OFFLINE)
+                .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean assign(Executor executor, ExecutorAssignment assignment) {
+        return lambdaUpdate()
+                .set(Executor::getCurrentAssigmentId, assignment.getId())
+                //
+                .eq(Executor::getId, executor.getId())
+                .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean release(Executor executor, ExecutorAssignment assignment) {
+        return lambdaUpdate()
+                .setSql("current_assigment_id = NULL")
+                //
+                .eq(Executor::getId, executor.getId())
                 .update();
     }
 

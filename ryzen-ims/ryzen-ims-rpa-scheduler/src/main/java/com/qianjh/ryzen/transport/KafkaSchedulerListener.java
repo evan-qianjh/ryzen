@@ -28,7 +28,7 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.command-topic}",
+            topics = "${ryzen.scheduler.command-request-topic}",
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void onCommand(String payload) {
@@ -42,11 +42,25 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.send-request-topic}",
+            topics = "${ryzen.scheduler.task-request-topic}",
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void onSendRequest(String payload) {
         handle("send request", payload, SchedulerRequest.class, sendTaskService::accept);
+    }
+
+    /**
+     * 执行器注册
+     *
+     * @param payload 报文
+     */
+    @KafkaListener(
+            topics = "${ryzen.scheduler.executor-command-response-topic}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "publicKafkaListenerContainerFactory"
+    )
+    public void onExecutorCommandResponse(String payload) {
+        handle("executor register", payload, ExecutorSnapshot.class, executorRegistryService::register);
     }
 
     /**

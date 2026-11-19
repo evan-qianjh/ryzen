@@ -21,7 +21,7 @@ import com.qianjh.ryzen.framework.stream.util.StreamUtils;
 import com.qianjh.ryzen.service.ConversationService;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.MessageService;
-import com.qianjh.ryzen.stream.ImsSchedulerRequestTopicStreamProducer;
+import com.qianjh.ryzen.stream.ImsSchedulerTaskRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Builder;
@@ -32,7 +32,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
@@ -46,7 +45,7 @@ public class Message_TenantAppController extends _TenantAppController {
     private final MessageService messageService;
     private final ImAccountService imAccountService;
     private final ConversationService conversationService;
-    private final ImsSchedulerRequestTopicStreamProducer imsSchedulerRequestTopicStreamProducer;
+    private final ImsSchedulerTaskRequestStreamProducer imsSchedulerRequestTopicStreamProducer;
 
     @Operation(summary = "分页查询对话")
     @GetMapping("/messages")
@@ -97,7 +96,7 @@ public class Message_TenantAppController extends _TenantAppController {
         Assert.notNull(imAccount, McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
 
         // 生成一个随机码+内容发给调度器
-        ImsSchedulerRequest message = ImsSchedulerRequest.builder()
+        ImsSchedulerTaskRequest message = ImsSchedulerTaskRequest.builder()
                 .code(IdUtils.generateUUID())
                 .imType(imAccount.getImType())
                 .accountCode(imAccount.getCode())
@@ -115,7 +114,7 @@ public class Message_TenantAppController extends _TenantAppController {
     }
 
     @Builder(toBuilder = true)
-    record ImsSchedulerRequest(
+    record ImsSchedulerTaskRequest(
             String code,
             ImType imType,
             String accountCode,

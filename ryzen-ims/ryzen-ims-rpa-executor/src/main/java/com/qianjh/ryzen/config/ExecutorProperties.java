@@ -45,7 +45,11 @@ public class ExecutorProperties {
     private Long loginCheckIntervalSeconds = 2L;
 
 
-    private String commandTopic = "ims.executor.command";
+    /**
+     * 指令
+     */
+    private String commandRequestTopic = "ims.executor.command.request";
+    private String commandResponseTopic = "ims.executor.command.response";
     /**
      * 执行器注册topic(执行器就绪后，注册到调度器)
      */

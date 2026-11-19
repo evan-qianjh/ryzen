@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorAssignment;
+import com.qianjh.ryzen.enums.ExecutorAssignmentStatus;
 import com.qianjh.ryzen.enums.ExecutorCommandType;
 import com.qianjh.ryzen.enums.ExecutorStatus;
+import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
 import com.qianjh.ryzen.model.ExecutorCommand;
@@ -67,6 +69,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
 
                 // 创建新的分配
                 ExecutorAssignment assignment = assignmentService.create(executor, command.imType(), command.accountCode());
+                executorService.assign(executor, assignment);
 
                 // build
                 ExecutorCommand executorCommand = ExecutorCommand.builder()
@@ -106,6 +109,11 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                     log.error("获取执行器失败 ::: {}", command);
                     return;
                 }
+
+                // 释放
+                // TODO 不严谨，应该放在command回调中执行
+                assignmentService.updateStatus(assignment, assignment.getStatus(), ExecutorAssignmentStatus.RELEASED, Operator.builder().build());
+                executorService.release(executor, assignment);
 
                 ExecutorCommand executorCommand = ExecutorCommand.builder()
                         .code(IdUtils.generateUUID())

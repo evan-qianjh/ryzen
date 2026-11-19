@@ -2,7 +2,7 @@ package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.Executor;
-import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.entity.ExecutorAssignment;
 import com.qianjh.ryzen.model.ExecutorSnapshot;
 
 import java.time.LocalDateTime;
@@ -43,6 +43,24 @@ public interface ExecutorService extends IService<Executor> {
      * @return 是否成功
      */
     boolean offline(Executor executor, LocalDateTime cutoff);
+
+    /**
+     * 分配
+     *
+     * @param executor   执行器
+     * @param assignment 分配单
+     * @return 结果
+     */
+    boolean assign(Executor executor, ExecutorAssignment assignment);
+
+    /**
+     * 释放
+     *
+     * @param executor   执行器
+     * @param assignment 分配单
+     * @return 结果
+     */
+    boolean release(Executor executor, ExecutorAssignment assignment);
 
     /**
      * 标记执行器可以执行新的任务

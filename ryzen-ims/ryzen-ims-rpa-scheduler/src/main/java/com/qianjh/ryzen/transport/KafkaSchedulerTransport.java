@@ -30,7 +30,7 @@ public class KafkaSchedulerTransport {
      */
     public CompletableFuture<SendResult<String, String>> executorCommand(ExecutorCommand command) {
         return publicKafkaTemplate.send(
-                properties.getExecutorCommandTopic(),
+                properties.getExecutorCommandRequestTopic(),
                 command.executorCode(),
                 gson.toJson(command)
         );

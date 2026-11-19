@@ -22,7 +22,7 @@ import com.qianjh.ryzen.framework.stream.util.StreamUtils;
 import com.qianjh.ryzen.model.SchedulerCommand;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
-import com.qianjh.ryzen.stream.ImsSchedulerCommandTopicStreamProducer;
+import com.qianjh.ryzen.stream.ImsSchedulerCommandRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.UUID;
 
 import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
@@ -46,7 +45,7 @@ import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppContro
 public class ImAccount_TenantAppController extends _TenantAppController {
 
     private final ImAccountService imAccountService;
-    private final ImsSchedulerCommandTopicStreamProducer imsSchedulerCommandTopicStreamProducer;
+    private final ImsSchedulerCommandRequestStreamProducer imsSchedulerCommandTopicStreamProducer;
 
     @Operation(summary = "分页查询")
     @GetMapping("/im-accounts")
@@ -135,8 +134,8 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                 MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
         );
 
-        // STARTING
-        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.STARTING, operator);
+        // ASSIGNING
+        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.ASSIGNING, operator);
 
         return success ? Resp.success() : Resp.failure();
     }
@@ -164,7 +163,11 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         imsSchedulerCommandTopicStreamProducer.send(
                 MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
         );
-        return Resp.success();
+
+        // RELEASING
+        boolean success = imAccountService.updateStatus(imAccount, imAccount.getStatus(), ImAccountStatus.RELEASING, operator);
+
+        return success ? Resp.success() : Resp.failure();
     }
 
 }

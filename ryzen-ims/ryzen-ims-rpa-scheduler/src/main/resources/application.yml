@@ -69,15 +69,17 @@ springdoc:
 ryzen:
   scheduler:
     # scheduler
-    command-topic: ims.scheduler.command
-    send-request-topic: ims.scheduler.send.request
-    send-response-topic: ims.scheduler.send.response
+    command-request-topic: ims.scheduler.command.request
+    command-response-topic: ims.scheduler.command.response
+    task-request-topic: ims.scheduler.task.request
+    task-response-topic: ims.scheduler.task.response
     message-topic: ims.scheduler.message
     heartbeat-timeout-seconds: 30
     task-timeout-seconds: 60
     timeout-check-interval-seconds: 5
     # executor
-    executor-command-topic: ims.executor.command
+    executor-command-request-topic: ims.executor.command.request
+    executor-command-response-topic: ims.executor.command.response
     executor-task-request-topic: ims.executor.task.request
     executor-task-response-topic: ims.executor.task.response
     executor-message-topic: ims.executor.message
