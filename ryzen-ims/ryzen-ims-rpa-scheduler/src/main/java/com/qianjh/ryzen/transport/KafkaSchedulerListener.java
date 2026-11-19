@@ -28,7 +28,7 @@ public class KafkaSchedulerListener {
      * @param payload 报文
      */
     @KafkaListener(
-            topics = "${ryzen.scheduler.command}",
+            topics = "${ryzen.scheduler.command-topic}",
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void onCommand(String payload) {

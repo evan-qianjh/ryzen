@@ -20,7 +20,7 @@ import java.util.Map;
 public class KafkaConfig {
     @Bean
     public ProducerFactory<String, String> defaultProducerFactory(
-            @Value("${ryzen.kafka.default.bootstrap-servers}") String bootstrapServers) {
+            @Value("${ryzen.kafka.default.servers}") String bootstrapServers) {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -38,7 +38,7 @@ public class KafkaConfig {
 
     @Bean
     public ProducerFactory<String, String> publicProducerFactory(
-            @Value("${ryzen.kafka.public.bootstrap-servers}") String servers) {
+            @Value("${ryzen.kafka.public.servers}") String servers) {
         Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -55,7 +55,7 @@ public class KafkaConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> publicKafkaListenerContainerFactory(
-            @Value("${ryzen.kafka.public.bootstrap-servers}") String servers,
+            @Value("${ryzen.kafka.public.servers}") String servers,
             @Value("${spring.kafka.consumer.group-id}") String groupId,
             @Value("${spring.kafka.consumer.auto-offset-reset:latest}") String offsetReset) {
 
