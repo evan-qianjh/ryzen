@@ -54,7 +54,7 @@ public class CollectedMessageService {
                 .conversationCode(entity.getConversationCode())
                 .senderCode(entity.getSenderCode())
                 .senderAvatar(entity.getSenderAvatar())
-                .sentAt(DateTimeUtils.getTime(entity.getSentAt()))
+                .sentTime(DateTimeUtils.getTime(entity.getSentTime()))
                 .content(entity.getContent())
                 .build();
     }

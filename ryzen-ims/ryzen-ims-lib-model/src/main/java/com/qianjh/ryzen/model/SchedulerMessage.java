@@ -12,7 +12,7 @@ import lombok.Builder;
  * @param conversationCode 对话
  * @param senderCode       发送者
  * @param content          内容
- * @param sentAt           发送时间
+ * @param sentTime         发送时间
  */
 @Builder(toBuilder = true)
 public record SchedulerMessage(
@@ -24,6 +24,6 @@ public record SchedulerMessage(
         String senderCode,
         String senderAvatar,
         String content,
-        Long sentAt
+        Long sentTime
 ) {
 }

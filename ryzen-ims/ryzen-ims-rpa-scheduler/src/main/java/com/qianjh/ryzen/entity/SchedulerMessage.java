@@ -30,7 +30,7 @@ public class SchedulerMessage {
     private String conversationCode;
     private String senderCode;
     private String senderAvatar;
-    private LocalDateTime sentAt;
+    private LocalDateTime sentTime;
     private String content;
 
     private LocalDateTime createdTime;

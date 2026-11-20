@@ -189,13 +189,13 @@ public class PlaywrightBrowserSession implements BrowserSession {
             // 发送时间
             Locator timeNode = message.locator(".message-formattime");
             String time = timeNode.textContent();
-            Long sentAt = MessageUtils.toTimestamp(time);
+            Long sentTime = MessageUtils.toTimestamp(time);
 
 
             Locator contentNode = message.locator(".im-card_text-message");
             String content = contentNode.textContent();
-            log.info("获取消息 ::: chatId={}, sender={}, messageCode={}, content={}, sentAt={}",
-                    chatCode, senderName, messageId, content, sentAt);
+            log.info("获取消息 ::: chatId={}, sender={}, messageCode={}, content={}, sentTime={}",
+                    chatCode, senderName, messageId, content, sentTime);
 
             result.add(
                     ExecutorMessage.builder()
@@ -208,7 +208,7 @@ public class PlaywrightBrowserSession implements BrowserSession {
                             .senderCode(senderName)
                             .senderAvatar(avatar)
                             .content(content)
-                            .sentAt(sentAt)
+                            .sentTime(sentTime)
                             .build()
             );
         }
