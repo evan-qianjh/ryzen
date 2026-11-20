@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetMessagesResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostMessageReq;
-import com.qianjh.ryzen.entity.Conversation;
+import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.Message;
+import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
@@ -18,9 +18,9 @@ import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
-import com.qianjh.ryzen.service.ConversationService;
+import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImAccountService;
-import com.qianjh.ryzen.service.MessageService;
+import com.qianjh.ryzen.service.ImMessageService;
 import com.qianjh.ryzen.stream.ImsSchedulerTaskRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -42,9 +42,9 @@ import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppContro
 @RequiredArgsConstructor
 public class Message_TenantAppController extends _TenantAppController {
 
-    private final MessageService messageService;
+    private final ImMessageService messageService;
     private final ImAccountService imAccountService;
-    private final ConversationService conversationService;
+    private final ImConversationService conversationService;
     private final ImsSchedulerTaskRequestStreamProducer imsSchedulerRequestTopicStreamProducer;
 
     @Operation(summary = "分页查询对话")
@@ -57,13 +57,13 @@ public class Message_TenantAppController extends _TenantAppController {
                                                   @RequestParam(required = false) Long fromId,
                                                   @RequestParam(required = false) Integer limit) {
         int pageSize = safePageSize(limit);
-        List<Message> entities = messageService.list(new LambdaQueryWrapper<Message>()
-                .eq(Message::getOemId, oemId)
-                .eq(Message::getTenantId, tenantId)
-                .eq(Message::getConversationId, conversationId)
+        List<ImMessage> entities = messageService.list(new LambdaQueryWrapper<ImMessage>()
+                .eq(ImMessage::getOemId, oemId)
+                .eq(ImMessage::getTenantId, tenantId)
+                .eq(ImMessage::getConversationId, conversationId)
                 //
-                .lt(fromId != null, Message::getMessageSeq, fromId)
-                .orderByDesc(Message::getMessageSeq)
+                .lt(fromId != null, ImMessage::getMessageSeq, fromId)
+                .orderByDesc(ImMessage::getMessageSeq)
                 .last("limit " + pageSize)
         );
 
@@ -89,7 +89,7 @@ public class Message_TenantAppController extends _TenantAppController {
                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                           @RequestBody @Validated PostMessageReq body
     ) {
-        Conversation conversation = conversationService.getById(body.conversationId());
+        ImConversation conversation = conversationService.getById(body.conversationId());
         Assert.notNull(conversation, McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
 
         ImAccount imAccount = imAccountService.getById(conversation.getImAccountId());

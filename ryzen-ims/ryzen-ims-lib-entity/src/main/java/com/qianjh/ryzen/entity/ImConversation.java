@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "conversation")
-public class Conversation {
+@TableName(_Schema.TABLE_PREFIX + "im_conversation")
+public class ImConversation {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long oemId;
@@ -26,8 +26,6 @@ public class Conversation {
 
     // IM账户
     private Long imAccountId;
-
-//    private ImType imType;
 
     // 对话唯一标识
     private String code;

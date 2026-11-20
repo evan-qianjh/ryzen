@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qianjh.ryzen.entity.Conversation;
+import com.qianjh.ryzen.entity.ImConversation;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ConversationMapper extends BaseMapper<Conversation> {
+public interface ImConversationMapper extends BaseMapper<ImConversation> {
 }

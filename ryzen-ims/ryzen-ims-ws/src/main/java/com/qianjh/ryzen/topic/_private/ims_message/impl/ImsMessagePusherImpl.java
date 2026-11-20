@@ -1,11 +1,11 @@
 package com.qianjh.ryzen.topic._private.ims_message.impl;
 
-import com.qianjh.ryzen.entity.Conversation;
-import com.qianjh.ryzen.entity.Message;
+import com.qianjh.ryzen.entity.ImConversation;
+import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.websocket.netty.MessageSender;
 import com.qianjh.ryzen.framework.websocket.service.PushMessageService;
 import com.qianjh.ryzen.framework.websocket.topic.TopicMeta;
-import com.qianjh.ryzen.service.ConversationService;
+import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessagePusher;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessageTopic;
 import com.qianjh.ryzen.topic._private.ims_message.model.PushData;
@@ -23,17 +23,17 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
 
     private final ImsMessageTopic imsMessageTopic;
     private final PushMessageService pushMessageService;
-    private final ConversationService conversationService;
+    private final ImConversationService conversationService;
 
     @Override
-    public void push(Message message) {
+    public void push(ImMessage message) {
         Long oemId = message.getOemId();
         Long tenantId = message.getTenantId();
 
         TopicMeta topicMeta = imsMessageTopic.getTopicMeta();
 
         // 查出消息对话
-        Conversation conversation = conversationService.getById(oemId, tenantId, message.getConversationId());
+        ImConversation conversation = conversationService.getById(oemId, tenantId, message.getConversationId());
         if (conversation == null) {
             log.error("对话不存在 ::: messageId={}, conversationId={}", message.getId(), message.getConversationId());
             return;
@@ -58,7 +58,7 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
         MessageSender.send(subscribers, message1, topicMeta);
     }
 
-    private PushData buildData(Message message) {
+    private PushData buildData(ImMessage message) {
         return PushData.builder()
                 .direction(message.getDirection())
                 .senderName(message.getSenderName())

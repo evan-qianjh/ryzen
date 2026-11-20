@@ -33,6 +33,7 @@ public class SchedulerMessageServiceImpl extends ServiceImpl<SchedulerMessageMap
                 .accountCode(message.accountCode())
                 .conversationCode(message.conversationCode())
                 .senderCode(message.senderCode())
+                .senderName(message.senderName())
                 .senderAvatar(message.senderAvatar())
 
                 .sentTime(DateTimeUtils.parseMillis(message.sentTime()))

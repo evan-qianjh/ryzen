@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "message")
-public class Message {
+@TableName(_Schema.TABLE_PREFIX + "im_message")
+public class ImMessage {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long oemId;
@@ -33,8 +33,9 @@ public class Message {
 
 //    private ImType imType;
 
-    // 发送ID(仅MessageDirection.OUTBOUND有值)
-    private Long senderId;
+    // (仅MessageDirection.OUTBOUND有值)
+    private Long senderReceptionAccountId;
+
     private String senderName;
     private String senderAvatar;
     private LocalDateTime sentTime;

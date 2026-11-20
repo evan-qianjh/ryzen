@@ -1,12 +1,12 @@
 package com.qianjh.ryzen.topic._private.ims_message;
 
 
-import com.qianjh.ryzen.entity.Message;
+import com.qianjh.ryzen.entity.ImMessage;
 
 public interface ImsMessagePusher {
 
     /**
      *
      */
-    void push(Message message);
+    void push(ImMessage message);
 }

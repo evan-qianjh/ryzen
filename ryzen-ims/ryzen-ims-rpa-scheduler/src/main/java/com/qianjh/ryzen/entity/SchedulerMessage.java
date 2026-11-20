@@ -23,12 +23,13 @@ public class SchedulerMessage {
     private Long id;
 
     private ImType imType;
+    private String accountCode;
     private String messageCode;
     private MessageDirection direction;
 
-    private String accountCode;
     private String conversationCode;
     private String senderCode;
+    private String senderName;
     private String senderAvatar;
     private LocalDateTime sentTime;
     private String content;

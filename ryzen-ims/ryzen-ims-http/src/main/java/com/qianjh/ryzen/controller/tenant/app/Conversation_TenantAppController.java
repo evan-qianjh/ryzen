@@ -2,14 +2,14 @@ package com.qianjh.ryzen.controller.tenant.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetConversationsResp;
-import com.qianjh.ryzen.entity.Conversation;
+import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
-import com.qianjh.ryzen.service.ConversationService;
+import com.qianjh.ryzen.service.ImConversationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppContro
 @RequiredArgsConstructor
 public class Conversation_TenantAppController extends _TenantAppController {
 
-    private final ConversationService conversationService;
+    private final ImConversationService conversationService;
 
     @Operation(summary = "分页查询对话")
     @GetMapping("/conversations")
@@ -38,13 +38,13 @@ public class Conversation_TenantAppController extends _TenantAppController {
                                                        @RequestParam(required = false) Long fromId,
                                                        @RequestParam(required = false) Integer limit) {
         int pageSize = safePageSize(limit);
-        List<Conversation> entities = conversationService.list(new LambdaQueryWrapper<Conversation>()
-                .eq(Conversation::getOemId, oemId)
-                .eq(Conversation::getTenantId, tenantId)
-                .eq(Conversation::getReceptionAccountId, accountId)
+        List<ImConversation> entities = conversationService.list(new LambdaQueryWrapper<ImConversation>()
+                .eq(ImConversation::getOemId, oemId)
+                .eq(ImConversation::getTenantId, tenantId)
+                .eq(ImConversation::getReceptionAccountId, accountId)
                 //
-                .lt(fromId != null, Conversation::getLastMessageId, fromId)
-                .orderByDesc(Conversation::getLastMessageId)
+                .lt(fromId != null, ImConversation::getLastMessageId, fromId)
+                .orderByDesc(ImConversation::getLastMessageId)
                 .last("limit " + pageSize)
         );
 

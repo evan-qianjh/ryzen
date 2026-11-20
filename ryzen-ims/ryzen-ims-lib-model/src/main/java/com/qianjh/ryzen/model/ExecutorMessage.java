@@ -24,6 +24,7 @@ public record ExecutorMessage(
         String messageCode,
         String conversationCode,
         String senderCode,
+        String senderName,
         String senderAvatar,
         Long sentTime,
         String content

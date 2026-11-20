@@ -17,11 +17,13 @@ import lombok.Builder;
 @Builder(toBuilder = true)
 public record SchedulerMessage(
         ImType imType,
-        MessageDirection direction,
         String accountCode,
         String messageCode,
+        MessageDirection direction,
+
         String conversationCode,
         String senderCode,
+        String senderName,
         String senderAvatar,
         String content,
         Long sentTime

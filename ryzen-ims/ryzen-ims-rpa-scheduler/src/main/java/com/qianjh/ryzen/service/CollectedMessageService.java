@@ -48,11 +48,12 @@ public class CollectedMessageService {
     private com.qianjh.ryzen.model.SchedulerMessage convert(SchedulerMessage entity) {
         return com.qianjh.ryzen.model.SchedulerMessage.builder()
                 .imType(entity.getImType())
-                .direction(entity.getDirection())
                 .accountCode(entity.getAccountCode())
+                .direction(entity.getDirection())
                 .messageCode(entity.getMessageCode())
                 .conversationCode(entity.getConversationCode())
                 .senderCode(entity.getSenderCode())
+                .senderName(entity.getSenderName())
                 .senderAvatar(entity.getSenderAvatar())
                 .sentTime(DateTimeUtils.getTime(entity.getSentTime()))
                 .content(entity.getContent())
