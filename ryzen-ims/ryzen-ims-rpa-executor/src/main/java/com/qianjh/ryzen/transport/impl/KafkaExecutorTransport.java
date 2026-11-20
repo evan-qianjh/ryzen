@@ -3,6 +3,7 @@ package com.qianjh.ryzen.transport.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.ExecutorProperties;
+import com.qianjh.ryzen.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.model.*;
 import com.qianjh.ryzen.transport.ExecutorTransport;
@@ -51,12 +52,24 @@ public class KafkaExecutorTransport implements ExecutorTransport {
 
     @Override
     public void taskAccepted(ExecutorTaskRequest task) {
-        send(properties.getTaskResponseTopic(), IdUtils.toString(task.taskId()), new TaskLifecycleEvent(task.taskId(), "ACCEPTED", null));
+        ExecutorTaskResponse response = ExecutorTaskResponse.builder()
+                .assignmentId(task.assignmentId())
+                .executorCode(task.executorCode())
+                .taskId(task.taskId())
+                .status(ExecutorTaskStatus.ACCEPTED)
+                .build();
+        send(properties.getTaskResponseTopic(), IdUtils.toString(task.taskId()), response);
     }
 
     @Override
     public void taskRunning(ExecutorTaskRequest task) {
-        send(properties.getTaskResponseTopic(), IdUtils.toString(task.taskId()), new TaskLifecycleEvent(task.taskId(), "RUNNING", null));
+        ExecutorTaskResponse response = ExecutorTaskResponse.builder()
+                .assignmentId(task.assignmentId())
+                .executorCode(task.executorCode())
+                .taskId(task.taskId())
+                .status(ExecutorTaskStatus.RUNNING)
+                .build();
+        send(properties.getTaskResponseTopic(), IdUtils.toString(task.taskId()), response);
     }
 
     @Override
@@ -73,6 +86,4 @@ public class KafkaExecutorTransport implements ExecutorTransport {
         kafkaTemplate.send(topic, key, GSON.toJson(value));
     }
 
-    private record TaskLifecycleEvent(Long taskId, String status, String errorMessage) {
-    }
 }
