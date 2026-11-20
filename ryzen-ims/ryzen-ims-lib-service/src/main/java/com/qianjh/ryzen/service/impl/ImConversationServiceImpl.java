@@ -2,9 +2,10 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImAccount;
+import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
+import com.qianjh.ryzen.enums.MessageDirection;
 import com.qianjh.ryzen.mapper.ImConversationMapper;
 import com.qianjh.ryzen.service.ImConversationService;
 import org.apache.commons.lang3.StringUtils;
@@ -64,8 +65,14 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
     @Override
     public boolean recordLastMessage(ImConversation entity, ImMessage message) {
         return lambdaUpdate()
-                .set(StringUtils.isNotBlank(message.getSenderName()), ImConversation::getName, message.getSenderName())
-                .set(StringUtils.isNotBlank(message.getSenderAvatar()), ImConversation::getAvatar, message.getSenderAvatar())
+                .set(message.getDirection() == MessageDirection.INBOUND
+                                && StringUtils.isNotBlank(message.getSenderName()),
+                        ImConversation::getName, message.getSenderName()
+                )
+                .set(message.getDirection() == MessageDirection.INBOUND
+                                && StringUtils.isNotBlank(message.getSenderAvatar()),
+                        ImConversation::getAvatar, message.getSenderAvatar()
+                )
                 .set(ImConversation::getLastMessageId, message.getId())
                 .set(ImConversation::getLastMessageContent, message.getContent())
                 //

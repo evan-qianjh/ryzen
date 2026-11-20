@@ -25,7 +25,7 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'imsSchedulerCommandResponseSource;imsSchedulerTaskResponseSource;imsSchedulerReportSource;imsSchedulerMessageSource;'
+      definition: 'imsImMessageSink;imsSchedulerCommandResponseSource;imsSchedulerTaskResponseSource;imsSchedulerReportSource;imsSchedulerMessageSource;'
     stream:
       kafka:
         binder:
@@ -33,6 +33,11 @@ spring:
           configuration:
             auto.offset.reset: latest
       bindings:
+        # ------------------------------------- sink -------------------------------------
+        imsImMessageSink-out-0:
+          destination: ims.im-message
+          content-type: application/json
+        # ------------------------------------- source -------------------------------------
         imsSchedulerCommandResponseSource-in-0:
           destination: ims.scheduler.command.response
           content-type: application/json

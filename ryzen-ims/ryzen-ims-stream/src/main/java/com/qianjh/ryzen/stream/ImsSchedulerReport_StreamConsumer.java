@@ -20,7 +20,7 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImSchedulerReport_StreamConsumer implements StreamConsumer {
+public class ImsSchedulerReport_StreamConsumer implements StreamConsumer {
 
     private final ImAccountService imAccountService;
 

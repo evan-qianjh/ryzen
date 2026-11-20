@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImSchedulerTaskResponse_StreamConsumer implements StreamConsumer {
+public class ImsSchedulerTaskResponse_StreamConsumer implements StreamConsumer {
 
     @Bean
     public Consumer<Message<String>> imsSchedulerTaskResponseSource() {

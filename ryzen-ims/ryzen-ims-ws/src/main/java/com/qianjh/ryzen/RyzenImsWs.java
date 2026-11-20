@@ -1,14 +1,17 @@
 package com.qianjh.ryzen;
 
+import com.qianjh.ryzen.config.StreamConditionalBeanConfig;
 import com.qianjh.ryzen.framework.websocket.netty.Starter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Import;
 
 /**
  * @author QianJH
  */
+@Import(StreamConditionalBeanConfig.class)
 @EnableDiscoveryClient
 @SpringBootApplication
 public class RyzenImsWs {

@@ -2,21 +2,35 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImAccount;
+import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
+import com.qianjh.ryzen.ims.stream.domain.im_message.event.ImMessageCreatedEvent;
 import com.qianjh.ryzen.mapper.ImMessageMapper;
 import com.qianjh.ryzen.model.SchedulerMessage;
 import com.qianjh.ryzen.service.ImMessageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage> implements ImMessageService {
+
+    private final ImMessageCreatedEvent.Publisher imMessageCreatedEventPublisher;
+
+    @Override
+    public ImMessage getById(Long oemId, Long tenantId, Long id) {
+        return getOne(new LambdaQueryWrapper<ImMessage>()
+                .eq(ImMessage::getOemId, oemId)
+                .eq(ImMessage::getTenantId, tenantId)
+                .eq(ImMessage::getId, id)
+        );
+    }
 
     @Override
     public ImMessage getByUk(Long oemId, Long tenantId, Long conversationId, String code) {
@@ -47,6 +61,12 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
                 .createdTime(LocalDateTime.now())
                 .build();
         save(entity);
+
+        imMessageCreatedEventPublisher.publish(ImMessageCreatedEvent.Body.builder()
+                .id(entity.getId())
+                .oemId(entity.getOemId())
+                .tenantId(entity.getTenantId())
+                .build());
         return entity;
     }
 

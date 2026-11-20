@@ -2,12 +2,14 @@ package com.qianjh.ryzen.topic._private.ims_message.impl;
 
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.websocket.netty.MessageSender;
 import com.qianjh.ryzen.framework.websocket.service.PushMessageService;
 import com.qianjh.ryzen.framework.websocket.topic.TopicMeta;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessagePusher;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessageTopic;
+import com.qianjh.ryzen.topic._private.ims_message.model.MessageAction;
 import com.qianjh.ryzen.topic._private.ims_message.model.PushData;
 import io.netty.channel.ChannelId;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -42,14 +45,19 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
         // 接待人账户
         Long receptionAccountId = conversation.getReceptionAccountId();
 
+        // TODO 收藏人账户
+
+        //
+        Set<Long> accountIds = Set.of(receptionAccountId);
+
         // 获取接待账户订阅者
-        List<ChannelId> subscribers = imsMessageTopic.getSubscribers(tenantId, receptionAccountId, topicMeta);
+        List<ChannelId> subscribers = imsMessageTopic.getSubscribers(tenantId, accountIds, topicMeta);
         if (subscribers.isEmpty()) {
             return;
         }
 
         // 构建推送数据
-        PushData data = buildData(message);
+        PushData data = buildData(message, conversation);
 
         // 构建报文
         com.qianjh.ryzen.framework.websocket.message.Message message1 = pushMessageService.build(data, topicMeta);
@@ -58,12 +66,21 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
         MessageSender.send(subscribers, message1, topicMeta);
     }
 
-    private PushData buildData(ImMessage message) {
+    private PushData buildData(ImMessage message, ImConversation conversation) {
         return PushData.builder()
+                .id(IdUtils.toString(message.getId()))
+                .action(MessageAction.INSERT)
                 .direction(message.getDirection())
                 .senderName(message.getSenderName())
                 .senderAvatar(message.getSenderAvatar())
                 .content(message.getContent())
+                .conversation(
+                        PushData.Conversation.builder()
+                                .id(IdUtils.toString(conversation.getId()))
+                                .avatar(conversation.getAvatar())
+                                .name(conversation.getName())
+                                .build()
+                )
                 .build();
     }
 }

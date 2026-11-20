@@ -152,6 +152,10 @@ public class PlaywrightBrowserSession implements BrowserSession {
             if (messageId == null) {
                 continue;
             }
+            if(messageId.startsWith("tmp_")) {
+                log.warn("异常消息 ::: {}", messageId);
+                continue;
+            }
 
             // 去重
             long messageSeq = Long.parseLong(messageId);
@@ -218,6 +222,9 @@ public class PlaywrightBrowserSession implements BrowserSession {
         if (maxMessageSeq != null) {
             CHAT_LAST_MSG.put(chatCode, maxMessageSeq);
         }
+
+        // 消息重排序
+        result.sort(Comparator.comparing(ExecutorMessage::messageCode));
 
         return result;
     }

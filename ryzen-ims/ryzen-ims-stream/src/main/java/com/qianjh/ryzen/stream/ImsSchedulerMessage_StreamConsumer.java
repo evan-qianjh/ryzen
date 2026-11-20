@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImSchedulerMessage_StreamConsumer implements StreamConsumer {
+public class ImsSchedulerMessage_StreamConsumer implements StreamConsumer {
 
     @Bean
     public Consumer<Message<String>> imsSchedulerMessageSource(

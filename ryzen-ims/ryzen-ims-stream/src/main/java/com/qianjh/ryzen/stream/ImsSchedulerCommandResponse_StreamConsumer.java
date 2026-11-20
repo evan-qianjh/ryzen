@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer {
+public class ImsSchedulerCommandResponse_StreamConsumer implements StreamConsumer {
 
     private final ImAccountService imAccountService;
 
