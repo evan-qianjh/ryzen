@@ -1,15 +1,15 @@
 package com.qianjh.ryzen.stream;
 
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.ImAccountCommand;
+import com.qianjh.ryzen.entity.SchedulerCommand;
 import com.qianjh.ryzen.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.enums.ImAccountWorkStatus;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
 import com.qianjh.ryzen.model.SchedulerCommandResponse;
-import com.qianjh.ryzen.service.ImAccountCommandService;
 import com.qianjh.ryzen.service.ImAccountService;
+import com.qianjh.ryzen.service.SchedulerCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -28,27 +28,27 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
     private final ImAccountService imAccountService;
 
     @Bean
-    public Consumer<Message<String>> imsSchedulerCommandResponseSource(ImAccountCommandService imAccountCommandService) {
+    public Consumer<Message<String>> imsSchedulerCommandResponseSource(SchedulerCommandService imAccountCommandService) {
         return message -> {
             String payload = message.getPayload();
 
+            // operator
             Operator operator = Operator.builder()
                     .name("IMS_SCHEDULER")
                     .build();
 
-            log.info("receive message ::: {}", message);
-
-
+            // command
             SchedulerCommandResponse response = GsonUtils.GSON.fromJson(payload, SchedulerCommandResponse.class);
+            SchedulerCommand command = imAccountCommandService.getById(response.code());
+            if (command == null) {
+                log.error("指令不存在 ASSIGN ::: {}", message);
+                return;
+            }
+            // command update
+            imAccountCommandService.response(command, response.success(), response.errorMessage());
 
             switch (response.type()) {
                 case ASSIGN -> {
-                    ImAccountCommand command = imAccountCommandService.getById(response.code());
-                    if (command == null) {
-                        log.error("指令不存在 ASSIGN ::: {}", message);
-                        return;
-                    }
-                    imAccountCommandService.callback(command, response.success(), response.errorMessage());
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 ASSIGN ::: {}", payload);
@@ -63,7 +63,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                     }
                 }
                 case RELEASE -> {
-                    ImAccount imAccount = imAccountService.getByUk(response.imType(), response.accountCode());
+                    ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 RELEASE ::: {}", payload);
                         return;
@@ -72,12 +72,6 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                     imAccountService.clearAssignment(imAccount);
                 }
                 case START -> {
-                    ImAccountCommand command = imAccountCommandService.getById(response.code());
-                    if (command == null) {
-                        log.error("指令不存在 START ::: {}", message);
-                        return;
-                    }
-                    imAccountCommandService.callback(command, response.success(), response.errorMessage());
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 START ::: {}", payload);
@@ -92,12 +86,6 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                     imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), afterStatus, operator);
                 }
                 case STOP -> {
-                    ImAccountCommand command = imAccountCommandService.getById(response.code());
-                    if (command == null) {
-                        log.error("指令不存在 STOP ::: {}", message);
-                        return;
-                    }
-                    imAccountCommandService.callback(command, response.success(), response.errorMessage());
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 STOP ::: {}", payload);
@@ -108,7 +96,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                         return;
                     }
                     // 更新状态
-                    if(response.success()) {
+                    if (response.success()) {
                         imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), ImAccountWorkStatus.STOPPED, operator);
                     }
                 }

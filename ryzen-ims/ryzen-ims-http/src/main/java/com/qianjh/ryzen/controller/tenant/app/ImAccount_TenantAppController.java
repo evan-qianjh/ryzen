@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetImAccountsResp;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.ImAccountCommand;
+import com.qianjh.ryzen.entity.SchedulerCommand;
 import com.qianjh.ryzen.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.enums.ImAccountWorkStatus;
 import com.qianjh.ryzen.enums.ImType;
@@ -22,7 +22,7 @@ import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
 import com.qianjh.ryzen.model.SchedulerCommandRequest;
-import com.qianjh.ryzen.service.ImAccountCommandService;
+import com.qianjh.ryzen.service.SchedulerCommandService;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 import com.qianjh.ryzen.stream.ImsSchedulerCommandRequestStreamProducer;
@@ -49,7 +49,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
     private final ImAccountService imAccountService;
     private final ImsSchedulerCommandRequestStreamProducer imsSchedulerCommandTopicStreamProducer;
-    private final ImAccountCommandService imAccountCommandService;
+    private final SchedulerCommandService imAccountCommandService;
 
     @Operation(summary = "分页查询")
     @GetMapping("/im-accounts")
@@ -130,7 +130,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         SchedulerCommandType commandType = SchedulerCommandType.ASSIGN;
 
         // 创建命令
-        ImAccountCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        SchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
 
         // command
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()
@@ -165,7 +165,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.RELEASE;
-        ImAccountCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        SchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
 
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()
                 .code(IdUtils.toString(command.getId()))
@@ -204,7 +204,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         Operator operator = buildOperator(accountId, accountName);
 
         SchedulerCommandType commandType = SchedulerCommandType.START;
-        ImAccountCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        SchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
 
         // command
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()
@@ -237,7 +237,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         Operator operator = buildOperator(accountId, accountName);
 
         SchedulerCommandType commandType = SchedulerCommandType.STOP;
-        ImAccountCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        SchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
 
         // command
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()
