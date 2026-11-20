@@ -3,6 +3,8 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ToSchedulerCommand;
+import com.qianjh.ryzen.enums.SchedulerCommandType;
+import com.qianjh.ryzen.enums.ToSchedulerCommandDomainType;
 import com.qianjh.ryzen.mapper.ToSchedulerCommandMapper;
 import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import org.springframework.stereotype.Service;
@@ -13,17 +15,24 @@ public class ToSchedulerCommandServiceImpl extends ServiceImpl<ToSchedulerComman
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ToSchedulerCommand create(ImAccount imAccount, String command) {
+    public ToSchedulerCommand create(Long oemId, Long tenantId, SchedulerCommandType commandType, ToSchedulerCommandDomainType domainType, Long domainId) {
         ToSchedulerCommand entity = ToSchedulerCommand.builder()
-                .oemId(imAccount.getOemId())
-                .tenantId(imAccount.getTenantId())
-                .imAccountId(imAccount.getId())
-                .command(command)
+                .oemId(oemId)
+                .tenantId(tenantId)
+                .commandType(commandType)
+                .domainId(domainId)
+                .domainType(domainType)
                 .success(null)
                 .errorMessage(null)
                 .build();
         save(entity);
         return entity;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ToSchedulerCommand create(ImAccount domain, SchedulerCommandType commandType) {
+        return create(domain.getOemId(), domain.getTenantId(), commandType, ToSchedulerCommandDomainType.IM_ACCOUNT, domain.getId());
     }
 
     @Transactional(rollbackFor = Exception.class)

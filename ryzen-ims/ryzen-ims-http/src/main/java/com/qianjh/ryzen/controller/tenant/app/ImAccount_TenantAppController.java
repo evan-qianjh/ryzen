@@ -22,8 +22,8 @@ import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
 import com.qianjh.ryzen.model.SchedulerCommandRequest;
-import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.service.ImAccountService;
+import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 import com.qianjh.ryzen.stream.ImsSchedulerCommandRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
@@ -81,7 +81,8 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                         .id(IdUtils.toString(e.getId()))
                         .code(e.getCode())
                         .imType(e.getImType())
-                        .status(e.getAssignStatus())
+                        .assignStatus(e.getAssignStatus())
+                        .executorStatus(e.getExecutorStatus())
                         .remark(e.getRemark())
                         .createdTime(DateTimeUtils.getTime(e.getCreatedTime()))
                         .build()
@@ -130,7 +131,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         SchedulerCommandType commandType = SchedulerCommandType.ASSIGN_EXECUTOR;
 
         // 创建命令
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()
@@ -160,12 +161,19 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         if (imAccount == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
+        if (imAccount.getExecutorStatus() != ImAccountExecutorStatus.NONE && imAccount.getExecutorStatus() != ImAccountExecutorStatus.STOPPED) {
+            return Resp.failure("请先停止执行器");
+        }
+        // 未配分执行器
+        if(imAccount.getExecutorAssignmentId() == null) {
+            return Resp.failure("未配分执行器");
+        }
 
         Operator operator = buildOperator(accountId, accountName);
 
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.RELEASE_EXECUTOR;
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()
                 .code(IdUtils.toString(command.getId()))
@@ -201,10 +209,15 @@ public class ImAccount_TenantAppController extends _TenantAppController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_CONFLICT));
         }
 
+        // 未配分执行器
+        if(imAccount.getExecutorAssignmentId() == null) {
+            return Resp.failure("未配分执行器");
+        }
+
         Operator operator = buildOperator(accountId, accountName);
 
         SchedulerCommandType commandType = SchedulerCommandType.START_EXECUTOR;
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()
@@ -233,11 +246,15 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         if (imAccount == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
+        // 未配分执行器
+        if(imAccount.getExecutorAssignmentId() == null) {
+            return Resp.failure("未配分执行器");
+        }
 
         Operator operator = buildOperator(accountId, accountName);
 
         SchedulerCommandType commandType = SchedulerCommandType.STOP_EXECUTOR;
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType.name());
+        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
         SchedulerCommandRequest message = SchedulerCommandRequest.builder()

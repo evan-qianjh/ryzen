@@ -16,7 +16,6 @@ import com.qianjh.ryzen.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.SchedulerCommandService;
-import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +40,8 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
     private final ExecutorAssignmentMapper assignmentMapper;
     private final ExecutorAssignmentService executorAssignmentService;
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void handle(SchedulerCommandRequest request) {
         try {
             switch (request.type()) {
@@ -76,6 +75,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
      *
      * @param request 请求
      */
+    @Transactional(rollbackFor = Exception.class)
     void start(SchedulerCommandRequest request) {
         ExecutorAssignment assignment = executorAssignmentService.getById(request.assignmentId());
         if (assignment == null) {
@@ -125,6 +125,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
      *
      * @param request 请求
      */
+    @Transactional(rollbackFor = Exception.class)
     void stop(SchedulerCommandRequest request) {
         ExecutorAssignment assignment = executorAssignmentService.getById(request.assignmentId());
         if (assignment == null) {
@@ -230,31 +231,23 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
      *
      * @param request 请求
      */
-    void release(SchedulerCommandRequest request) {
-        ExecutorAssignment assignment;
-        if (request.assignmentId() != null) { // 精确
-            assignment = executorAssignmentService.getById(request.assignmentId());
-            if (assignment == null) {
-                log.error("获取执行器分配失败 ::: {}", request);
-                return;
-            }
-        } else { // 兜底
-            assignment = executorAssignmentService.getOne(new LambdaQueryWrapper<ExecutorAssignment>()
-                    .eq(ExecutorAssignment::getImType, request.imType())
-                    .eq(ExecutorAssignment::getAccountCode, request.accountCode())
-                    .orderByDesc(ExecutorAssignment::getId)
-                    .last(" limit 1")
-            );
+    @Transactional(rollbackFor = Exception.class)
+    void release(SchedulerCommandRequest request) throws RuntimeException {
+        if (request.assignmentId() == null) {
+            throw new RuntimeException("缺少参数assignmentId");
+        }
+
+        ExecutorAssignment assignment = executorAssignmentService.getById(request.assignmentId());
+        if (assignment == null) {
+            throw new RuntimeException("获取执行器分配失败");
         }
 
         Executor executor = executorService.getById(assignment.getExecutorId());
         if (executor == null) {
-            log.error("获取执行器失败 ::: {}", request);
-            return;
+            throw new RuntimeException("获取执行器失败");
         }
 
         // 释放
-        // TODO 不严谨，应该放在command回调中执行
         executorAssignmentService.updateStatus(assignment, assignment.getStatus(), ExecutorAssignmentStatus.RELEASED, Operator.builder().build());
         executorService.release(executor, assignment);
 
@@ -264,15 +257,13 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                     SchedulerCommandResponse.builder()
                             .code(request.code())
                             .type(request.type())
-                            .imType(request.imType())
-                            .accountCode(request.accountCode())
                             .assignmentId(request.assignmentId())
+                            .success(true)
                             .build()
             ).get(10, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
     }
-
 
 }

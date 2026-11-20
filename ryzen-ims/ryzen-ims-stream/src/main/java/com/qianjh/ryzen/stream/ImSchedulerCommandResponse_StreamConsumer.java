@@ -49,7 +49,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
 
             switch (response.type()) {
                 case ASSIGN_EXECUTOR -> {
-                    ImAccount imAccount = imAccountService.getById(command.getImAccountId());
+                    ImAccount imAccount = imAccountService.getById(command.getDomainId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 ASSIGN ::: {}", payload);
                         return;
@@ -63,16 +63,18 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                     }
                 }
                 case RELEASE_EXECUTOR -> {
-                    ImAccount imAccount = imAccountService.getById(command.getImAccountId());
+                    ImAccount imAccount = imAccountService.getById(command.getDomainId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 RELEASE ::: {}", payload);
                         return;
                     }
-                    imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.RELEASING, operator);
-                    imAccountService.clearAssignment(imAccount);
+                    if (response.success()) {
+                        imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.RELEASED, operator);
+                        imAccountService.clearAssignment(imAccount);
+                    }
                 }
                 case START_EXECUTOR -> {
-                    ImAccount imAccount = imAccountService.getById(command.getImAccountId());
+                    ImAccount imAccount = imAccountService.getById(command.getDomainId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 START ::: {}", payload);
                         return;
@@ -86,7 +88,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                     imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), afterStatus, operator);
                 }
                 case STOP_EXECUTOR -> {
-                    ImAccount imAccount = imAccountService.getById(command.getImAccountId());
+                    ImAccount imAccount = imAccountService.getById(command.getDomainId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 STOP ::: {}", payload);
                         return;

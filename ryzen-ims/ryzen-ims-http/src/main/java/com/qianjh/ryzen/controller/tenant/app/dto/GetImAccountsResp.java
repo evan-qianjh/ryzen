@@ -1,6 +1,7 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
 import com.qianjh.ryzen.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.enums.ImType;
 import lombok.Builder;
 
@@ -10,7 +11,8 @@ public record GetImAccountsResp(
         ImType imType,
         String code,
         String remark,
-        ImAccountAssignStatus status,
+        ImAccountAssignStatus assignStatus,
+        ImAccountExecutorStatus executorStatus,
         Long createdTime
 ) {
 }

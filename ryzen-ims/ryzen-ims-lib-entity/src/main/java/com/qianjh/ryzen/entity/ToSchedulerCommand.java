@@ -3,6 +3,8 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.qianjh.ryzen.enums.SchedulerCommandType;
+import com.qianjh.ryzen.enums.ToSchedulerCommandDomainType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,8 +21,9 @@ public class ToSchedulerCommand {
     private Long oemId;
     private Long tenantId;
 
-    private Long imAccountId;
-    private String command;
+    private SchedulerCommandType commandType;
+    private Long domainId;
+    private ToSchedulerCommandDomainType domainType;
 
     private Boolean success;
     private String errorMessage;
