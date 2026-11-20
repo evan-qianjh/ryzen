@@ -14,6 +14,8 @@ public interface ImAccountService extends IService<ImAccount> {
 
     ImAccount getByUk(ImType imType, String accountCode);
 
+    ImAccount getByAssignmentId(Long assignmentId);
+
     ImAccount create(Long oemId, Long tenantId, TenantPostImAccountReq body, Operator operator);
 
     boolean updateAssignStatus(ImAccount entity, ImAccountAssignStatus before, ImAccountAssignStatus after, Operator operator);

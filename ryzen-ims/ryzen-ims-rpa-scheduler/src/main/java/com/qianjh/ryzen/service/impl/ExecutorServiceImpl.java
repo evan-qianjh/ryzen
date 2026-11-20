@@ -111,6 +111,7 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
                 .set(Executor::getCurrentAssigmentId, assignment.getId())
                 //
                 .eq(Executor::getId, executor.getId())
+                .isNull(Executor::getCurrentAssigmentId)
                 .update();
     }
 

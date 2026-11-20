@@ -8,10 +8,10 @@ import com.qianjh.ryzen.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.model.ExecutorTaskResponse;
-import com.qianjh.ryzen.model.SchedulerRequest;
+import com.qianjh.ryzen.model.SchedulerTaskRequest;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.ExecutorTaskService;
-import com.qianjh.ryzen.service.SendTaskService;
+import com.qianjh.ryzen.service.SchedulerTaskService;
 import com.qianjh.ryzen.service.TaskDispatchService;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SendTaskServiceImpl implements SendTaskService {
+public class SchedulerTaskServiceImpl implements SchedulerTaskService {
     private final SchedulerProperties properties;
     private final ExecutorService executorService;
     private final KafkaSchedulerTransport transport;
@@ -37,7 +37,7 @@ public class SendTaskServiceImpl implements SendTaskService {
      * @param request
      */
     @Override
-    public void accept(SchedulerRequest request) {
+    public void accept(SchedulerTaskRequest request) {
         validate(request);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime deadlineTime = request.deadlineTime() == null || request.deadlineTime() <= 0
@@ -102,7 +102,7 @@ public class SendTaskServiceImpl implements SendTaskService {
                 .build();
         try {
             // 等待 Kafka broker 确认后再结束本次调度调用；失败时结果可能不确定，不自动重发。
-            transport.executorTask(payload).get(10, TimeUnit.SECONDS);
+            transport.executorTaskRequest(payload).get(10, TimeUnit.SECONDS);
             log.info("Task dispatched: taskId={}, executorId={}, assignmentId={}",
                     task.getId(), executor.getId(), assignmentId);
         } catch (InterruptedException e) {
@@ -174,7 +174,7 @@ public class SendTaskServiceImpl implements SendTaskService {
      *
      * @param request 请求
      */
-    private void validate(SchedulerRequest request) {
+    private void validate(SchedulerTaskRequest request) {
         if (request == null || blank(request.code()) || blank(request.accountCode())
                 || blank(request.conversationCode()) || request.content() == null || request.content().isBlank()) {
             throw new IllegalArgumentException("Invalid send message command");

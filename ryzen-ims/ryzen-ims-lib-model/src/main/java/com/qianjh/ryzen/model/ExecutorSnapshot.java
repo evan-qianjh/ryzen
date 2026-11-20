@@ -26,7 +26,6 @@ public record ExecutorSnapshot(
         ImType imType,
         String accountCode,
         Long assignmentId,
-        Long fencingToken,
 
         ExecutorStatus status,
         ExecutorOperationType currentOperation,

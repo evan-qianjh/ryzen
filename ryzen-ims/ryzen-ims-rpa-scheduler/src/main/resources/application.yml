@@ -73,6 +73,7 @@ ryzen:
     task-request-topic: ims.scheduler.task.request
     task-response-topic: ims.scheduler.task.response
     message-topic: ims.scheduler.message
+    report-topic: ims.scheduler.report
     heartbeat-timeout-seconds: 30
     task-timeout-seconds: 60
     timeout-check-interval-seconds: 5

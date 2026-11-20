@@ -9,7 +9,6 @@ import lombok.Builder;
 @Builder(toBuilder = true)
 public record ExecutorTaskRequest(
         Long assignmentId,
-        Long fencingToken,
 //        ImType imType,
 //        String accountCode,
         String executorCode,

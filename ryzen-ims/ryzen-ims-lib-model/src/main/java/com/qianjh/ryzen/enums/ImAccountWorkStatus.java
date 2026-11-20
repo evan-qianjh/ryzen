@@ -5,8 +5,9 @@ package com.qianjh.ryzen.enums;
  */
 public enum ImAccountWorkStatus {
     NONE,
-    STOPPED,
     STARTING,
+    WAIT_LOGIN,
+    STARTED,
     STOPPING,
-    STARTED
+    STOPPED
 }

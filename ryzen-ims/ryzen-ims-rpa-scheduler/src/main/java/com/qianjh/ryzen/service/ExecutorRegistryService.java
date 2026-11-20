@@ -2,7 +2,10 @@ package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.enums.ExecutorStatus;
+import com.qianjh.ryzen.enums.SchedulerReportType;
 import com.qianjh.ryzen.model.ExecutorSnapshot;
+import com.qianjh.ryzen.model.SchedulerReport;
+import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -13,8 +16,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ExecutorRegistryService {
-    private final SendTaskService sendTaskService;
     private final ExecutorService executorService;
+    private final KafkaSchedulerTransport transport;
+    private final SchedulerTaskService sendTaskService;
 
     /**
      * 注册
@@ -84,12 +88,17 @@ public class ExecutorRegistryService {
         }
 
         if (ExecutorStatus.STARTED == snapshot.status()) {
-
-        }
-
-        if (snapshot.status() == ExecutorStatus.STARTED || snapshot.status() == ExecutorStatus.STOPPED) {
-            // TODO 通知接入方，更新IM账号状态
-
+            SchedulerReport report = SchedulerReport.builder()
+                    .assignmentId(snapshot.assignmentId())
+                    .type(SchedulerReportType.EXECUTOR_STARTED)
+                    .build();
+            transport.schedulerReport(report);
+        } else if (snapshot.status() == ExecutorStatus.STOPPED) {
+            SchedulerReport report = SchedulerReport.builder()
+                    .assignmentId(snapshot.assignmentId())
+                    .type(SchedulerReportType.EXECUTOR_STOPPED)
+                    .build();
+            transport.schedulerReport(report);
         }
     }
 

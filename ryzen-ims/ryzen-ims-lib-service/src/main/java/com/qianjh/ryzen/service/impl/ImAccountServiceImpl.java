@@ -34,6 +34,13 @@ public class ImAccountServiceImpl extends ServiceImpl<ImAccountMapper, ImAccount
         );
     }
 
+    @Override
+    public ImAccount getByAssignmentId(Long assignmentId) {
+        return getOne(new LambdaQueryWrapper<ImAccount>()
+                .eq(ImAccount::getExecutorAssignmentId, assignmentId)
+        );
+    }
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ImAccount create(Long oemId, Long tenantId, TenantPostImAccountReq body, Operator operator) {

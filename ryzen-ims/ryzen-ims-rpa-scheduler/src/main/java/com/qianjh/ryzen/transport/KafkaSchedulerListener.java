@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaSchedulerListener {
     private final Gson gson = new GsonBuilder().create();
-    private final SendTaskService sendTaskService;
+    private final SchedulerTaskService sendTaskService;
     private final ExecutorRegistryService executorRegistryService;
     private final ExecutorCommandService executorCommandService;
     private final CollectedMessageService collectedMessageService;
@@ -44,7 +44,7 @@ public class KafkaSchedulerListener {
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void onSendRequest(String payload) {
-        handle("send request", payload, SchedulerRequest.class, sendTaskService::accept);
+        handle("send request", payload, SchedulerTaskRequest.class, sendTaskService::accept);
     }
 
     /**

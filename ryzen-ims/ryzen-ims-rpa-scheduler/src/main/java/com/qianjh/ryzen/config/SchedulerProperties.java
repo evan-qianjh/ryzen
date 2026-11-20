@@ -20,6 +20,7 @@ public class SchedulerProperties {
      * 聚合消息topic
      */
     private String messageTopic = "ims.scheduler.message";
+    private String reportTopic = "ims.scheduler.report";
 
     /**
      * 心跳超时时间

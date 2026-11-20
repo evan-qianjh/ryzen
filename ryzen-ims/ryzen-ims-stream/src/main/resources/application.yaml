@@ -25,7 +25,7 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'imsSchedulerCommandResponseSource;imsSchedulerTaskResponseSource;imsSchedulerMessageSource;'
+      definition: 'imsSchedulerCommandResponseSource;imsSchedulerTaskResponseSource;imsSchedulerReportSource;imsSchedulerMessageSource;'
     stream:
       kafka:
         binder:
@@ -39,6 +39,10 @@ spring:
           group: ${spring.application.name}
         imsSchedulerTaskResponseSource-in-0:
           destination: ims.scheduler.task.response
+          content-type: application/json
+          group: ${spring.application.name}
+        imsSchedulerReportSource-in-0:
+          destination: ims.scheduler.report
           content-type: application/json
           group: ${spring.application.name}
         imsSchedulerMessageSource-in-0:

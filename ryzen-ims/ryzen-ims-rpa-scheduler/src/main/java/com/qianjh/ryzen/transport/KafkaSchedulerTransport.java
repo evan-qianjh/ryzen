@@ -5,10 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.config.SchedulerProperties;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
-import com.qianjh.ryzen.model.ExecutorCommandRequest;
-import com.qianjh.ryzen.model.ExecutorTaskRequest;
-import com.qianjh.ryzen.model.SchedulerCommandResponse;
-import com.qianjh.ryzen.model.SchedulerMessage;
+import com.qianjh.ryzen.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -40,32 +37,47 @@ public class KafkaSchedulerTransport {
     }
 
     /**
-     * 调度器回复指令响应
-     *
-     * @param response 响应
-     * @return 结果
-     */
-    public CompletableFuture<SendResult<String, String>> schedulerCommandResponse(SchedulerCommandResponse response) {
-        return publicKafkaTemplate.send(
-                executorProperties.getCommandResponseTopic(),
-                response.code(), // TODO
-                gson.toJson(response)
-        );
-    }
-
-    /**
      * 分发任务给执行器
      *
      * @param task 任务
      * @return 结果
      */
-    public CompletableFuture<SendResult<String, String>> executorTask(ExecutorTaskRequest task) {
+    public CompletableFuture<SendResult<String, String>> executorTaskRequest(ExecutorTaskRequest task) {
         return publicKafkaTemplate.send(
                 executorProperties.getTaskRequestTopic(),
                 IdUtils.toString(task.assignmentId()),
                 gson.toJson(task)
         );
     }
+
+    /**
+     * 调度器回复指令响应
+     *
+     * @param response 响应
+     * @return 结果
+     */
+    public CompletableFuture<SendResult<String, String>> schedulerCommandResponse(SchedulerCommandResponse response) {
+        return defaultKafkaTemplate.send(
+                schedulerProperties.getCommandResponseTopic(),
+                response.code(), // TODO
+                gson.toJson(response)
+        );
+    }
+
+    /**
+     * 调度器上报
+     *
+     * @param report 响应
+     * @return 结果
+     */
+    public CompletableFuture<SendResult<String, String>> schedulerReport(SchedulerReport report) {
+        return defaultKafkaTemplate.send(
+                schedulerProperties.getReportTopic(),
+                IdUtils.toString(report.assignmentId()),
+                gson.toJson(report)
+        );
+    }
+
 
     /**
      * 发布任务给接入方

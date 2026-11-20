@@ -20,6 +20,7 @@ import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -37,9 +38,9 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
     private final ExecutorService executorService;
     private final KafkaSchedulerTransport transport;
     private final ExecutorAssignmentMapper assignmentMapper;
-    private final ExecutorAssignmentService assignmentService;
     private final ExecutorAssignmentService executorAssignmentService;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void handle(SchedulerCommandRequest request) {
         try {
@@ -48,7 +49,9 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                 case ASSIGN -> assign(request);
                 // 释放
                 case RELEASE -> release(request);
+                // 启动
                 case START -> start(request);
+                // 停止
                 case STOP -> stop(request);
             }
         } catch (Exception e) {
@@ -77,10 +80,15 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
         if (assignment == null) {
             throw new RuntimeException("指派不存在");
         }
-
+        if (assignment.getStatus() != ExecutorAssignmentStatus.ASSIGNED) {
+            throw new RuntimeException("指派状态异常");
+        }
         Executor executor = executorService.getById(assignment.getExecutorId());
         if (executor == null) {
             throw new RuntimeException("执行器不存在");
+        }
+        if (!executor.getCurrentAssigmentId().equals(assignment.getId())) {
+            throw new RuntimeException("执行器绑定关系异常");
         }
 
         try {
@@ -91,11 +99,20 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                     .executorCode(executor.getCode())
                     .assignment(com.qianjh.ryzen.model.Assignment.builder()
                             .id(assignment.getId())
-                            .fencingToken(null)
                             .imType(assignment.getImType())
                             .accountCode(assignment.getAccountCode())
                             .build())
                     .build()
+            ).get(10, TimeUnit.SECONDS);
+
+            // 调度器指令响应
+            transport.schedulerCommandResponse(
+                    SchedulerCommandResponse.builder()
+                            .code(request.code())
+                            .type(request.type())
+                            .assignmentId(assignment.getId())
+                            .success(true)
+                            .build()
             ).get(10, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
@@ -127,6 +144,16 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                             .executorCode(executor.getCode())
                             .build()
             ).get(10, TimeUnit.SECONDS);
+
+            // 调度器指令响应
+            transport.schedulerCommandResponse(
+                    SchedulerCommandResponse.builder()
+                            .code(request.code())
+                            .type(request.type())
+                            .assignmentId(assignment.getId())
+                            .success(true)
+                            .build()
+            ).get(10, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
@@ -137,7 +164,18 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
      *
      * @param request 请求
      */
+    @Transactional(rollbackFor = Exception.class)
     void assign(SchedulerCommandRequest request) {
+        // 查出是否存在还未关闭的assignment
+        long count = executorAssignmentService.count(new LambdaQueryWrapper<ExecutorAssignment>()
+                .eq(ExecutorAssignment::getImType, request.imType())
+                .eq(ExecutorAssignment::getAccountCode, request.accountCode())
+                .eq(ExecutorAssignment::getStatus, ExecutorAssignmentStatus.ASSIGNED)
+        );
+        if (count > 0) {
+            throw new RuntimeException("存在未关闭的指派");
+        }
+
         // 查出最近分配过且IDLE的executor
         ExecutorAssignment lastAssignment = assignmentMapper.selectJoinOne(new MPJLambdaWrapper<ExecutorAssignment>()
                 .selectAll(ExecutorAssignment.class)
@@ -154,16 +192,20 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
         } else { // 如果没有则获取最早注册IDLE
             executor = executorService.getOne(new LambdaQueryWrapper<Executor>()
                     .eq(Executor::getStatus, ExecutorStatus.IDLE)
+                    .isNull(Executor::getCurrentAssigmentId)
                     .orderByAsc(Executor::getRegisteredTime)
             );
         }
         if (executor == null) {
             throw new RuntimeException("没有可用的执行器");
         }
+        if (executor.getCurrentAssigmentId() != null) {
+            throw new RuntimeException("分配的执行器已被占用");
+        }
 
         // 创建新的分配
-        ExecutorAssignment assignment = assignmentService.create(executor, request.imType(), request.accountCode());
-        executorService.assign(executor, assignment);
+        ExecutorAssignment assignment = executorAssignmentService.create(executor, request.imType(), request.accountCode());
+        boolean success = executorService.assign(executor, assignment);
 
         try {
             // 调度器指令响应
@@ -174,7 +216,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                             .imType(request.imType())
                             .accountCode(request.accountCode())
                             .assignmentId(assignment.getId())
-                            .success(true)
+                            .success(success)
                             .build()
             ).get(10, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
@@ -190,13 +232,13 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
     void release(SchedulerCommandRequest request) {
         ExecutorAssignment assignment;
         if (request.assignmentId() != null) { // 精确
-            assignment = assignmentService.getById(request.assignmentId());
+            assignment = executorAssignmentService.getById(request.assignmentId());
             if (assignment == null) {
                 log.error("获取执行器分配失败 ::: {}", request);
                 return;
             }
         } else { // 兜底
-            assignment = assignmentService.getOne(new LambdaQueryWrapper<ExecutorAssignment>()
+            assignment = executorAssignmentService.getOne(new LambdaQueryWrapper<ExecutorAssignment>()
                     .eq(ExecutorAssignment::getImType, request.imType())
                     .eq(ExecutorAssignment::getAccountCode, request.accountCode())
                     .orderByDesc(ExecutorAssignment::getId)
@@ -212,7 +254,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
 
         // 释放
         // TODO 不严谨，应该放在command回调中执行
-        assignmentService.updateStatus(assignment, assignment.getStatus(), ExecutorAssignmentStatus.RELEASED, Operator.builder().build());
+        executorAssignmentService.updateStatus(assignment, assignment.getStatus(), ExecutorAssignmentStatus.RELEASED, Operator.builder().build());
         executorService.release(executor, assignment);
 
         try {

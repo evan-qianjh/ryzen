@@ -104,7 +104,6 @@ public class ExecutorWorker {
         // 忽略其他执行器任务
         if (!properties.getCode().equals(task.executorCode())
                 || !current.id().equals(task.assignmentId())
-                || !current.fencingToken().equals(task.fencingToken())
         ) {
             log.debug("Ignore task targeted at another executor/account: {}", task.taskId());
             return false;
@@ -281,7 +280,6 @@ public class ExecutorWorker {
                 .executorCode(properties.getCode())
                 .accountCode(current == null ? null : current.accountCode())
                 .assignmentId(current == null ? null : current.id())
-                .fencingToken(current == null ? null : current.fencingToken())
                 .status(status)
                 .currentOperation(currentOperation)
                 .currentTaskId(currentTaskId)

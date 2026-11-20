@@ -24,7 +24,7 @@ bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims
 ### scheduler分配executor
 
 ```shell
-echo '{"id":"cmd-001","executorCode":"001","type":"ASSIGN","assignment":{"id":"assignment-001","imType":"MEI_TUAN","accountCode":"123","fencingToken":1001}}' |
+echo '{"id":"cmd-001","executorCode":"001","type":"ASSIGN","assignment":{"id":"assignment-001","imType":"MEI_TUAN","accountCode":"123"}}' |
 bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims.executor.command
 ```
 

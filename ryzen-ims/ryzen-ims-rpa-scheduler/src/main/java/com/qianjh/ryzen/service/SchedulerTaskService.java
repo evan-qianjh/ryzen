@@ -1,17 +1,16 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.model.ExecutorTaskResponse;
-import com.qianjh.ryzen.model.SchedulerRequest;
+import com.qianjh.ryzen.model.SchedulerTaskRequest;
 
-public interface SendTaskService {
+public interface SchedulerTaskService {
 
     /**
      * 受理请求
      *
      * @param request 请求
      */
-    void accept(SchedulerRequest request);
+    void accept(SchedulerTaskRequest request);
 
     /**
      * 调度任务请求
