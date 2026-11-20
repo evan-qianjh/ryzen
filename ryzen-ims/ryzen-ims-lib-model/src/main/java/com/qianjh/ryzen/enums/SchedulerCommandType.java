@@ -2,19 +2,19 @@ package com.qianjh.ryzen.enums;
 
 public enum SchedulerCommandType {
     /**
-     * 分配
+     * 分配执行器
      */
-    ASSIGN,
+    ASSIGN_EXECUTOR,
     /**
-     * 释放
+     * 释放执行器
      */
-    RELEASE,
+    RELEASE_EXECUTOR,
     /**
-     * 启动
+     * 启动执行器
      */
-    START,
+    START_EXECUTOR,
     /**
-     * 停止
+     * 停止执行器
      */
-    STOP,
+    STOP_EXECUTOR,
 }

@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.stream;
 
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.SchedulerCommand;
+import com.qianjh.ryzen.entity.ToSchedulerCommand;
 import com.qianjh.ryzen.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.enums.ImAccountWorkStatus;
 import com.qianjh.ryzen.framework.common.dto.Operator;
@@ -9,7 +9,7 @@ import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
 import com.qianjh.ryzen.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.service.ImAccountService;
-import com.qianjh.ryzen.service.SchedulerCommandService;
+import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +28,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
     private final ImAccountService imAccountService;
 
     @Bean
-    public Consumer<Message<String>> imsSchedulerCommandResponseSource(SchedulerCommandService imAccountCommandService) {
+    public Consumer<Message<String>> imsSchedulerCommandResponseSource(ToSchedulerCommandService imAccountCommandService) {
         return message -> {
             String payload = message.getPayload();
 
@@ -39,7 +39,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
 
             // command
             SchedulerCommandResponse response = GsonUtils.GSON.fromJson(payload, SchedulerCommandResponse.class);
-            SchedulerCommand command = imAccountCommandService.getById(response.code());
+            ToSchedulerCommand command = imAccountCommandService.getById(response.code());
             if (command == null) {
                 log.error("指令不存在 ASSIGN ::: {}", message);
                 return;
@@ -48,7 +48,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
             imAccountCommandService.response(command, response.success(), response.errorMessage());
 
             switch (response.type()) {
-                case ASSIGN -> {
+                case ASSIGN_EXECUTOR -> {
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 ASSIGN ::: {}", payload);
@@ -62,7 +62,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                         imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.NONE, operator);
                     }
                 }
-                case RELEASE -> {
+                case RELEASE_EXECUTOR -> {
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 RELEASE ::: {}", payload);
@@ -71,7 +71,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                     imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.RELEASING, operator);
                     imAccountService.clearAssignment(imAccount);
                 }
-                case START -> {
+                case START_EXECUTOR -> {
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 START ::: {}", payload);
@@ -85,7 +85,7 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                     // 更新状态
                     imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), afterStatus, operator);
                 }
-                case STOP -> {
+                case STOP_EXECUTOR -> {
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
                     if (imAccount == null) {
                         log.error("ImAccount不存在 STOP ::: {}", payload);

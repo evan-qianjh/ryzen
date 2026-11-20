@@ -15,7 +15,7 @@ import com.qianjh.ryzen.model.SchedulerCommandRequest;
 import com.qianjh.ryzen.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
-import com.qianjh.ryzen.service.SchedulerCommandService;
+import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeoutException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class SchedulerCommandServiceImpl implements SchedulerCommandService {
+public class ToSchedulerCommandServiceImpl implements ToSchedulerCommandService {
 
     private final ExecutorService executorService;
     private final KafkaSchedulerTransport transport;
@@ -46,13 +46,13 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
         try {
             switch (request.type()) {
                 // 分配
-                case ASSIGN -> assign(request);
+                case ASSIGN_EXECUTOR -> assign(request);
                 // 释放
-                case RELEASE -> release(request);
+                case RELEASE_EXECUTOR -> release(request);
                 // 启动
-                case START -> start(request);
+                case START_EXECUTOR -> start(request);
                 // 停止
-                case STOP -> stop(request);
+                case STOP_EXECUTOR -> stop(request);
             }
         } catch (Exception e) {
             log.error("处理指令失败 ::: request={}", request, e);

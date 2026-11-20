@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qianjh.ryzen.entity.SchedulerCommand;
+import com.qianjh.ryzen.entity.ToSchedulerCommand;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SchedulerCommandMapper extends BaseMapper<SchedulerCommand> {
+public interface ToSchedulerCommandMapper extends BaseMapper<ToSchedulerCommand> {
 }

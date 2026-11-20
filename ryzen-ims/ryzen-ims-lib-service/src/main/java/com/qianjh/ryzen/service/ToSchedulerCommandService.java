@@ -2,9 +2,9 @@ package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.SchedulerCommand;
+import com.qianjh.ryzen.entity.ToSchedulerCommand;
 
-public interface SchedulerCommandService extends IService<SchedulerCommand> {
+public interface ToSchedulerCommandService extends IService<ToSchedulerCommand> {
     /**
      * 创建
      *
@@ -12,7 +12,7 @@ public interface SchedulerCommandService extends IService<SchedulerCommand> {
      * @param command
      * @return
      */
-    SchedulerCommand create(ImAccount imAccount, String command);
+    ToSchedulerCommand create(ImAccount imAccount, String command);
 
     /**
      *
@@ -21,5 +21,5 @@ public interface SchedulerCommandService extends IService<SchedulerCommand> {
      * @param errorMessage
      * @return
      */
-    boolean response(SchedulerCommand entity, Boolean success, String errorMessage);
+    boolean response(ToSchedulerCommand entity, Boolean success, String errorMessage);
 }
