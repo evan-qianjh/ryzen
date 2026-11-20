@@ -1,15 +1,14 @@
 package com.qianjh.ryzen.model;
 
-import com.qianjh.ryzen.enums.ImType;
+import lombok.Builder;
 
 /**
  * 聚合聊天服务 -> 调度器。id 用于上游请求幂等。时间字段统一使用 Unix 毫秒。
  */
+@Builder(toBuilder = true)
 public record SchedulerTaskRequest(
-        Long assignmentId,
         String code,
-        ImType imType,
-        String accountCode,
+        Long assignmentId,
         String conversationCode,
         String content,
         Long deadlineTime

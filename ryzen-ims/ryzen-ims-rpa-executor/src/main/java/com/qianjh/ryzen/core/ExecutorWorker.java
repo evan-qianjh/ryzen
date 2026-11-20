@@ -476,13 +476,12 @@ public class ExecutorWorker {
             String receiptCode = session.sendMessage(task.conversationCode(), task.content());
 
             ExecutorTaskResponse result = ExecutorTaskResponse.builder()
+                    .assignmentId(assignment.id())
                     .executorCode(properties.getCode())
-//                    .imType(ImType.MEI_TUAN)
-//                    .accountCode(assignment.accountCode())
                     .taskId(task.taskId())
                     .status(ExecutorTaskStatus.SUCCESS)
                     .errorMessage(null)
-                    .finishedAt(System.currentTimeMillis())
+                    .finishedTime(System.currentTimeMillis())
                     .receiptCode(receiptCode)
                     .build();
             transport.taskFinished(result);
@@ -494,12 +493,10 @@ public class ExecutorWorker {
             ExecutorTaskResponse result = ExecutorTaskResponse.builder()
                     .assignmentId(assignment.id())
                     .executorCode(properties.getCode())
-//                    .imType(ImType.MEI_TUAN)
-//                    .accountCode(assignment.accountCode())
                     .taskId(task.taskId())
                     .status(ExecutorTaskStatus.UNKNOWN)
                     .errorMessage(e.getMessage())
-                    .finishedAt(System.currentTimeMillis())
+                    .finishedTime(System.currentTimeMillis())
                     .build();
             transport.taskFinished(result);
         } finally {
@@ -537,13 +534,12 @@ public class ExecutorWorker {
             try {
                 transport.taskFinished(
                         ExecutorTaskResponse.builder()
+                                .assignmentId(assignment.id())
                                 .executorCode(properties.getCode())
-//                                .imType(task.imType())
-//                                .accountCode(current.accountCode())
                                 .taskId(task.taskId())
                                 .status(ExecutorTaskStatus.CANCELED)
                                 .errorMessage(reason)
-                                .finishedAt(System.currentTimeMillis())
+                                .finishedTime(System.currentTimeMillis())
                                 .build()
                 );
             } catch (Exception e) {

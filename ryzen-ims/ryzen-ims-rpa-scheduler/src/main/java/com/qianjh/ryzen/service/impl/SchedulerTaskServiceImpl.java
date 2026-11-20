@@ -16,6 +16,7 @@ import com.qianjh.ryzen.service.TaskDispatchService;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -175,8 +176,8 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
      * @param request 请求
      */
     private void validate(SchedulerTaskRequest request) {
-        if (request == null || blank(request.code()) || blank(request.accountCode())
-                || blank(request.conversationCode()) || request.content() == null || request.content().isBlank()) {
+        if (request == null || blank(request.code()) || request.assignmentId() == null
+                || StringUtils.isBlank(request.conversationCode()) || StringUtils.isBlank(request.content())) {
             throw new IllegalArgumentException("Invalid send message command");
         }
     }

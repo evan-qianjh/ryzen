@@ -4,10 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetMessagesResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostMessageReq;
-import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImAccount;
+import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
-import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
@@ -18,13 +19,13 @@ import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
-import com.qianjh.ryzen.service.ImConversationService;
+import com.qianjh.ryzen.model.SchedulerTaskRequest;
 import com.qianjh.ryzen.service.ImAccountService;
+import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImMessageService;
 import com.qianjh.ryzen.stream.ImsSchedulerTaskRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.support.MessageBuilder;
@@ -95,11 +96,18 @@ public class Message_TenantAppController extends _TenantAppController {
         ImAccount imAccount = imAccountService.getById(conversation.getImAccountId());
         Assert.notNull(imAccount, McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
 
+        //
+        if (imAccount.getAssignStatus() != ImAccountAssignStatus.ASSIGNED || imAccount.getExecutorAssignmentId() == null) {
+            return Resp.failure("请先分配执行器");
+        }
+        if (imAccount.getExecutorStatus() != ImAccountExecutorStatus.STARTED) {
+            return Resp.failure("请先启动执行器");
+        }
+
         // 生成一个随机码+内容发给调度器
-        ImsSchedulerTaskRequest message = ImsSchedulerTaskRequest.builder()
-                .code(IdUtils.generateUUID())
-                .imType(imAccount.getImType())
-                .accountCode(imAccount.getCode())
+        SchedulerTaskRequest message = SchedulerTaskRequest.builder()
+                .code(IdUtils.generateUUID()) // TODO
+                .assignmentId(imAccount.getExecutorAssignmentId())
                 .conversationCode(conversation.getCode())
                 .content(body.content())
                 .build();
@@ -113,13 +121,4 @@ public class Message_TenantAppController extends _TenantAppController {
         return Resp.success();
     }
 
-    @Builder(toBuilder = true)
-    record ImsSchedulerTaskRequest(
-            String code,
-            ImType imType,
-            String accountCode,
-            String conversationCode,
-            String content
-    ) {
-    }
 }

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.enums.ExecutorTaskStatus;
-import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.mapper.ExecutorTaskMapper;
 import com.qianjh.ryzen.model.ExecutorTaskResponse;
@@ -133,7 +132,7 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
             case SUCCESS, FAILED, UNKNOWN -> {
                 return lambdaUpdate()
                         .set(ExecutorTask::getStatus, status)
-                        .set(ExecutorTask::getFinishTime, event.finishedAt() == null ? now : DateTimeUtils.parseMillis(event.finishedAt()))
+                        .set(ExecutorTask::getFinishTime, event.finishedTime() == null ? now : DateTimeUtils.parseMillis(event.finishedTime()))
                         .set(ExecutorTask::getErrorMessage, event.errorMessage())
                         .set(ExecutorTask::getReceiptCode, event.receiptCode())
                         //
