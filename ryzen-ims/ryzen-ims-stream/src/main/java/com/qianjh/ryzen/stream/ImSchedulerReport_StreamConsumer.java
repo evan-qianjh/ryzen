@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.stream;
 
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.enums.ImAccountWorkStatus;
+import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
 import com.qianjh.ryzen.model.SchedulerReport;
@@ -40,8 +40,8 @@ public class ImSchedulerReport_StreamConsumer implements StreamConsumer {
                         log.error("未找到指定指派的账号 EXECUTOR_STARTED ::: {}", payload);
                         return;
                     }
-                    ImAccountWorkStatus beforeStatus = imAccount.getWorkStatus();
-                    imAccountService.updateWorkStatus(imAccount, beforeStatus, ImAccountWorkStatus.STARTED, null);
+                    ImAccountExecutorStatus beforeStatus = imAccount.getExecutorStatus();
+                    imAccountService.updateExecutorStatus(imAccount, beforeStatus, ImAccountExecutorStatus.STARTED, null);
                 }
                 case EXECUTOR_STOPPED -> {
                     ImAccount imAccount = imAccountService.getByAssignmentId(report.assignmentId());
@@ -49,8 +49,8 @@ public class ImSchedulerReport_StreamConsumer implements StreamConsumer {
                         log.error("未找到指定指派的账号 EXECUTOR_STOPPED ::: {}", payload);
                         return;
                     }
-                    ImAccountWorkStatus beforeStatus = imAccount.getWorkStatus();
-                    imAccountService.updateWorkStatus(imAccount, beforeStatus, ImAccountWorkStatus.STOPPED, null);
+                    ImAccountExecutorStatus beforeStatus = imAccount.getExecutorStatus();
+                    imAccountService.updateExecutorStatus(imAccount, beforeStatus, ImAccountExecutorStatus.STOPPED, null);
                 }
             }
         };

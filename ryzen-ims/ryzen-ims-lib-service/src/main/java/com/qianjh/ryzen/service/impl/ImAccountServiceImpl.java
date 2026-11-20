@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.enums.ImAccountWorkStatus;
+import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.mapper.ImAccountMapper;
@@ -51,7 +51,7 @@ public class ImAccountServiceImpl extends ServiceImpl<ImAccountMapper, ImAccount
                 .code(body.accountCode())
                 .remark(body.remark())
                 .assignStatus(ImAccountAssignStatus.NONE)
-                .workStatus(ImAccountWorkStatus.NONE)
+                .executorStatus(ImAccountExecutorStatus.NONE)
                 .createdTime(LocalDateTime.now())
                 .build();
         save(entity);
@@ -74,15 +74,15 @@ public class ImAccountServiceImpl extends ServiceImpl<ImAccountMapper, ImAccount
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateWorkStatus(ImAccount entity, ImAccountWorkStatus before, ImAccountWorkStatus after, Operator operator) {
+    public boolean updateExecutorStatus(ImAccount entity, ImAccountExecutorStatus before, ImAccountExecutorStatus after, Operator operator) {
         return lambdaUpdate()
-                .set(ImAccount::getWorkStatus, after)
+                .set(ImAccount::getExecutorStatus, after)
                 //
                 .eq(ImAccount::getOemId, entity.getOemId())
                 .eq(ImAccount::getTenantId, entity.getTenantId())
                 .eq(ImAccount::getId, entity.getId())
                 //
-                .eq(ImAccount::getWorkStatus, before)
+                .eq(ImAccount::getExecutorStatus, before)
                 .update();
     }
 

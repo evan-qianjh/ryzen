@@ -3,7 +3,7 @@ package com.qianjh.ryzen.stream;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ToSchedulerCommand;
 import com.qianjh.ryzen.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.enums.ImAccountWorkStatus;
+import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
@@ -77,13 +77,13 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                         log.error("ImAccount不存在 START ::: {}", payload);
                         return;
                     }
-                    if (imAccount.getWorkStatus() != ImAccountWorkStatus.STARTING) {
+                    if (imAccount.getExecutorStatus() != ImAccountExecutorStatus.STARTING) {
                         log.error("ImAccount.workStatus != STARTING ::: {}", payload);
                         return;
                     }
-                    ImAccountWorkStatus afterStatus = response.success() ? ImAccountWorkStatus.WAIT_LOGIN : ImAccountWorkStatus.NONE;
+                    ImAccountExecutorStatus afterStatus = response.success() ? ImAccountExecutorStatus.WAIT_LOGIN : ImAccountExecutorStatus.NONE;
                     // 更新状态
-                    imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), afterStatus, operator);
+                    imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), afterStatus, operator);
                 }
                 case STOP_EXECUTOR -> {
                     ImAccount imAccount = imAccountService.getById(command.getImAccountId());
@@ -91,13 +91,13 @@ public class ImSchedulerCommandResponse_StreamConsumer implements StreamConsumer
                         log.error("ImAccount不存在 STOP ::: {}", payload);
                         return;
                     }
-                    if (imAccount.getWorkStatus() != ImAccountWorkStatus.STOPPING) {
+                    if (imAccount.getExecutorStatus() != ImAccountExecutorStatus.STOPPING) {
                         log.error("ImAccount.workStatus != STOPPING ::: {}", payload);
                         return;
                     }
                     // 更新状态
                     if (response.success()) {
-                        imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), ImAccountWorkStatus.STOPPED, operator);
+                        imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), ImAccountExecutorStatus.STOPPED, operator);
                     }
                 }
             }

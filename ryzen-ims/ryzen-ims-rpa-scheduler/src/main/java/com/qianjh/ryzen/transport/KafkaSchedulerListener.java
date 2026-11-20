@@ -18,7 +18,7 @@ public class KafkaSchedulerListener {
     private final ExecutorRegistryService executorRegistryService;
     private final ExecutorCommandService executorCommandService;
     private final CollectedMessageService collectedMessageService;
-    private final ToSchedulerCommandService schedulerCommandService;
+    private final SchedulerCommandService schedulerCommandService;
 
     /**
      * 命令

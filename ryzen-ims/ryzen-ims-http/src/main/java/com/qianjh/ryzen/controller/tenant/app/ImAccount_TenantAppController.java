@@ -6,7 +6,7 @@ import com.qianjh.ryzen.controller.tenant.app.dto.GetImAccountsResp;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ToSchedulerCommand;
 import com.qianjh.ryzen.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.enums.ImAccountWorkStatus;
+import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.enums.SchedulerCommandType;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
@@ -196,8 +196,8 @@ public class ImAccount_TenantAppController extends _TenantAppController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
         // 判断状态
-        if (imAccount.getWorkStatus() != ImAccountWorkStatus.NONE
-                && imAccount.getWorkStatus() != ImAccountWorkStatus.STOPPED) {
+        if (imAccount.getExecutorStatus() != ImAccountExecutorStatus.NONE
+                && imAccount.getExecutorStatus() != ImAccountExecutorStatus.STOPPED) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_CONFLICT));
         }
 
@@ -217,7 +217,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         );
 
         // STARTING
-        boolean success = imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), ImAccountWorkStatus.STARTING, operator);
+        boolean success = imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), ImAccountExecutorStatus.STARTING, operator);
 
         return success ? Resp.success() : Resp.failure();
     }
@@ -250,11 +250,11 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         );
 
         //
-        if (imAccount.getWorkStatus() != ImAccountWorkStatus.STARTED) {
+        if (imAccount.getExecutorStatus() != ImAccountExecutorStatus.STARTED) {
             return Resp.success();
         }
 
-        boolean success = imAccountService.updateWorkStatus(imAccount, imAccount.getWorkStatus(), ImAccountWorkStatus.STOPPING, operator);
+        boolean success = imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), ImAccountExecutorStatus.STOPPING, operator);
 
         return success ? Resp.success() : Resp.failure();
     }

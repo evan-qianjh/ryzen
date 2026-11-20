@@ -3,7 +3,7 @@ package com.qianjh.ryzen.enums;
 /**
  * IM账号工作状态
  */
-public enum ImAccountWorkStatus {
+public enum ImAccountExecutorStatus {
     NONE,
     STARTING,
     WAIT_LOGIN,

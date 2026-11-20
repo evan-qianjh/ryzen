@@ -15,6 +15,7 @@ import com.qianjh.ryzen.model.SchedulerCommandRequest;
 import com.qianjh.ryzen.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
+import com.qianjh.ryzen.service.SchedulerCommandService;
 import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ import java.util.concurrent.TimeoutException;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class ToSchedulerCommandServiceImpl implements ToSchedulerCommandService {
+public class SchedulerCommandServiceImpl implements SchedulerCommandService {
 
     private final ExecutorService executorService;
     private final KafkaSchedulerTransport transport;
