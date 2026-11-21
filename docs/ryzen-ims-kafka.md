@@ -48,29 +48,31 @@ bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims
 
 ### topic
 
-| topic                      | 描述     | 方向                  | executer | scheduler |
-|----------------------------|----------|-----------------------|----------|-----------|
-| ims.executor.command       | 指令     | scheduler -> executer | R        | W         |
-| ims.executor.register      | 注册     | executer -> scheduler | W        | R         | 
-| ims.executor.heartbeat     | 心跳     | executer -> scheduler | W        | R         | 
-| ims.executor.status        | 状态     | executer -> scheduler | W        | R         | 
-| ims.executor.message       | 消息     | executer -> scheduler | W        | R         |
-| ims.executor.task.request  | 任务请求 | scheduler -> executer | R        | W         | 
-| ims.executor.task.response | 任务响应 | executer -> scheduler | W        | R         | 
+| topic                         | 描述     | 方向                  | partitions | routeKey     | executer | scheduler |
+|-------------------------------|----------|-----------------------|------------|--------------|----------|-----------|
+| ims.executor.command.request  | 指令请求 | scheduler -> executer | 1          | executorCode | R        | W         |
+| ims.executor.command.response | 指令响应 | executer -> scheduler | 3          | executorCode | W        | R         |
+| ims.executor.register         | 注册     | executer -> scheduler | 3          | executorCode | W        | R         | 
+| ims.executor.heartbeat        | 心跳     | executer -> scheduler | 3          | executorCode | W        | R         | 
+| ims.executor.status           | 状态     | executer -> scheduler | 3          | executorCode | W        | R         | 
+| ims.executor.message          | 消息     | executer -> scheduler | 3          | executorCode | W        | R         |
+| ims.executor.task.request     | 任务请求 | scheduler -> executer | 1          | executorCode | R        | W         | 
+| ims.executor.task.response    | 任务响应 | executer -> scheduler | 3          | executorCode | W        | R         | 
 
 ### ACL
 
 - 执行器账号: ryzen-ims-executor-001
 - 调度器账号: ryzen-ims-scheduler
 
-## kafka-private
+## kafka-default (private)
 
 ### topic
 
-| topic                       | 描述                       | 方向                | scheduler | 接入方 |
-|-----------------------------|----------------------------|---------------------|-----------|--------|
-| ims.scheduler.command       | 接入方发给调度器的指令     | 接入方 -> scheduler | R         | W      |
-| ims.scheduler.message       | 调度器采集的消息推给接入方 | scheduler -> 接入方 | W         | R      |
-| ims.scheduler.send.request  | 接入方发给调度器的发送请求 | 接入方 -> scheduler | R         | W      |
-| ims.scheduler.send.response | 接入方发给调度器的发送响应 | scheduler -> 接入方 | W         | R      |
+| topic                          | 描述     | 方向                | partitions | routeKey    | scheduler | 接入方 |
+|--------------------------------|----------|---------------------|------------|-------------|-----------|--------|
+| ims.scheduler.command.request  | 指令请求 | 接入方 -> scheduler | 3          | accountCode | R         | W      |
+| ims.scheduler.command.response | 指令响应 | 接入方 -> scheduler | 3          | accountCode | W         | R      |
+| ims.scheduler.message          | 消息     | scheduler -> 接入方 | 3          | accountCode | W         | R      |
+| ims.scheduler.task.request     | 任务请求 | 接入方 -> scheduler | 3          | accountCode | R         | W      |
+| ims.scheduler.task.response    | 任务响应 | scheduler -> 接入方 | 3          | accountCode | W         | R      |
 
