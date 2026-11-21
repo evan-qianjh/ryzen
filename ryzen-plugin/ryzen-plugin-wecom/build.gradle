@@ -1,0 +1,6 @@
+dependencies {
+    api libs.mybatis.plus.spring
+
+    api project(":ryzen-framework:ryzen-framework-common")
+
+}

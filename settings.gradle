@@ -29,6 +29,8 @@ include 'ryzen-plugin:ryzen-plugin-oss'
 include 'ryzen-plugin:ryzen-plugin-sfexpress'
 include 'ryzen-plugin:ryzen-plugin-sfexpress-express'
 include 'ryzen-plugin:ryzen-plugin-sms'
+include 'ryzen-plugin:ryzen-plugin-wecom'
+include 'ryzen-plugin:ryzen-plugin-wecom-app'
 
 // gateway (port:70XX)
 //include 'ryzen-gateway:ryzen-gateway-oem-app'
