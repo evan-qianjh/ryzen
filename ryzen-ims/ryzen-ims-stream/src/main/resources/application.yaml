@@ -39,19 +39,19 @@ spring:
           content-type: application/json
         # ------------------------------------- source -------------------------------------
         imsSchedulerCommandResponseSource-in-0:
-          destination: ims.scheduler.command.response
+          destination: ims.scheduler-command-response
           content-type: application/json
           group: ${spring.application.name}
         imsSchedulerTaskResponseSource-in-0:
-          destination: ims.scheduler.task.response
+          destination: ims.scheduler-task-response
           content-type: application/json
           group: ${spring.application.name}
         imsSchedulerReportSource-in-0:
-          destination: ims.scheduler.report
+          destination: ims.scheduler-report
           content-type: application/json
           group: ${spring.application.name}
         imsSchedulerMessageSource-in-0:
-          destination: ims.scheduler.message
+          destination: ims.scheduler-message
           content-type: application/json
           group: ${spring.application.name}
   output:

@@ -9,18 +9,18 @@ public class SchedulerProperties {
     /**
      * 命令topic
      */
-    private String commandRequestTopic = "ims.scheduler.command.request";
-    private String commandResponseTopic = "ims.scheduler.command.response";
+    private String commandRequestTopic = "ims.scheduler-command-request";
+    private String commandResponseTopic = "ims.scheduler-command-response";
     /**
      * 任务topic
      */
-    private String taskRequestTopic = "ims.scheduler.task.request";
-    private String taskResponseTopic = "ims.scheduler.task.response";
+    private String taskRequestTopic = "ims.scheduler-task-request";
+    private String taskResponseTopic = "ims.scheduler-task-response";
     /**
      * 聚合消息topic
      */
-    private String messageTopic = "ims.scheduler.message";
-    private String reportTopic = "ims.scheduler.report";
+    private String messageTopic = "ims.scheduler-message";
+    private String reportTopic = "ims.scheduler-report";
 
     /**
      * 心跳超时时间
