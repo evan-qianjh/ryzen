@@ -37,8 +37,8 @@ public class ExecutorRegistryService {
             // 注册
             executorService.register(executor, snapshot);
         } catch (DuplicateKeyException e) {
-            // account_id 唯一：防止同一个平台账号同时被两个执行器接管。
-            throw new IllegalStateException("Account is already bound to another executor: " + snapshot.accountCode(), e);
+            // TODO 防止同一个平台账号同时被两个执行器接管。
+            throw new IllegalStateException("Account is already bound to another executor: " + snapshot.executorCode(), e);
         }
 
         log.info("执行器注册成功 ::: {}", snapshot.executorCode());

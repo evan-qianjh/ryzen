@@ -276,9 +276,7 @@ public class ExecutorWorker {
         Assignment current = assignment;
 
         return ExecutorSnapshot.builder()
-                .imType(ImType.MEI_TUAN)
                 .executorCode(properties.getCode())
-                .accountCode(current == null ? null : current.accountCode())
                 .assignmentId(current == null ? null : current.id())
                 .status(status)
                 .currentOperation(currentOperation)
