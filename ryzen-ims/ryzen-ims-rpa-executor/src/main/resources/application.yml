@@ -11,7 +11,7 @@ spring:
   main:
     allow-bean-definition-overriding: true
   kafka:
-    bootstrap-servers: ${ryzen.kafka.default.servers}
+    bootstrap-servers: 'localhost:9092'
     consumer:
       group-id: ${spring.application.name}-${ryzen.executor.code}
       auto-offset-reset: latest
@@ -21,6 +21,7 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
 
 ryzen:
   executor:

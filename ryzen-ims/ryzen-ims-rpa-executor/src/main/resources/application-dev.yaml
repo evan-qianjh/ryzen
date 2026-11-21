@@ -2,7 +2,18 @@ logging:
   level:
     com.qianjh.ryzen: debug
 
-ryzen:
+spring:
   kafka:
-    default:
-      servers: 192.168.188.3:9092
+    bootstrap-servers: kafka.qianjh-test.com:9094
+    properties:
+      security.protocol: SASL_SSL
+      sasl.mechanism: SCRAM-SHA-512
+
+      sasl.jaas.config: >-
+        org.apache.kafka.common.security.scram.ScramLoginModule required
+        username="ims_executor"
+        password="executor@r0n3V#hLNEOPXI!qDxVMNDo";
+      ssl.truststore.type: PKCS12
+      ssl.truststore.location: /home/qianjh/Downloads/kafka.qianjh-test.com.truststore.p12
+      ssl.truststore.password: qianjh@qq.com
+      ssl.endpoint.identification.algorithm: https
