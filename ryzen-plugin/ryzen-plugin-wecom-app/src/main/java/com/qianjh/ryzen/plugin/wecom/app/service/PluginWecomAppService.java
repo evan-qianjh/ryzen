@@ -5,7 +5,7 @@ import com.qianjh.ryzen.plugin.wecom.app.entity.PluginWecomApp;
 
 public interface PluginWecomAppService extends IService<PluginWecomApp> {
 
-    PluginWecomApp getByApp(Long oemId, String appCode);
+    PluginWecomApp getByApp(Long oemId, String corpCode, String appCode);
 
-    PluginWecomApp getByApp(Long oemId, String appCode, boolean assertNotNull);
+    PluginWecomApp getByApp(Long oemId, String corpCode, String appCode, boolean assertNotNull);
 }
