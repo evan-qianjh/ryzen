@@ -27,7 +27,8 @@ public class KafkaSchedulerListener {
      */
     @KafkaListener(
             topics = "${ryzen.scheduler.command-request-topic}",
-            groupId = "${spring.kafka.consumer.group-id}"
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "defaultKafkaListenerContainerFactory"
     )
     public void onCommand(String payload) {
         log.info("收到指令 ::: {}", payload);
@@ -41,7 +42,8 @@ public class KafkaSchedulerListener {
      */
     @KafkaListener(
             topics = "${ryzen.scheduler.task-request-topic}",
-            groupId = "${spring.kafka.consumer.group-id}"
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "defaultKafkaListenerContainerFactory"
     )
     public void onSendRequest(String payload) {
         handle("send request", payload, SchedulerTaskRequest.class, sendTaskService::accept);
