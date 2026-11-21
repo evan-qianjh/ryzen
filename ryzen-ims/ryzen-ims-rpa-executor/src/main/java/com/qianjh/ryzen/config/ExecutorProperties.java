@@ -48,31 +48,31 @@ public class ExecutorProperties {
     /**
      * 指令
      */
-    private String commandRequestTopic = "ims.executor-command-request";
-    private String commandResponseTopic = "ims.executor-command-response";
+    private String commandRequestTopic = "ims.scheduler-to-executor-command-request";
+    private String commandResponseTopic = "ims.executor-to-scheduler-command-response";
     /**
      * 执行器注册topic(执行器就绪后，注册到调度器)
      */
-    private String registerTopic = "ims.executor-register";
+    private String registerTopic = "ims.executor-to-scheduler-register";
     /**
      * 心跳topic（执行器启动后，周期性向调度器发送心跳，表示存活）
      */
-    private String heartbeatTopic = "ims.executor-heartbeat";
+    private String heartbeatTopic = "ims.executor-to-scheduler-heartbeat";
     /**
      * 状态topic
      */
-    private String statusTopic = "ims.executor-status";
+    private String statusTopic = "ims.executor-to-scheduler-status";
     /**
      * 消息topic（执行器采集到的消息）
      */
-    private String messageTopic = "ims.executor-message";
+    private String messageTopic = "ims.executor-to-scheduler-message";
     /**
      * 任务topic（调度器发给执行器的任务，例如发送消息）
      */
-    private String taskRequestTopic = "ims.executor-task-request";
+    private String taskRequestTopic = "ims.scheduler-to-executor-task-request";
     /**
      * 任务结果topic（执行器在执行任务过程中的反馈）
      */
-    private String taskResponseTopic = "ims.executor-task-response";
+    private String taskResponseTopic = "ims.executor-to-scheduler-task-response";
 
 }

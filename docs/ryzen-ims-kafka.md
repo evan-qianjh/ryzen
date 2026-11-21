@@ -44,20 +44,24 @@ bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims
 
 <hr />
 
+# kafka 
+
 ## kafka-public
 
 ### topic
 
-| topic                         | 描述     | 方向                  | partitions | routeKey     | executer | scheduler |
-|-------------------------------|----------|-----------------------|------------|--------------|----------|-----------|
-| ims.executor-register         | 注册     | executer -> scheduler | 3          | executorCode | W        | R         | 
-| ims.executor-heartbeat        | 心跳     | executer -> scheduler | 3          | executorCode | W        | R         | 
-| ims.executor-status           | 状态     | executer -> scheduler | 3          | executorCode | W        | R         | 
-| ims.executor-message          | 消息     | executer -> scheduler | 3          | executorCode | W        | R         |
-| ims.executor-command-request  | 指令请求 | scheduler -> executer | 1          | executorCode | R        | W         |
-| ims.executor-command-response | 指令响应 | executer -> scheduler | 3          | executorCode | W        | R         |
-| ims.executor-task-request     | 任务请求 | scheduler -> executer | 1          | executorCode | R        | W         | 
-| ims.executor-task-response    | 任务响应 | executer -> scheduler | 3          | executorCode | W        | R         | 
+topic的设计要考虑ACL的通配
+
+| topic                                      | 描述     | 方向                  | partitions | routeKey     | executer | scheduler |
+|--------------------------------------------|----------|-----------------------|------------|--------------|----------|-----------|
+| ims.scheduler-to-executor-command-request  | 指令请求 | scheduler -> executer | 1          | executorCode | R        | W         |
+| ims.scheduler-to-executor-task-request     | 任务请求 | scheduler -> executer | 1          | executorCode | R        | W         | 
+| ims.executor-to-scheduler-register         | 注册     | executer -> scheduler | 3          | executorCode | W        | R         | 
+| ims.executor-to-scheduler-heartbeat        | 心跳     | executer -> scheduler | 3          | executorCode | W        | R         | 
+| ims.executor-to-scheduler-status           | 状态     | executer -> scheduler | 3          | executorCode | W        | R         | 
+| ims.executor-to-scheduler-message          | 消息     | executer -> scheduler | 3          | executorCode | W        | R         |
+| ims.executor-to-scheduler-command-response | 指令响应 | executer -> scheduler | 3          | executorCode | W        | R         |
+| ims.executor-to-scheduler-task-response    | 任务响应 | executer -> scheduler | 3          | executorCode | W        | R         | 
 
 ### ACL
 
@@ -68,11 +72,12 @@ bin/kafka-console-producer.sh --bootstrap-server 192.168.188.3:9092  --topic ims
 
 ### topic
 
-| topic                          | 描述     | 方向                | partitions | routeKey    | scheduler | 接入方 |
-|--------------------------------|----------|---------------------|------------|-------------|-----------|--------|
-| ims.scheduler-message          | 消息     | scheduler -> 接入方 | 3          | accountCode | W         | R      |
-| ims.scheduler-command-request  | 指令请求 | 接入方 -> scheduler | 3          | accountCode | R         | W      |
-| ims.scheduler-command-response | 指令响应 | 接入方 -> scheduler | 3          | accountCode | W         | R      |
-| ims.scheduler-task-request     | 任务请求 | 接入方 -> scheduler | 3          | accountCode | R         | W      |
-| ims.scheduler-task-response    | 任务响应 | scheduler -> 接入方 | 3          | accountCode | W         | R      |
+| topic                                 | 描述     | 方向                | partitions | routeKey    | scheduler | 接入方 |
+|---------------------------------------|----------|---------------------|------------|-------------|-----------|--------|
+| ims.app-to-scheduler-command-request  | 指令请求 | 接入方 -> scheduler | 3          | accountCode | R         | W      |
+| ims.app-to-scheduler-task-request     | 任务请求 | 接入方 -> scheduler | 3          | accountCode | R         | W      |
+| ims.scheduler-to-app-message          | 消息     | scheduler -> 接入方 | 3          | accountCode | W         | R      |
+| ims.scheduler-to-app-report           | 汇报     | scheduler -> 接入方 | 3          | accountCode | W         | R      |
+| ims.scheduler-to-app-command-response | 指令响应 | 接入方 -> scheduler | 3          | accountCode | W         | R      |
+| ims.scheduler-to-app-task-response    | 任务响应 | scheduler -> 接入方 | 3          | accountCode | W         | R      |
 
