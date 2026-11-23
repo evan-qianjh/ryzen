@@ -6,6 +6,7 @@ import com.qianjh.ryzen.model.*;
 import com.qianjh.ryzen.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -80,15 +81,28 @@ public class KafkaSchedulerListener {
     /**
      * 执行器心跳
      *
-     * @param payload 报文
+     * @param record 报文
      */
     @KafkaListener(
             topics = "${ryzen.executor.heartbeat-topic}",
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
-    public void onExecutorHeartbeat(String payload) {
-        handle("executor heartbeat", payload, ExecutorSnapshot.class, executorRegistryService::heartbeat);
+    public void onExecutorHeartbeat(ConsumerRecord<String, String> record) {
+        // 搭配 topic的message.timestamp.type=LogAppendTime，获取的是消息发送到broker的时间，避免executor与scheduler时间不一致
+        long timestamp = record.timestamp();
+        String payload = record.value();
+        // 丢弃1分钟前的消息
+        long expireTime = System.currentTimeMillis() - 60 * 1000L;
+        if (timestamp < expireTime) {
+            log.error("忽略过期消息 ::: timestamp={}, payload={}", timestamp, payload);
+            return;
+        }
+
+        ExecutorSnapshot snapshot = gson.fromJson(payload, ExecutorSnapshot.class);
+        executorRegistryService.heartbeat(snapshot, timestamp);
+
+//        handle("executor heartbeat", payload, ExecutorSnapshot.class, executorRegistryService::heartbeat);
     }
 
     /**

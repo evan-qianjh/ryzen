@@ -41,12 +41,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
     }
 
     @Override
-    public void started(ExecutorSnapshot snapshot) {
-        send(properties.getStatusTopic(), snapshot.executorCode(), snapshot);
-    }
-
-    @Override
-    public void stopped(ExecutorSnapshot snapshot) {
+    public void status(ExecutorSnapshot snapshot) {
         send(properties.getStatusTopic(), snapshot.executorCode(), snapshot);
     }
 

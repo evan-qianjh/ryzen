@@ -33,7 +33,7 @@ public interface ExecutorService extends IService<Executor> {
      * @param snapshot 快照
      * @return 是否成功
      */
-    boolean heartbeat(Executor executor, ExecutorSnapshot snapshot);
+    boolean heartbeat(Executor executor, ExecutorSnapshot snapshot, long timestamp);
 
     /**
      * 下线

@@ -54,7 +54,7 @@ public class ExecutorRegistryService {
      *
      * @param snapshot 快照
      */
-    public void heartbeat(ExecutorSnapshot snapshot) {
+    public void heartbeat(ExecutorSnapshot snapshot, long timestamp) {
         validate(snapshot);
         Executor executor = executorService.getByCode(snapshot.executorCode());
         if (executor == null) {
@@ -66,7 +66,7 @@ public class ExecutorRegistryService {
             return;
         }
 
-        executorService.heartbeat(executor, snapshot);
+        executorService.heartbeat(executor, snapshot, timestamp);
 
         // 如果就绪，调度任务
         if (snapshot.status() == ExecutorStatus.READY) {
@@ -87,13 +87,32 @@ public class ExecutorRegistryService {
             return;
         }
 
-        if (ExecutorStatus.STARTED == snapshot.status()) {
+        // 启动中
+        if (ExecutorStatus.STARTING == snapshot.status()) {
+            SchedulerReport report = SchedulerReport.builder()
+                    .assignmentId(snapshot.assignmentId())
+                    .type(SchedulerReportType.EXECUTOR_STARTING)
+                    .build();
+            transport.schedulerReport(report);
+        }
+        // 等待登录
+        else if (ExecutorStatus.WAIT_LOGIN == snapshot.status()) {
+            SchedulerReport report = SchedulerReport.builder()
+                    .assignmentId(snapshot.assignmentId())
+                    .type(SchedulerReportType.EXECUTOR_WAIT_LOGIN)
+                    .build();
+            transport.schedulerReport(report);
+        }
+        // 已启动
+        else if (ExecutorStatus.STARTED == snapshot.status()) {
             SchedulerReport report = SchedulerReport.builder()
                     .assignmentId(snapshot.assignmentId())
                     .type(SchedulerReportType.EXECUTOR_STARTED)
                     .build();
             transport.schedulerReport(report);
-        } else if (snapshot.status() == ExecutorStatus.STOPPED) {
+        }
+        // 已停止
+        else if (snapshot.status() == ExecutorStatus.STOPPED) {
             SchedulerReport report = SchedulerReport.builder()
                     .assignmentId(snapshot.assignmentId())
                     .type(SchedulerReportType.EXECUTOR_STOPPED)

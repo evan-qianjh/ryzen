@@ -230,7 +230,9 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         );
 
         // STARTING
-        boolean success = imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), ImAccountExecutorStatus.STARTING, operator);
+        boolean success = imAccountService.updateExecutorStatus(imAccount,
+                imAccount.getExecutorStatus(), ImAccountExecutorStatus.PENDING_ACCEPT_START, operator
+        );
 
         return success ? Resp.success() : Resp.failure();
     }

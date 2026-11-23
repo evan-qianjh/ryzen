@@ -62,7 +62,7 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
     @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean register(Executor executor, ExecutorSnapshot snapshot) {
-        LocalDateTime time = DateTimeUtils.parseMillis(snapshot.time());
+        LocalDateTime time = LocalDateTime.now();
         return lambdaUpdate()
                 .set(Executor::getStatus, snapshot.status())
                 .set(Executor::getCurrentOperation, snapshot.currentOperation())
@@ -77,13 +77,13 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean heartbeat(Executor executor, ExecutorSnapshot snapshot) {
+    public boolean heartbeat(Executor executor, ExecutorSnapshot snapshot, long timestamp) {
         return lambdaUpdate()
                 .set(Executor::getStatus, snapshot.status())
                 .set(Executor::getCurrentOperation, snapshot.currentOperation())
                 .set(Executor::getCurrentTaskId, snapshot.currentTaskId())
                 .set(Executor::getErrorMessage, snapshot.errorMessage())
-                .set(Executor::getLastHeartbeatTime, DateTimeUtils.parseMillis(snapshot.time()))
+                .set(Executor::getLastHeartbeatTime, DateTimeUtils.parseMillis(timestamp))
                 //
                 .eq(Executor::getId, executor.getId())
                 .update();

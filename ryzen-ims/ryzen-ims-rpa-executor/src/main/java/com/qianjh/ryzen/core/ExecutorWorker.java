@@ -6,7 +6,6 @@ import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.enums.ExecutorOperationType;
 import com.qianjh.ryzen.enums.ExecutorStatus;
 import com.qianjh.ryzen.enums.ExecutorTaskStatus;
-import com.qianjh.ryzen.enums.ImType;
 import com.qianjh.ryzen.model.*;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import jakarta.annotation.PostConstruct;
@@ -152,6 +151,7 @@ public class ExecutorWorker {
                 // ==================================================
                 if (session == null) {
                     status = ExecutorStatus.STARTING;
+                    transport.status(snapshot());
 
                     session = browserSessionFactory.open(assignment);
 
@@ -159,6 +159,7 @@ public class ExecutorWorker {
                     lastCollectedAt = Instant.EPOCH;
 
                     status = ExecutorStatus.WAIT_LOGIN;
+                    transport.status(snapshot());
 
                     log.info("Waiting for login ::: accountCode={}", assignment.accountCode());
                 }
@@ -178,7 +179,7 @@ public class ExecutorWorker {
                     // 已登录
                     if (session.isLoggedIn()) {
                         status = ExecutorStatus.STARTED;
-                        transport.started(snapshot());
+                        transport.status(snapshot());
 
                         status = ExecutorStatus.READY;
                         errorMessage = null;
@@ -282,7 +283,7 @@ public class ExecutorWorker {
                 .currentOperation(currentOperation)
                 .currentTaskId(currentTaskId)
                 .errorMessage(errorMessage)
-                .time(System.currentTimeMillis())
+//                .time(System.currentTimeMillis())
                 .build();
     }
 
@@ -358,7 +359,7 @@ public class ExecutorWorker {
         // 停止接收新任务
 //        this.status = ExecutorStatus.STARTING;
         this.status = ExecutorStatus.STOPPED;
-        transport.stopped(snapshot());
+        transport.status(snapshot());
 
 
         // 取消未执行任务

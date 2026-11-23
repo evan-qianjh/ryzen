@@ -34,6 +34,24 @@ public class ImsSchedulerReport_StreamConsumer implements StreamConsumer {
 
             SchedulerReport report = GsonUtils.GSON.fromJson(payload, SchedulerReport.class);
             switch (report.type()) {
+                case EXECUTOR_STARTING -> {
+                    ImAccount imAccount = imAccountService.getByAssignmentId(report.assignmentId());
+                    if (imAccount == null) {
+                        log.error("未找到指定指派的账号 EXECUTOR_STARTING ::: {}", payload);
+                        return;
+                    }
+                    ImAccountExecutorStatus beforeStatus = imAccount.getExecutorStatus();
+                    imAccountService.updateExecutorStatus(imAccount, beforeStatus, ImAccountExecutorStatus.STARTING, null);
+                }
+                case EXECUTOR_WAIT_LOGIN -> {
+                    ImAccount imAccount = imAccountService.getByAssignmentId(report.assignmentId());
+                    if (imAccount == null) {
+                        log.error("未找到指定指派的账号 EXECUTOR_WAIT_LOGIN ::: {}", payload);
+                        return;
+                    }
+                    ImAccountExecutorStatus beforeStatus = imAccount.getExecutorStatus();
+                    imAccountService.updateExecutorStatus(imAccount, beforeStatus, ImAccountExecutorStatus.WAIT_LOGIN, null);
+                }
                 case EXECUTOR_STARTED -> {
                     ImAccount imAccount = imAccountService.getByAssignmentId(report.assignmentId());
                     if (imAccount == null) {

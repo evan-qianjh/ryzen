@@ -32,18 +32,11 @@ public interface ExecutorTransport {
     void command(ExecutorCommandResponse response);
 
     /**
-     * 启动
+     * 状态
      *
      * @param snapshot 快照
      */
-    void started(ExecutorSnapshot snapshot);
-
-    /**
-     * 停止
-     *
-     * @param snapshot 快照
-     */
-    void stopped(ExecutorSnapshot snapshot);
+    void status(ExecutorSnapshot snapshot);
 
     /**
      * 任务受理

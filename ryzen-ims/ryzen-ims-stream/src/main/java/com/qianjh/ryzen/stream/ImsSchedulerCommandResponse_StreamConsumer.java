@@ -83,7 +83,7 @@ public class ImsSchedulerCommandResponse_StreamConsumer implements StreamConsume
                         log.error("ImAccount.workStatus != STARTING ::: {}", payload);
                         return;
                     }
-                    ImAccountExecutorStatus afterStatus = response.success() ? ImAccountExecutorStatus.WAIT_LOGIN : ImAccountExecutorStatus.NONE;
+                    ImAccountExecutorStatus afterStatus = response.success() ? ImAccountExecutorStatus.PENDING_STARTING : ImAccountExecutorStatus.NONE;
                     // 更新状态
                     imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), afterStatus, operator);
                 }

@@ -2,7 +2,6 @@ package com.qianjh.ryzen.model;
 
 import com.qianjh.ryzen.enums.ExecutorOperationType;
 import com.qianjh.ryzen.enums.ExecutorStatus;
-import com.qianjh.ryzen.enums.ImType;
 import lombok.Builder;
 
 /**
@@ -14,7 +13,6 @@ import lombok.Builder;
  * @param currentOperation 当前操作
  * @param currentTaskId    当前任务
  * @param errorMessage     错误消息
- * @param time             时间
  * @author QianJH
  */
 @Builder(toBuilder = true)
@@ -26,7 +24,6 @@ public record ExecutorSnapshot(
         ExecutorStatus status,
         ExecutorOperationType currentOperation,
         Long currentTaskId,
-        String errorMessage,
-        Long time
+        String errorMessage
 ) {
 }
