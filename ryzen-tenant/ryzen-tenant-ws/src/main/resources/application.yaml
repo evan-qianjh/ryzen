@@ -6,7 +6,7 @@ spring:
   application:
     name: ryzen-tenant-ws
   profiles:
-    active: dev
+    active: test
   lifecycle:
     timeout-per-shutdown-phase: 30s
   cloud:
@@ -22,8 +22,22 @@ spring:
         data-key: data
         format: yaml
         watch:
-          enabled: true
+          enabled: false # https://github.com/spring-cloud/spring-cloud-consul/issues/951
           delay: 3000
+    function:
+      definition: 'fromImsSource'
+    stream:
+      kafka:
+        binder:
+          brokers: ${ryzen.kafka.default.servers}
+          configuration:
+            auto.offset.reset: latest
+      bindings:
+        # ------------------------------------- source -------------------------------------
+        fromImsSource-in-0:
+          destination: tenant.from-ims
+          content-type: application/json
+          group: ${spring.application.name}
   output:
     ansi:
       enabled: detect
