@@ -8,6 +8,7 @@ import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.model.*;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
  *
  * @author QianJH
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class KafkaExecutorTransport implements ExecutorTransport {
@@ -42,6 +44,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
 
     @Override
     public void status(ExecutorSnapshot snapshot) {
+        log.info("上报状态 ::: status={}, snapshot={}", snapshot.status(), snapshot);
         send(properties.getStatusTopic(), snapshot.executorCode(), snapshot);
     }
 

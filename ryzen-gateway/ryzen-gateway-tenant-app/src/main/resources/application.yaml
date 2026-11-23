@@ -79,3 +79,14 @@ spring:
                 - StripPrefix=1
                 - PrefixPath=/tenant/app
               uri: lb://ryzen-user-http
+            # ----------------------------------------------------------------------
+            - id: ims
+              order: 3
+              metadata:
+                remarks: ims
+              predicates:
+                - Path=/ims/**
+              filters:
+                - StripPrefix=1
+                - PrefixPath=/tenant/app
+              uri: lb://ryzen-ims-http
