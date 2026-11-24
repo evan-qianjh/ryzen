@@ -10,6 +10,7 @@
     <property name="maxFileSize" value="100MB"/>
     <property name="logDir" value="./logs"/>
     <property name="logPattern" value="%d %-5level [%thread] %logger : %msg%n"/>
+    <property name="wsLogPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %msg%n"/>
 
     <!--prod param-->
     <springProfile name="prod">
@@ -53,6 +54,64 @@
             <level>WARN</level>
         </filter>
     </appender>
+
+    <appender name="WEBSOCKET_SEND_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}-send.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-send.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${wsLogPattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="WEBSOCKET_CONNECT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}-connect.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-connect.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${wsLogPattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="WEBSOCKET_RECEIVE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}-receive.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-receive.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${wsLogPattern}</pattern>
+        </encoder>
+    </appender>
+    <appender name="WEBSOCKET_ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logDir}/${moduleName}-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/${moduleName}-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${maxFileSize}</maxFileSize>
+            <maxHistory>${maxHistory}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${wsLogPattern}</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="WEBSOCKET_SEND_LOGGER" level="DEBUG" additivity="false">
+        <appender-ref ref="WEBSOCKET_SEND_APPENDER"/>
+    </logger>
+    <logger name="WEBSOCKET_CONNECT_LOGGER" level="DEBUG" additivity="false">
+        <appender-ref ref="WEBSOCKET_CONNECT_APPENDER"/>
+    </logger>
+    <logger name="WEBSOCKET_RECEIVE_LOGGER" level="DEBUG" additivity="false">
+        <appender-ref ref="WEBSOCKET_RECEIVE_APPENDER"/>
+    </logger>
+    <logger name="WEBSOCKET_ERROR_LOGGER" level="DEBUG" additivity="false">
+        <appender-ref ref="WEBSOCKET_ERROR_APPENDER"/>
+    </logger>
 
     <!-- code level -->
     <logger name="com.qianjh.ryzen" level="INFO" additivity="false">
