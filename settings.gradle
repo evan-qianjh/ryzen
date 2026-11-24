@@ -61,7 +61,6 @@ include 'ryzen-user:ryzen-user-lib-model'
 include 'ryzen-user:ryzen-user-lib-service'
 
 // ryzen-ims(port: 804X)
-include 'ryzen-ims:ryzen-ims-ws'
 include 'ryzen-ims:ryzen-ims-http'
 include 'ryzen-ims:ryzen-ims-stream'
 include 'ryzen-ims:ryzen-ims-rpa-executor'

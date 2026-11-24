@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qianjh.ryzen.entity.RouteTagImAccount;
+import com.qianjh.ryzen.entity.MatchTagImAccount;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RouteTagImAccountMapper extends BaseMapper<RouteTagImAccount> {
+public interface MatchTagImAccountMapper extends BaseMapper<MatchTagImAccount> {
 }

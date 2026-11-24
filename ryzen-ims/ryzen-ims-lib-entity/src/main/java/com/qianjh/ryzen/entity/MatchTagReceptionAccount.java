@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 路由标签
+ * 接待账户路由标签
  *
  * @author QianJH
  */
@@ -17,14 +17,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "route_tag")
-public class RouteTag {
+@TableName(_Schema.TABLE_PREFIX + "match_tag_reception_account")
+public class MatchTagReceptionAccount {
 
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long oemId;
     private Long tenantId;
 
-    private String tag;
-    private String group;
+    private Long routeTagId;
+    private Long receptionAccountId;
 }
