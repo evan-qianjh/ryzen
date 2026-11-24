@@ -41,6 +41,7 @@ public class MessageSender {
 
         Channel client = ClientManager.get(clientId);
         if (client == null) {
+            log.error("发送消息时从ClientManager获取client失败 ::: {}", clientId);
             return;
         }
         try {

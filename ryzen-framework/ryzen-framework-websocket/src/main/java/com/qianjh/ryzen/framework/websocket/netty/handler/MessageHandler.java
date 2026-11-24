@@ -77,7 +77,7 @@ public class MessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> 
 //        WEBSOCKET_ERROR_LOGGER.error("[error] [{}], tenant={}, ip={}", ctx.channel().id().asShortText(), getTenantId(ctx), getClientIp(ctx), cause);
 //        ClientManager.close(ctx.channel());
 //
-//        // 异常不在往上层抛
+//        // 往上层抛
 ////        super.exceptionCaught(ctx, cause);
 //    }
 

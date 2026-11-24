@@ -24,6 +24,8 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
 
         // WebSocket 握手成功
         if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
+            ClientManager.add(ctx.channel());
+
             WEBSOCKET_CONNECT_LOGGER.debug("[+][{}]->[{}], tenant={}, ip={}",
                     ctx.channel().id().asShortText(),
                     ClientManager.getOnline(),
@@ -49,13 +51,14 @@ public class ConnectionHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-
         WEBSOCKET_CONNECT_LOGGER.debug("[-][{}]->[{}], tenant={}, ip={}",
                 ctx.channel().id().asShortText(),
                 ClientManager.getOnline(),
                 MessageHandler.getTenantId(ctx),
                 MessageHandler.getClientIp(ctx)
         );
+
+        ClientManager.onClosed(ctx.channel());
 
         super.channelInactive(ctx);
     }
