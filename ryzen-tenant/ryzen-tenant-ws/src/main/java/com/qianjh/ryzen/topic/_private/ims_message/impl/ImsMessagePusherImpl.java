@@ -7,7 +7,7 @@ import com.qianjh.ryzen.framework.websocket.topic.TopicMeta;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessagePusher;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessageTopic;
-import com.qianjh.ryzen.topic._private.ims_message.model.MessageAction;
+import com.qianjh.ryzen.topic._private.ims_message.model.MessageScene;
 import com.qianjh.ryzen.topic._private.ims_message.model.PushData;
 import io.netty.channel.ChannelId;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +45,7 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
         PushData data = buildData(payload);
 
         // 构建报文
-        com.qianjh.ryzen.framework.websocket.message.Message message = pushMessageService.build(data, topicMeta);
+        com.qianjh.ryzen.framework.websocket.message.Message message = pushMessageService.build(data, topicMeta, MessageScene.INSERT.name());
 
         // 发送
         MessageSender.send(subscribers, message, topicMeta);
@@ -56,7 +56,6 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
 
         return PushData.builder()
                 .id(IdUtils.toString(message.id()))
-                .action(MessageAction.INSERT)
                 .direction(message.direction())
                 .senderName(message.senderName())
                 .senderAvatar(message.senderAvatar())

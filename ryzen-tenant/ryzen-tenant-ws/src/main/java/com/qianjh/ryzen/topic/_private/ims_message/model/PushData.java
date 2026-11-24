@@ -5,7 +5,6 @@ import lombok.Builder;
 @Builder(toBuilder = true)
 public record PushData(
         String id,
-        MessageAction action,
         String direction,
         String senderName,
         String senderAvatar,
