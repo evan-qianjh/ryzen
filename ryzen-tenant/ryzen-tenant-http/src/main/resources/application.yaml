@@ -24,6 +24,19 @@ spring:
         watch:
           enabled: true
           delay: 3000
+    function:
+      definition: 'imsImMessageSink;toTenantSink;imsSchedulerCommandResponseSource;imsSchedulerTaskResponseSource;imsSchedulerReportSource;imsSchedulerMessageSource;imsImMessageSource'
+    stream:
+      kafka:
+        binder:
+          brokers: ${ryzen.kafka.default.servers}
+          configuration:
+            auto.offset.reset: latest
+      bindings:
+        # ------------------------------------- sink -------------------------------------
+        accountSink-out-0:
+          destination: tenant.account
+          content-type: application/json
   output:
     ansi:
       enabled: detect

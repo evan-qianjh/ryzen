@@ -1,24 +1,51 @@
 package com.qianjh.ryzen.tenant.config;
 
+import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessCreated;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.impl.PushInsertMessage_DefaultPublisherImpl;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.impl.PushInsertMessage_DefaultSubscriberImpl;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@AutoConfiguration
 public class StreamDefaultBeanConfig {
 
     @Bean
     @ConditionalOnMissingBean(PushInsertMessage.Publisher.class)
-    public PushInsertMessage.Publisher imMessageCreatedEventPublisher() {
-        return new PushInsertMessage_DefaultPublisherImpl();
+    public PushInsertMessage.Publisher pushInsertMessagePublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "PushInsertMessage.Publisher is not configured"
+            );
+        };
     }
 
     @Bean
     @ConditionalOnMissingBean(PushInsertMessage.Subscriber.class)
-    public PushInsertMessage.Subscriber imMessageCreatedEventSubscriber() {
-        return new PushInsertMessage_DefaultSubscriberImpl();
+    public PushInsertMessage.Subscriber pushInsertMessageSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "PushInsertMessage.Subscriber is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AccountBusinessCreated.Publisher.class)
+    public AccountBusinessCreated.Publisher accountBusinessCreatedPublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "AccountBusinessCreated.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AccountBusinessCreated.Subscriber.class)
+    public AccountBusinessCreated.Publisher accountBusinessCreatedSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "AccountBusinessCreated.Subscriber is not configured"
+            );
+        };
     }
 }
