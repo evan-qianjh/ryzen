@@ -1,9 +1,9 @@
-package com.qianjh.ryzen.controller.tenant.app.dto;
+package com.qianjh.ryzen.service.dto;
 
 
 import com.qianjh.ryzen.enums.ReceptionAccountStatus;
 
-public record PatchReceptionAccountReq(
+public record TenantPatchReceptionAccountReq(
         ReceptionAccountStatus status,
         String remark
 ) {

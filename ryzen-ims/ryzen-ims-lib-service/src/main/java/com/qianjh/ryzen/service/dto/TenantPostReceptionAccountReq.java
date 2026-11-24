@@ -1,11 +1,11 @@
-package com.qianjh.ryzen.controller.tenant.app.dto;
+package com.qianjh.ryzen.service.dto;
 
 
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record PostReceptionAccountReq(
+public record TenantPostReceptionAccountReq(
         @NotNull
         Long accountId,
         List<Long> routeTagIds
