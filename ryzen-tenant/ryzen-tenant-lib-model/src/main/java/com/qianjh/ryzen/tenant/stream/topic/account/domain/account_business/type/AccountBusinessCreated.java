@@ -4,7 +4,7 @@ import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
 import com.qianjh.ryzen.tenant.enums.AccountBusinessStatus;
 import com.qianjh.ryzen.tenant.enums.AccountBusinessType;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.PushMessage;
+import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.AccountBusiness;
 import lombok.Builder;
 
 /**
@@ -12,7 +12,7 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface AccountBusinessCreated<T> extends PushMessage<T> {
+public interface AccountBusinessCreated<T> extends AccountBusiness<T> {
     String TYPE = "created";
 
     /**

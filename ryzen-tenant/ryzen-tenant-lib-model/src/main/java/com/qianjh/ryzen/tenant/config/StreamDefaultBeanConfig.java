@@ -42,7 +42,7 @@ public class StreamDefaultBeanConfig {
 
     @Bean
     @ConditionalOnMissingBean(AccountBusinessCreated.Subscriber.class)
-    public AccountBusinessCreated.Publisher accountBusinessCreatedSubscriber() {
+    public AccountBusinessCreated.Subscriber accountBusinessCreatedSubscriber() {
         return _ -> {
             throw new UnsupportedOperationException(
                     "AccountBusinessCreated.Subscriber is not configured"
@@ -62,7 +62,7 @@ public class StreamDefaultBeanConfig {
 
     @Bean
     @ConditionalOnMissingBean(AccountBusinessPatched.Subscriber.class)
-    public AccountBusinessPatched.Publisher accountBusinessPatchedSubscriber() {
+    public AccountBusinessPatched.Subscriber accountBusinessPatchedSubscriber() {
         return _ -> {
             throw new UnsupportedOperationException(
                     "AccountBusinessPatched.Subscriber is not configured"

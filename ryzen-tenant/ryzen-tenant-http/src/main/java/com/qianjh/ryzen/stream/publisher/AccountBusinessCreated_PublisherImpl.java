@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-@Primary
 @Component
 @RequiredArgsConstructor
 public class AccountBusinessCreated_PublisherImpl implements AccountBusinessCreated.Publisher {
