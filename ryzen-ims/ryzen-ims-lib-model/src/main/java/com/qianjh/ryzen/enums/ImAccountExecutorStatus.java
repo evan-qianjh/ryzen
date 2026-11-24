@@ -6,7 +6,7 @@ package com.qianjh.ryzen.enums;
 public enum ImAccountExecutorStatus {
     NONE,
     PENDING_ACCEPT_START,
-    PENDING_STARTING,
+    PENDING_START,
     STARTING,
     WAIT_LOGIN,
     STARTED,
