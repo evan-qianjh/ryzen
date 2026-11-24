@@ -1,6 +1,7 @@
 package com.qianjh.ryzen.tenant.config;
 
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessCreated;
+import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessPatched;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -45,6 +46,26 @@ public class StreamDefaultBeanConfig {
         return _ -> {
             throw new UnsupportedOperationException(
                     "AccountBusinessCreated.Subscriber is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AccountBusinessPatched.Publisher.class)
+    public AccountBusinessPatched.Publisher accountBusinessPatchedPublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "AccountBusinessPatched.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AccountBusinessPatched.Subscriber.class)
+    public AccountBusinessPatched.Publisher accountBusinessPatchedSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "AccountBusinessPatched.Subscriber is not configured"
             );
         };
     }

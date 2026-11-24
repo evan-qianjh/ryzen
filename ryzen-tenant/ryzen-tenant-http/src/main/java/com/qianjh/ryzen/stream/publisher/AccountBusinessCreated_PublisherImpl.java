@@ -5,8 +5,10 @@ import com.qianjh.ryzen.framework.stream.model.StreamPayload;
 import com.qianjh.ryzen.stream.producer.AccountTopic_StreamProducer;
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessCreated;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+@Primary
 @Component
 @RequiredArgsConstructor
 public class AccountBusinessCreated_PublisherImpl implements AccountBusinessCreated.Publisher {
