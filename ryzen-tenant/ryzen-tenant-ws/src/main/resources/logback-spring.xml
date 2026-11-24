@@ -57,7 +57,7 @@
 
     <appender name="WEBSOCKET_SEND_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/${moduleName}-send.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/${moduleName}-send.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${maxFileSize}</maxFileSize>
             <maxHistory>${maxHistory}</maxHistory>
@@ -68,7 +68,7 @@
     </appender>
     <appender name="WEBSOCKET_CONNECT_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/${moduleName}-connect.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/${moduleName}-connect.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${maxFileSize}</maxFileSize>
             <maxHistory>${maxHistory}</maxHistory>
@@ -79,7 +79,7 @@
     </appender>
     <appender name="WEBSOCKET_RECEIVE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/${moduleName}-receive.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/${moduleName}-receive.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${maxFileSize}</maxFileSize>
             <maxHistory>${maxHistory}</maxHistory>
@@ -90,7 +90,7 @@
     </appender>
     <appender name="WEBSOCKET_ERROR_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logDir}/${moduleName}-error.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/${moduleName}-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${maxFileSize}</maxFileSize>
             <maxHistory>${maxHistory}</maxHistory>
