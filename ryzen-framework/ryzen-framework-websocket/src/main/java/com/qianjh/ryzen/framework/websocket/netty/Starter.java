@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.framework.websocket.netty;
 
 import com.qianjh.ryzen.framework.websocket.netty.handler.HeaderHandler;
-import com.qianjh.ryzen.framework.websocket.netty.handler.IdleHandler;
+import com.qianjh.ryzen.framework.websocket.netty.handler.ConnectionHandler;
 import com.qianjh.ryzen.framework.websocket.netty.handler.MessageHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -65,7 +65,7 @@ public class Starter {
                                             TimeUnit.SECONDS
                                     )
                             );
-                            ch.pipeline().addLast(new IdleHandler());
+                            ch.pipeline().addLast(new ConnectionHandler());
                             ch.pipeline().addLast(new MessageHandler());
                         }
                     });

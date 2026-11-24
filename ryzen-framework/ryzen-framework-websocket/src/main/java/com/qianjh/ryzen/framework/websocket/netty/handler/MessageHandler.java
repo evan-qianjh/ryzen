@@ -51,35 +51,35 @@ public class MessageHandler extends SimpleChannelInboundHandler<WebSocketFrame> 
     private final static String MC_FAILURE = "failure";
 
 
-    @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        try {
-            ClientManager.add(ctx.channel()); // TODO 取不到IP
-            WEBSOCKET_CONNECT_LOGGER.debug("[+][{}]->[{}], tenant={}, ip={}", ctx.channel().id().asShortText(), ClientManager.getOnline(), getTenantId(ctx), getClientIp(ctx));
-        } finally {
-            super.channelActive(ctx);
-        }
-    }
-
-    // 断开结果通知
-    @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        try {
-            ClientManager.onClosed(ctx.channel());
-            WEBSOCKET_CONNECT_LOGGER.debug("[-][{}]->[{}], tenant={}, ip={}", ctx.channel().id().asShortText(), ClientManager.getOnline(), getTenantId(ctx), getClientIp(ctx));
-        } finally {
-            super.channelInactive(ctx);
-        }
-    }
-
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        WEBSOCKET_ERROR_LOGGER.error("[error] [{}], tenant={}, ip={}", ctx.channel().id().asShortText(), getTenantId(ctx), getClientIp(ctx), cause);
-        ClientManager.close(ctx.channel());
-
-        // 异常不在往上层抛
-//        super.exceptionCaught(ctx, cause);
-    }
+//    @Override
+//    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+//        try {
+//            ClientManager.add(ctx.channel()); //  取不到IP,改为IdleHandler.HandshakeComplete
+//            WEBSOCKET_CONNECT_LOGGER.debug("[+][{}]->[{}], tenant={}, ip={}", ctx.channel().id().asShortText(), ClientManager.getOnline(), getTenantId(ctx), getClientIp(ctx));
+//        } finally {
+//            super.channelActive(ctx);
+//        }
+//    }
+//
+//    // 断开结果通知
+//    @Override
+//    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+//        try {
+//            ClientManager.onClosed(ctx.channel());
+//            WEBSOCKET_CONNECT_LOGGER.debug("[-][{}]->[{}], tenant={}, ip={}", ctx.channel().id().asShortText(), ClientManager.getOnline(), getTenantId(ctx), getClientIp(ctx));
+//        } finally {
+//            super.channelInactive(ctx);
+//        }
+//    }
+//
+//    @Override
+//    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+//        WEBSOCKET_ERROR_LOGGER.error("[error] [{}], tenant={}, ip={}", ctx.channel().id().asShortText(), getTenantId(ctx), getClientIp(ctx), cause);
+//        ClientManager.close(ctx.channel());
+//
+//        // 异常不在往上层抛
+////        super.exceptionCaught(ctx, cause);
+//    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, WebSocketFrame frame) throws Exception {
