@@ -59,7 +59,8 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                                                     //
                                                     @RequestParam(required = false) String code,
                                                     @RequestParam(required = false) ImType imType,
-                                                    @RequestParam(required = false) ImAccountAssignStatus status,
+                                                    @RequestParam(required = false) ImAccountAssignStatus assignStatus,
+                                                    @RequestParam(required = false) ImAccountExecutorStatus executorStatus,
                                                     //
                                                     @RequestParam(required = false, defaultValue = DEFAULT_PAGE_INDEX) Integer pageIndex,
                                                     @RequestParam(required = false, defaultValue = DEFAULT_PAGE_SIZE) Integer pageSize) {
@@ -68,7 +69,8 @@ public class ImAccount_TenantAppController extends _TenantAppController {
                 .eq(ImAccount::getTenantId, tenantId)
                 .eq(StringUtils.hasText(code), ImAccount::getCode, code)
                 .eq(imType != null, ImAccount::getImType, imType)
-                .eq(status != null, ImAccount::getAssignStatus, status)
+                .eq(assignStatus != null, ImAccount::getAssignStatus, assignStatus)
+                .eq(executorStatus != null, ImAccount::getExecutorStatus, executorStatus)
                 .orderByDesc(ImAccount::getId)
         );
 
@@ -165,7 +167,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
             return Resp.failure("请先停止执行器");
         }
         // 未配分执行器
-        if(imAccount.getExecutorAssignmentId() == null) {
+        if (imAccount.getExecutorAssignmentId() == null) {
             return Resp.failure("未配分执行器");
         }
 
@@ -210,7 +212,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         }
 
         // 未配分执行器
-        if(imAccount.getExecutorAssignmentId() == null) {
+        if (imAccount.getExecutorAssignmentId() == null) {
             return Resp.failure("未配分执行器");
         }
 
@@ -249,7 +251,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
         // 未配分执行器
-        if(imAccount.getExecutorAssignmentId() == null) {
+        if (imAccount.getExecutorAssignmentId() == null) {
             return Resp.failure("未配分执行器");
         }
 
