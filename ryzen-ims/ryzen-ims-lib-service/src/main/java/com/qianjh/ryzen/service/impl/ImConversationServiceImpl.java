@@ -48,6 +48,7 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
                 .avatar(null)
                 .lastMessageId(null)
                 .lastMessageContent(null)
+                .lastMessageTime(null)
 
                 // 分配客服后回填
                 .serviceAccountId(null)
@@ -80,6 +81,7 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
                 )
                 .set(ImConversation::getLastMessageId, message.getId())
                 .set(ImConversation::getLastMessageContent, message.getContent())
+                .set(ImConversation::getLastMessageTime, message.getSentTime())
                 //
                 .eq(ImConversation::getId, entity.getId())
                 .eq(ImConversation::getOemId, entity.getOemId())

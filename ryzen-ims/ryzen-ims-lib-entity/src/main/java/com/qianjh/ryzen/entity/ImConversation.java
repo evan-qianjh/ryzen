@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * IM对话
  *
@@ -40,4 +42,5 @@ public class ImConversation {
     // 最新消息
     private Long lastMessageId;
     private String lastMessageContent;
+    private LocalDateTime lastMessageTime;
 }
