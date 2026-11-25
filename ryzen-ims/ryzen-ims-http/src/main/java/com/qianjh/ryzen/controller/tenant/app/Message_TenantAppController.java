@@ -1,12 +1,12 @@
 package com.qianjh.ryzen.controller.tenant.app;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetMessagesResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostMessageReq;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
+import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
@@ -23,6 +23,7 @@ import com.qianjh.ryzen.ims.model.SchedulerTaskRequest;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImMessageService;
+import com.qianjh.ryzen.service.ServiceAccountService;
 import com.qianjh.ryzen.stream.ImsSchedulerTaskRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,6 +48,7 @@ public class Message_TenantAppController extends _TenantAppController {
     private final ImAccountService imAccountService;
     private final ImConversationService conversationService;
     private final ImsSchedulerTaskRequestStreamProducer imsSchedulerRequestTopicStreamProducer;
+    private final ServiceAccountService serviceAccountService;
 
     @Operation(summary = "分页查询对话")
     @GetMapping("/messages")
@@ -91,12 +93,21 @@ public class Message_TenantAppController extends _TenantAppController {
                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                           @RequestBody @Validated PostMessageReq body
     ) {
+        //
+        ServiceAccount serviceAccount = serviceAccountService.getByUk(oemId, tenantId, accountId);
+        if (serviceAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+        }
+        //
         ImConversation conversation = conversationService.getById(body.conversationId());
-        Assert.notNull(conversation, McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
-
+        if (conversation == null) {
+            return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+        }
+        //
         ImAccount imAccount = imAccountService.getById(conversation.getImAccountId());
-        Assert.notNull(imAccount, McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
-
+        if (imAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+        }
         //
         if (imAccount.getAssignStatus() != ImAccountAssignStatus.ASSIGNED || imAccount.getExecutorAssignmentId() == null) {
             return Resp.failure("请先分配执行器");

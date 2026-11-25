@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.entity.*;
 import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
+import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.mapper.ServiceAccountMapper;
 import com.qianjh.ryzen.service.*;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         if (lastServiceAccountId != null) {
             ServiceAccount serviceAccount = serviceAccountService.getById(oemId, tenantId, lastServiceAccountId);
             if (serviceAccount != null && serviceAccount.getOnline()) {
+                log.info("分配最后一次且在线服务账号 ::: conversationId={}, serviceAccountId={}", conversation.getId(), serviceAccount.getId());
                 return serviceAccount;
             }
         }
@@ -102,11 +104,13 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
                 //
                 .eq(ServiceAccount::getOemId, oemId)
                 .eq(ServiceAccount::getTenantId, tenantId)
+                .eq(ServiceAccount::getStatus, ServiceAccountStatus.ENABLED)
                 .eq(ServiceAccount::getOnline, true)
         );
         if (serviceAccounts.isEmpty()) {
             return null;
         }
+        log.info("找出候选服务账户 ::: serviceAccounts={}", serviceAccounts.size());
         Map<Long, ServiceAccount> serviceAccountMap = serviceAccounts.stream().collect(Collectors.toMap(ServiceAccount::getId, Function.identity()));
 
         // 查出这些客服的标签
@@ -132,6 +136,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
 
         // 未匹配到
         if (matchedServiceAccountId == null) {
+            log.info("通过标签匹配算法未匹配到合适服务账号 ::: imAccountMatchTagIds={}, serviceAccountIdMatchTagIdsMap={}", imAccountMatchTagIds, serviceAccountIdMatchTagIdsMap);
             return null;
         }
 

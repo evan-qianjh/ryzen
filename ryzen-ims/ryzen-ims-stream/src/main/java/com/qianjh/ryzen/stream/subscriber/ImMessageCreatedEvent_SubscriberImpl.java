@@ -3,6 +3,7 @@ package com.qianjh.ryzen.stream.subscriber;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.entity.ServiceAccount;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.stream.domain.im_message.event.ImMessageCreatedEvent;
 import com.qianjh.ryzen.service.ImConversationDispatchService;
 import com.qianjh.ryzen.service.ImConversationService;
@@ -66,6 +67,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
                 .senderName(imMessage.getSenderName())
                 .senderAvatar(imMessage.getSenderAvatar())
                 .content(imMessage.getContent())
+                .sentTime(DateTimeUtils.getTime(imMessage.getSentTime()))
                 .conversation(conversation)
                 .build();
         pushInsertMessagePublisher.publish(message);

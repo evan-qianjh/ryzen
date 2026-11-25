@@ -61,6 +61,7 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
                 .senderName(message.senderName())
                 .senderAvatar(message.senderAvatar())
                 .content(message.content())
+                .sentTime(message.sentTime())
                 .conversation(
                         PushData.Conversation.builder()
                                 .id(IdUtils.toString(conversation.id()))

@@ -26,6 +26,7 @@ public interface PushInsertMessage<T> extends PushMessage<T> {
             String senderName,
             String senderAvatar,
             String content,
+            Long sentTime,
             Conversation conversation
     ) {
         @Builder(toBuilder = true)

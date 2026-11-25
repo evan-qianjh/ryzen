@@ -10,6 +10,7 @@ public record PushData(
         String senderName,
         String senderAvatar,
         String content,
+        Long sentTime,
         Conversation conversation
 ) {
 
