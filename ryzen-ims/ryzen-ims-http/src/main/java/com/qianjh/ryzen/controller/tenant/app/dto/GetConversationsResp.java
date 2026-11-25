@@ -12,6 +12,8 @@ public record GetConversationsResp(
         String name,
         String avatar,
         String lastMessageContent,
+        String lastMessageId,
+        Long lastMessageTime,
         List<String> matchTags
 ) {
 }

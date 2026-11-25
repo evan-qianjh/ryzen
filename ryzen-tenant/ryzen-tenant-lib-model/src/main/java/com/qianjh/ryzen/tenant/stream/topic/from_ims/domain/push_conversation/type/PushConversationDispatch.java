@@ -28,6 +28,7 @@ public interface PushConversationDispatch<T> extends PushMessage<T> {
             String avatar,
             String lastMessageContent,
             Long lastMessageId,
+            Long lastMessageTime,
             List<String> matchTags,
             Long serviceAccountId,
             Long beforeServiceAccountId

@@ -2,6 +2,7 @@ package com.qianjh.ryzen.stream.subscriber;
 
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
@@ -50,6 +51,7 @@ public class ImConversationDispatchedCreatedEvent_SubscriberImpl implements ImCo
                 .avatar(conversation.getAvatar())
                 .lastMessageContent(conversation.getLastMessageContent())
                 .lastMessageId(conversation.getLastMessageId())
+                .lastMessageTime(DateTimeUtils.getTime(conversation.getLastMessageTime()))
                 .matchTags(matchTags)
                 .serviceAccountId(body.getServiceAccountId())
                 .beforeServiceAccountId(body.getBeforeServiceAccountId())

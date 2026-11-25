@@ -58,6 +58,7 @@ public class ImsConversationPusherImpl implements ImsConversationPusher {
                 .avatar(body.avatar())
                 .lastMessageContent(body.lastMessageContent())
                 .lastMessageId(IdUtils.toString(body.lastMessageId()))
+                .lastMessageTime(body.lastMessageTime())
                 .matchTags(body.matchTags())
                 .build();
 

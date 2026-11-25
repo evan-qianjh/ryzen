@@ -12,6 +12,7 @@ public record PushData(
         String avatar,
         String lastMessageContent,
         String lastMessageId,
+        Long lastMessageTime,
         List<String> matchTags
 ) {
 

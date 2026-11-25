@@ -8,6 +8,7 @@ import com.qianjh.ryzen.framework.common.dto.CursorPage;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.http.model.Resp;
@@ -115,6 +116,8 @@ public class ImConversation_TenantAppController extends _TenantAppController {
                         .name(e.getName())
                         .avatar(e.getAvatar())
                         .lastMessageContent(e.getLastMessageContent())
+                        .lastMessageId(IdUtils.toString(e.getLastMessageId()))
+                        .lastMessageTime(DateTimeUtils.getTime(e.getLastMessageTime()))
                         .matchTags(
                                 imAccountMatchTagImAccountsMap.getOrDefault(e.getImAccountId(), Collections.emptyList())
                                         .stream().map(GetMatchTagImAccountViews::getTag).toList()
