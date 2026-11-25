@@ -45,7 +45,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
         // 调度服务账号
         ServiceAccount serviceAccount = imConversationDispatchService.dispatch(imConversation);
         if (serviceAccount == null) {
-            log.error("未调度到服务账户 ::: imConversation={}", imConversation);
+            log.warn("未调度到服务账户 ::: imConversation={}", imConversation);
             return;
         }
 

@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -134,14 +131,15 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         // 匹配
         Long matchedServiceAccountId = match(imAccountMatchTagIds, serviceAccountIdMatchTagIdsMap);
 
-        // 未匹配到
-        if (matchedServiceAccountId == null) {
-            log.info("通过标签匹配算法未匹配到合适服务账号 ::: imAccountMatchTagIds={}, serviceAccountIdMatchTagIdsMap={}", imAccountMatchTagIds, serviceAccountIdMatchTagIdsMap);
-            return null;
+        // 匹配到合适的
+        if (matchedServiceAccountId != null) {
+            log.info("通过标签匹配算法匹配到合适的服务账号 ::: imAccountMatchTagIds={}, serviceAccountIdMatchTagIdsMap={}", imAccountMatchTagIds, serviceAccountIdMatchTagIdsMap);
+            return serviceAccountMap.get(matchedServiceAccountId);
         }
 
-        // 匹配到
-        return serviceAccountMap.get(matchedServiceAccountId);
+        // 随机
+        Collections.shuffle(serviceAccounts);
+        return serviceAccounts.getFirst();
     }
 
     /**
