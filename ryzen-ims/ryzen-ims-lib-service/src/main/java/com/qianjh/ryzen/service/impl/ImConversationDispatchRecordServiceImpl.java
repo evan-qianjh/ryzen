@@ -17,12 +17,13 @@ public class ImConversationDispatchRecordServiceImpl extends ServiceImpl<ImConve
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImConversationDispatchRecord create(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType type) {
+    public ImConversationDispatchRecord create(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType type, Long beforeServiceAccountId) {
         ImConversationDispatchRecord entity = ImConversationDispatchRecord.builder()
                 .oemId(conversation.getOemId())
                 .tenantId(conversation.getTenantId())
                 .imConversationId(conversation.getId())
                 .serviceAccountId(serviceAccount.getId())
+                .beforeServiceAccountId(beforeServiceAccountId)
                 .type(type)
                 .createdTime(LocalDateTime.now())
                 .build();

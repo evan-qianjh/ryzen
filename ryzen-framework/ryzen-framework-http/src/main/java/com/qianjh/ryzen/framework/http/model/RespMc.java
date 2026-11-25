@@ -38,6 +38,7 @@ public enum RespMc implements Mc {
     TARGET_NOT_EXIST("Target not exist", "目标不存在"),
     TARGET_ALREADY_EXIST("Target already exist", "目标已存在"),
     TARGET_CONFLICT("Target conflict", "目标冲突"),
+    TARGET_NOT_AVAILABLE("Target not available", "目标不可用"),
 
     /* *************************  ************************* */
 

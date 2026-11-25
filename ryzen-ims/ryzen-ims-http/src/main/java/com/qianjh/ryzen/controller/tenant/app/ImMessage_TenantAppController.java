@@ -42,7 +42,7 @@ import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppContro
 @RestController
 @RequestMapping(PATH_PREFIX)
 @RequiredArgsConstructor
-public class Message_TenantAppController extends _TenantAppController {
+public class ImMessage_TenantAppController extends _TenantAppController {
 
     private final ImMessageService messageService;
     private final ImAccountService imAccountService;

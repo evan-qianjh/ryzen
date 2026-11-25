@@ -8,5 +8,5 @@ import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
 
 public interface ImConversationDispatchRecordService extends IService<ImConversationDispatchRecord> {
 
-    ImConversationDispatchRecord create(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType type);
+    ImConversationDispatchRecord create(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType type, Long beforeServiceAccountId);
 }

@@ -24,6 +24,7 @@ public class ImConversationDispatchRecord {
 
     private Long imConversationId;
     private Long serviceAccountId;
+    private Long beforeServiceAccountId;
     private ImConversationDispatchType type;
     private LocalDateTime createdTime;
 }

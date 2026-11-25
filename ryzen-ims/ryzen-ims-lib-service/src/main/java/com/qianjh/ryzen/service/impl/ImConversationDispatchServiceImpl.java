@@ -3,6 +3,7 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.entity.*;
+import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
 import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.mapper.ServiceAccountMapper;
@@ -32,8 +33,6 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
     @Transactional(rollbackFor = Exception.class)
     @Override
     public ServiceAccount dispatch(ImConversation conversation) {
-        Long lastServiceAccount = conversation.getServiceAccountId();
-
         // 匹配服务账户
         ImConversationDispatchType dispatchType = ImConversationDispatchType.MATCH;
         ServiceAccount serviceAccount = match(conversation);
@@ -53,17 +52,26 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         }
 
         // 修改会话分配服务账户
+        ImConversationDispatchRecord record = dispatch(conversation, serviceAccount, dispatchType, null);
+        log.info("会话调度 ::: record={}", record);
+
+        return serviceAccount;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ImConversationDispatchRecord dispatch(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType dispatchType, Operator operator) {
+        Long beforeServiceAccountId = conversation.getServiceAccountId();
+
+        Assert.isTrue(!Objects.equals(conversation.getServiceAccountId(), serviceAccount.getId()), "调度目标相同");
+
         boolean success = imConversationService.updateServiceAccount(conversation, serviceAccount);
         Assert.isTrue(success, "会话分配账户异常");
 
         // 记录日志
-        if (!Objects.equals(serviceAccount.getId(), lastServiceAccount)) {
-            ImConversationDispatchRecord entity = imConversationDispatchRecordService.create(conversation, serviceAccount, dispatchType);
-            log.info("会话调度 ::: record={}", entity);
-        }
-
-        return serviceAccount;
+        return imConversationDispatchRecordService.create(conversation, serviceAccount, dispatchType, beforeServiceAccountId);
     }
+
 
     /**
      * 匹配
