@@ -1,17 +1,19 @@
 package com.qianjh.ryzen.stream.subscriber;
 
+import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.stream.domain.im_message.event.ImMessageCreatedEvent;
-import com.qianjh.ryzen.service.ImConversationDispatchService;
-import com.qianjh.ryzen.service.ImConversationService;
-import com.qianjh.ryzen.service.ImMessageService;
+import com.qianjh.ryzen.service.*;
+import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author QianJH
@@ -22,23 +24,33 @@ import org.springframework.stereotype.Component;
 public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEvent.Subscriber {
 
     private final ImMessageService imMessageService;
+    private final ImAccountService imAccountService;
     private final ImConversationService imConversationService;
+    private final MatchTagImAccountService matchTagImAccountService;
     private final PushInsertMessage.Publisher pushInsertMessagePublisher;
     private final ImConversationDispatchService imConversationDispatchService;
 
     @Override
     public void subscribe(ImMessageCreatedEvent.Body body) {
         log.debug("消费 ImMessageCreatedEvent ::: {}", body);
+        Long oemId = body.getOemId();
+        Long tenantId = body.getTenantId();
 
-        ImMessage imMessage = imMessageService.getById(body.getOemId(), body.getTenantId(), body.getId());
+        ImMessage imMessage = imMessageService.getById(oemId, tenantId, body.getId());
         if (imMessage == null) {
             log.error("ImMessage不存在 ::: {}", body);
             return;
         }
 
-        ImConversation imConversation = imConversationService.getById(imMessage.getOemId(), imMessage.getTenantId(), imMessage.getConversationId());
+        ImConversation imConversation = imConversationService.getById(oemId, tenantId, imMessage.getConversationId());
         if (imConversation == null) {
             log.error("ImConversation不存在 ::: {}", body);
+            return;
+        }
+
+        ImAccount imAccount = imAccountService.getById(oemId, tenantId, imConversation.getImAccountId());
+        if (imAccount == null) {
+            log.error("ImAccount不存在 ::: {}", body);
             return;
         }
 
@@ -49,18 +61,24 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
             return;
         }
 
+        // 对话标签
+        List<String> matchTags = matchTagImAccountService.getByImAccountWithMatchTag(oemId, tenantId, imAccount.getId())
+                .stream().map(MatchTagImAccountWithMatchTagView::getTag).toList();
+
         // build conversation
         PushInsertMessage.Body.Conversation conversation = PushInsertMessage.Body.Conversation.builder()
                 .id(imConversation.getId())
+                .imType(imAccount.getImType().name())
                 .name(imConversation.getName())
                 .avatar(imConversation.getAvatar())
+                .matchTags(matchTags)
                 .serviceAccountId(serviceAccount.getId())
                 .build();
 
         // build message
         PushInsertMessage.Body message = PushInsertMessage.Body.builder()
-                .oemId(imMessage.getOemId())
-                .tenantId(imMessage.getOemId())
+                .oemId(oemId)
+                .tenantId(tenantId)
                 .id(imMessage.getId())
                 .seq(imMessage.getMessageSeq())
                 .direction(imMessage.getDirection().name())

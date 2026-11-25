@@ -5,6 +5,8 @@ import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.PushMessage;
 import lombok.Builder;
 
+import java.util.List;
+
 /**
  *
  * @param <T>
@@ -32,8 +34,10 @@ public interface PushInsertMessage<T> extends PushMessage<T> {
         @Builder(toBuilder = true)
         public record Conversation(
                 Long id,
-                String avatar,
+                String imType,
                 String name,
+                String avatar,
+                List<String> matchTags,
                 Long serviceAccountId
         ) {
 

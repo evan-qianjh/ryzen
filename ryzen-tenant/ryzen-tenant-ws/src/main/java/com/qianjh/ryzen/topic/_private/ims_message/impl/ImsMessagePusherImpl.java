@@ -65,8 +65,10 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
                 .conversation(
                         PushData.Conversation.builder()
                                 .id(IdUtils.toString(conversation.id()))
-                                .avatar(conversation.avatar())
+                                .imType(conversation.imType())
                                 .name(conversation.name())
+                                .avatar(conversation.avatar())
+                                .matchTags(conversation.matchTags())
                                 .build()
                 )
                 .build();

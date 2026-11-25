@@ -46,6 +46,8 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
 
         // 没可用服务账号
         if (serviceAccount == null) {
+            log.warn("对话未分配到服务账号 ::: conversationId={}", conversation.getId());
+
             // TODO 考虑自动回复
             return null;
         }
