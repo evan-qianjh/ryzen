@@ -3,6 +3,7 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.MatchTag;
+import com.qianjh.ryzen.ims.enums.MatchTagStatus;
 import com.qianjh.ryzen.mapper.MatchTagMapper;
 import com.qianjh.ryzen.service.MatchTagService;
 import com.qianjh.ryzen.service.dto.TenantPatchMatchTagReq;
@@ -54,6 +55,7 @@ public class MatchTagServiceImpl extends ServiceImpl<MatchTagMapper, MatchTag> i
                 .tenantId(tenantId)
                 .tag(body.tag())
                 .groupName(body.group())
+                .status(MatchTagStatus.ENABLED)
                 .build();
         save(entity);
         return entity;

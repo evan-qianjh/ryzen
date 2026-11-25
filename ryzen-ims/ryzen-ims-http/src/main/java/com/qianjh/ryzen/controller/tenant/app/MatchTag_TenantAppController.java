@@ -10,6 +10,7 @@ import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
+import com.qianjh.ryzen.ims.enums.MatchTagStatus;
 import com.qianjh.ryzen.service.MatchTagService;
 import com.qianjh.ryzen.service.dto.TenantPatchMatchTagReq;
 import com.qianjh.ryzen.service.dto.TenantPostMatchTagReq;
@@ -40,12 +41,14 @@ public class MatchTag_TenantAppController extends _TenantAppController {
                                              @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                                              @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                                              @RequestParam(required = false) String tag,
-                                             @RequestParam(required = false) String group) {
+                                             @RequestParam(required = false) String group,
+                                             @RequestParam(required = false) MatchTagStatus status) {
         List<MatchTag> entities = matchTagService.list(new LambdaQueryWrapper<MatchTag>()
                 .eq(MatchTag::getOemId, oemId)
                 .eq(MatchTag::getTenantId, tenantId)
                 .eq(StringUtils.isNotBlank(tag), MatchTag::getTag, tag)
                 .eq(StringUtils.isNotBlank(group), MatchTag::getGroupName, group)
+                .eq(status != null, MatchTag::getStatus, status)
                 .orderByDesc(MatchTag::getId)
         );
 
@@ -54,6 +57,7 @@ public class MatchTag_TenantAppController extends _TenantAppController {
                         .id(IdUtils.toString(e.getId()))
                         .tag(e.getTag())
                         .group(e.getGroupName())
+                        .status(e.getStatus())
                         .build()
                 )
                 .toList();
@@ -83,7 +87,7 @@ public class MatchTag_TenantAppController extends _TenantAppController {
                          @PathVariable Long id,
                          @RequestBody @Validated TenantPatchMatchTagReq body) {
         MatchTag entity = matchTagService.getById(oemId, tenantId, id);
-        if(entity == null) {
+        if (entity == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
         boolean success = matchTagService.patch(entity, body);

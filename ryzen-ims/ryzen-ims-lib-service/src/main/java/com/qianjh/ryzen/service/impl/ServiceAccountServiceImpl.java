@@ -57,6 +57,7 @@ public class ServiceAccountServiceImpl extends ServiceImpl<ServiceAccountMapper,
     public boolean patch(ServiceAccount entity, TenantPatchServiceAccountReq body, Operator operator) {
         return lambdaUpdate()
                 .set(body.status() != null, ServiceAccount::getStatus, body.status())
+                .set(body.online() != null, ServiceAccount::getOnline, body.online())
                 .set(body.remark() != null, ServiceAccount::getRemark, body.remark())
                 //
                 .eq(ServiceAccount::getOemId, entity.getOemId())

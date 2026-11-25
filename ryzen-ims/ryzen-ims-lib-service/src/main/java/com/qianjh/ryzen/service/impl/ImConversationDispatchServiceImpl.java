@@ -70,6 +70,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
      * @return 服务账户
      */
     private ServiceAccount match(ImConversation conversation) {
+        Long conversationId = conversation.getId();
         Long oemId = conversation.getOemId();
         Long tenantId = conversation.getTenantId();
 
@@ -78,7 +79,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         if (lastServiceAccountId != null) {
             ServiceAccount serviceAccount = serviceAccountService.getById(oemId, tenantId, lastServiceAccountId);
             if (serviceAccount != null && serviceAccount.getOnline()) {
-                log.info("分配最后一次且在线服务账号 ::: conversationId={}, serviceAccountId={}", conversation.getId(), serviceAccount.getId());
+                log.info("分配最近一次服务且在线的服务账号 ::: conversationId={}, serviceAccountId={}", conversationId, serviceAccount.getId());
                 return serviceAccount;
             }
         }
@@ -86,7 +87,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         // 会话对应的IM账号
         ImAccount imAccount = imAccountService.getById(oemId, tenantId, conversation.getImAccountId());
         if (imAccount == null) {
-            log.error("异常对话-没有IM账户 ::: {}", conversation);
+            log.error("异常对话-没有IM账户 ::: conversationId={}", conversationId);
             return null;
         }
 
@@ -104,10 +105,11 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
                 .eq(ServiceAccount::getStatus, ServiceAccountStatus.ENABLED)
                 .eq(ServiceAccount::getOnline, true)
         );
+        log.info("找出候选服务账户 ::: conversationId={}, serviceAccounts={}", conversationId, serviceAccounts.size());
         if (serviceAccounts.isEmpty()) {
+            log.info("无可用服务账号 ::: conversationId={}, imType={}", conversationId, imAccount.getImType());
             return null;
         }
-        log.info("找出候选服务账户 ::: serviceAccounts={}", serviceAccounts.size());
         Map<Long, ServiceAccount> serviceAccountMap = serviceAccounts.stream().collect(Collectors.toMap(ServiceAccount::getId, Function.identity()));
 
         // 查出这些客服的标签
@@ -133,13 +135,21 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
 
         // 匹配到合适的
         if (matchedServiceAccountId != null) {
-            log.info("通过标签匹配算法匹配到合适的服务账号 ::: imAccountMatchTagIds={}, serviceAccountIdMatchTagIdsMap={}", imAccountMatchTagIds, serviceAccountIdMatchTagIdsMap);
+            log.info("通过标签匹配服务账号-命中 ::: conversationId={}, imAccountMatchTagIds={}, serviceAccountIdMatchTagIdsMap={}",
+                    conversationId, imAccountMatchTagIds, serviceAccountIdMatchTagIdsMap);
             return serviceAccountMap.get(matchedServiceAccountId);
         }
+        log.info("通过标签匹配服务账号-未命中 ::: conversationId={}, imAccountMatchTagIds={}, serviceAccountIdMatchTagIdsMap={}",
+                conversationId, imAccountMatchTagIds, serviceAccountIdMatchTagIdsMap);
+
+
+        // TODO 根据服务账号当前负载能力->负载均衡
 
         // 随机
         Collections.shuffle(serviceAccounts);
-        return serviceAccounts.getFirst();
+        ServiceAccount serviceAccount = serviceAccounts.getFirst();
+        log.info("从候选服务账号中随机分配一个 ::: conversationId={}, serviceAccountId={}", conversationId, serviceAccount.getId());
+        return serviceAccount;
     }
 
     /**

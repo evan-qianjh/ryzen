@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetServiceAccountsResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagsByDomainReq;
+import com.qianjh.ryzen.controller.tenant.app.dto.PutServiceAccountOnlineReq;
 import com.qianjh.ryzen.entity.MatchTag;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
@@ -148,5 +149,25 @@ public class ServiceAccount_TenantAppController extends _TenantAppController {
         }
 
         return Resp.success();
+    }
+
+    @Operation(summary = "上/下线(使用者视角)")
+    @PutMapping("/service-account/online")
+    public Resp<?> putOnline(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                             @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                             @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                             @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
+                             @RequestBody @Validated PutServiceAccountOnlineReq body) {
+        Operator operator = buildOperator(accountId, accountName);
+        ServiceAccount entity = serviceAccountService.getByUk(oemId, tenantId, accountId);
+        if (entity == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+
+        TenantPatchServiceAccountReq patchBody = TenantPatchServiceAccountReq.builder()
+                .online(body.online())
+                .build();
+        boolean success = serviceAccountService.patch(entity, patchBody, operator);
+        return success ? Resp.success() : Resp.failure();
     }
 }

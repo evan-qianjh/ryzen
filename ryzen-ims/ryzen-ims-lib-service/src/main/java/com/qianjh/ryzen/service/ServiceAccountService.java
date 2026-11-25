@@ -8,6 +8,7 @@ import com.qianjh.ryzen.service.dto.TenantPostServiceAccountReq;
 
 public interface ServiceAccountService extends IService<ServiceAccount> {
     ServiceAccount getById(Long oemId, Long tenantId, Long id);
+
     ServiceAccount getByUk(Long oemId, Long tenantId, Long accountId);
 
     ServiceAccount create(Long oemId, Long tenantId, TenantPostServiceAccountReq body, Operator operator);
