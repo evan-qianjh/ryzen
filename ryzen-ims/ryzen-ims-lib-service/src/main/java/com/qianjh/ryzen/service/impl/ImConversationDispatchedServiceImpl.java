@@ -35,9 +35,13 @@ public class ImConversationDispatchedServiceImpl extends ServiceImpl<ImConversat
         save(entity);
 
         publisher.publish(ImConversationDispatchedCreatedEvent.Body.builder()
+                .id(entity.getId())
                 .oemId(entity.getOemId())
                 .tenantId(entity.getTenantId())
-                .id(entity.getId())
+                .imConversationId(entity.getImConversationId())
+                .serviceAccountId(entity.getServiceAccountId())
+                .beforeServiceAccountId(entity.getBeforeServiceAccountId())
+                .type(entity.getType())
                 .build()
         );
 

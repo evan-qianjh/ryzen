@@ -11,5 +11,5 @@ public interface PushMessageService {
 
     <T> Message build(T data, TopicMeta topicMeta);
 
-    <T> Message build(T data, TopicMeta topicMeta, String scene);
+    <T> Message build(T data, TopicMeta topicMeta, String type);
 }

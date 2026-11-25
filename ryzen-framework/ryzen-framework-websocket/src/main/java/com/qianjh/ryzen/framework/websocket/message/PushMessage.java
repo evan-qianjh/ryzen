@@ -19,7 +19,7 @@ public class PushMessage<T> {
     /**
      * 用来做topic下二级类目区分,例如，SUBSCRIBE、CREATED、STATE_UPDATED等等
      */
-    private String scene;
+    private String type;
     /**
      * 数据
      */

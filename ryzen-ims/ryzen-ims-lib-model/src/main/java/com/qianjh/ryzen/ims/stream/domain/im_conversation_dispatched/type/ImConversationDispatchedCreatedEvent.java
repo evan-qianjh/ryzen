@@ -2,6 +2,7 @@ package com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
+import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
 import com.qianjh.ryzen.ims.stream.domain.im_message.ImMessageEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,11 @@ public interface ImConversationDispatchedCreatedEvent<T> extends ImMessageEvent<
         private Long id;
         private Long oemId;
         private Long tenantId;
+
+        private Long imConversationId;
+        private Long serviceAccountId;
+        private Long beforeServiceAccountId;
+        private ImConversationDispatchType type;
     }
 
     /**

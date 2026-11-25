@@ -21,7 +21,7 @@ public class PushMessageServiceImpl implements PushMessageService {
     }
 
     @Override
-    public <T> Message build(T data, TopicMeta topicMeta, String scene) {
+    public <T> Message build(T data, TopicMeta topicMeta, String type) {
         if (data == null) {
             return null;
         }
@@ -29,7 +29,7 @@ public class PushMessageServiceImpl implements PushMessageService {
         PushMessage<T> pushMessage = PushMessage.<T>builder()
                 .id(id)
                 .topic(topicMeta.getKey())
-                .scene(scene)
+                .type(type)
                 .data(data)
                 .build();
 
