@@ -3,9 +3,9 @@ package com.qianjh.ryzen.controller.tenant.app;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetServiceAccountsResp;
-import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagsByServiceAccountReq;
+import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagsByDomainReq;
+import com.qianjh.ryzen.entity.MatchTag;
 import com.qianjh.ryzen.entity.ServiceAccount;
-import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
@@ -16,7 +16,10 @@ import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
+import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.mapper.ServiceAccountMapper;
+import com.qianjh.ryzen.service.MatchTagService;
+import com.qianjh.ryzen.service.MatchTagServiceAccountService;
 import com.qianjh.ryzen.service.ServiceAccountService;
 import com.qianjh.ryzen.service.dto.TenantPatchServiceAccountReq;
 import com.qianjh.ryzen.service.dto.TenantPostServiceAccountReq;
@@ -39,8 +42,10 @@ import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppContro
 @RequiredArgsConstructor
 public class ServiceAccount_TenantAppController extends _TenantAppController {
 
+    private final MatchTagService matchTagService;
     private final ServiceAccountMapper serviceAccountMapper;
     private final ServiceAccountService serviceAccountService;
+    private final MatchTagServiceAccountService matchTagServiceAccountService;
 
     @Operation(summary = "分页查询")
     @GetMapping("/service-accounts")
@@ -91,9 +96,13 @@ public class ServiceAccount_TenantAppController extends _TenantAppController {
         }
         entity = serviceAccountService.create(oemId, tenantId, body, operator);
 
-        //
+        // 如果指定了标签，则直接分配标签
         if (body.matchTagIds() != null && !body.matchTagIds().isEmpty()) {
-            // TODO
+            List<MatchTag> matchTags = matchTagService.listByIds(oemId, tenantId, body.matchTagIds());
+
+            for (MatchTag matchTag : matchTags) {
+                matchTagServiceAccountService.createIfAbsent(matchTag, entity, operator);
+            }
         }
 
         return Resp.successOf(Receipt.build(entity.getId()));
@@ -117,22 +126,27 @@ public class ServiceAccount_TenantAppController extends _TenantAppController {
         return success ? Resp.success() : Resp.failure();
     }
 
+    @Operation(summary = "创建匹配标签")
     @PostMapping("/service-account/{id}/match-tags")
     public Resp<?> createMatchTags(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                                    @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                                    @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
                                    @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
                                    @PathVariable Long id,
-                                   @RequestBody @Validated PostMatchTagsByServiceAccountReq body) {
-        ServiceAccount entity = serviceAccountService.getById(oemId, tenantId, id);
-        if (entity == null) {
+                                   @RequestBody @Validated PostMatchTagsByDomainReq body) {
+        Operator operator = buildOperator(accountId, accountName);
+
+        ServiceAccount serviceAccount = serviceAccountService.getById(oemId, tenantId, id);
+        if (serviceAccount == null) {
             return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
         }
-        List<Long> matchTagIds = body.matchTagIds();
 
-//        matchTagServiceAccountService
+        List<MatchTag> matchTags = matchTagService.listByIds(oemId, tenantId, body.matchTagIds());
 
-        // TODO
-        return null;
+        for (MatchTag matchTag : matchTags) {
+            matchTagServiceAccountService.createIfAbsent(matchTag, serviceAccount, operator);
+        }
+
+        return Resp.success();
     }
 }

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record PostMatchTagServiceAccountReq(
         @NotNull
-        Long tagId,
+        Long matchTagId,
         @NotNull
         Long serviceAccountId
 ) {

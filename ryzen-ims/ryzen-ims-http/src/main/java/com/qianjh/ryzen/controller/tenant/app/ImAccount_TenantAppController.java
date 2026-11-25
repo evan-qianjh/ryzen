@@ -3,12 +3,10 @@ package com.qianjh.ryzen.controller.tenant.app;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetImAccountsResp;
+import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagsByDomainReq;
 import com.qianjh.ryzen.entity.ImAccount;
+import com.qianjh.ryzen.entity.MatchTag;
 import com.qianjh.ryzen.entity.ToSchedulerCommand;
-import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
-import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
@@ -21,8 +19,14 @@ import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
+import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
 import com.qianjh.ryzen.ims.model.SchedulerCommandRequest;
 import com.qianjh.ryzen.service.ImAccountService;
+import com.qianjh.ryzen.service.MatchTagImAccountService;
+import com.qianjh.ryzen.service.MatchTagService;
 import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 import com.qianjh.ryzen.stream.ImsSchedulerCommandRequestStreamProducer;
@@ -50,6 +54,8 @@ public class ImAccount_TenantAppController extends _TenantAppController {
     private final ImAccountService imAccountService;
     private final ImsSchedulerCommandRequestStreamProducer imsSchedulerCommandTopicStreamProducer;
     private final ToSchedulerCommandService imAccountCommandService;
+    private final MatchTagImAccountService matchTagImAccountService;
+    private final MatchTagService matchTagService;
 
     @Operation(summary = "分页查询")
     @GetMapping("/im-accounts")
@@ -108,6 +114,14 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         Operator operator = buildOperator(accountId, accountName);
 
         entity = imAccountService.create(oemId, tenantId, body, operator);
+
+        // 如果指定了标签，则直接创建
+        if (body.matchTagIds() != null && !body.matchTagIds().isEmpty()) {
+            List<MatchTag> matchTags = matchTagService.listByIds(oemId, tenantId, body.matchTagIds());
+            for (MatchTag matchTag : matchTags) {
+                matchTagImAccountService.createIfAbsent(matchTag, entity, operator);
+            }
+        }
 
         return Resp.successOf(Receipt.build(entity.getId()));
     }
@@ -278,5 +292,29 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         boolean success = imAccountService.updateExecutorStatus(imAccount, imAccount.getExecutorStatus(), ImAccountExecutorStatus.STOPPING, operator);
 
         return success ? Resp.success() : Resp.failure();
+    }
+
+    @Operation(summary = "创建匹配标签")
+    @PostMapping("/im-account/{id}/match-tags")
+    public Resp<?> createMatchTags(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                                   @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                                   @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                                   @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
+                                   @PathVariable Long id,
+                                   @RequestBody @Validated PostMatchTagsByDomainReq body) {
+        Operator operator = buildOperator(accountId, accountName);
+
+
+        ImAccount imAccount = imAccountService.getById(oemId, tenantId, id);
+        if (imAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+
+        List<MatchTag> matchTags = matchTagService.listByIds(oemId, tenantId, body.matchTagIds());
+        for (MatchTag matchTag : matchTags) {
+            matchTagImAccountService.createIfAbsent(matchTag, imAccount, operator);
+        }
+
+        return Resp.success();
     }
 }

@@ -10,6 +10,9 @@ import com.qianjh.ryzen.service.dto.TenantPostMatchTagReq;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.List;
+
 @Service
 public class MatchTagServiceImpl extends ServiceImpl<MatchTagMapper, MatchTag> implements MatchTagService {
 
@@ -28,6 +31,18 @@ public class MatchTagServiceImpl extends ServiceImpl<MatchTagMapper, MatchTag> i
                 .eq(MatchTag::getOemId, oemId)
                 .eq(MatchTag::getTenantId, tenantId)
                 .eq(MatchTag::getTag, tag)
+        );
+    }
+
+    @Override
+    public List<MatchTag> listByIds(Long oemId, Long tenantId, List<Long> ids) {
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return list(new LambdaQueryWrapper<MatchTag>()
+                .eq(MatchTag::getOemId, oemId)
+                .eq(MatchTag::getTenantId, tenantId)
+                .in(MatchTag::getId, ids)
         );
     }
 

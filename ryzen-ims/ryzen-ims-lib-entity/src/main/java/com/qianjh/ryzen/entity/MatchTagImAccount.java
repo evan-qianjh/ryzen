@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * IM账户路由标签
  *
@@ -25,6 +27,7 @@ public class MatchTagImAccount {
     private Long oemId;
     private Long tenantId;
 
-    private Long routeTagId;
+    private Long matchTagId;
     private Long imAccountId;
+    private LocalDateTime createdTime;
 }
