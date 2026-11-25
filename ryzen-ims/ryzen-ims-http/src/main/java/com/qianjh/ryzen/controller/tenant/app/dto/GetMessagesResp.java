@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
-import com.qianjh.ryzen.enums.MessageDirection;
+import com.qianjh.ryzen.ims.enums.MessageDirection;
 import lombok.Builder;
 
 @Builder(toBuilder = true)

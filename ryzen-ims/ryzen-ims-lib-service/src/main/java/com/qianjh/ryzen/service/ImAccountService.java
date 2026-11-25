@@ -2,9 +2,9 @@ package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
-import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ImType;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 

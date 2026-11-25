@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.browser;
 
-import com.qianjh.ryzen.model.Assignment;
+import com.qianjh.ryzen.ims.model.Assignment;
 
 /**
  * 浏览器会话工厂

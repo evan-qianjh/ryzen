@@ -1,8 +1,8 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
-import com.qianjh.ryzen.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
-import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ImType;
 import lombok.Builder;
 
 @Builder(toBuilder = true)

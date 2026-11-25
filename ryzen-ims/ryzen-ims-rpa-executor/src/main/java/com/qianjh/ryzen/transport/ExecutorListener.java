@@ -2,8 +2,8 @@ package com.qianjh.ryzen.transport;
 
 import com.google.gson.Gson;
 import com.qianjh.ryzen.core.ExecutorWorker;
-import com.qianjh.ryzen.model.ExecutorCommandRequest;
-import com.qianjh.ryzen.model.ExecutorTaskRequest;
+import com.qianjh.ryzen.ims.model.ExecutorCommandRequest;
+import com.qianjh.ryzen.ims.model.ExecutorTaskRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;

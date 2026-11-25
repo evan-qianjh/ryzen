@@ -2,12 +2,12 @@ package com.qianjh.ryzen.stream;
 
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ToSchedulerCommand;
-import com.qianjh.ryzen.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
-import com.qianjh.ryzen.model.SchedulerCommandResponse;
+import com.qianjh.ryzen.ims.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import lombok.RequiredArgsConstructor;

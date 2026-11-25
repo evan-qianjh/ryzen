@@ -3,9 +3,8 @@ package com.qianjh.ryzen.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
-import com.qianjh.ryzen.enums.ExecutorTaskStatus;
-import com.qianjh.ryzen.enums.ImType;
-import com.qianjh.ryzen.model.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
+import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
 
 import java.time.LocalDateTime;
 

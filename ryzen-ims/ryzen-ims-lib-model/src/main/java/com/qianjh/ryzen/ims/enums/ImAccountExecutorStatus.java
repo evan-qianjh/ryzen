@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.enums;
+package com.qianjh.ryzen.ims.enums;
 
 /**
  * IM账号工作状态

@@ -1,6 +1,6 @@
-package com.qianjh.ryzen.model;
+package com.qianjh.ryzen.ims.model;
 
-import com.qianjh.ryzen.enums.SchedulerReportType;
+import com.qianjh.ryzen.ims.enums.SchedulerReportType;
 import lombok.Builder;
 
 @Builder(toBuilder = true)

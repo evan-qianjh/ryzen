@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.config;
+package com.qianjh.ryzen.ims.config;
 
 import com.qianjh.ryzen.ims.stream.domain.im_message.event.ImMessageCreatedEvent;
 import com.qianjh.ryzen.ims.stream.domain.im_message.event.impl.ImMessageCreatedEvent_DefaultPublisherImpl;
@@ -13,12 +13,20 @@ public class StreamConditionalBeanConfig {
     @Bean
     @ConditionalOnMissingBean(ImMessageCreatedEvent.Publisher.class)
     public ImMessageCreatedEvent.Publisher imMessageCreatedEventPublisher() {
-        return new ImMessageCreatedEvent_DefaultPublisherImpl();
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ImMessageCreatedEvent.Publisher is not configured"
+            );
+        };
     }
 
     @Bean
     @ConditionalOnMissingBean(ImMessageCreatedEvent.Subscriber.class)
     public ImMessageCreatedEvent.Subscriber imMessageCreatedEventSubscriber() {
-        return new ImMessageCreatedEvent_DefaultSubscriberImpl();
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ImMessageCreatedEvent.Subscriber is not configured"
+            );
+        };
     }
 }

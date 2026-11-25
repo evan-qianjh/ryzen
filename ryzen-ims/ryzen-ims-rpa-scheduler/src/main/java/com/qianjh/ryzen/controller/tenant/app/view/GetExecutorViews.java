@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.controller.tenant.app.view;
 
 import com.qianjh.ryzen.entity.Executor;
-import com.qianjh.ryzen.enums.ImType;
+import com.qianjh.ryzen.ims.enums.ImType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

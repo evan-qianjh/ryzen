@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.browser;
 
 
-import com.qianjh.ryzen.model.ExecutorMessage;
+import com.qianjh.ryzen.ims.model.ExecutorMessage;
 
 import java.util.List;
 

@@ -3,7 +3,7 @@ package com.qianjh.ryzen.job;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qianjh.ryzen.config.SchedulerProperties;
 import com.qianjh.ryzen.entity.Executor;
-import com.qianjh.ryzen.enums.ExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import lombok.RequiredArgsConstructor;

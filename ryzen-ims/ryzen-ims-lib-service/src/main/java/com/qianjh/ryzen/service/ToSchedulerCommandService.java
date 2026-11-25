@@ -3,8 +3,8 @@ package com.qianjh.ryzen.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ToSchedulerCommand;
-import com.qianjh.ryzen.enums.SchedulerCommandType;
-import com.qianjh.ryzen.enums.ToSchedulerCommandDomainType;
+import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
+import com.qianjh.ryzen.ims.enums.ToSchedulerCommandDomainType;
 
 public interface ToSchedulerCommandService extends IService<ToSchedulerCommand> {
     /**

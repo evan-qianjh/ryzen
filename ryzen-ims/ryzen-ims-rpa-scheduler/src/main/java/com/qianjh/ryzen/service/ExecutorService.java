@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorAssignment;
-import com.qianjh.ryzen.model.ExecutorSnapshot;
+import com.qianjh.ryzen.ims.model.ExecutorSnapshot;
 
 import java.time.LocalDateTime;
 

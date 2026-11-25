@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
-import com.qianjh.ryzen.enums.MessageDirection;
+import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.mapper.ImConversationMapper;
 import com.qianjh.ryzen.service.ImConversationService;
 import org.apache.commons.lang3.StringUtils;

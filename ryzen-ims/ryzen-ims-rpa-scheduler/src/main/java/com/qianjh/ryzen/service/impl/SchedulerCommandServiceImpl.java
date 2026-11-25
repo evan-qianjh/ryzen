@@ -4,15 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorAssignment;
-import com.qianjh.ryzen.enums.ExecutorAssignmentStatus;
-import com.qianjh.ryzen.enums.ExecutorCommandType;
-import com.qianjh.ryzen.enums.ExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorAssignmentStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorCommandType;
+import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
+import com.qianjh.ryzen.ims.model.Assignment;
 import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
-import com.qianjh.ryzen.model.ExecutorCommandRequest;
-import com.qianjh.ryzen.model.SchedulerCommandRequest;
-import com.qianjh.ryzen.model.SchedulerCommandResponse;
+import com.qianjh.ryzen.ims.model.ExecutorCommandRequest;
+import com.qianjh.ryzen.ims.model.SchedulerCommandRequest;
+import com.qianjh.ryzen.ims.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.SchedulerCommandService;
@@ -98,7 +99,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                     .code(IdUtils.generateUUID())
                     .type(ExecutorCommandType.START)
                     .executorCode(executor.getCode())
-                    .assignment(com.qianjh.ryzen.model.Assignment.builder()
+                    .assignment(Assignment.builder()
                             .id(assignment.getId())
                             .imType(assignment.getImType())
                             .accountCode(assignment.getAccountCode())

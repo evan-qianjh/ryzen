@@ -1,10 +1,10 @@
 package com.qianjh.ryzen.stream;
 
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.enums.ImAccountExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
-import com.qianjh.ryzen.model.SchedulerReport;
+import com.qianjh.ryzen.ims.model.SchedulerReport;
 import com.qianjh.ryzen.service.ImAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

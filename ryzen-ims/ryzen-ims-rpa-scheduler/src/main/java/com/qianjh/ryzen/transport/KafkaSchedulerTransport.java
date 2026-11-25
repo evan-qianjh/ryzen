@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.config.SchedulerProperties;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
-import com.qianjh.ryzen.model.*;
+import com.qianjh.ryzen.ims.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;

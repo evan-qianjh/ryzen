@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.model.SchedulerCommandRequest;
+import com.qianjh.ryzen.ims.model.SchedulerCommandRequest;
 
 /**
  *

@@ -8,6 +8,7 @@ import java.util.List;
 public record TenantPostServiceAccountReq(
         @NotNull
         Long accountId,
-        List<Long> routeTagIds
+        String remark,
+        List<Long> matchTagIds
 ) {
 }

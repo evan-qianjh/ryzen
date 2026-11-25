@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.enums;
+package com.qianjh.ryzen.ims.enums;
 
 /**
  * 执行器操作类型

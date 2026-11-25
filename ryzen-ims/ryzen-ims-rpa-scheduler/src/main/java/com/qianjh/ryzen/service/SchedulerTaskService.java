@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.model.ExecutorTaskResponse;
-import com.qianjh.ryzen.model.SchedulerTaskRequest;
+import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.model.SchedulerTaskRequest;
 
 public interface SchedulerTaskService {
 

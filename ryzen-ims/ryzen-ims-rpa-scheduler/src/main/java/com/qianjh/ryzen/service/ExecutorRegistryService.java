@@ -1,10 +1,10 @@
 package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.entity.Executor;
-import com.qianjh.ryzen.enums.ExecutorStatus;
-import com.qianjh.ryzen.enums.SchedulerReportType;
-import com.qianjh.ryzen.model.ExecutorSnapshot;
-import com.qianjh.ryzen.model.SchedulerReport;
+import com.qianjh.ryzen.ims.enums.ExecutorStatus;
+import com.qianjh.ryzen.ims.enums.SchedulerReportType;
+import com.qianjh.ryzen.ims.model.ExecutorSnapshot;
+import com.qianjh.ryzen.ims.model.SchedulerReport;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

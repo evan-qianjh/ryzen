@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
-import com.qianjh.ryzen.model.SchedulerMessage;
+import com.qianjh.ryzen.ims.model.SchedulerMessage;
 
 public interface ImMessageService extends IService<ImMessage> {
 

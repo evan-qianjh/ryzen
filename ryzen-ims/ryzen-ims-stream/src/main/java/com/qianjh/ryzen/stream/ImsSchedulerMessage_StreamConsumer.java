@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
-import com.qianjh.ryzen.model.SchedulerMessage;
+import com.qianjh.ryzen.ims.model.SchedulerMessage;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImMessageService;

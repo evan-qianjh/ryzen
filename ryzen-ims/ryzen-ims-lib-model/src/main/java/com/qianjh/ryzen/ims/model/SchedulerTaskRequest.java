@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.model;
+package com.qianjh.ryzen.ims.model;
 
 import lombok.Builder;
 

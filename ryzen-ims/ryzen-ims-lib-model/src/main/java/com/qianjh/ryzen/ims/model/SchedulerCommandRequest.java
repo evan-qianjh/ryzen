@@ -1,7 +1,7 @@
-package com.qianjh.ryzen.model;
+package com.qianjh.ryzen.ims.model;
 
-import com.qianjh.ryzen.enums.ImType;
-import com.qianjh.ryzen.enums.SchedulerCommandType;
+import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
 import lombok.Builder;
 
 /**

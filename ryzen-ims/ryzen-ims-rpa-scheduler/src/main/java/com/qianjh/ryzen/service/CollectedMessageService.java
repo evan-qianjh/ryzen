@@ -2,7 +2,7 @@ package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.model.ExecutorMessage;
+import com.qianjh.ryzen.ims.model.ExecutorMessage;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +45,8 @@ public class CollectedMessageService {
         }
     }
 
-    private com.qianjh.ryzen.model.SchedulerMessage convert(SchedulerMessage entity) {
-        return com.qianjh.ryzen.model.SchedulerMessage.builder()
+    private com.qianjh.ryzen.ims.model.SchedulerMessage convert(SchedulerMessage entity) {
+        return com.qianjh.ryzen.ims.model.SchedulerMessage.builder()
                 .imType(entity.getImType())
                 .accountCode(entity.getAccountCode())
                 .direction(entity.getDirection())

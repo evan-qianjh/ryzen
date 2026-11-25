@@ -3,7 +3,7 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.enums.MessageDirection;
+import com.qianjh.ryzen.ims.enums.MessageDirection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

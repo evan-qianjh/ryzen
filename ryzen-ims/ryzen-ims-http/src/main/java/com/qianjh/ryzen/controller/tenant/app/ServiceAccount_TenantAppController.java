@@ -3,13 +3,18 @@ package com.qianjh.ryzen.controller.tenant.app;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetServiceAccountsResp;
+import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagsByServiceAccountReq;
 import com.qianjh.ryzen.entity.ServiceAccount;
-import com.qianjh.ryzen.enums.ServiceAccountStatus;
+import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
+import com.qianjh.ryzen.framework.common.dto.Operator;
+import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
 import com.qianjh.ryzen.framework.http.model.Resp;
+import com.qianjh.ryzen.framework.http.model.RespMc;
+import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.mapper.ServiceAccountMapper;
 import com.qianjh.ryzen.service.ServiceAccountService;
@@ -73,12 +78,25 @@ public class ServiceAccount_TenantAppController extends _TenantAppController {
 
     @Operation(summary = "创建")
     @PostMapping("/service-account")
-    public Resp<?> create(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
-                          @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
-                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
-                          @RequestBody @Validated TenantPostServiceAccountReq body) {
-        // TODO
-        return null;
+    public Resp<Receipt> create(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                                @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                                @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                                @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
+                                @RequestBody @Validated TenantPostServiceAccountReq body) {
+        Operator operator = buildOperator(accountId, accountName);
+
+        ServiceAccount entity = serviceAccountService.getByUk(oemId, tenantId, body.accountId());
+        if (entity != null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_ALREADY_EXIST));
+        }
+        entity = serviceAccountService.create(oemId, tenantId, body, operator);
+
+        //
+        if (body.matchTagIds() != null && !body.matchTagIds().isEmpty()) {
+            // TODO
+        }
+
+        return Resp.successOf(Receipt.build(entity.getId()));
     }
 
     @Operation(summary = "修改")
@@ -86,8 +104,34 @@ public class ServiceAccount_TenantAppController extends _TenantAppController {
     public Resp<?> patch(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                          @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                          @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                         @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
                          @PathVariable Long id,
                          @RequestBody @Validated TenantPatchServiceAccountReq body) {
+        Operator operator = buildOperator(accountId, accountName);
+
+        ServiceAccount entity = serviceAccountService.getById(oemId, tenantId, id);
+        if (entity == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+        boolean success = serviceAccountService.patch(entity, body, operator);
+        return success ? Resp.success() : Resp.failure();
+    }
+
+    @PostMapping("/service-account/{id}/match-tags")
+    public Resp<?> createMatchTags(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                                   @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                                   @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                                   @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String accountName,
+                                   @PathVariable Long id,
+                                   @RequestBody @Validated PostMatchTagsByServiceAccountReq body) {
+        ServiceAccount entity = serviceAccountService.getById(oemId, tenantId, id);
+        if (entity == null) {
+            return Resp.failure(McUtils.i18n(RespMc.TARGET_NOT_EXIST));
+        }
+        List<Long> matchTagIds = body.matchTagIds();
+
+//        matchTagServiceAccountService
+
         // TODO
         return null;
     }

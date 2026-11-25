@@ -1,12 +1,13 @@
-package com.qianjh.ryzen.model;
+package com.qianjh.ryzen.ims.model;
 
-import com.qianjh.ryzen.enums.ImType;
-import com.qianjh.ryzen.enums.MessageDirection;
+import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageDirection;
 import lombok.Builder;
 
 /**
- * 调度器采集的消息
+ * 执行器采集的消息
  *
+ * @param executorCode     执行器
  * @param accountCode      账号
  * @param messageCode      消息
  * @param conversationCode 对话
@@ -15,17 +16,17 @@ import lombok.Builder;
  * @param sentTime         发送时间
  */
 @Builder(toBuilder = true)
-public record SchedulerMessage(
+public record ExecutorMessage(
         ImType imType,
+        MessageDirection direction,
+        String executorCode,
         String accountCode,
         String messageCode,
-        MessageDirection direction,
-
         String conversationCode,
         String senderCode,
         String senderName,
         String senderAvatar,
-        String content,
-        Long sentTime
+        Long sentTime,
+        String content
 ) {
 }

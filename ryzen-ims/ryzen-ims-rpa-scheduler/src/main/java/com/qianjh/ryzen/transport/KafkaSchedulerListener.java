@@ -2,7 +2,7 @@ package com.qianjh.ryzen.transport;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.qianjh.ryzen.model.*;
+import com.qianjh.ryzen.ims.model.*;
 import com.qianjh.ryzen.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

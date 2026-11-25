@@ -1,7 +1,7 @@
-package com.qianjh.ryzen.model;
+package com.qianjh.ryzen.ims.model;
 
-import com.qianjh.ryzen.enums.ExecutorOperationType;
-import com.qianjh.ryzen.enums.ExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
+import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import lombok.Builder;
 
 /**

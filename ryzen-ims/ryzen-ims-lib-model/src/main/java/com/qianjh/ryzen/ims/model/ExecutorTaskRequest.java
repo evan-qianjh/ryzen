@@ -1,6 +1,5 @@
-package com.qianjh.ryzen.model;
+package com.qianjh.ryzen.ims.model;
 
-import com.qianjh.ryzen.enums.ImType;
 import lombok.Builder;
 
 /**

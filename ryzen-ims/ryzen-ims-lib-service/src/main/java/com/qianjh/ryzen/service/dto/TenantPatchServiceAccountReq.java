@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service.dto;
 
 
-import com.qianjh.ryzen.enums.ServiceAccountStatus;
+import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 
 public record TenantPatchServiceAccountReq(
         ServiceAccountStatus status,
