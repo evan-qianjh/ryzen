@@ -159,7 +159,7 @@ public class ImConversation_TenantAppController extends _TenantAppController {
         }
 
         // 调度
-        ImConversationDispatchRecord record = imConversationDispatchService.dispatch(
+        ImConversationDispatched record = imConversationDispatchService.dispatch(
                 conversation, serviceAccount, ImConversationDispatchType.TRANSFER, operator
         );
 

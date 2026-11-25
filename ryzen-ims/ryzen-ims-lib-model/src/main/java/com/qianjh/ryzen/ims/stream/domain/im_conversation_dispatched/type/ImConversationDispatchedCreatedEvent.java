@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.ims.stream.domain.im_message.event;
+package com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
  * @param <T>
  * @author QianJH
  */
-public interface ImMessageCreatedEvent<T> extends ImMessageEvent<T> {
+public interface ImConversationDispatchedCreatedEvent<T> extends ImMessageEvent<T> {
     String TYPE = "created";
 
     /**

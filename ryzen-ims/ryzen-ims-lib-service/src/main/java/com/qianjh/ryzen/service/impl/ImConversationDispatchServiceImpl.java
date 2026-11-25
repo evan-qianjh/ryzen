@@ -28,7 +28,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
     private final ServiceAccountService serviceAccountService;
     private final MatchTagImAccountService matchTagImAccountService;
     private final MatchTagServiceAccountService matchTagServiceAccountService;
-    private final ImConversationDispatchRecordService imConversationDispatchRecordService;
+    private final ImConversationDispatchedService imConversationDispatchRecordService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -52,7 +52,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         }
 
         // 修改会话分配服务账户
-        ImConversationDispatchRecord record = dispatch(conversation, serviceAccount, dispatchType, null);
+        ImConversationDispatched record = dispatch(conversation, serviceAccount, dispatchType, null);
         log.info("会话调度 ::: record={}", record);
 
         return serviceAccount;
@@ -60,7 +60,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImConversationDispatchRecord dispatch(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType dispatchType, Operator operator) {
+    public ImConversationDispatched dispatch(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType dispatchType, Operator operator) {
         Long beforeServiceAccountId = conversation.getServiceAccountId();
 
         Assert.isTrue(!Objects.equals(conversation.getServiceAccountId(), serviceAccount.getId()), "调度目标相同");

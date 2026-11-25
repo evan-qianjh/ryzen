@@ -7,7 +7,7 @@ import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
-import com.qianjh.ryzen.ims.stream.domain.im_message.event.ImMessageCreatedEvent;
+import com.qianjh.ryzen.ims.stream.domain.im_message.type.ImMessageCreatedEvent;
 import com.qianjh.ryzen.mapper.ImMessageMapper;
 import com.qianjh.ryzen.ims.model.SchedulerMessage;
 import com.qianjh.ryzen.service.ImMessageService;

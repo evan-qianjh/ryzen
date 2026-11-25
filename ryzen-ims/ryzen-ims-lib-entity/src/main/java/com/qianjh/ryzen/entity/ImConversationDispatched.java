@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "im_conversation_dispatch_record")
-public class ImConversationDispatchRecord {
+@TableName(_Schema.TABLE_PREFIX + "im_conversation_dispatched")
+public class ImConversationDispatched {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long oemId;
