@@ -56,6 +56,7 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
 
         return PushData.builder()
                 .id(IdUtils.toString(message.id()))
+                .seq(IdUtils.toString(message.seq()))
                 .direction(message.direction())
                 .senderName(message.senderName())
                 .senderAvatar(message.senderAvatar())

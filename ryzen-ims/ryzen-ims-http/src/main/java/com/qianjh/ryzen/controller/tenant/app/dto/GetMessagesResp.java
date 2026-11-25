@@ -6,6 +6,7 @@ import lombok.Builder;
 @Builder(toBuilder = true)
 public record GetMessagesResp(
         String id,
+        String seq,
         MessageDirection direction,
         String senderName,
         String senderAvatar,

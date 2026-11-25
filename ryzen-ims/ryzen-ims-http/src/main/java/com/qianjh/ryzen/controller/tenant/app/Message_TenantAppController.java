@@ -7,8 +7,6 @@ import com.qianjh.ryzen.controller.tenant.app.dto.PostMessageReq;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
-import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
-import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
@@ -19,6 +17,8 @@ import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
+import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
+import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.ims.model.SchedulerTaskRequest;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
@@ -71,6 +71,7 @@ public class Message_TenantAppController extends _TenantAppController {
         List<GetMessagesResp> records = entities.stream()
                 .map(e -> GetMessagesResp.builder()
                         .id(IdUtils.toString(e.getId()))
+                        .seq(IdUtils.toString(e.getMessageSeq()))
                         .direction(e.getDirection())
                         .senderName(e.getSenderName())
                         .senderAvatar(e.getSenderAvatar())

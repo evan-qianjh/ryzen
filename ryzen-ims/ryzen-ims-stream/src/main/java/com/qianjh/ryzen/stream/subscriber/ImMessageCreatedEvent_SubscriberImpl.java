@@ -61,6 +61,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
                 .oemId(imMessage.getOemId())
                 .tenantId(imMessage.getOemId())
                 .id(imMessage.getId())
+                .seq(imMessage.getMessageSeq())
                 .direction(imMessage.getDirection().name())
                 .senderName(imMessage.getSenderName())
                 .senderAvatar(imMessage.getSenderAvatar())

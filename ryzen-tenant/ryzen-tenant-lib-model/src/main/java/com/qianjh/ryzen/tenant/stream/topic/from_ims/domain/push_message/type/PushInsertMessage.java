@@ -21,6 +21,7 @@ public interface PushInsertMessage<T> extends PushMessage<T> {
             Long oemId,
             Long tenantId,
             Long id,
+            Long seq,
             String direction,
             String senderName,
             String senderAvatar,

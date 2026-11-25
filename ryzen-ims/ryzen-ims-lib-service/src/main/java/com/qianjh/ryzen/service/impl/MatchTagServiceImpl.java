@@ -63,7 +63,7 @@ public class MatchTagServiceImpl extends ServiceImpl<MatchTagMapper, MatchTag> i
     @Override
     public boolean patch(MatchTag entity, TenantPatchMatchTagReq body) {
         return lambdaUpdate()
-                .set(body.enabled() != null, MatchTag::getEnabled, body.enabled())
+                .set(body.status() != null, MatchTag::getStatus, body.status())
                 .set(body.group() != null, MatchTag::getGroupName, body.group())
                 //
                 .eq(MatchTag::getOemId, entity.getId())
