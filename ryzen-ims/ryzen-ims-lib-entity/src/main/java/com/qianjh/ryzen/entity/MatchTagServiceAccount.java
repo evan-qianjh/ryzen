@@ -3,28 +3,28 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.enums.ReceptionAccountStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 接待账号
+ * 服务账户路由标签
+ *
+ * @author QianJH
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "reception_account")
-public class ReceptionAccount {
-    @TableId(type = IdType.AUTO)
+@TableName(_Schema.TABLE_PREFIX + "match_tag_service_account")
+public class MatchTagServiceAccount {
+
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long oemId;
     private Long tenantId;
 
-    private Long accountId;
-    private ReceptionAccountStatus status;
-    private String remark;
-
+    private Long routeTagId;
+    private Long serviceAccountId;
 }

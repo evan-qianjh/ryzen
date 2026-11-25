@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.controller.tenant.app;
 
-import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagReceptionAccountReq;
+import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagServiceAccountReq;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
 import com.qianjh.ryzen.framework.common.header.GatewayHeaderTenant;
 import com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController;
@@ -20,14 +20,14 @@ import java.util.List;
 import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppController.PATH_PREFIX;
 
 @Slf4j
-@Tag(name = "匹配标签-接待账号")
+@Tag(name = "匹配标签-服务账号")
 @RestController
 @RequestMapping(PATH_PREFIX)
 @RequiredArgsConstructor
-public class MatchTagReceptionAccount_TenantAppController extends _TenantAppController {
+public class MatchTagServiceAccount_TenantAppController extends _TenantAppController {
 
     @Operation(summary = "列表查询")
-    @GetMapping("/match-tag-reception-accounts")
+    @GetMapping("/match-tag-service-accounts")
     public Resp<List<?>> list(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                               @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long _accountId,
@@ -41,18 +41,18 @@ public class MatchTagReceptionAccount_TenantAppController extends _TenantAppCont
     }
 
     @Operation(summary = "创建")
-    @PostMapping("/match-tag-reception-account")
+    @PostMapping("/match-tag-service-account")
     public Resp<Receipt> post(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                               @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                               @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long _accountId,
                               @RequestHeader(GatewayHeaderTenant.ACCOUNT_NAME) String _accountName,
-                              @RequestBody @Validated PostMatchTagReceptionAccountReq body) {
+                              @RequestBody @Validated PostMatchTagServiceAccountReq body) {
         // TODO
         return null;
     }
 
     @Operation(summary = "删除")
-    @DeleteMapping("/match-tag-reception-account/{id}")
+    @DeleteMapping("/match-tag-service-account/{id}")
     public Resp<?> delete(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
                           @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
                           @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long _accountId,

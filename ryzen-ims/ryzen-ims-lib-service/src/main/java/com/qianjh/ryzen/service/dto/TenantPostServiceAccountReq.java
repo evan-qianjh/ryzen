@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
-public record TenantPostReceptionAccountReq(
+public record TenantPostServiceAccountReq(
         @NotNull
         Long accountId,
         List<Long> routeTagIds

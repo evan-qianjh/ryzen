@@ -41,7 +41,7 @@ public class Conversation_TenantAppController extends _TenantAppController {
         List<ImConversation> entities = conversationService.list(new LambdaQueryWrapper<ImConversation>()
                 .eq(ImConversation::getOemId, oemId)
                 .eq(ImConversation::getTenantId, tenantId)
-                .eq(ImConversation::getReceptionAccountId, accountId)
+                .eq(ImConversation::getServiceAccountId, accountId)
                 //
                 .lt(fromId != null, ImConversation::getLastMessageId, fromId)
                 .orderByDesc(ImConversation::getLastMessageId)

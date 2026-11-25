@@ -53,7 +53,7 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
                 .messageCode(messageCode)
                 .messageSeq(IdUtils.ofString(messageCode))
                 .direction(schedulerMessage.direction())
-                .senderReceptionAccountId(null)
+                .senderServiceAccountId(null)
                 .senderName(schedulerMessage.senderName())
                 .senderAvatar(schedulerMessage.senderAvatar())
                 .sentTime(DateTimeUtils.parseMillis(schedulerMessage.sentTime()))

@@ -33,7 +33,7 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
         PushInsertMessage.Body.Conversation conversation = payload.conversation();
 
         // 接待人账户
-        Set<Long> accountIds = Set.of(conversation.receptionAccountId());
+        Set<Long> accountIds = Set.of(conversation.serviceAccountId());
 
         // 获取接待账户订阅者
         List<ChannelId> subscribers = imsMessageTopic.getSubscribers(payload.oemId(), accountIds, topicMeta);

@@ -35,7 +35,7 @@ public class ImConversation {
     private String avatar;
 
     // 当前接待账户
-    private Long receptionAccountId;
+    private Long serviceAccountId;
 
     // 最新消息
     private Long lastMessageId;

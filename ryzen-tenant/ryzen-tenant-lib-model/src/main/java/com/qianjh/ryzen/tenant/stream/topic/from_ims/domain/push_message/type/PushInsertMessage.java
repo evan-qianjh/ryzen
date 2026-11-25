@@ -32,7 +32,7 @@ public interface PushInsertMessage<T> extends PushMessage<T> {
                 Long id,
                 String avatar,
                 String name,
-                Long receptionAccountId
+                Long serviceAccountId
         ) {
 
         }

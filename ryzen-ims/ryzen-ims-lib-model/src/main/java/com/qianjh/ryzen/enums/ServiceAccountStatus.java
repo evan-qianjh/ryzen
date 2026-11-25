@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.enums;
 
-public enum ReceptionAccountStatus {
+public enum ServiceAccountStatus {
     ENABLED,
     DISABLED,
     DELETED,

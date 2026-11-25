@@ -43,7 +43,7 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
                 .code(code)
                 .name(null)
                 .avatar(null)
-                .receptionAccountId(null)
+                .serviceAccountId(null)
                 .lastMessageId(null)
                 .lastMessageContent(null)
                 .build();

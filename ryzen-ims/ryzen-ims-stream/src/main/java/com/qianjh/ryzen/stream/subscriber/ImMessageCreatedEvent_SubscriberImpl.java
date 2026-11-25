@@ -43,7 +43,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
                 .id(imConversation.getId())
                 .name(imConversation.getName())
                 .avatar(imConversation.getAvatar())
-                .receptionAccountId(imConversation.getReceptionAccountId())
+                .serviceAccountId(imConversation.getServiceAccountId())
                 .build();
 
         // build message

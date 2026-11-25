@@ -1,13 +1,13 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
-import com.qianjh.ryzen.enums.ReceptionAccountStatus;
+import com.qianjh.ryzen.enums.ServiceAccountStatus;
 import lombok.Builder;
 
 @Builder(toBuilder = true)
-public record GetReceptionAccountsResp(
+public record GetServiceAccountsResp(
         String id,
         String accountId,
-        ReceptionAccountStatus status,
+        ServiceAccountStatus status,
         String remark
 ) {
 }

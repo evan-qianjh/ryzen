@@ -34,7 +34,7 @@ public class ImMessage {
 //    private ImType imType;
 
     // (仅MessageDirection.OUTBOUND有值)
-    private Long senderReceptionAccountId;
+    private Long senderServiceAccountId;
 
     private String senderName;
     private String senderAvatar;

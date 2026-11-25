@@ -2,10 +2,10 @@ package com.qianjh.ryzen.controller.tenant.app.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public record PostMatchTagReceptionAccountReq(
+public record PostMatchTagServiceAccountReq(
         @NotNull
         Long tagId,
         @NotNull
-        Long receptionAccountId
+        Long serviceAccountId
 ) {
 }
