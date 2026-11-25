@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type;
+package com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
@@ -12,36 +12,27 @@ import java.util.List;
  * @param <T>
  * @author QianJH
  */
-public interface PushInsertMessage<T> extends PushMessage<T> {
-    String TYPE = "insert";
+public interface PushConversationDispatch<T> extends PushMessage<T> {
+    String TYPE = "dispatch";
 
     /**
      * 报文体
      */
     @Builder(toBuilder = true)
     record Body(
+            Long id,
             Long oemId,
             Long tenantId,
-            Long id,
-            Long seq,
-            String direction,
-            String senderName,
-            String senderAvatar,
-            String content,
-            Long sentTime,
-            Conversation conversation
+            String imType,
+            String name,
+            String avatar,
+            String lastMessageContent,
+            Long lastMessageId,
+            List<String> matchTags,
+            Long serviceAccountId,
+            Long beforeServiceAccountId
     ) {
-        @Builder(toBuilder = true)
-        public record Conversation(
-                Long id,
-                String imType,
-                String name,
-                String avatar,
-                List<String> matchTags,
-                Long serviceAccountId
-        ) {
 
-        }
     }
 
     /**

@@ -3,7 +3,7 @@ package com.qianjh.ryzen.stream.publisher;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
 import com.qianjh.ryzen.stream.producer.ToTenantTopic_StreamProducer;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class ToTenantPushInsertMessage_PublisherImpl implements PushInsertMessage.Publisher {
+public class ToTenantPushInsertMessage_PublisherImpl implements PushMessageInsert.Publisher {
     private final ToTenantTopic_StreamProducer producer;
 
     @Override
-    public void publish(PushInsertMessage.Body body) {
-        StreamPayload<PushInsertMessage.Body> payload = StreamPayload.<PushInsertMessage.Body>builder()
+    public void publish(PushMessageInsert.Body body) {
+        StreamPayload<PushMessageInsert.Body> payload = StreamPayload.<PushMessageInsert.Body>builder()
                 .domain(getDomain())
                 .type(getType())
                 .body(body)

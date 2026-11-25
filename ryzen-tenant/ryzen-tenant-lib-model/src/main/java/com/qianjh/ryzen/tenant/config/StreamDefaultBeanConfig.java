@@ -2,7 +2,8 @@ package com.qianjh.ryzen.tenant.config;
 
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessCreated;
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessPatched;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatch;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -11,21 +12,42 @@ import org.springframework.context.annotation.Bean;
 public class StreamDefaultBeanConfig {
 
     @Bean
-    @ConditionalOnMissingBean(PushInsertMessage.Publisher.class)
-    public PushInsertMessage.Publisher pushInsertMessagePublisher() {
+    @ConditionalOnMissingBean(PushMessageInsert.Publisher.class)
+    public PushMessageInsert.Publisher pushMessageInsertPublisher() {
         return _ -> {
             throw new UnsupportedOperationException(
-                    "PushInsertMessage.Publisher is not configured"
+                    "PushMessageInsert.Publisher is not configured"
             );
         };
     }
 
     @Bean
-    @ConditionalOnMissingBean(PushInsertMessage.Subscriber.class)
-    public PushInsertMessage.Subscriber pushInsertMessageSubscriber() {
+    @ConditionalOnMissingBean(PushMessageInsert.Subscriber.class)
+    public PushMessageInsert.Subscriber pushMessageInsertSubscriber() {
         return _ -> {
             throw new UnsupportedOperationException(
-                    "PushInsertMessage.Subscriber is not configured"
+                    "PushMessageInsert.Subscriber is not configured"
+            );
+        };
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean(PushConversationDispatch.Publisher.class)
+    public PushConversationDispatch.Publisher pushConversationDispatchPublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "PushConversationDispatch.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(PushConversationDispatch.Subscriber.class)
+    public PushConversationDispatch.Subscriber pushConversationDispatchSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "PushConversationDispatch.Subscriber is not configured"
             );
         };
     }

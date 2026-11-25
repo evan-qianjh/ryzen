@@ -8,7 +8,7 @@ import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.stream.domain.im_message.event.ImMessageCreatedEvent;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -27,7 +27,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
     private final ImAccountService imAccountService;
     private final ImConversationService imConversationService;
     private final MatchTagImAccountService matchTagImAccountService;
-    private final PushInsertMessage.Publisher pushInsertMessagePublisher;
+    private final PushMessageInsert.Publisher pushMessageInsertPublisher;
     private final ImConversationDispatchService imConversationDispatchService;
 
     @Override
@@ -66,7 +66,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
                 .stream().map(MatchTagImAccountWithMatchTagView::getTag).toList();
 
         // build conversation
-        PushInsertMessage.Body.Conversation conversation = PushInsertMessage.Body.Conversation.builder()
+        PushMessageInsert.Body.Conversation conversation = PushMessageInsert.Body.Conversation.builder()
                 .id(imConversation.getId())
                 .imType(imAccount.getImType().name())
                 .name(imConversation.getName())
@@ -76,7 +76,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
                 .build();
 
         // build message
-        PushInsertMessage.Body message = PushInsertMessage.Body.builder()
+        PushMessageInsert.Body message = PushMessageInsert.Body.builder()
                 .oemId(oemId)
                 .tenantId(tenantId)
                 .id(imMessage.getId())
@@ -88,6 +88,6 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
                 .sentTime(DateTimeUtils.getTime(imMessage.getSentTime()))
                 .conversation(conversation)
                 .build();
-        pushInsertMessagePublisher.publish(message);
+        pushMessageInsertPublisher.publish(message);
     }
 }

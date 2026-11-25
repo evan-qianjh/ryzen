@@ -1,12 +1,12 @@
 package com.qianjh.ryzen.topic._private.ims_message;
 
 
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
 
 public interface ImsMessagePusher {
 
     /**
      *
      */
-    void push(PushInsertMessage.Body payload);
+    void push(PushMessageInsert.Body payload);
 }
