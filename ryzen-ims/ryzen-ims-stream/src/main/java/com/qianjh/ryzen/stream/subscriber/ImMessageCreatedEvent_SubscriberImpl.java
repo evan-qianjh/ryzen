@@ -2,7 +2,9 @@ package com.qianjh.ryzen.stream.subscriber;
 
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
+import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.ims.stream.domain.im_message.event.ImMessageCreatedEvent;
+import com.qianjh.ryzen.service.ImConversationDispatchService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImMessageService;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushInsertMessage;
@@ -21,6 +23,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
     private final ImMessageService imMessageService;
     private final ImConversationService imConversationService;
     private final PushInsertMessage.Publisher pushInsertMessagePublisher;
+    private final ImConversationDispatchService imConversationDispatchService;
 
     @Override
     public void subscribe(ImMessageCreatedEvent.Body body) {
@@ -38,12 +41,19 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
             return;
         }
 
+        // 调度服务账号
+        ServiceAccount serviceAccount = imConversationDispatchService.dispatch(imConversation);
+        if (serviceAccount == null) {
+            log.error("未调度到服务账户 ::: imConversation={}", imConversation);
+            return;
+        }
+
         // build conversation
         PushInsertMessage.Body.Conversation conversation = PushInsertMessage.Body.Conversation.builder()
                 .id(imConversation.getId())
                 .name(imConversation.getName())
                 .avatar(imConversation.getAvatar())
-                .serviceAccountId(imConversation.getServiceAccountId())
+                .serviceAccountId(serviceAccount.getId())
                 .build();
 
         // build message

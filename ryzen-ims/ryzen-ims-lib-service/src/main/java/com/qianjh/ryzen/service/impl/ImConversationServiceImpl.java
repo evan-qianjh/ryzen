@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
+import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.mapper.ImConversationMapper;
 import com.qianjh.ryzen.service.ImConversationService;
@@ -41,11 +42,15 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
                 .tenantId(imAccount.getTenantId())
                 .imAccountId(imAccount.getId())
                 .code(code)
+
+                // 创建消息后回填
                 .name(null)
                 .avatar(null)
-                .serviceAccountId(null)
                 .lastMessageId(null)
                 .lastMessageContent(null)
+
+                // 分配客服后回填
+                .serviceAccountId(null)
                 .build();
         save(entity);
         return entity;
@@ -75,6 +80,19 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
                 )
                 .set(ImConversation::getLastMessageId, message.getId())
                 .set(ImConversation::getLastMessageContent, message.getContent())
+                //
+                .eq(ImConversation::getId, entity.getId())
+                .eq(ImConversation::getOemId, entity.getOemId())
+                .eq(ImConversation::getTenantId, entity.getTenantId())
+                //
+                .update();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public boolean updateServiceAccount(ImConversation entity, ServiceAccount serviceAccount) {
+        return lambdaUpdate()
+                .set(ImConversation::getServiceAccountId, serviceAccount.getId())
                 //
                 .eq(ImConversation::getId, entity.getId())
                 .eq(ImConversation::getOemId, entity.getOemId())

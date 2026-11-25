@@ -25,6 +25,6 @@ public class ServiceAccount {
 
     private Long accountId;
     private ServiceAccountStatus status;
+    private Boolean online;
     private String remark;
-
 }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class MatchTagImAccountServiceImpl extends ServiceImpl<MatchTagImAccountMapper, MatchTagImAccount> implements MatchTagImAccountService {
@@ -31,6 +32,15 @@ public class MatchTagImAccountServiceImpl extends ServiceImpl<MatchTagImAccountM
                 .eq(MatchTagImAccount::getOemId, oemId)
                 .eq(MatchTagImAccount::getTenantId, tenantId)
                 .eq(MatchTagImAccount::getMatchTagId, matchTagId)
+                .eq(MatchTagImAccount::getImAccountId, imAccountId)
+        );
+    }
+
+    @Override
+    public List<MatchTagImAccount> listByImAccount(Long oemId, Long tenantId, Long imAccountId) {
+        return list(new LambdaQueryWrapper<MatchTagImAccount>()
+                .eq(MatchTagImAccount::getOemId, oemId)
+                .eq(MatchTagImAccount::getTenantId, tenantId)
                 .eq(MatchTagImAccount::getImAccountId, imAccountId)
         );
     }

@@ -6,10 +6,14 @@ import com.qianjh.ryzen.entity.MatchTag;
 import com.qianjh.ryzen.entity.MatchTagImAccount;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 
+import java.util.List;
+
 public interface MatchTagImAccountService extends IService<MatchTagImAccount> {
     MatchTagImAccount getById(Long oemId, Long tenantId, Long id);
 
     MatchTagImAccount getByUk(Long oemId, Long tenantId, Long matchTagId, Long imAccountId);
+
+    List<MatchTagImAccount> listByImAccount(Long oemId, Long tenantId, Long imAccountId);
 
     MatchTagImAccount create(MatchTag matchTag, ImAccount imAccount, Operator operator);
 

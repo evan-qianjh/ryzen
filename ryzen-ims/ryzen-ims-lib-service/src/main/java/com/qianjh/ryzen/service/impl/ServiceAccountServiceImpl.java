@@ -3,8 +3,8 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.ServiceAccount;
-import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.framework.common.dto.Operator;
+import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.mapper.ServiceAccountMapper;
 import com.qianjh.ryzen.service.ServiceAccountService;
 import com.qianjh.ryzen.service.dto.TenantPatchServiceAccountReq;
@@ -45,6 +45,7 @@ public class ServiceAccountServiceImpl extends ServiceImpl<ServiceAccountMapper,
                 .tenantId(tenantId)
                 .accountId(accountId)
                 .status(ServiceAccountStatus.ENABLED)
+                .online(false)
                 .remark(body.remark())
                 .build();
         save(entity);
