@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.ims.stream.domain.im_message.type.ImMessageCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_message.im_message.type.ImMessageCreatedEvent;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;

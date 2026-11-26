@@ -1,10 +1,10 @@
 package com.qianjh.ryzen.transport;
 
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
-import com.qianjh.ryzen.ims.model.ExecutorCommandResponse;
-import com.qianjh.ryzen.ims.model.ExecutorMessage;
-import com.qianjh.ryzen.ims.model.ExecutorSnapshot;
-import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.dto.ExecutorCommandResponse;
+import com.qianjh.ryzen.ims.dto.ExecutorMessage;
+import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
+import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
 import com.qianjh.ryzen.service.CollectedMessageService;
 import com.qianjh.ryzen.service.ExecutorCommandService;
 import com.qianjh.ryzen.service.ExecutorRegistryService;

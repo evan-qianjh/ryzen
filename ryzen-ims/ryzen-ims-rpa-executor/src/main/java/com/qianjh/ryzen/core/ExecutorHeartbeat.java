@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.core;
 
-import com.qianjh.ryzen.ims.model.ExecutorSnapshot;
+import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -8,7 +8,7 @@ import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.mapper.ExecutorMapper;
-import com.qianjh.ryzen.ims.model.ExecutorSnapshot;
+import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
 import com.qianjh.ryzen.service.ExecutorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

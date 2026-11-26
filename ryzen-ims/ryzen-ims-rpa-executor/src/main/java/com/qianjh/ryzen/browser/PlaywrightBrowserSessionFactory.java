@@ -7,7 +7,7 @@ import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.LoadState;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.model.Assignment;
+import com.qianjh.ryzen.ims.dto.Assignment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

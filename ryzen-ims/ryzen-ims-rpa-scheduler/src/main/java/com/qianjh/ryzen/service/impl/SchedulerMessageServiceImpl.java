@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.model.ExecutorMessage;
+import com.qianjh.ryzen.ims.dto.ExecutorMessage;
 import com.qianjh.ryzen.mapper.SchedulerMessageMapper;
 import com.qianjh.ryzen.service.SchedulerMessageService;
 import org.springframework.stereotype.Service;

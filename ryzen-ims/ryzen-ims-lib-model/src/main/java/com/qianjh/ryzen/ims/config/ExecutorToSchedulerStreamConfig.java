@@ -1,9 +1,9 @@
 package com.qianjh.ryzen.ims.config;
 
-import com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.type.ExecutorToSchedulerReportEvent;
-import com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.type.ExecutorToSchedulerReportHeartbeat;
-import com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.type.ExecutorToSchedulerReportMessage;
-import com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.type.ExecutorToSchedulerReportRegister;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.type.ExecutorToSchedulerReportEvent;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.type.ExecutorToSchedulerReportHeartbeat;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.type.ExecutorToSchedulerReportMessage;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.type.ExecutorToSchedulerReportRegister;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

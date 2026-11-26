@@ -2,7 +2,7 @@ package com.qianjh.ryzen.stream.publisher;
 
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
-import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportEvent;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type.SchedulerToAppReportEvent;
 import com.qianjh.ryzen.stream.producer.SchedulerToAppStreamProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

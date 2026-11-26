@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.ims.config;
 
-import com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
-import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
 
 import java.time.LocalDateTime;
 

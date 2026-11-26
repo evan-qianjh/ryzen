@@ -2,9 +2,8 @@ package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.ims.model.ExecutorMessage;
-import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportMessage;
-import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
+import com.qianjh.ryzen.ims.dto.ExecutorMessage;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type.SchedulerToAppReportMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

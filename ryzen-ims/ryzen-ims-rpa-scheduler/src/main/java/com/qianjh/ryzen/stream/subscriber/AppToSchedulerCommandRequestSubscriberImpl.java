@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.stream.subscriber;
 
-import com.qianjh.ryzen.ims.stream.domain.command.type.AppToSchedulerCommandRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.type.AppToSchedulerCommandRequest;
 import com.qianjh.ryzen.service.SchedulerCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

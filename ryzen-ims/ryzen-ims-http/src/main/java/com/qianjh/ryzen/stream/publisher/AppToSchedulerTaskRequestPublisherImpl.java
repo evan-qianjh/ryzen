@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.stream.publisher;
 
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
-import com.qianjh.ryzen.ims.stream.domain.task.type.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.type.AppToSchedulerTaskRequest;
 import com.qianjh.ryzen.stream.producer.AppToSchedulerStreamProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

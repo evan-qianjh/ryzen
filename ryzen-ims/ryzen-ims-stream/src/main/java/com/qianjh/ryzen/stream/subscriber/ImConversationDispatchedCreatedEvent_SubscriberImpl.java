@@ -3,7 +3,7 @@ package com.qianjh.ryzen.stream.subscriber;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;

@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
-import com.qianjh.ryzen.ims.model.*;
+import com.qianjh.ryzen.ims.dto.*;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

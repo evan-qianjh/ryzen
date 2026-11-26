@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImConversationDispatched;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
-import com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
 import com.qianjh.ryzen.mapper.ImConversationDispatchedMapper;
 import com.qianjh.ryzen.service.ImConversationDispatchedService;
 import lombok.RequiredArgsConstructor;

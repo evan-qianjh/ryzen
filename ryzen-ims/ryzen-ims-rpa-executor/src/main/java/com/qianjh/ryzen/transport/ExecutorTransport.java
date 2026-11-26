@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.transport;
 
 
-import com.qianjh.ryzen.ims.model.*;
+import com.qianjh.ryzen.ims.dto.*;
 
 /**
  * 执行器通信层

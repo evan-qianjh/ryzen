@@ -7,7 +7,7 @@ import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
-import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
 import com.qianjh.ryzen.mapper.ExecutorTaskMapper;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package com.qianjh.ryzen.stream.subscriber;
 
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
-import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportEvent;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type.SchedulerToAppReportEvent;
 import com.qianjh.ryzen.service.ImAccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

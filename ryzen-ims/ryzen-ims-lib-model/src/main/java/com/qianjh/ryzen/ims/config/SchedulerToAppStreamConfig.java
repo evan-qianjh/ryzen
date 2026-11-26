@@ -1,8 +1,8 @@
 package com.qianjh.ryzen.ims.config;
 
-import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportEvent;
-import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportMessage;
-import com.qianjh.ryzen.ims.stream.domain.task.type.SchedulerToAppTaskResponse;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type.SchedulerToAppReportEvent;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type.SchedulerToAppReportMessage;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.task.type.SchedulerToAppTaskResponse;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

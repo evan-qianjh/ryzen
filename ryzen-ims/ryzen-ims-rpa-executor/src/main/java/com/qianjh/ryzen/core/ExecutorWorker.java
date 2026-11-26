@@ -6,7 +6,7 @@ import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
-import com.qianjh.ryzen.ims.model.*;
+import com.qianjh.ryzen.ims.dto.*;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
