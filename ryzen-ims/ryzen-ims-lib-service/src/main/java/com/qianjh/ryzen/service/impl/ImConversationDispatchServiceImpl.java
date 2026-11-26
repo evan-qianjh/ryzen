@@ -51,9 +51,11 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
             return null;
         }
 
-        // 修改会话分配服务账户
-        ImConversationDispatched record = dispatch(conversation, serviceAccount, dispatchType, null);
-        log.info("会话调度 ::: record={}", record);
+        // 如果当前服务账号与匹配的服务账号不同，记录调度
+        if (!Objects.equals(conversation.getServiceAccountId(), serviceAccount.getId())) {
+            ImConversationDispatched record = dispatch(conversation, serviceAccount, dispatchType, null);
+
+        }
 
         return serviceAccount;
     }
@@ -69,7 +71,9 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         Assert.isTrue(success, "会话分配账户异常");
 
         // 记录日志
-        return imConversationDispatchRecordService.create(conversation, serviceAccount, dispatchType, beforeServiceAccountId);
+        ImConversationDispatched dispatched = imConversationDispatchRecordService.create(conversation, serviceAccount, dispatchType, beforeServiceAccountId);
+        log.info("会话调度 ::: dispatched={}", dispatched);
+        return dispatched;
     }
 
 

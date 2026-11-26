@@ -1,6 +1,6 @@
 <mxfile host="Electron">
   <diagram name="Page-1" id="8Mo9pwKzgKe912tSmuME">
-    <mxGraphModel dx="2903" dy="1743" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1669" dy="1003" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -165,10 +165,10 @@
         <mxCell id="sgI8TpdLQj7p2PicKRae-36" parent="1" style="swimlane;startSize=0;" value="聚合聊天服务" vertex="1">
           <mxGeometry height="198" width="200" x="1315" y="1219" as="geometry" />
         </mxCell>
-        <mxCell id="evLPilckgvB3638-_uI4-3" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="接待调度" vertex="1">
+        <mxCell id="evLPilckgvB3638-_uI4-3" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="会话调度" vertex="1">
           <mxGeometry height="40" width="120" x="40" y="101" as="geometry" />
         </mxCell>
-        <mxCell id="evLPilckgvB3638-_uI4-4" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="客服账号" vertex="1">
+        <mxCell id="evLPilckgvB3638-_uI4-4" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="服务账号" vertex="1">
           <mxGeometry height="36" width="57" x="40" y="56" as="geometry" />
         </mxCell>
         <mxCell id="m9426XtJ_nnhGeJi8TM9-29" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="IM账号" vertex="1">
@@ -177,11 +177,8 @@
         <mxCell id="AVvflabqGcv-pRj6uG-Y-4" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="消息" vertex="1">
           <mxGeometry height="36" width="120" x="40" y="13" as="geometry" />
         </mxCell>
-        <mxCell id="m9426XtJ_nnhGeJi8TM9-30" parent="sgI8TpdLQj7p2PicKRae-36" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="IM账号调度" vertex="1">
-          <mxGeometry height="40" width="120" x="40" y="146" as="geometry" />
-        </mxCell>
         <mxCell id="_EIIrl3uh-dSRCNPObY--6" parent="1" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" value="&lt;h1 style=&quot;margin-top: 0px;&quot;&gt;梳理&lt;/h1&gt;&lt;div style=&quot;color: rgb(32, 32, 32); background-color: rgb(255, 255, 255); font-family: &amp;quot;Droid Sans Mono&amp;quot;, monospace; font-size: 16px; line-height: 22px; white-space: pre;&quot;&gt;&lt;div&gt;设计上分为3个服务：执行器、调度器、聚合聊天服务&lt;/div&gt;&lt;br&gt;&lt;div&gt;执行器：&lt;/div&gt;&lt;div&gt;  状态：OFFLINE、WAIT_LOGIN、&lt;code&gt;READY&lt;/code&gt;、BUSY、ERROR&lt;/div&gt;&lt;div&gt;  关键步骤：登录成功后注册、每隔10秒发送心跳、开始执行任务报告BUSY、完成任务报告READY、登录失效报告WAIT_LOGIN、浏览器崩溃报告ERROR&lt;/div&gt;&lt;div&gt;  流程：执行器空闲-&amp;gt;检查是否有待发送消息-&amp;gt;有：执行发送任务，没有：检查采集间隔-&amp;gt;达到采集间隔-&amp;gt;执行采集任务-&amp;gt;完成后重新进入空闲状态&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;调度器：管理“执行器”状态，负责将“聚合聊天服务”发来的消息发给指定执行器执行，将采集到的用户消息发布给聚合聊天服务消费&lt;span style=&quot;background-color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18)); color: light-dark(rgb(32, 32, 32), rgb(210, 210, 210));&quot;&gt;。&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(32, 32, 32), rgb(210, 210, 210)); background-color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;调度器维护任务表，&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(32, 32, 32), rgb(210, 210, 210)); background-color: light-dark(rgb(255, 255, 255), rgb(18, 18, 18));&quot;&gt;周期性检查命令是否超时。&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;聚合聊天服务：负责将用户消息动态调度给指定的客服人员，主要是业务逻辑。&lt;/div&gt;&lt;br&gt;&lt;div&gt;聚合聊天服务细节可以晚点在讨论，现在只关注执行器与调度器。&lt;/div&gt;&lt;/div&gt;" vertex="1">
-          <mxGeometry height="354" width="1117" x="33" y="2893" as="geometry" />
+          <mxGeometry height="354" width="1117" x="1008" y="2710" as="geometry" />
         </mxCell>
         <mxCell id="_EIIrl3uh-dSRCNPObY--7" parent="1" style="swimlane;startSize=0;dashed=1;dashPattern=1 2;" value="执行器" vertex="1">
           <mxGeometry height="433" width="374" x="33" y="1984" as="geometry" />
@@ -391,7 +388,7 @@
           <mxGeometry height="30" width="178.75" x="1044.95" y="1052" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-1" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="IM账户&lt;div&gt;im_account&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="902" y="4889" as="geometry" />
+          <mxGeometry height="150" width="180" x="893" y="4127" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-2" parent="v0_zj_iNo3OorPwfSCMD-1" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -446,7 +443,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-14" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="IM对话&lt;div&gt;im_conversation&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="1270" y="4739" as="geometry" />
+          <mxGeometry height="150" width="180" x="1261" y="3977" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-15" parent="v0_zj_iNo3OorPwfSCMD-14" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -504,7 +501,7 @@
           <mxGeometry relative="1" x="0.0105" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-28" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="服务账户&lt;div&gt;service_account&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="2047" y="4889" as="geometry" />
+          <mxGeometry height="150" width="180" x="2038" y="4127" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-29" parent="v0_zj_iNo3OorPwfSCMD-28" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -562,7 +559,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-42" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="IM消息&lt;div&gt;im_message&lt;/div&gt;" vertex="1">
-          <mxGeometry height="210" width="180" x="1658" y="4624" as="geometry" />
+          <mxGeometry height="210" width="180" x="1649" y="3862" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-43" parent="v0_zj_iNo3OorPwfSCMD-42" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -649,7 +646,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-63" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="匹配标签&lt;div&gt;match_tag&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="1455" y="5193" as="geometry" />
+          <mxGeometry height="150" width="180" x="1446" y="4431" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-64" parent="v0_zj_iNo3OorPwfSCMD-63" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -704,7 +701,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-76" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="匹配标签-IM账户&lt;div&gt;match_tag_im_account&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="1203" y="5043" as="geometry" />
+          <mxGeometry height="150" width="180" x="1194" y="4281" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-77" parent="v0_zj_iNo3OorPwfSCMD-76" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -765,7 +762,7 @@
           <mxGeometry relative="1" x="0.0053" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-91" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="匹配标签-服务账户&lt;div&gt;match_tag_service_account&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="1707" y="5043" as="geometry" />
+          <mxGeometry height="150" width="180" x="1698" y="4281" as="geometry" />
         </mxCell>
         <mxCell id="v0_zj_iNo3OorPwfSCMD-92" parent="v0_zj_iNo3OorPwfSCMD-91" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -826,7 +823,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-45" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="IM对话调度记录&lt;div&gt;im_conversation_dispatched&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="1658" y="4372" as="geometry" />
+          <mxGeometry height="150" width="180" x="1649" y="3610" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-46" parent="wrykSjvnoRlG83E4Akav-45" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -887,7 +884,7 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-73" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="服务账户IM类型&lt;div&gt;service_account_im_type&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="2363" y="4790" as="geometry" />
+          <mxGeometry height="150" width="180" x="2354" y="4028" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-74" parent="wrykSjvnoRlG83E4Akav-73" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -945,7 +942,7 @@
           <mxGeometry relative="1" x="0.0041" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-87" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="服务账户IM类型&lt;div&gt;service_account_im_type&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="2034" y="4522" as="geometry" />
+          <mxGeometry height="150" width="180" x="2025" y="3760" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-88" parent="wrykSjvnoRlG83E4Akav-87" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -1000,7 +997,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-100" parent="1" style="swimlane;startSize=0;" value="ims-rpa" vertex="1">
-          <mxGeometry height="567" width="869" x="26" y="4105" as="geometry" />
+          <mxGeometry height="567" width="869" x="17" y="3343" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-1" parent="wrykSjvnoRlG83E4Akav-100" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" value="执行器&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;executor&lt;/span&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="150" width="180" x="52" y="102" as="geometry" />
@@ -1229,7 +1226,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-101" parent="1" style="shape=table;startSize=30;container=1;collapsible=1;childLayout=tableLayout;fixedRows=1;rowLines=0;fontStyle=1;align=center;resizeLast=1;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="发给调度器的指令&lt;br&gt;&lt;div&gt;to_scheduler_command&lt;/div&gt;" vertex="1">
-          <mxGeometry height="150" width="180" x="581" y="4889" as="geometry" />
+          <mxGeometry height="150" width="180" x="572" y="4127" as="geometry" />
         </mxCell>
         <mxCell id="wrykSjvnoRlG83E4Akav-102" parent="wrykSjvnoRlG83E4Akav-101" style="shape=tableRow;horizontal=0;startSize=0;swimlaneHead=0;swimlaneBody=0;fillColor=none;collapsible=0;dropTarget=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;top=0;left=0;right=0;bottom=1;" value="" vertex="1">
           <mxGeometry height="30" width="180" y="30" as="geometry" />
@@ -1282,6 +1279,50 @@
           <mxGeometry height="30" width="150" x="30" as="geometry">
             <mxRectangle height="30" width="150" as="alternateBounds" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-128" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="wrykSjvnoRlG83E4Akav-122" value="&lt;div&gt;5&lt;/div&gt;执行任务">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-129" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-114" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;dashed=1;" target="wrykSjvnoRlG83E4Akav-115" value="&lt;div&gt;6&lt;/div&gt;任务反馈">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-114" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="Executor" vertex="1">
+          <mxGeometry height="60" width="120" x="441" y="1794" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-125" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-115" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="wrykSjvnoRlG83E4Akav-114" value="&lt;div&gt;4&lt;/div&gt;发送任务">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-130" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-115" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;dashed=1;" target="wrykSjvnoRlG83E4Akav-118" value="&lt;div&gt;7&lt;/div&gt;任务反馈">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-115" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="Scheduler" vertex="1">
+          <mxGeometry height="60" width="120" x="671" y="1794" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-123" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-118" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="wrykSjvnoRlG83E4Akav-121" value="&lt;div&gt;2&lt;/div&gt;发送中">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-124" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-118" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;" target="wrykSjvnoRlG83E4Akav-115" value="&lt;div&gt;3&lt;/div&gt;发送任务">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-131" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-118" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;dashed=1;" target="wrykSjvnoRlG83E4Akav-121" value="8&lt;br&gt;&lt;div&gt;发送结果&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-118" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="APP" vertex="1">
+          <mxGeometry height="60" width="120" x="913" y="1794" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-121" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="WS" vertex="1">
+          <mxGeometry height="60" width="120" x="1155" y="1794" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-122" parent="1" style="rounded=1;whiteSpace=wrap;html=1;roundedPerimeter=1;" value="IM" vertex="1">
+          <mxGeometry height="60" width="120" x="201" y="1794" as="geometry" />
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-133" edge="1" parent="1" source="wrykSjvnoRlG83E4Akav-132" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="wrykSjvnoRlG83E4Akav-118" value="1&lt;div&gt;发消息&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.1585" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wrykSjvnoRlG83E4Akav-132" parent="1" style="ellipse;whiteSpace=wrap;html=1;shapeInside=1;aspect=fixed;" value="&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); text-decoration-line: inherit;&quot;&gt;客服&lt;/span&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="933" y="1659" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
