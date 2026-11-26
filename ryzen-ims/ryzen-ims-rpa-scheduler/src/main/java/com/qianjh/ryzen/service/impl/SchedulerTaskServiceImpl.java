@@ -6,9 +6,11 @@ import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
+import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
 import com.qianjh.ryzen.ims.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
 import com.qianjh.ryzen.ims.stream.domain.task.type.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.domain.task.type.SchedulerToAppTaskResponse;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import com.qianjh.ryzen.service.SchedulerTaskService;
@@ -31,6 +33,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
     private final KafkaSchedulerTransport transport;
     private final ExecutorTaskService executorTaskService;
     private final TaskDispatchService taskDispatchService;
+    private final SchedulerToAppTaskResponse.Publisher schedulerToAppTaskResponsePublisher;
 
     /**
      * 接受任务
@@ -41,20 +44,33 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
     public void accept(AppToSchedulerTaskRequest.Body request) {
         validate(request);
         LocalDateTime now = LocalDateTime.now();
+
+        // 设置截止时间
         LocalDateTime deadlineTime = request.deadlineTime() == null || request.deadlineTime() <= 0
-                ? now.plusSeconds(properties.getTaskTimeoutSeconds()) : DateTimeUtils.parseMillis(request.deadlineTime());
+                ? now.plusSeconds(properties.getTaskTimeoutSeconds())
+                : DateTimeUtils.parseMillis(request.deadlineTime());
         if (deadlineTime.isBefore(now)) {
             throw new IllegalArgumentException("deadlineTime must be in the future");
         }
 
         // 创建执行器任务
-        ExecutorTask task = executorTaskService.createIfAbsent(request.code(), request.assignmentId(), request.conversationCode(), request.content(), deadlineTime);
-
-        // 校验
-        if (!task.getAssignmentId().equals(request.assignmentId())
-                || !task.getConversationCode().equals(request.conversationCode())) {
-            throw new IllegalArgumentException("id was reused with a different payload: " + request.code());
+        SchedulerToAppTaskResponseResult result;
+        ExecutorTask task = executorTaskService.getByUk(request.code());
+        if (task == null) {
+            result = SchedulerToAppTaskResponseResult.ACCEPTED;
+            task = executorTaskService.create(request.code(), request.assignmentId(), request.conversationCode(),
+                    request.content(), deadlineTime);
+        } else {
+            result = SchedulerToAppTaskResponseResult.DUPLICATE;
         }
+
+        // 回执-受理
+        schedulerToAppTaskResponsePublisher.publish(
+                SchedulerToAppTaskResponse.Body.builder()
+                        .code(request.code())
+                        .result(result)
+                        .build()
+        );
 
         // 待执行
         if (task.getStatus() == ExecutorTaskStatus.PENDING) {

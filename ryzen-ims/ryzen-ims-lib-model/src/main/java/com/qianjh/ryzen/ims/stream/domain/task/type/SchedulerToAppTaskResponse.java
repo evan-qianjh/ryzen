@@ -20,7 +20,7 @@ public interface SchedulerToAppTaskResponse<T> extends SchedulerToAppTask<T> {
      */
     @Builder(toBuilder = true)
     record Body(
-            Long taskId,
+            String code,
             SchedulerToAppTaskResponseResult result
     ) {
     }

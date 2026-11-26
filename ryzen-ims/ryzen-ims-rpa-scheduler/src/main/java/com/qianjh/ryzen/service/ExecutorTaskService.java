@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 
 public interface ExecutorTaskService extends IService<ExecutorTask> {
 
-    ExecutorTask getByUk(String commandCode);
+    ExecutorTask getByUk(String code);
 
-    ExecutorTask getByCommandCode(String commandCode);
+    ExecutorTask getByCode(String code);
 
-    ExecutorTask create(String commandCode, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
+    ExecutorTask create(String code, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
 
-    ExecutorTask createIfAbsent(String commandCode, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
+    ExecutorTask createIfAbsent(String code, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
 
     /**
      * 待执行任务标记超时

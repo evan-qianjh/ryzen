@@ -51,7 +51,7 @@ public class TaskDispatchServiceImpl implements TaskDispatchService {
         boolean success2 = executorTaskService.lambdaUpdate()
                 .set(ExecutorTask::getExecutorId, executor.getId())
                 .set(ExecutorTask::getStatus, ExecutorTaskStatus.DISPATCHED)
-                .set(ExecutorTask::getDispatchTime, LocalDateTime.now())
+                .set(ExecutorTask::getDispatchedTime, LocalDateTime.now())
                 .setSql("error_message = NULL")
                 .eq(ExecutorTask::getId, task.getId())
                 .eq(ExecutorTask::getStatus, ExecutorTaskStatus.PENDING)

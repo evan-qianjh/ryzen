@@ -30,7 +30,7 @@ public class AppToSchedulerServiceImpl implements AppToSchedulerService {
         // 生成一个随机码+内容发给调度器
         appToSchedulerTaskRequestPublisher.publish(
                 AppToSchedulerTaskRequest.Body.builder()
-                        .code(IdUtils.generateUUID()) // TODO
+                        .code(IdUtils.toString(task.getId()))
                         .assignmentId(imAccount.getExecutorAssignmentId())
                         .conversationCode(imConversation.getCode())
                         .content(content.content())

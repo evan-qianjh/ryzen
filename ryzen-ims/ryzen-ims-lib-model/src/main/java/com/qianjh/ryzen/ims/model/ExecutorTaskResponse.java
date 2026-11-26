@@ -10,7 +10,7 @@ import lombok.Builder;
  * @param taskId       任务ID
  * @param status       状态
  * @param errorMessage 错误信息
- * @param finishedTime   完成时间
+ * @param finishedTime 完成时间
  * @author QianJH
  */
 @Builder(toBuilder = true)
@@ -20,6 +20,8 @@ public record ExecutorTaskResponse(
         Long taskId,
         ExecutorTaskStatus status,
         String errorMessage,
+        // TODO 不可信
+        @Deprecated
         Long finishedTime,
         String receiptCode
 ) {

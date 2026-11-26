@@ -20,22 +20,24 @@ public class ExecutorTask {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
-    private String commandCode;
+    private String code;
     private Long assignmentId;
+    private Long executorId;
     private String conversationCode;
     private String content;
 
     private ExecutorTaskStatus status;
 
-    private Long executorId;
-
-    private LocalDateTime dispatchTime;
-    private LocalDateTime acceptedTime;
-    private LocalDateTime startTime;
-    private LocalDateTime finishTime;
     private LocalDateTime deadlineTime;
+    private LocalDateTime acceptedTime;
+    private LocalDateTime dispatchedTime;
+    private LocalDateTime startedTime;
+    private LocalDateTime finishedTime;
     private String errorMessage;
 
+    /**
+     * 回执
+     */
     private String receiptCode;
 
     private LocalDateTime createdTime;
