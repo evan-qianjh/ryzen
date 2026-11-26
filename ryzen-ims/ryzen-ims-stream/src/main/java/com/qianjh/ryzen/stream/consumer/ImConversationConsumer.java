@@ -21,7 +21,7 @@ public class ImConversationConsumer implements StreamConsumer {
     private final StreamSubscriberDispatcher streamSubscriberDispatcher;
 
     @Bean
-    public Consumer<Message<String>> imsImConversationSource() {
+    public Consumer<Message<String>> imConversationSource() {
         return message -> {
             MessageHeaders headers = message.getHeaders();
             String domain = getDomain(headers);

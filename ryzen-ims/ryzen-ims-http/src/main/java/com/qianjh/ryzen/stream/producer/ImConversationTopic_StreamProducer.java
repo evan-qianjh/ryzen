@@ -22,7 +22,7 @@ public class ImConversationTopic_StreamProducer implements StreamProducer {
             Sinks.many().multicast().onBackpressureBuffer();
 
     @Bean
-    Supplier<Flux<Message<String>>> imsImConversationSink() {
+    Supplier<Flux<Message<String>>> imConversationSink() {
         return sinks::asFlux;
     }
 

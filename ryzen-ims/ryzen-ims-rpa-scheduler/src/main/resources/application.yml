@@ -86,12 +86,6 @@ springdoc:
 
 ryzen:
   scheduler:
-    command-request-topic: ims.app-to-scheduler-command-request
-    command-response-topic: ims.scheduler-to-app-command-response
-    task-request-topic: ims.app-to-scheduler-task-request
-    task-response-topic: ims.scheduler-to-app-task-response
-    message-topic: ims.scheduler-to-app-message
-    report-topic: ims.scheduler-to-app-report
     heartbeat-timeout-seconds: 30
     task-timeout-seconds: 60
     timeout-check-interval-seconds: 5

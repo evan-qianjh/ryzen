@@ -22,9 +22,6 @@ public class Executor {
     private Long id;
 
     private String code;
-
-//    private ImType imType;
-//    private String accountCode;
     private Long currentAssigmentId;
 
     private ExecutorStatus status;
