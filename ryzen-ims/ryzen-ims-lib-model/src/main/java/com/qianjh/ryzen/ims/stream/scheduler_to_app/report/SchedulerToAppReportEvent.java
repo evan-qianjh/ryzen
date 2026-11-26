@@ -1,12 +1,10 @@
-package com.qianjh.ryzen.ims.stream.im_message.im_message.type;
+package com.qianjh.ryzen.ims.stream.scheduler_to_app.report;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageEvent;
-import lombok.AllArgsConstructor;
+import com.qianjh.ryzen.ims.enums.SchedulerReportEventType;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.SchedulerToAppReport;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 账户创建事件
@@ -14,20 +12,17 @@ import lombok.NoArgsConstructor;
  * @param <T>
  * @author QianJH
  */
-public interface ImMessageCreatedEvent<T> extends ImMessageEvent<T> {
-    String TYPE = "created";
+public interface SchedulerToAppReportEvent<T> extends SchedulerToAppReport<T> {
+    String TYPE = "event";
 
     /**
      * 报文体
      */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     @Builder(toBuilder = true)
-    class Body {
-        private Long id;
-        private Long oemId;
-        private Long tenantId;
+    record Body(
+            Long assignmentId,
+            SchedulerReportEventType type
+    ) {
     }
 
     /**

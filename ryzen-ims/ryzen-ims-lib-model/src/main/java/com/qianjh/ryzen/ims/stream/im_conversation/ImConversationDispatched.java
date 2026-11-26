@@ -1,9 +1,9 @@
-package com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched;
+package com.qianjh.ryzen.ims.stream.im_conversation;
 
 
 import com.qianjh.ryzen.framework.stream.model.Stream;
 
-public interface ImConversationDispatchedEvent<T> extends Stream<T> {
+public interface ImConversationDispatched<T> extends Stream<T> {
     String DOMAIN = "im_conversation_dispatched";
 
     @Override

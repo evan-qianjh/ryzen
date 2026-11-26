@@ -7,8 +7,8 @@ import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
-import com.qianjh.ryzen.ims.stream.im_message.im_message.type.ImMessageCreatedEvent;
-import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type.SchedulerToAppReportMessage;
+import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageCreated;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.SchedulerToAppReportMessage;
 import com.qianjh.ryzen.mapper.ImMessageMapper;
 import com.qianjh.ryzen.service.ImMessageService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage> implements ImMessageService {
 
-    private final ImMessageCreatedEvent.Publisher imMessageCreatedEventPublisher;
+    private final ImMessageCreated.Publisher imMessageCreatedEventPublisher;
 
     @Override
     public ImMessage getById(Long oemId, Long tenantId, Long id) {
@@ -62,7 +62,7 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
                 .build();
         save(entity);
 
-        imMessageCreatedEventPublisher.publish(ImMessageCreatedEvent.Body.builder()
+        imMessageCreatedEventPublisher.publish(ImMessageCreated.Body.builder()
                 .id(entity.getId())
                 .oemId(entity.getOemId())
                 .tenantId(entity.getTenantId())

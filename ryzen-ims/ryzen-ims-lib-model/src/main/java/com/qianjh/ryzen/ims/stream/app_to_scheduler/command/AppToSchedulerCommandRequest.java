@@ -1,39 +1,33 @@
-package com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.type;
+package com.qianjh.ryzen.ims.stream.app_to_scheduler.command;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
 import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.enums.MessageDirection;
-import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReport;
+import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.AppToSchedulerCommand;
 import lombok.Builder;
 
 /**
+ * 账户创建事件
  *
  * @param <T>
  * @author QianJH
  */
-public interface ExecutorToSchedulerReportMessage<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "message";
+public interface AppToSchedulerCommandRequest<T> extends AppToSchedulerCommand<T> {
+    String TYPE = "request";
 
     /**
      * 报文体
      */
     @Builder(toBuilder = true)
     record Body(
+            String code,
+            SchedulerCommandType type,
+            // type.assign用到
             ImType imType,
-            MessageDirection direction,
-            String executorCode,
             String accountCode,
-            String messageCode,
-            String conversationCode,
-            String conversationTitle,
-            String conversationSubTitle,
-            String conversationAvatar,
-            String senderCode,
-            String senderName,
-            String senderAvatar,
-            Long sentTime,
-            String content
+            // type.release/start/stop用到
+            Long assignmentId
     ) {
     }
 

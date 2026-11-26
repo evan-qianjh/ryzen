@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.stream.publisher;
 
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
-import com.qianjh.ryzen.ims.stream.scheduler_to_app.command.type.SchedulerToAppCommandResponse;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.command.SchedulerToAppCommandResponse;
 import com.qianjh.ryzen.stream.producer.SchedulerToAppStreamProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

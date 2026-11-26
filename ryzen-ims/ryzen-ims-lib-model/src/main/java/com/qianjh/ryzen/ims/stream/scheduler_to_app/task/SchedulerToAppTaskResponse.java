@@ -1,10 +1,9 @@
-package com.qianjh.ryzen.ims.stream.app_to_scheduler.command.type;
+package com.qianjh.ryzen.ims.stream.scheduler_to_app.task;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.AppToSchedulerCommand;
+import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.SchedulerToAppTask;
 import lombok.Builder;
 
 /**
@@ -13,8 +12,8 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface AppToSchedulerCommandRequest<T> extends AppToSchedulerCommand<T> {
-    String TYPE = "request";
+public interface SchedulerToAppTaskResponse<T> extends SchedulerToAppTask<T> {
+    String TYPE = "response";
 
     /**
      * 报文体
@@ -22,12 +21,7 @@ public interface AppToSchedulerCommandRequest<T> extends AppToSchedulerCommand<T
     @Builder(toBuilder = true)
     record Body(
             String code,
-            SchedulerCommandType type,
-            // type.assign用到
-            ImType imType,
-            String accountCode,
-            // type.release/start/stop用到
-            Long assignmentId
+            SchedulerToAppTaskResponseResult result
     ) {
     }
 

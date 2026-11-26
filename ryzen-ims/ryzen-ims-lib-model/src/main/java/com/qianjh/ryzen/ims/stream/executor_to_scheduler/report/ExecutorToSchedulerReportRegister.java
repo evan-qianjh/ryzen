@@ -1,9 +1,8 @@
-package com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.type;
+package com.qianjh.ryzen.ims.stream.executor_to_scheduler.report;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerReportEventType;
-import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReport;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.ExecutorToSchedulerReport;
 import lombok.Builder;
 
 /**
@@ -11,18 +10,15 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface ExecutorToSchedulerReportEvent<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "event";
+public interface ExecutorToSchedulerReportRegister<T> extends ExecutorToSchedulerReport<T> {
+    String TYPE = "register";
 
     /**
      * 报文体
      */
     @Builder(toBuilder = true)
     record Body(
-            String executorCode,
-            Long assignmentId,
-
-            ExecutorToSchedulerReportEventType type
+            String executorCode
     ) {
     }
 

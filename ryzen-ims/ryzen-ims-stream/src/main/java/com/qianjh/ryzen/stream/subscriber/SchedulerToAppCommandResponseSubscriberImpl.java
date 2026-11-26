@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.AppToSchedulerCommand;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
-import com.qianjh.ryzen.ims.stream.scheduler_to_app.command.type.SchedulerToAppCommandResponse;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.command.SchedulerToAppCommandResponse;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.AppToSchedulerCommandService;
 import lombok.RequiredArgsConstructor;

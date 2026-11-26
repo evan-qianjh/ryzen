@@ -1,9 +1,8 @@
-package com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type;
+package com.qianjh.ryzen.ims.stream.app_to_scheduler.task;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.enums.SchedulerReportEventType;
-import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.SchedulerToAppReport;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.AppToSchedulerTask;
 import lombok.Builder;
 
 /**
@@ -12,16 +11,19 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface SchedulerToAppReportEvent<T> extends SchedulerToAppReport<T> {
-    String TYPE = "event";
+public interface AppToSchedulerTaskRequest<T> extends AppToSchedulerTask<T> {
+    String TYPE = "request";
 
     /**
      * 报文体
      */
     @Builder(toBuilder = true)
     record Body(
+            String code,
             Long assignmentId,
-            SchedulerReportEventType type
+            String conversationCode,
+            String content,
+            Long deadlineTime
     ) {
     }
 

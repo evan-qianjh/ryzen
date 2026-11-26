@@ -1,40 +1,40 @@
-package com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.type;
+package com.qianjh.ryzen.ims.stream.executor_to_scheduler.report;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
-import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.ImConversationDispatchedEvent;
-import lombok.AllArgsConstructor;
+import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageDirection;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.ExecutorToSchedulerReport;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
- * 账户创建事件
  *
  * @param <T>
  * @author QianJH
  */
-public interface ImConversationDispatchedCreatedEvent<T> extends ImConversationDispatchedEvent<T> {
-    String TYPE = "created";
+public interface ExecutorToSchedulerReportMessage<T> extends ExecutorToSchedulerReport<T> {
+    String TYPE = "message";
 
     /**
      * 报文体
      */
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     @Builder(toBuilder = true)
-    class Body {
-        private Long id;
-        private Long oemId;
-        private Long tenantId;
-
-        private Long imConversationId;
-        private Long serviceAccountId;
-        private Long beforeServiceAccountId;
-        private ImConversationDispatchType type;
-        private String remark;
+    record Body(
+            ImType imType,
+            MessageDirection direction,
+            String executorCode,
+            String accountCode,
+            String messageCode,
+            String conversationCode,
+            String conversationTitle,
+            String conversationSubTitle,
+            String conversationAvatar,
+            String senderCode,
+            String senderName,
+            String senderAvatar,
+            Long sentTime,
+            String content
+    ) {
     }
 
     /**

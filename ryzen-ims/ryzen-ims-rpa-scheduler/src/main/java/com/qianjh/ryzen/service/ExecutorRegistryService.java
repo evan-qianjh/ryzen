@@ -4,7 +4,7 @@ import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.SchedulerReportEventType;
 import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
-import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type.SchedulerToAppReportEvent;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.SchedulerToAppReportEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;

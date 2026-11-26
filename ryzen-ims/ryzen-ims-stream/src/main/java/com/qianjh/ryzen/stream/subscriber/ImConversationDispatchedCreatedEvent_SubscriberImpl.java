@@ -3,7 +3,7 @@ package com.qianjh.ryzen.stream.subscriber;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.ImConversationDispatchedCreated;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ImConversationDispatchedCreatedEvent_SubscriberImpl implements ImConversationDispatchedCreatedEvent.Subscriber {
+public class ImConversationDispatchedCreatedEvent_SubscriberImpl implements ImConversationDispatchedCreated.Subscriber {
 
     private final ImConversationService imConversationService;
     private final ImAccountService imAccountService;
@@ -29,7 +29,7 @@ public class ImConversationDispatchedCreatedEvent_SubscriberImpl implements ImCo
     private final PushConversationDispatched.Publisher pushConversationDispatchPublisher;
 
     @Override
-    public void subscribe(ImConversationDispatchedCreatedEvent.Body body) {
+    public void subscribe(ImConversationDispatchedCreated.Body body) {
         log.debug("消费 ImConversationDispatchedCreatedEvent ::: {}", body);
 
         Long oemId = body.getOemId();

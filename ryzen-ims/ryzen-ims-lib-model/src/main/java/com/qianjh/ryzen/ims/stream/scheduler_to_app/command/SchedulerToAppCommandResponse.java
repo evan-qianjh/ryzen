@@ -1,32 +1,35 @@
-package com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.type;
+package com.qianjh.ryzen.ims.stream.scheduler_to_app.command;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
-import com.qianjh.ryzen.ims.enums.ExecutorStatus;
-import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReport;
+import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
+import com.qianjh.ryzen.ims.stream.scheduler_to_app.SchedulerToAppCommand;
 import lombok.Builder;
 
 /**
+ * 账户创建事件
  *
  * @param <T>
  * @author QianJH
  */
-public interface ExecutorToSchedulerReportHeartbeat<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "heartbeat";
+public interface SchedulerToAppCommandResponse<T> extends SchedulerToAppCommand<T> {
+    String TYPE = "response";
 
     /**
      * 报文体
      */
     @Builder(toBuilder = true)
     record Body(
-            String executorCode,
+            String code,
+            SchedulerCommandType type,
+
+            ImType imType,
+            String accountCode,
 
             Long assignmentId,
 
-            ExecutorStatus status,
-            ExecutorOperationType currentOperation,
-            Long currentTaskId,
+            Boolean success,
             String errorMessage
     ) {
     }

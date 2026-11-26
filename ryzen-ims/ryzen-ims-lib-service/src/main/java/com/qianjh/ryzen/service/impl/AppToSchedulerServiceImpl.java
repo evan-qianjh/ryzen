@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.type.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTaskRequest;
 import com.qianjh.ryzen.service.AppToSchedulerService;
 import com.qianjh.ryzen.service.AppToSchedulerTaskService;
 import com.qianjh.ryzen.service.dto.AppToSchedulerTaskContent;

@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImConversationDispatched;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
-import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.ImConversationDispatchedCreated;
 import com.qianjh.ryzen.mapper.ImConversationDispatchedMapper;
 import com.qianjh.ryzen.service.ImConversationDispatchedService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ImConversationDispatchedServiceImpl extends ServiceImpl<ImConversationDispatchedMapper, ImConversationDispatched> implements ImConversationDispatchedService {
 
-    private final ImConversationDispatchedCreatedEvent.Publisher publisher;
+    private final ImConversationDispatchedCreated.Publisher publisher;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -36,7 +36,7 @@ public class ImConversationDispatchedServiceImpl extends ServiceImpl<ImConversat
                 .build();
         save(entity);
 
-        publisher.publish(ImConversationDispatchedCreatedEvent.Body.builder()
+        publisher.publish(ImConversationDispatchedCreated.Body.builder()
                 .id(entity.getId())
                 .oemId(entity.getOemId())
                 .tenantId(entity.getTenantId())

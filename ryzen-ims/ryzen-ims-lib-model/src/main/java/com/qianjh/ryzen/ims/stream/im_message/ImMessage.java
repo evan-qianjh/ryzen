@@ -1,9 +1,9 @@
-package com.qianjh.ryzen.ims.stream.im_message.im_message;
+package com.qianjh.ryzen.ims.stream.im_message;
 
 
 import com.qianjh.ryzen.framework.stream.model.Stream;
 
-public interface ImMessageEvent<T> extends Stream<T> {
+public interface ImMessage<T> extends Stream<T> {
     String DOMAIN = "im_message";
 
     @Override

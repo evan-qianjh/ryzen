@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.ims.config;
 
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.type.AppToSchedulerCommandRequest;
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.type.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.AppToSchedulerCommandRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTaskRequest;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

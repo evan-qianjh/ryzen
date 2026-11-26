@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.stream.subscriber;
 
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.type.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTaskRequest;
 import com.qianjh.ryzen.service.SchedulerTaskService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

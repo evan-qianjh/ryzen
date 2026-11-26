@@ -1,11 +1,13 @@
-package com.qianjh.ryzen.ims.stream.scheduler_to_app.report.type;
+package com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.enums.MessageDirection;
-import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.SchedulerToAppReport;
+import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
+import com.qianjh.ryzen.ims.stream.im_conversation.ImConversationDispatched;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 账户创建事件
@@ -13,29 +15,26 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface SchedulerToAppReportMessage<T> extends SchedulerToAppReport<T> {
-    String TYPE = "message";
+public interface ImConversationDispatchedCreated<T> extends ImConversationDispatched<T> {
+    String TYPE = "created";
 
     /**
      * 报文体
      */
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder(toBuilder = true)
-    record Body(
-            ImType imType,
-            String accountCode,
-            String messageCode,
-            MessageDirection direction,
+    class Body {
+        private Long id;
+        private Long oemId;
+        private Long tenantId;
 
-            String conversationCode,
-            String conversationTitle,
-            String conversationSubTitle,
-            String conversationAvatar,
-            String senderCode,
-            String senderName,
-            String senderAvatar,
-            String content,
-            Long sentTime
-    ) {
+        private Long imConversationId;
+        private Long serviceAccountId;
+        private Long beforeServiceAccountId;
+        private ImConversationDispatchType type;
+        private String remark;
     }
 
     /**

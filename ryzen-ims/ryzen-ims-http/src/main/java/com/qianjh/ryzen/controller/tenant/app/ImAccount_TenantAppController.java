@@ -22,7 +22,7 @@ import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ImType;
 import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.type.AppToSchedulerCommandRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.AppToSchedulerCommandRequest;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
 import com.qianjh.ryzen.service.MatchTagService;

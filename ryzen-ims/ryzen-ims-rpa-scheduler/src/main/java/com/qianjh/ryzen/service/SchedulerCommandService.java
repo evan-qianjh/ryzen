@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.type.AppToSchedulerCommandRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.AppToSchedulerCommandRequest;
 
 /**
  *

@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.type.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTaskRequest;
 
 public interface SchedulerTaskService {
 

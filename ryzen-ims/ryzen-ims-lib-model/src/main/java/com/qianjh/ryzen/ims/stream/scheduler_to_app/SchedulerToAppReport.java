@@ -1,9 +1,9 @@
-package com.qianjh.ryzen.ims.stream.executor_to_scheduler.report;
+package com.qianjh.ryzen.ims.stream.scheduler_to_app;
 
 
 import com.qianjh.ryzen.framework.stream.model.Stream;
 
-public interface ExecutorToSchedulerReport<T> extends Stream<T> {
+public interface SchedulerToAppReport<T> extends Stream<T> {
     String DOMAIN = "report";
 
     @Override

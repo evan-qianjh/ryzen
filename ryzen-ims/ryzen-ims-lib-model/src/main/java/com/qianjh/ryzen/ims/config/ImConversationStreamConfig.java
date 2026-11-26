@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.ims.config;
 
-import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.ImConversationDispatchedCreated;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 public class ImConversationStreamConfig {
 
     @Bean
-    @ConditionalOnMissingBean(ImConversationDispatchedCreatedEvent.Publisher.class)
-    public ImConversationDispatchedCreatedEvent.Publisher imConversationDispatchedCreatedEventPublisher() {
+    @ConditionalOnMissingBean(ImConversationDispatchedCreated.Publisher.class)
+    public ImConversationDispatchedCreated.Publisher imConversationDispatchedCreatedEventPublisher() {
         return _ -> {
             throw new UnsupportedOperationException(
                     "ImConversationDispatchedCreatedEvent.Publisher is not configured"
@@ -19,8 +19,8 @@ public class ImConversationStreamConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(ImConversationDispatchedCreatedEvent.Subscriber.class)
-    public ImConversationDispatchedCreatedEvent.Subscriber imConversationDispatchedCreatedEventSubscriber() {
+    @ConditionalOnMissingBean(ImConversationDispatchedCreated.Subscriber.class)
+    public ImConversationDispatchedCreated.Subscriber imConversationDispatchedCreatedEventSubscriber() {
         return _ -> {
             throw new UnsupportedOperationException(
                     "ImConversationDispatchedCreatedEvent.Subscriber is not configured"

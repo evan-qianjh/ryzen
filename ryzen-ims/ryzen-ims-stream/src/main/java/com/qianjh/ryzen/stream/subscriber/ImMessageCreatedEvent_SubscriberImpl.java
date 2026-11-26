@@ -5,7 +5,7 @@ import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.ims.stream.im_message.im_message.type.ImMessageCreatedEvent;
+import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageCreated;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEvent.Subscriber {
+public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreated.Subscriber {
 
     private final ImMessageService imMessageService;
     private final ImAccountService imAccountService;
@@ -31,7 +31,7 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreatedEve
     private final ImConversationDispatchService imConversationDispatchService;
 
     @Override
-    public void subscribe(ImMessageCreatedEvent.Body body) {
+    public void subscribe(ImMessageCreated.Body body) {
         log.debug("消费 ImMessageCreatedEvent ::: {}", body);
         Long oemId = body.getOemId();
         Long tenantId = body.getTenantId();

@@ -1,9 +1,9 @@
-package com.qianjh.ryzen.ims.stream.app_to_scheduler.task;
+package com.qianjh.ryzen.ims.stream.scheduler_to_app;
 
 
 import com.qianjh.ryzen.framework.stream.model.Stream;
 
-public interface AppToSchedulerTask<T> extends Stream<T> {
+public interface SchedulerToAppTask<T> extends Stream<T> {
     String DOMAIN = "task";
 
     @Override

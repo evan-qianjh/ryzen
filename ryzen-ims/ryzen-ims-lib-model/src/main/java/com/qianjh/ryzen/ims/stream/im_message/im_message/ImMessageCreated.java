@@ -1,9 +1,12 @@
-package com.qianjh.ryzen.ims.stream.app_to_scheduler.task.type;
+package com.qianjh.ryzen.ims.stream.im_message.im_message;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTask;
+import com.qianjh.ryzen.ims.stream.im_message.ImMessage;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 账户创建事件
@@ -11,20 +14,20 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface AppToSchedulerTaskRequest<T> extends AppToSchedulerTask<T> {
-    String TYPE = "request";
+public interface ImMessageCreated<T> extends ImMessage<T> {
+    String TYPE = "created";
 
     /**
      * 报文体
      */
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder(toBuilder = true)
-    record Body(
-            String code,
-            Long assignmentId,
-            String conversationCode,
-            String content,
-            Long deadlineTime
-    ) {
+    class Body {
+        private Long id;
+        private Long oemId;
+        private Long tenantId;
     }
 
     /**
