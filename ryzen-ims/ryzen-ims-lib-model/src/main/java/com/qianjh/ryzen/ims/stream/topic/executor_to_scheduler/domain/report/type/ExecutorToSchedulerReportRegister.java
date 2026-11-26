@@ -2,8 +2,6 @@ package com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.ty
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
-import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.ExecutorToSchedulerReport;
 import lombok.Builder;
 
@@ -12,22 +10,15 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface ExecutorSchedulerReportHeartbeat<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "heartbeat";
+public interface ExecutorToSchedulerReportRegister<T> extends ExecutorToSchedulerReport<T> {
+    String TYPE = "register";
 
     /**
      * 报文体
      */
     @Builder(toBuilder = true)
     record Body(
-            String executorCode,
-
-            Long assignmentId,
-
-            ExecutorStatus status,
-            ExecutorOperationType currentOperation,
-            Long currentTaskId,
-            String errorMessage
+            String executorCode
     ) {
     }
 

@@ -11,7 +11,7 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface ExecutorSchedulerReportEvent<T> extends ExecutorToSchedulerReport<T> {
+public interface ExecutorToSchedulerReportEvent<T> extends ExecutorToSchedulerReport<T> {
     String TYPE = "event";
 
     /**

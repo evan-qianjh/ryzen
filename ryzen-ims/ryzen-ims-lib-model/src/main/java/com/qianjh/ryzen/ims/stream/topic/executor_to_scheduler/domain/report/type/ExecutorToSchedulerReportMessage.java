@@ -2,6 +2,8 @@ package com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.ty
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
+import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.ims.stream.topic.executor_to_scheduler.domain.report.ExecutorToSchedulerReport;
 import lombok.Builder;
 
@@ -10,15 +12,28 @@ import lombok.Builder;
  * @param <T>
  * @author QianJH
  */
-public interface ExecutorSchedulerReportRegister<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "register";
+public interface ExecutorToSchedulerReportMessage<T> extends ExecutorToSchedulerReport<T> {
+    String TYPE = "message";
 
     /**
      * 报文体
      */
     @Builder(toBuilder = true)
     record Body(
-            String executorCode
+            ImType imType,
+            MessageDirection direction,
+            String executorCode,
+            String accountCode,
+            String messageCode,
+            String conversationCode,
+            String conversationTitle,
+            String conversationSubTitle,
+            String conversationAvatar,
+            String senderCode,
+            String senderName,
+            String senderAvatar,
+            Long sentTime,
+            String content
     ) {
     }
 
