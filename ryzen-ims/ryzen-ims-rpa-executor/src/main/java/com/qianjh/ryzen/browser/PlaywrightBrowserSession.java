@@ -80,11 +80,12 @@ public class PlaywrightBrowserSession implements BrowserSession {
         if (currentChat.count() > 0) {
             Locator chat = currentChat.locator("xpath=..");
             String chatCode = getChatCode(chat);
-            String sender = getChatSender(chat);
+            String chatTitle = getChatTitle(chat);
+            String chatAvatar = getChatAvatar(chat);
 
-            log.info("存在进行中对话框 ::: chatCode={}, sender={}", chatCode, sender);
+            log.info("存在进行中对话框 ::: chatCode={}, sender={}", chatCode, chatTitle);
             result.addAll(
-                    parseMessageArea(chatCode, sender)
+                    parseMessageArea(chatCode, chatTitle, chatAvatar)
             );
         }
 
@@ -96,7 +97,8 @@ public class PlaywrightBrowserSession implements BrowserSession {
             Locator unreadFlag = unreadFlags.nth(i);
             Locator chat = unreadFlag.locator("xpath=ancestor::div[@data-conversation-id][1]");
             String chatCode = getChatCode(chat);
-            String sender = getChatSender(chat);
+            String chatTitle = getChatTitle(chat);
+            String chatAvatar = getChatAvatar(chat);
 
             // 点击对话框
             chat.click();
@@ -104,7 +106,7 @@ public class PlaywrightBrowserSession implements BrowserSession {
 
             // 解析
             result.addAll(
-                    parseMessageArea(chatCode, sender)
+                    parseMessageArea(chatCode, chatTitle, chatAvatar)
             );
         }
 
@@ -115,8 +117,12 @@ public class PlaywrightBrowserSession implements BrowserSession {
 
     // TODO 编辑昵称？
 
-    private String getChatSender(Locator chat) {
+    private String getChatTitle(Locator chat) {
         return chat.locator("span[class*='style-module_sessionNickname_']").textContent();
+    }
+
+    private String getChatAvatar(Locator chat) {
+        return chat.locator("img[class*='style-module_sessionAvatar_']").getAttribute("src");
     }
 
     private String getChatCode(Locator chat) {
@@ -129,19 +135,19 @@ public class PlaywrightBrowserSession implements BrowserSession {
      * @param chatCode 对话
      * @return 消息
      */
-    private List<ExecutorMessage> parseMessageArea(String chatCode, String chatName) {
+    private List<ExecutorMessage> parseMessageArea(String chatCode, String chatName, String chatAvatar) {
         log.info("处理对话框 ::: chatId={}, chatName={}", chatCode, chatName);
 
         // 客户名 标题
-        Locator customerNameNode = page.locator("span[title=点击编辑昵称]");
+        Locator customerNameNode = page.locator("span[title='点击编辑昵称']");
         String conversationTitle = customerNameNode.count() > 0 ? customerNameNode.textContent() : chatName;
 
         // 门店 副标题
-        Locator shopNameNode = page.locator("span[class*=style-module_shopName_]");
+        Locator shopNameNode = page.locator("span[class*='style-module_shopName_']");
         String conversationSubTitle = shopNameNode.count() > 0 ? shopNameNode.textContent() : null;
 
         // 获取发来的消息列表
-        Locator messageHits = page.locator("div[class*=message-wrapper]");
+        Locator messageHits = page.locator("div[class*='message-wrapper']");
         int hitsCount = messageHits.count();
         if (hitsCount == 0) {
             return Collections.emptyList();
@@ -219,6 +225,7 @@ public class PlaywrightBrowserSession implements BrowserSession {
                             .conversationCode(chatCode)
                             .conversationTitle(conversationTitle)
                             .conversationSubTitle(conversationSubTitle)
+                            .conversationAvatar(chatAvatar)
                             .senderCode(null)
                             .senderName(senderName)
                             .senderAvatar(avatar)

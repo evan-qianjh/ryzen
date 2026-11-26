@@ -9,7 +9,8 @@ import java.util.List;
 public record GetConversationsResp(
         String id,
         ImType imType,
-        String name,
+        String title,
+        String subTitle,
         String avatar,
         String lastMessageContent,
         String lastMessageId,

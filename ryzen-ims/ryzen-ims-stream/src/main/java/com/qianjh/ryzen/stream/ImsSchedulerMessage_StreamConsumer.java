@@ -1,13 +1,13 @@
 package com.qianjh.ryzen.stream;
 
-import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImAccount;
+import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
 import com.qianjh.ryzen.ims.model.SchedulerMessage;
-import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImAccountService;
+import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -47,12 +47,18 @@ public class ImsSchedulerMessage_StreamConsumer implements StreamConsumer {
             }
 
             // 对话
-            ImConversation conversation = conversationService.createIfAbsent(imAccount, schedulerMessage.conversationCode());
+            ImConversation conversation = conversationService.createIfAbsent(
+                    imAccount,
+                    schedulerMessage.conversationCode(),
+                    schedulerMessage.conversationTitle(),
+                    schedulerMessage.conversationSubTitle(),
+                    schedulerMessage.conversationAvatar()
+            );
 
             // 消息
             ImMessage messageEntity = messageService.createIfAbsent(imAccount, conversation, schedulerMessage);
 
-            conversationService.recordLastMessage(conversation, messageEntity);
+            conversationService.recordLastMessage(conversation, messageEntity, schedulerMessage);
         };
     }
 }

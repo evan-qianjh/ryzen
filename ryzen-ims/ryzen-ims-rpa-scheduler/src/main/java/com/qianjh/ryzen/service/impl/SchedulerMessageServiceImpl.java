@@ -3,10 +3,10 @@ package com.qianjh.ryzen.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.SchedulerMessage;
-import com.qianjh.ryzen.ims.enums.ImType;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
-import com.qianjh.ryzen.mapper.SchedulerMessageMapper;
+import com.qianjh.ryzen.ims.enums.ImType;
 import com.qianjh.ryzen.ims.model.ExecutorMessage;
+import com.qianjh.ryzen.mapper.SchedulerMessageMapper;
 import com.qianjh.ryzen.service.SchedulerMessageService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,13 +29,16 @@ public class SchedulerMessageServiceImpl extends ServiceImpl<SchedulerMessageMap
                 .imType(message.imType())
                 .messageCode(message.messageCode())
                 .direction(message.direction())
-
                 .accountCode(message.accountCode())
+
                 .conversationCode(message.conversationCode())
+                .conversationTitle(message.conversationTitle())
+                .conversationSubTitle(message.conversationSubTitle())
+                .conversationAvatar(message.conversationAvatar())
+
                 .senderCode(message.senderCode())
                 .senderName(message.senderName())
                 .senderAvatar(message.senderAvatar())
-
                 .sentTime(DateTimeUtils.parseMillis(message.sentTime()))
                 .content(message.content())
                 .build();

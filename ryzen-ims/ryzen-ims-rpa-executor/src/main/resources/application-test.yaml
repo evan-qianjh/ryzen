@@ -4,7 +4,7 @@ logging:
 
 spring:
   kafka:
-    bootstrap-servers: kafka.qianjh-test.com:9094
+    bootstrap-servers: kafka.jietaitai-test.com:9094
     properties:
       security.protocol: SASL_SSL
       sasl.mechanism: SCRAM-SHA-512
@@ -14,6 +14,6 @@ spring:
         username="ims_executor"
         password="executor@r0n3V#hLNEOPXI!qDxVMNDo";
       ssl.truststore.type: PKCS12
-      ssl.truststore.location: /home/qianjh/Downloads/kafka.qianjh-test.com.truststore.p12
+      ssl.truststore.location: /home/qianjh/Downloads/kafka.jietaitai-test.com.truststore.p12
       ssl.truststore.password: qianjh@qq.com
       ssl.endpoint.identification.algorithm: https

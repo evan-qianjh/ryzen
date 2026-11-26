@@ -31,9 +31,8 @@ public class ImConversation {
 
     // 对话唯一标识
     private String code;
-    // 对话名称
-    private String name;
-    //
+    private String title;
+    private String subTitle;
     private String avatar;
 
     // 当前接待账户

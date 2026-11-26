@@ -35,7 +35,8 @@ public interface PushMessageInsert<T> extends PushMessage<T> {
         public record Conversation(
                 Long id,
                 String imType,
-                String name,
+                String title,
+                String subTitle,
                 String avatar,
                 List<String> matchTags,
                 Long serviceAccountId

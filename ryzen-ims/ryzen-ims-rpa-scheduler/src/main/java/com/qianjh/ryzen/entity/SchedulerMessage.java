@@ -28,6 +28,9 @@ public class SchedulerMessage {
     private MessageDirection direction;
 
     private String conversationCode;
+    private String conversationTitle;
+    private String conversationSubTitle;
+    private String conversationAvatar;
     private String senderCode;
     private String senderName;
     private String senderAvatar;
