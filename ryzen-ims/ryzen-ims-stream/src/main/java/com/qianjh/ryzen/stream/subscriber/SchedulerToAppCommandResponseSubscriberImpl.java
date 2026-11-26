@@ -1,13 +1,13 @@
 package com.qianjh.ryzen.stream.subscriber;
 
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.ToSchedulerCommand;
+import com.qianjh.ryzen.entity.AppToSchedulerCommand;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.ims.stream.domain.command.type.SchedulerToAppCommandResponse;
 import com.qianjh.ryzen.service.ImAccountService;
-import com.qianjh.ryzen.service.ToSchedulerCommandService;
+import com.qianjh.ryzen.service.AppToSchedulerCommandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class SchedulerToAppCommandResponseSubscriberImpl implements SchedulerToAppCommandResponse.Subscriber {
-    private final ToSchedulerCommandService toSchedulerCommandService;
+    private final AppToSchedulerCommandService toSchedulerCommandService;
     private final ImAccountService imAccountService;
 
     @Override
@@ -32,7 +32,7 @@ public class SchedulerToAppCommandResponseSubscriberImpl implements SchedulerToA
                 .build();
 
         // command
-        ToSchedulerCommand command = toSchedulerCommandService.getById(body.code());
+        AppToSchedulerCommand command = toSchedulerCommandService.getById(body.code());
         if (command == null) {
             log.error("指令不存在 ASSIGN ::: {}", body);
             return;

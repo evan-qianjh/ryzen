@@ -2,11 +2,11 @@ package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.ToSchedulerCommand;
+import com.qianjh.ryzen.entity.AppToSchedulerCommand;
 import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
 import com.qianjh.ryzen.ims.enums.ToSchedulerCommandDomainType;
 
-public interface ToSchedulerCommandService extends IService<ToSchedulerCommand> {
+public interface AppToSchedulerCommandService extends IService<AppToSchedulerCommand> {
     /**
      * 创建
      *
@@ -17,7 +17,7 @@ public interface ToSchedulerCommandService extends IService<ToSchedulerCommand> 
      * @param domainId    领域ID
      * @return 指令
      */
-    ToSchedulerCommand create(Long oemId, Long tenantId, SchedulerCommandType commandType, ToSchedulerCommandDomainType domainType, Long domainId);
+    AppToSchedulerCommand create(Long oemId, Long tenantId, SchedulerCommandType commandType, ToSchedulerCommandDomainType domainType, Long domainId);
 
     /**
      * 创建
@@ -26,7 +26,7 @@ public interface ToSchedulerCommandService extends IService<ToSchedulerCommand> 
      * @param commandType 指令类型
      * @return 指令
      */
-    ToSchedulerCommand create(ImAccount domain, SchedulerCommandType commandType);
+    AppToSchedulerCommand create(ImAccount domain, SchedulerCommandType commandType);
 
     /**
      *
@@ -35,5 +35,5 @@ public interface ToSchedulerCommandService extends IService<ToSchedulerCommand> 
      * @param errorMessage
      * @return
      */
-    boolean response(ToSchedulerCommand entity, Boolean success, String errorMessage);
+    boolean response(AppToSchedulerCommand entity, Boolean success, String errorMessage);
 }

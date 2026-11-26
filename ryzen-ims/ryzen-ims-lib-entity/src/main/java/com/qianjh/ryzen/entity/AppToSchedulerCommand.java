@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder(toBuilder = true)
-@TableName(_Schema.TABLE_PREFIX + "to_scheduler_command")
-public class ToSchedulerCommand {
+@TableName(_Schema.TABLE_PREFIX + "app_to_scheduler_command")
+public class AppToSchedulerCommand {
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
     private Long oemId;

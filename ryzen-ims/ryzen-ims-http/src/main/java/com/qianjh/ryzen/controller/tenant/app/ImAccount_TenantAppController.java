@@ -6,7 +6,7 @@ import com.qianjh.ryzen.controller.tenant.app.dto.GetImAccountsResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostMatchTagsByDomainReq;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.MatchTag;
-import com.qianjh.ryzen.entity.ToSchedulerCommand;
+import com.qianjh.ryzen.entity.AppToSchedulerCommand;
 import com.qianjh.ryzen.framework.common.dto.OffsetPage;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.dto.Receipt;
@@ -26,7 +26,7 @@ import com.qianjh.ryzen.ims.stream.domain.command.type.AppToSchedulerCommandRequ
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
 import com.qianjh.ryzen.service.MatchTagService;
-import com.qianjh.ryzen.service.ToSchedulerCommandService;
+import com.qianjh.ryzen.service.AppToSchedulerCommandService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -50,7 +50,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
     private final MatchTagService matchTagService;
     private final ImAccountService imAccountService;
-    private final ToSchedulerCommandService imAccountCommandService;
+    private final AppToSchedulerCommandService imAccountCommandService;
     private final MatchTagImAccountService matchTagImAccountService;
     private final AppToSchedulerCommandRequest.Publisher appToSchedulerCommandRequestPublisher;
 
@@ -144,7 +144,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         SchedulerCommandType commandType = SchedulerCommandType.ASSIGN_EXECUTOR;
 
         // 创建命令
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
+        AppToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
         appToSchedulerCommandRequestPublisher.publish(
@@ -185,7 +185,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.RELEASE_EXECUTOR;
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
+        AppToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
         appToSchedulerCommandRequestPublisher.publish(
                 AppToSchedulerCommandRequest.Body.builder()
                         .code(IdUtils.toString(command.getId()))
@@ -227,7 +227,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         Operator operator = buildOperator(accountId, accountName);
 
         SchedulerCommandType commandType = SchedulerCommandType.START_EXECUTOR;
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
+        AppToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
         appToSchedulerCommandRequestPublisher.publish(
@@ -265,7 +265,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         Operator operator = buildOperator(accountId, accountName);
 
         SchedulerCommandType commandType = SchedulerCommandType.STOP_EXECUTOR;
-        ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
+        AppToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
         appToSchedulerCommandRequestPublisher.publish(

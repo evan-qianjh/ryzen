@@ -2,21 +2,21 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.ImAccount;
-import com.qianjh.ryzen.entity.ToSchedulerCommand;
+import com.qianjh.ryzen.entity.AppToSchedulerCommand;
 import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
 import com.qianjh.ryzen.ims.enums.ToSchedulerCommandDomainType;
-import com.qianjh.ryzen.mapper.ToSchedulerCommandMapper;
-import com.qianjh.ryzen.service.ToSchedulerCommandService;
+import com.qianjh.ryzen.mapper.AppToSchedulerCommandMapper;
+import com.qianjh.ryzen.service.AppToSchedulerCommandService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ToSchedulerCommandServiceImpl extends ServiceImpl<ToSchedulerCommandMapper, ToSchedulerCommand> implements ToSchedulerCommandService {
+public class AppToSchedulerCommandServiceImpl extends ServiceImpl<AppToSchedulerCommandMapper, AppToSchedulerCommand> implements AppToSchedulerCommandService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ToSchedulerCommand create(Long oemId, Long tenantId, SchedulerCommandType commandType, ToSchedulerCommandDomainType domainType, Long domainId) {
-        ToSchedulerCommand entity = ToSchedulerCommand.builder()
+    public AppToSchedulerCommand create(Long oemId, Long tenantId, SchedulerCommandType commandType, ToSchedulerCommandDomainType domainType, Long domainId) {
+        AppToSchedulerCommand entity = AppToSchedulerCommand.builder()
                 .oemId(oemId)
                 .tenantId(tenantId)
                 .commandType(commandType)
@@ -31,20 +31,20 @@ public class ToSchedulerCommandServiceImpl extends ServiceImpl<ToSchedulerComman
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ToSchedulerCommand create(ImAccount domain, SchedulerCommandType commandType) {
+    public AppToSchedulerCommand create(ImAccount domain, SchedulerCommandType commandType) {
         return create(domain.getOemId(), domain.getTenantId(), commandType, ToSchedulerCommandDomainType.IM_ACCOUNT, domain.getId());
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean response(ToSchedulerCommand entity, Boolean success, String errorMessage) {
+    public boolean response(AppToSchedulerCommand entity, Boolean success, String errorMessage) {
         return lambdaUpdate()
-                .set(ToSchedulerCommand::getSuccess, success)
-                .set(ToSchedulerCommand::getErrorMessage, errorMessage)
+                .set(AppToSchedulerCommand::getSuccess, success)
+                .set(AppToSchedulerCommand::getErrorMessage, errorMessage)
                 //
-                .eq(ToSchedulerCommand::getId, entity.getId())
-                .eq(ToSchedulerCommand::getOemId, entity.getOemId())
-                .eq(ToSchedulerCommand::getTenantId, entity.getTenantId())
+                .eq(AppToSchedulerCommand::getId, entity.getId())
+                .eq(AppToSchedulerCommand::getOemId, entity.getOemId())
+                .eq(AppToSchedulerCommand::getTenantId, entity.getTenantId())
                 .update();
     }
 }
