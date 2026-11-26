@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
+import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
 import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
 import com.qianjh.ryzen.mapper.ExecutorTaskMapper;
 import com.qianjh.ryzen.service.ExecutorTaskService;
@@ -61,6 +63,7 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
     @Override
     public boolean timeoutPendingTasks(LocalDateTime now) {
         // TODO 通知app TIMEOUT
+        SchedulerToAppTaskResponseResult toAppResult = SchedulerToAppTaskResponseResult.TIMEOUT;
 
         return lambdaUpdate()
                 .set(ExecutorTask::getStatus, ExecutorTaskStatus.TIMEOUT)
@@ -76,6 +79,8 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
     @Override
     public boolean unknownRunningTasks(LocalDateTime now) {
         // TODO 通知app UNKNOWN
+        SchedulerToAppTaskResponseResult toAppResult = SchedulerToAppTaskResponseResult.UNKNOWN;
+
         return lambdaUpdate()
                 .set(ExecutorTask::getStatus, ExecutorTaskStatus.UNKNOWN)
                 .set(ExecutorTask::getFinishedTime, now)
@@ -102,7 +107,7 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateTaskEvent(Executor executor, ExecutorTaskResponse event, ExecutorTaskStatus status) {
+    public boolean updateTaskEvent(Executor executor, ExecutorTaskResponse event, ExecutorToSchedulerTaskResult status) {
         // TODO 应该取写入kafka时间
         LocalDateTime now = LocalDateTime.now();
         switch (status) {

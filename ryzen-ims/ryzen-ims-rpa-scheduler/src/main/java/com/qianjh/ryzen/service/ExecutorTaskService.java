@@ -3,7 +3,7 @@ package com.qianjh.ryzen.service;
 import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
-import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
 
 import java.time.LocalDateTime;
@@ -51,5 +51,5 @@ public interface ExecutorTaskService extends IService<ExecutorTask> {
      * @param status   状态
      * @return 结果
      */
-    boolean updateTaskEvent(Executor executor, ExecutorTaskResponse event, ExecutorTaskStatus status);
+    boolean updateTaskEvent(Executor executor, ExecutorTaskResponse event, ExecutorToSchedulerTaskResult status);
 }

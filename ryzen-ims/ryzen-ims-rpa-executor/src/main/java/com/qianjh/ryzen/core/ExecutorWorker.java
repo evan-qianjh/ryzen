@@ -5,7 +5,7 @@ import com.qianjh.ryzen.browser.BrowserSessionFactory;
 import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
-import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.model.*;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import jakarta.annotation.PostConstruct;
@@ -478,9 +478,8 @@ public class ExecutorWorker {
                     .assignmentId(assignment.id())
                     .executorCode(properties.getCode())
                     .taskId(task.taskId())
-                    .status(ExecutorTaskStatus.SUCCESS)
+                    .result(ExecutorToSchedulerTaskResult.SUCCESS)
                     .errorMessage(null)
-                    .finishedTime(System.currentTimeMillis())
                     .receiptCode(receiptCode)
                     .build();
             transport.taskFinished(result);
@@ -493,9 +492,8 @@ public class ExecutorWorker {
                     .assignmentId(assignment.id())
                     .executorCode(properties.getCode())
                     .taskId(task.taskId())
-                    .status(ExecutorTaskStatus.UNKNOWN)
+                    .result(ExecutorToSchedulerTaskResult.UNKNOWN)
                     .errorMessage(e.getMessage())
-                    .finishedTime(System.currentTimeMillis())
                     .build();
             transport.taskFinished(result);
         } finally {
@@ -536,9 +534,8 @@ public class ExecutorWorker {
                                 .assignmentId(assignment.id())
                                 .executorCode(properties.getCode())
                                 .taskId(task.taskId())
-                                .status(ExecutorTaskStatus.CANCELED)
+                                .result(ExecutorToSchedulerTaskResult.CANCELED)
                                 .errorMessage(reason)
-                                .finishedTime(System.currentTimeMillis())
                                 .build()
                 );
             } catch (Exception e) {

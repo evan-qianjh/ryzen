@@ -6,6 +6,7 @@ import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
 import com.qianjh.ryzen.ims.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
@@ -38,7 +39,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
     /**
      * 接受任务
      *
-     * @param request
+     * @param request 请求
      */
     @Override
     public void accept(AppToSchedulerTaskRequest.Body request) {
@@ -82,7 +83,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
     /**
      * 分发待执行
      *
-     * @param assignmentId
+     * @param assignmentId 分配
      */
     @Override
     public void dispatchTaskRequest(Long assignmentId) {
@@ -146,7 +147,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
             return;
         }
 
-        ExecutorTaskStatus status = response.status();
+        ExecutorToSchedulerTaskResult result = response.result();
 
         // 执行器
         Executor executor = executorService.getByCode(response.executorCode());
@@ -163,21 +164,54 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
         }
 
         // 更新任务结果
-        boolean success = executorTaskService.updateTaskEvent(executor, response, status);
+        boolean success = executorTaskService.updateTaskEvent(executor, response, result);
         if (!success) {
             log.debug("Task event ignored due to duplicate or invalid transition: taskId={}, status={}",
-                    response.taskId(), status);
+                    response.taskId(), result);
             return;
         }
 
+        // 反馈给APP
+        SchedulerToAppTaskResponseResult toAppResult = convertToAppResult(result);
+        if (toAppResult != null) {
+            schedulerToAppTaskResponsePublisher.publish(
+                    SchedulerToAppTaskResponse.Body.builder()
+                            .code(task.getCode())
+                            .result(toAppResult)
+                            .build()
+            );
+        }
+
         // 已关闭
-        if (status.isClosed()) {
-            //，可以继续下一个
+        if (result.isClosed()) {
+            //可以继续下一个
             executorService.markExecutorReadyAfterTask(executor.getId(), response.taskId());
             dispatchTaskRequest(response.assignmentId());
-
-            // TODO 给聚合服务执行结果
         }
+    }
+
+    /**
+     * 转换成给APP的状态
+     *
+     * @param status 任务状态
+     * @return 给APP的结果
+     */
+    private SchedulerToAppTaskResponseResult convertToAppResult(ExecutorToSchedulerTaskResult status) {
+        switch (status) {
+            case SUCCESS -> {
+                return SchedulerToAppTaskResponseResult.SUCCESS;
+            }
+            case FAILED -> {
+                return SchedulerToAppTaskResponseResult.FAILED;
+            }
+            case UNKNOWN -> {
+                return SchedulerToAppTaskResponseResult.UNKNOWN;
+            }
+            case CANCELED -> {
+                // TODO
+            }
+        }
+        return null;
     }
 
     /**

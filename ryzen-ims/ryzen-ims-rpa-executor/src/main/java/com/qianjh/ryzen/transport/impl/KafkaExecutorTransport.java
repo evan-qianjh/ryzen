@@ -3,8 +3,8 @@ package com.qianjh.ryzen.transport.impl;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.qianjh.ryzen.config.ExecutorProperties;
-import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
+import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.model.*;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +54,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .assignmentId(task.assignmentId())
                 .executorCode(task.executorCode())
                 .taskId(task.taskId())
-                .status(ExecutorTaskStatus.ACCEPTED)
+                .result(ExecutorToSchedulerTaskResult.ACCEPTED)
                 .build();
         send(properties.getTaskResponseTopic(), IdUtils.toString(task.taskId()), response);
     }
@@ -65,7 +65,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .assignmentId(task.assignmentId())
                 .executorCode(task.executorCode())
                 .taskId(task.taskId())
-                .status(ExecutorTaskStatus.RUNNING)
+                .result(ExecutorToSchedulerTaskResult.RUNNING)
                 .build();
         send(properties.getTaskResponseTopic(), IdUtils.toString(task.taskId()), response);
     }
