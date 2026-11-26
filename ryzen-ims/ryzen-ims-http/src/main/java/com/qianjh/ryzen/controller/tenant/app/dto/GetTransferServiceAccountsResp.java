@@ -5,9 +5,10 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder(toBuilder = true)
-public record GetAvailableTransferServiceAccountsResp(
+public record GetTransferServiceAccountsResp(
         String id,
         String name,
+        Boolean online,
         List<String> matchTags
 ) {
 }

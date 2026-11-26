@@ -2,6 +2,7 @@ package com.qianjh.ryzen.controller.tenant.app;
 
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.controller.tenant.app.dto.GetConversationsResp;
+import com.qianjh.ryzen.controller.tenant.app.dto.GetTransferServiceAccountsResp;
 import com.qianjh.ryzen.controller.tenant.app.dto.PostConversationTransferReq;
 import com.qianjh.ryzen.entity.*;
 import com.qianjh.ryzen.framework.common.dto.CursorPage;
@@ -21,9 +22,9 @@ import com.qianjh.ryzen.ims.enums.MatchTagStatus;
 import com.qianjh.ryzen.ims.enums.ServiceAccountStatus;
 import com.qianjh.ryzen.mapper.ImConversationMapper;
 import com.qianjh.ryzen.mapper.MatchTagImAccountMapper;
-import com.qianjh.ryzen.service.ImConversationDispatchService;
-import com.qianjh.ryzen.service.ImConversationService;
-import com.qianjh.ryzen.service.ServiceAccountService;
+import com.qianjh.ryzen.mapper.ServiceAccountMapper;
+import com.qianjh.ryzen.service.*;
+import com.qianjh.ryzen.service.dto.MatchTagServiceAccountWithMatchTagView;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
@@ -52,6 +53,9 @@ public class ImConversation_TenantAppController extends _TenantAppController {
     private final ImConversationService imConversationService;
     private final ImConversationDispatchService imConversationDispatchService;
     private final ServiceAccountService serviceAccountService;
+    private final ImAccountService imAccountService;
+    private final ServiceAccountMapper serviceAccountMapper;
+    private final MatchTagServiceAccountService matchTagServiceAccountService;
 
     @Data
     @EqualsAndHashCode(callSuper = true)
@@ -126,6 +130,59 @@ public class ImConversation_TenantAppController extends _TenantAppController {
                 ).toList();
 
         CursorPage<GetConversationsResp> result = PageUtils.wrap(records, pageSize);
+        return Resp.successOf(result);
+    }
+
+    @Operation(summary = "查询转接服务账户")
+    @GetMapping("/conversation/{id}/transfer-service-accounts")
+    public Resp<List<GetTransferServiceAccountsResp>> availableTransfers(@RequestHeader(GatewayHeaderTenant.OEM_ID) Long oemId,
+                                                                         @RequestHeader(GatewayHeaderTenant.TENANT_ID) Long tenantId,
+                                                                         @RequestHeader(GatewayHeaderTenant.ACCOUNT_ID) Long accountId,
+                                                                         @PathVariable Long id) {
+        // conversation
+        ImConversation conversation = imConversationService.getById(oemId, tenantId, id);
+        if (conversation == null) {
+            return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
+        }
+        // imAccount
+        ImAccount imAccount = imAccountService.getById(oemId, tenantId, conversation.getImAccountId());
+        if (imAccount == null) {
+            return Resp.failure(McUtils.i18n(RespMc.SYSTEM_EXCEPTION));
+        }
+        List<ServiceAccount> entities = serviceAccountMapper.selectJoinList(new MPJLambdaWrapper<ServiceAccount>()
+                        .innerJoin(ServiceAccountImType.class, (join) -> join
+                                .eq(ServiceAccountImType::getServiceAccountId, ServiceAccount::getId)
+                                .eq(ServiceAccountImType::getImType, imAccount.getImType())
+                        )
+                        .eq(ServiceAccount::getOemId, oemId)
+                        .eq(ServiceAccount::getTenantId, tenantId)
+                )
+                .stream()
+                // 过滤当前接待
+                .filter(e -> !Objects.equals(conversation.getServiceAccountId(), e.getAccountId()))
+                // 在线的靠前展示
+                .sorted((o1, o2) -> o2.getOnline().compareTo(o1.getOnline()))
+                .toList();
+        if (entities.isEmpty()) {
+            return Resp.successOf(Collections.emptyList());
+        }
+
+        List<Long> serviceAccountIds = entities.stream().map(ServiceAccount::getId).toList();
+        Map<Long, List<MatchTagServiceAccountWithMatchTagView>> serviceAccountMatchTagsMap =
+                matchTagServiceAccountService.groupByServiceAccountsWithMatchTag(oemId, tenantId, serviceAccountIds);
+
+        List<GetTransferServiceAccountsResp> result = entities.stream()
+                .map(e -> GetTransferServiceAccountsResp.builder()
+                        .id(IdUtils.toString(e.getId()))
+                        .name(e.getAccountName())
+                        .online(e.getOnline())
+                        .matchTags(
+                                serviceAccountMatchTagsMap.getOrDefault(e.getId(), Collections.emptyList())
+                                        .stream().map(MatchTagServiceAccountWithMatchTagView::getTag).toList()
+                        )
+                        .build()
+                ).toList();
+
         return Resp.successOf(result);
     }
 
