@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
-import com.qianjh.ryzen.ims.model.SchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.domain.task.type.AppToSchedulerTaskRequest;
 
 public interface SchedulerTaskService {
 
@@ -10,13 +10,12 @@ public interface SchedulerTaskService {
      *
      * @param request 请求
      */
-    void accept(SchedulerTaskRequest request);
+    void accept(AppToSchedulerTaskRequest.Body request);
 
     /**
      * 调度任务请求
      *
-     * @param imType      IM类型
-     * @param accountCode 账户
+     * @param assignmentId 分配
      */
     void dispatchTaskRequest(Long assignmentId);
 

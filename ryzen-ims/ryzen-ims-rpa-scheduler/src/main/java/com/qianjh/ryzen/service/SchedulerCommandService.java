@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.ims.model.SchedulerCommandRequest;
+import com.qianjh.ryzen.ims.stream.domain.command.type.AppToSchedulerCommandRequest;
 
 /**
  *
@@ -8,5 +8,5 @@ import com.qianjh.ryzen.ims.model.SchedulerCommandRequest;
  */
 public interface SchedulerCommandService {
 
-    void handle(SchedulerCommandRequest command);
+    void handle(AppToSchedulerCommandRequest.Body body);
 }

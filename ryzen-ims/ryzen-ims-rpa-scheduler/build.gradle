@@ -5,12 +5,14 @@ plugins {
 dependencies {
 
     implementation project(":ryzen-framework:ryzen-framework-http-webmvc")
+    implementation project(":ryzen-framework:ryzen-framework-stream")
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
     implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-kafka'
 
     implementation project(":ryzen-framework:ryzen-framework-common")
     implementation project(":ryzen-ims:ryzen-ims-lib-service")

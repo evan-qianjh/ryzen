@@ -8,7 +8,7 @@ import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.ims.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
-import com.qianjh.ryzen.ims.model.SchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.domain.task.type.AppToSchedulerTaskRequest;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import com.qianjh.ryzen.service.SchedulerTaskService;
@@ -38,7 +38,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
      * @param request
      */
     @Override
-    public void accept(SchedulerTaskRequest request) {
+    public void accept(AppToSchedulerTaskRequest.Body request) {
         validate(request);
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime deadlineTime = request.deadlineTime() == null || request.deadlineTime() <= 0
@@ -169,7 +169,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
      *
      * @param request 请求
      */
-    private void validate(SchedulerTaskRequest request) {
+    private void validate(AppToSchedulerTaskRequest.Body request) {
         if (request == null || blank(request.code()) || request.assignmentId() == null
                 || StringUtils.isBlank(request.conversationCode()) || StringUtils.isBlank(request.content())) {
             throw new IllegalArgumentException("Invalid send message command");

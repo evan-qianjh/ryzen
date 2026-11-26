@@ -16,20 +16,14 @@ import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
-import com.qianjh.ryzen.framework.stream.util.StreamUtils;
 import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
-import com.qianjh.ryzen.ims.model.SchedulerTaskRequest;
-import com.qianjh.ryzen.service.ImAccountService;
-import com.qianjh.ryzen.service.ImConversationService;
-import com.qianjh.ryzen.service.ImMessageService;
-import com.qianjh.ryzen.service.ServiceAccountService;
-import com.qianjh.ryzen.stream.producer.ImsSchedulerTaskRequestStreamProducer;
+import com.qianjh.ryzen.service.*;
+import com.qianjh.ryzen.service.dto.AppToSchedulerTaskContent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +41,8 @@ public class ImMessage_TenantAppController extends _TenantAppController {
     private final ImMessageService messageService;
     private final ImAccountService imAccountService;
     private final ImConversationService conversationService;
-    private final ImsSchedulerTaskRequestStreamProducer imsSchedulerRequestTopicStreamProducer;
     private final ServiceAccountService serviceAccountService;
+    private final AppToSchedulerService createToSchedulerTaskService;
 
     @Operation(summary = "分页查询对话")
     @GetMapping("/messages")
@@ -99,12 +93,12 @@ public class ImMessage_TenantAppController extends _TenantAppController {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
         }
         //
-        ImConversation conversation = conversationService.getById(body.conversationId());
-        if (conversation == null) {
+        ImConversation imConversation = conversationService.getById(body.conversationId());
+        if (imConversation == null) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
         }
         //
-        ImAccount imAccount = imAccountService.getById(conversation.getImAccountId());
+        ImAccount imAccount = imAccountService.getById(imConversation.getImAccountId());
         if (imAccount == null) {
             return Resp.failure(McUtils.i18n(RespMc.ILLEGAL_ARGUMENT));
         }
@@ -116,16 +110,11 @@ public class ImMessage_TenantAppController extends _TenantAppController {
             return Resp.failure("请先启动执行器");
         }
 
-        // 生成一个随机码+内容发给调度器
-        SchedulerTaskRequest message = SchedulerTaskRequest.builder()
-                .code(IdUtils.generateUUID()) // TODO
-                .assignmentId(imAccount.getExecutorAssignmentId())
-                .conversationCode(conversation.getCode())
+        // 创建任务
+        AppToSchedulerTaskContent content = AppToSchedulerTaskContent.builder()
                 .content(body.content())
                 .build();
-        imsSchedulerRequestTopicStreamProducer.send(
-                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
-        );
+        createToSchedulerTaskService.createTask(serviceAccount, imAccount, imConversation, content);
 
         // TODO 通过ws推送一个发送中的消息给客户端
         // TODO 等待调度器执行结果反馈，将结果通过ws推送给客户端

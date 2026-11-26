@@ -19,34 +19,34 @@ public class KafkaSchedulerListener {
     private final CollectedMessageService collectedMessageService;
     private final SchedulerCommandService schedulerCommandService;
 
-    /**
-     * 命令
-     *
-     * @param payload 报文
-     */
-    @KafkaListener(
-            topics = "${ryzen.scheduler.command-request-topic}",
-            groupId = "${spring.kafka.consumer.group-id}",
-            containerFactory = "defaultKafkaListenerContainerFactory"
-    )
-    public void onAppCommandRequest(String payload) {
-        log.info("收到指令 ::: {}", payload);
-        handle("command", payload, SchedulerCommandRequest.class, schedulerCommandService::handle);
-    }
+//    /**
+//     * 命令
+//     *
+//     * @param payload 报文
+//     */
+//    @KafkaListener(
+//            topics = "${ryzen.scheduler.command-request-topic}",
+//            groupId = "${spring.kafka.consumer.group-id}",
+//            containerFactory = "defaultKafkaListenerContainerFactory"
+//    )
+//    public void onAppCommandRequest(String payload) {
+//        log.info("收到指令 ::: {}", payload);
+//        handle("command", payload, SchedulerCommandRequest.class, schedulerCommandService::handle);
+//    }
 
-    /**
-     * 聚合聊天发送消息
-     *
-     * @param payload 报文
-     */
-    @KafkaListener(
-            topics = "${ryzen.scheduler.task-request-topic}",
-            groupId = "${spring.kafka.consumer.group-id}",
-            containerFactory = "defaultKafkaListenerContainerFactory"
-    )
-    public void onAppTaskRequest(String payload) {
-        handle("send request", payload, SchedulerTaskRequest.class, sendTaskService::accept);
-    }
+//    /**
+//     * 聚合聊天发送消息
+//     *
+//     * @param payload 报文
+//     */
+//    @KafkaListener(
+//            topics = "${ryzen.scheduler.task-request-topic}",
+//            groupId = "${spring.kafka.consumer.group-id}",
+//            containerFactory = "defaultKafkaListenerContainerFactory"
+//    )
+//    public void onAppTaskRequest(String payload) {
+//        handle("send request", payload, SchedulerTaskRequest.class, sendTaskService::accept);
+//    }
 
     /* -------------------------------------------------------------------------------------------*/
 

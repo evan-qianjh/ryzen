@@ -18,23 +18,20 @@ import com.qianjh.ryzen.framework.http.model.Resp;
 import com.qianjh.ryzen.framework.http.model.RespMc;
 import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
-import com.qianjh.ryzen.framework.stream.util.StreamUtils;
 import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ImType;
 import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
-import com.qianjh.ryzen.ims.model.SchedulerCommandRequest;
+import com.qianjh.ryzen.ims.stream.domain.command.type.AppToSchedulerCommandRequest;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
 import com.qianjh.ryzen.service.MatchTagService;
 import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
-import com.qianjh.ryzen.stream.producer.ImsSchedulerCommandRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -51,11 +48,11 @@ import static com.qianjh.ryzen.framework.http.controller.tenant._TenantAppContro
 @RequiredArgsConstructor
 public class ImAccount_TenantAppController extends _TenantAppController {
 
+    private final MatchTagService matchTagService;
     private final ImAccountService imAccountService;
-    private final ImsSchedulerCommandRequestStreamProducer imsSchedulerCommandTopicStreamProducer;
     private final ToSchedulerCommandService imAccountCommandService;
     private final MatchTagImAccountService matchTagImAccountService;
-    private final MatchTagService matchTagService;
+    private final AppToSchedulerCommandRequest.Publisher appToSchedulerCommandRequestPublisher;
 
     @Operation(summary = "分页查询")
     @GetMapping("/im-accounts")
@@ -150,14 +147,13 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
-        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
-                .code(IdUtils.toString(command.getId()))
-                .type(commandType)
-                .imType(imAccount.getImType())
-                .accountCode(imAccount.getCode())
-                .build();
-        imsSchedulerCommandTopicStreamProducer.send(
-                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        appToSchedulerCommandRequestPublisher.publish(
+                AppToSchedulerCommandRequest.Body.builder()
+                        .code(IdUtils.toString(command.getId()))
+                        .type(commandType)
+                        .imType(imAccount.getImType())
+                        .accountCode(imAccount.getCode())
+                        .build()
         );
 
         // ASSIGNING
@@ -190,16 +186,14 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.RELEASE_EXECUTOR;
         ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
-
-        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
-                .code(IdUtils.toString(command.getId()))
-                .type(commandType)
-                .imType(imAccount.getImType())
-                .accountCode(imAccount.getCode())
-                .assignmentId(imAccount.getExecutorAssignmentId())
-                .build();
-        imsSchedulerCommandTopicStreamProducer.send(
-                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        appToSchedulerCommandRequestPublisher.publish(
+                AppToSchedulerCommandRequest.Body.builder()
+                        .code(IdUtils.toString(command.getId()))
+                        .type(commandType)
+                        .imType(imAccount.getImType())
+                        .accountCode(imAccount.getCode())
+                        .assignmentId(imAccount.getExecutorAssignmentId())
+                        .build()
         );
 
         // RELEASING
@@ -236,13 +230,12 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
-        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
-                .code(IdUtils.toString(command.getId()))
-                .type(commandType)
-                .assignmentId(imAccount.getExecutorAssignmentId())
-                .build();
-        imsSchedulerCommandTopicStreamProducer.send(
-                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        appToSchedulerCommandRequestPublisher.publish(
+                AppToSchedulerCommandRequest.Body.builder()
+                        .code(IdUtils.toString(command.getId()))
+                        .type(commandType)
+                        .assignmentId(imAccount.getExecutorAssignmentId())
+                        .build()
         );
 
         // STARTING
@@ -275,13 +268,12 @@ public class ImAccount_TenantAppController extends _TenantAppController {
         ToSchedulerCommand command = imAccountCommandService.create(imAccount, commandType);
 
         // command
-        SchedulerCommandRequest message = SchedulerCommandRequest.builder()
-                .code(IdUtils.toString(command.getId()))
-                .type(commandType)
-                .assignmentId(imAccount.getExecutorAssignmentId())
-                .build();
-        imsSchedulerCommandTopicStreamProducer.send(
-                MessageBuilder.withPayload(StreamUtils.toJson(message)).build()
+        appToSchedulerCommandRequestPublisher.publish(
+                AppToSchedulerCommandRequest.Body.builder()
+                        .code(IdUtils.toString(command.getId()))
+                        .type(commandType)
+                        .assignmentId(imAccount.getExecutorAssignmentId())
+                        .build()
         );
 
         //

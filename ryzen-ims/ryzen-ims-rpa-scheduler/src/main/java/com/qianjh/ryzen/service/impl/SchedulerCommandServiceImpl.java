@@ -4,16 +4,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorAssignment;
+import com.qianjh.ryzen.framework.common.dto.Operator;
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.ims.enums.ExecutorAssignmentStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorCommandType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
-import com.qianjh.ryzen.framework.common.dto.Operator;
-import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.ims.model.Assignment;
-import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
 import com.qianjh.ryzen.ims.model.ExecutorCommandRequest;
-import com.qianjh.ryzen.ims.model.SchedulerCommandRequest;
 import com.qianjh.ryzen.ims.model.SchedulerCommandResponse;
+import com.qianjh.ryzen.ims.stream.domain.command.type.AppToSchedulerCommandRequest;
+import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.SchedulerCommandService;
@@ -43,7 +43,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void handle(SchedulerCommandRequest request) {
+    public void handle(AppToSchedulerCommandRequest.Body request) {
         try {
             switch (request.type()) {
                 // 分配
@@ -71,13 +71,14 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
         }
     }
 
+
     /**
      * 启动
      *
      * @param request 请求
      */
     @Transactional(rollbackFor = Exception.class)
-    void start(SchedulerCommandRequest request) {
+    void start(AppToSchedulerCommandRequest.Body request) {
         ExecutorAssignment assignment = executorAssignmentService.getById(request.assignmentId());
         if (assignment == null) {
             throw new RuntimeException("指派不存在");
@@ -127,7 +128,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
      * @param request 请求
      */
     @Transactional(rollbackFor = Exception.class)
-    void stop(SchedulerCommandRequest request) {
+    void stop(AppToSchedulerCommandRequest.Body request) {
         ExecutorAssignment assignment = executorAssignmentService.getById(request.assignmentId());
         if (assignment == null) {
             throw new RuntimeException("指派不存在");
@@ -168,7 +169,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
      * @param request 请求
      */
     @Transactional(rollbackFor = Exception.class)
-    void assign(SchedulerCommandRequest request) {
+    void assign(AppToSchedulerCommandRequest.Body request) {
         // 查出是否存在还未关闭的assignment
         long count = executorAssignmentService.count(new LambdaQueryWrapper<ExecutorAssignment>()
                 .eq(ExecutorAssignment::getImType, request.imType())
@@ -233,7 +234,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
      * @param request 请求
      */
     @Transactional(rollbackFor = Exception.class)
-    void release(SchedulerCommandRequest request) throws RuntimeException {
+    void release(AppToSchedulerCommandRequest.Body request) throws RuntimeException {
         if (request.assignmentId() == null) {
             throw new RuntimeException("缺少参数assignmentId");
         }
