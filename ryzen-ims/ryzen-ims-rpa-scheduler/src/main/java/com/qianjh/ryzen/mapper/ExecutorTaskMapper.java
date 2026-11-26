@@ -15,7 +15,7 @@ public interface ExecutorTaskMapper extends BaseMapper<ExecutorTask> {
             " WHERE " +
             "   assignment_id = #{assignmentId} " +
             "   AND status = #{status}" +
-            " ORDER BY created_time ASC, id ASC" +
+            " ORDER BY id ASC" +
             " LIMIT 1 " +
             " FOR UPDATE")
     ExecutorTask lock(@Param("assignmentId") Long assignmentId, @Param("status") ExecutorTaskStatus status);

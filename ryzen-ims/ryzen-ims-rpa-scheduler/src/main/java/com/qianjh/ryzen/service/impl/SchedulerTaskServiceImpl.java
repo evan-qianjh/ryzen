@@ -3,9 +3,9 @@ package com.qianjh.ryzen.service.impl;
 import com.qianjh.ryzen.config.SchedulerProperties;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
+import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
-import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.model.ExecutorTaskRequest;
 import com.qianjh.ryzen.ims.model.ExecutorTaskResponse;
 import com.qianjh.ryzen.ims.model.SchedulerTaskRequest;
@@ -77,17 +77,20 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
 
         // 找出执行器
         Executor executor = executorService.getByAssignment(assignmentId);
-
+        if (executor == null) {
+            log.warn("不存在的执行器 ::: assignmentId={}", assignmentId);
+            return;
+        }
         // 如果没有可用的执行器
-        if (executor == null || executor.getStatus() != ExecutorStatus.READY) {
-            log.warn("无可用执行器 ::: assignmentId={}", assignmentId);
+        if (executor.getStatus() != ExecutorStatus.READY) {
+            log.warn("执行器状态不可用 ::: assignmentId={}", assignmentId);
             return;
         }
 
         // 预留执行器并领取任务，注意避免并发调度或进程中断造成双派发。
         ExecutorTask task = taskDispatchService.claimNextTask(executor);
         if (task == null) {
-            log.warn("无可调度任务 ::: assignmentId={}", assignmentId);
+            log.debug("无可调度任务 ::: assignmentId={}", assignmentId);
             return;
         }
 

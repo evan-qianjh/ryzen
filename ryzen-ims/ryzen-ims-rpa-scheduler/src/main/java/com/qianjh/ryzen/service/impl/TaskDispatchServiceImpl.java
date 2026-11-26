@@ -32,6 +32,7 @@ public class TaskDispatchServiceImpl implements TaskDispatchService {
         // 锁任务
         ExecutorTask task = executorTaskMapper.lock(executor.getCurrentAssigmentId(), ExecutorTaskStatus.PENDING);
         if (task == null) {
+            log.debug("无可锁定的任务 ::: executorId={}, currentAssigmentId={}", executor.getId(), executor.getCurrentAssigmentId());
             return null;
         }
 
