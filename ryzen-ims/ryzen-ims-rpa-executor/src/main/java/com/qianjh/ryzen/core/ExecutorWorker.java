@@ -363,7 +363,7 @@ public class ExecutorWorker {
 
 
         // 取消未执行任务
-        cancelPendingTasks("ACCOUNT_RELEASED");
+        cancelPendingTasks("Executor STOP");
 
         // 关闭浏览器
         closeSession();
@@ -396,7 +396,7 @@ public class ExecutorWorker {
         this.status = ExecutorStatus.STARTING;
 
         // 取消尚未执行的任务
-        cancelPendingTasks("SESSION_RESTART");
+        cancelPendingTasks("Executor RESTART");
 
         // 关闭旧会话
         closeSession();

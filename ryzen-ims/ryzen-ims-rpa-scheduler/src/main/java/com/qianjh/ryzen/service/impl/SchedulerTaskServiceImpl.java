@@ -97,8 +97,6 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
         // build
         ExecutorTaskRequest payload = ExecutorTaskRequest.builder()
                 .assignmentId(assignmentId)
-//                .imType(executor.getImType())
-//                .accountCode(accountCode)
                 .executorCode(executor.getCode())
                 .taskId(task.getId())
                 .conversationCode(task.getConversationCode())
@@ -132,13 +130,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
             return;
         }
 
-        ExecutorTaskStatus status;
-        try {
-            status = response.status();
-        } catch (Exception e) {
-            log.warn("Ignore unsupported task status: {}", response.status());
-            return;
-        }
+        ExecutorTaskStatus status = response.status();
 
         // 执行器
         Executor executor = executorService.getByCode(response.executorCode());
@@ -162,10 +154,9 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
             return;
         }
 
-        // 标记执行器可以处理新的任务
-        if (status == ExecutorTaskStatus.SUCCESS
-                || status == ExecutorTaskStatus.FAILED
-                || status == ExecutorTaskStatus.UNKNOWN) {
+        // 已关闭
+        if (status.isClosed()) {
+            //，可以继续下一个
             executorService.markExecutorReadyAfterTask(executor.getId(), response.taskId());
             dispatchTaskRequest(response.assignmentId());
 

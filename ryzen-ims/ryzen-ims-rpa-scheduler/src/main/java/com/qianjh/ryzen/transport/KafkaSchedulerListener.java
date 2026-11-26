@@ -1,7 +1,6 @@
 package com.qianjh.ryzen.transport;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.ims.model.*;
 import com.qianjh.ryzen.service.*;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +13,9 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class KafkaSchedulerListener {
-    private final Gson gson = new GsonBuilder().create();
     private final SchedulerTaskService sendTaskService;
-    private final ExecutorRegistryService executorRegistryService;
     private final ExecutorCommandService executorCommandService;
+    private final ExecutorRegistryService executorRegistryService;
     private final CollectedMessageService collectedMessageService;
     private final SchedulerCommandService schedulerCommandService;
 
@@ -31,7 +29,7 @@ public class KafkaSchedulerListener {
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "defaultKafkaListenerContainerFactory"
     )
-    public void onCommand(String payload) {
+    public void onAppCommandRequest(String payload) {
         log.info("收到指令 ::: {}", payload);
         handle("command", payload, SchedulerCommandRequest.class, schedulerCommandService::handle);
     }
@@ -46,9 +44,11 @@ public class KafkaSchedulerListener {
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "defaultKafkaListenerContainerFactory"
     )
-    public void onSendRequest(String payload) {
+    public void onAppTaskRequest(String payload) {
         handle("send request", payload, SchedulerTaskRequest.class, sendTaskService::accept);
     }
+
+    /* -------------------------------------------------------------------------------------------*/
 
     /**
      * 执行器命令响应
@@ -62,6 +62,20 @@ public class KafkaSchedulerListener {
     )
     public void onExecutorCommandResponse(String payload) {
         handle("executor command response", payload, ExecutorCommandResponse.class, executorCommandService::handle);
+    }
+
+    /**
+     * 执行器反馈的任务结果
+     *
+     * @param payload 报文
+     */
+    @KafkaListener(
+            topics = "${ryzen.executor.task-response-topic}",
+            groupId = "${spring.kafka.consumer.group-id}",
+            containerFactory = "publicKafkaListenerContainerFactory"
+    )
+    public void onExecutorTaskResponse(String payload) {
+        handle("executor task response", payload, ExecutorTaskResponse.class, sendTaskService::handleTaskResponse);
     }
 
     /**
@@ -99,10 +113,9 @@ public class KafkaSchedulerListener {
             return;
         }
 
-        ExecutorSnapshot snapshot = gson.fromJson(payload, ExecutorSnapshot.class);
-        executorRegistryService.heartbeat(snapshot, timestamp);
-
+        ExecutorSnapshot snapshot = GsonUtils.GSON.fromJson(payload, ExecutorSnapshot.class);
 //        handle("executor heartbeat", payload, ExecutorSnapshot.class, executorRegistryService::heartbeat);
+        executorRegistryService.heartbeat(snapshot, timestamp);
     }
 
     /**
@@ -120,20 +133,6 @@ public class KafkaSchedulerListener {
     }
 
     /**
-     * 执行器反馈的任务结果
-     *
-     * @param payload 报文
-     */
-    @KafkaListener(
-            topics = "${ryzen.executor.task-response-topic}",
-            groupId = "${spring.kafka.consumer.group-id}",
-            containerFactory = "publicKafkaListenerContainerFactory"
-    )
-    public void onExecutorTaskResponse(String payload) {
-        handle("executor task response", payload, ExecutorTaskResponse.class, sendTaskService::handleTaskResponse);
-    }
-
-    /**
      * 执行器采集的消息
      *
      * @param payload 报文
@@ -143,7 +142,7 @@ public class KafkaSchedulerListener {
             groupId = "${spring.kafka.consumer.group-id}",
             containerFactory = "publicKafkaListenerContainerFactory"
     )
-    public void onCollectedMessage(String payload) {
+    public void onExecutorMessage(String payload) {
         handle("collected message", payload, ExecutorMessage.class, collectedMessageService::forward);
     }
 
@@ -158,7 +157,7 @@ public class KafkaSchedulerListener {
      */
     private <T> void handle(String name, String payload, Class<T> type, java.util.function.Consumer<T> consumer) {
         try {
-            T event = gson.fromJson(payload, type);
+            T event = GsonUtils.GSON.fromJson(payload, type);
             consumer.accept(event);
         } catch (Exception e) {
             log.error("Failed to handle {} payload={}", name, payload, e);
