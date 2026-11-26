@@ -6,7 +6,7 @@ import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.entity.ServiceAccount;
-import com.qianjh.ryzen.ims.model.SchedulerMessage;
+import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportMessage;
 import com.qianjh.ryzen.mapper.ImConversationMapper;
 import com.qianjh.ryzen.service.ImConversationService;
 import org.apache.commons.lang3.StringUtils;
@@ -72,7 +72,7 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean recordLastMessage(ImConversation entity, ImMessage message, SchedulerMessage schedulerMessage) {
+    public boolean recordLastMessage(ImConversation entity, ImMessage message, SchedulerToAppReportMessage.Body schedulerMessage) {
         return lambdaUpdate()
                 // info
                 .set(StringUtils.isNotBlank(schedulerMessage.conversationTitle()), ImConversation::getTitle, schedulerMessage.conversationTitle())

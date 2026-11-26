@@ -16,12 +16,12 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImConversationTopic_StreamConsumer implements StreamConsumer {
+public class SchedulerToAppConsumer implements StreamConsumer {
 
     private final StreamSubscriberDispatcher streamSubscriberDispatcher;
 
     @Bean
-    public Consumer<Message<String>> imsImConversationSource() {
+    public Consumer<Message<String>> schedulerToAppSource() {
         return message -> {
             MessageHeaders headers = message.getHeaders();
             String domain = getDomain(headers);

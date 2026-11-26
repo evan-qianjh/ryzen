@@ -11,8 +11,8 @@ import com.qianjh.ryzen.ims.enums.ExecutorCommandType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.model.Assignment;
 import com.qianjh.ryzen.ims.model.ExecutorCommandRequest;
-import com.qianjh.ryzen.ims.model.SchedulerCommandResponse;
 import com.qianjh.ryzen.ims.stream.domain.command.type.AppToSchedulerCommandRequest;
+import com.qianjh.ryzen.ims.stream.domain.command.type.SchedulerToAppCommandResponse;
 import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
@@ -40,6 +40,7 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
     private final KafkaSchedulerTransport transport;
     private final ExecutorAssignmentMapper assignmentMapper;
     private final ExecutorAssignmentService executorAssignmentService;
+    private final SchedulerToAppCommandResponse.Publisher schedulerToAppCommandResponsePublisher;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -57,8 +58,8 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
             }
         } catch (Exception e) {
             log.error("处理指令失败 ::: request={}", request, e);
-            transport.schedulerCommandResponse(
-                    SchedulerCommandResponse.builder()
+            schedulerToAppCommandResponsePublisher.publish(
+                    SchedulerToAppCommandResponse.Body.builder()
                             .code(request.code())
                             .type(request.type())
                             .imType(request.imType())
@@ -67,7 +68,8 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
                             //
                             .success(false)
                             .errorMessage(e.getMessage())
-                            .build());
+                            .build()
+            );
         }
     }
 
@@ -109,14 +111,14 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
             ).get(10, TimeUnit.SECONDS);
 
             // 调度器指令响应
-            transport.schedulerCommandResponse(
-                    SchedulerCommandResponse.builder()
+            schedulerToAppCommandResponsePublisher.publish(
+                    SchedulerToAppCommandResponse.Body.builder()
                             .code(request.code())
                             .type(request.type())
                             .assignmentId(assignment.getId())
                             .success(true)
                             .build()
-            ).get(10, TimeUnit.SECONDS);
+            );
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
@@ -150,14 +152,14 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
             ).get(10, TimeUnit.SECONDS);
 
             // 调度器指令响应
-            transport.schedulerCommandResponse(
-                    SchedulerCommandResponse.builder()
+            schedulerToAppCommandResponsePublisher.publish(
+                    SchedulerToAppCommandResponse.Body.builder()
                             .code(request.code())
                             .type(request.type())
                             .assignmentId(assignment.getId())
                             .success(true)
                             .build()
-            ).get(10, TimeUnit.SECONDS);
+            );
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             throw new RuntimeException(e);
         }
@@ -211,21 +213,18 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
         ExecutorAssignment assignment = executorAssignmentService.create(executor, request.imType(), request.accountCode());
         boolean success = executorService.assign(executor, assignment);
 
-        try {
-            // 调度器指令响应
-            transport.schedulerCommandResponse(
-                    SchedulerCommandResponse.builder()
-                            .code(request.code())
-                            .type(request.type())
-                            .imType(request.imType())
-                            .accountCode(request.accountCode())
-                            .assignmentId(assignment.getId())
-                            .success(success)
-                            .build()
-            ).get(10, TimeUnit.SECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        // 调度器指令响应
+        schedulerToAppCommandResponsePublisher.publish(
+                SchedulerToAppCommandResponse.Body.builder()
+                        .code(request.code())
+                        .type(request.type())
+                        .imType(request.imType())
+                        .accountCode(request.accountCode())
+                        .assignmentId(assignment.getId())
+                        .success(success)
+                        .build()
+        );
+
     }
 
     /**
@@ -253,19 +252,14 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
         executorAssignmentService.updateStatus(assignment, assignment.getStatus(), ExecutorAssignmentStatus.RELEASED, Operator.builder().build());
         executorService.release(executor, assignment);
 
-        try {
-            // 调度器指令响应
-            transport.schedulerCommandResponse(
-                    SchedulerCommandResponse.builder()
-                            .code(request.code())
-                            .type(request.type())
-                            .assignmentId(request.assignmentId())
-                            .success(true)
-                            .build()
-            ).get(10, TimeUnit.SECONDS);
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        schedulerToAppCommandResponsePublisher.publish(
+                SchedulerToAppCommandResponse.Body.builder()
+                        .code(request.code())
+                        .type(request.type())
+                        .assignmentId(request.assignmentId())
+                        .success(true)
+                        .build()
+        );
     }
 
 }

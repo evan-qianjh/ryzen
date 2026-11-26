@@ -3,6 +3,8 @@ package com.qianjh.ryzen.ims.config;
 import com.qianjh.ryzen.ims.stream.domain.command.type.AppToSchedulerCommandRequest;
 import com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type.ImConversationDispatchedCreatedEvent;
 import com.qianjh.ryzen.ims.stream.domain.im_message.type.ImMessageCreatedEvent;
+import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportEvent;
+import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportMessage;
 import com.qianjh.ryzen.ims.stream.domain.task.type.AppToSchedulerTaskRequest;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -88,6 +90,47 @@ public class StreamDefaultBeanConfig {
         return _ -> {
             throw new UnsupportedOperationException(
                     "AppToSchedulerTaskRequest.Subscriber is not configured"
+            );
+        };
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean(SchedulerToAppReportEvent.Publisher.class)
+    public SchedulerToAppReportEvent.Publisher schedulerToAppReportEventPublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "SchedulerToAppReportEvent.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SchedulerToAppReportEvent.Subscriber.class)
+    public SchedulerToAppReportEvent.Subscriber schedulerToAppReportEventSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "SchedulerToAppReportEvent.Subscriber is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SchedulerToAppReportMessage.Publisher.class)
+    public SchedulerToAppReportMessage.Publisher schedulerToAppReportMessagePublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "SchedulerToAppReportMessage.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(SchedulerToAppReportMessage.Subscriber.class)
+    public SchedulerToAppReportMessage.Subscriber schedulerToAppReportMessageSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "SchedulerToAppReportMessage.Subscriber is not configured"
             );
         };
     }

@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 
 public record PostConversationTransferReq(
         @NotNull
-        Long serviceAccountId
+        Long serviceAccountId,
+        String remark
 ) {
 }

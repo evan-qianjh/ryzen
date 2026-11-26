@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
-import com.qianjh.ryzen.ims.model.SchedulerMessage;
+import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportMessage;
 
 public interface ImMessageService extends IService<ImMessage> {
 
@@ -12,7 +12,7 @@ public interface ImMessageService extends IService<ImMessage> {
 
     ImMessage getByUk(Long oemId, Long tenantId, Long conversationId, String code);
 
-    ImMessage create(ImAccount imAccount, ImConversation conversation, SchedulerMessage schedulerMessage);
+    ImMessage create(ImAccount imAccount, ImConversation conversation, SchedulerToAppReportMessage.Body message);
 
-    ImMessage createIfAbsent(ImAccount imAccount, ImConversation conversation, SchedulerMessage schedulerMessage);
+    ImMessage createIfAbsent(ImAccount imAccount, ImConversation conversation, SchedulerToAppReportMessage.Body message);
 }

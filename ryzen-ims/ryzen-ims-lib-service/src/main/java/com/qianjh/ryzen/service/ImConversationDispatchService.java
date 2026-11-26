@@ -23,5 +23,6 @@ public interface ImConversationDispatchService {
      * @param dispatchType   调度方式
      * @return 记录
      */
-    ImConversationDispatched dispatch(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType dispatchType, Operator operator);
+    ImConversationDispatched dispatch(ImConversation conversation, ServiceAccount serviceAccount,
+                                      ImConversationDispatchType dispatchType, String remark, Operator operator);
 }

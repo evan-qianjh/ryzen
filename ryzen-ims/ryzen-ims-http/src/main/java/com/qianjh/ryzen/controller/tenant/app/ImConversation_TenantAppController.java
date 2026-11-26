@@ -221,7 +221,7 @@ public class ImConversation_TenantAppController extends _TenantAppController {
 
         // 调度
         ImConversationDispatched record = imConversationDispatchService.dispatch(
-                conversation, serviceAccount, ImConversationDispatchType.TRANSFER, operator
+                conversation, serviceAccount, ImConversationDispatchType.TRANSFER, body.remark(), operator
         );
 
         return Resp.successOf(Receipt.build(record.getId()));

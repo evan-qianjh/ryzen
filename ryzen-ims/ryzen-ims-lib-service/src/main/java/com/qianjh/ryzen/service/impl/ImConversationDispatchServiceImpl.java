@@ -53,7 +53,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
 
         // 如果当前服务账号与匹配的服务账号不同，记录调度
         if (!Objects.equals(conversation.getServiceAccountId(), serviceAccount.getId())) {
-            dispatch(conversation, serviceAccount, dispatchType, null);
+            dispatch(conversation, serviceAccount, dispatchType, null, null);
         }
 
         return serviceAccount;
@@ -61,7 +61,8 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImConversationDispatched dispatch(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType dispatchType, Operator operator) {
+    public ImConversationDispatched dispatch(ImConversation conversation, ServiceAccount serviceAccount,
+                                             ImConversationDispatchType dispatchType, String remark, Operator operator) {
         Long beforeServiceAccountId = conversation.getServiceAccountId();
 
         Assert.isTrue(!Objects.equals(conversation.getServiceAccountId(), serviceAccount.getId()), "调度目标相同");
@@ -70,7 +71,8 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
         Assert.isTrue(success, "会话分配账户异常");
 
         // 记录日志
-        ImConversationDispatched dispatched = imConversationDispatchRecordService.create(conversation, serviceAccount, dispatchType, beforeServiceAccountId);
+        ImConversationDispatched dispatched = imConversationDispatchRecordService.create(conversation, serviceAccount,
+                dispatchType, remark, beforeServiceAccountId);
         log.info("会话调度 ::: dispatched={}", dispatched);
         return dispatched;
     }

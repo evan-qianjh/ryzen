@@ -26,5 +26,6 @@ public class ImConversationDispatched {
     private Long serviceAccountId;
     private Long beforeServiceAccountId;
     private ImConversationDispatchType type;
+    private String remark;
     private LocalDateTime createdTime;
 }

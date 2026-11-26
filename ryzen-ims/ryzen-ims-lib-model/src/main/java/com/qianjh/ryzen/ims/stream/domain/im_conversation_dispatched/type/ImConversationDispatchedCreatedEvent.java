@@ -34,6 +34,7 @@ public interface ImConversationDispatchedCreatedEvent<T> extends ImConversationD
         private Long serviceAccountId;
         private Long beforeServiceAccountId;
         private ImConversationDispatchType type;
+        private String remark;
     }
 
     /**

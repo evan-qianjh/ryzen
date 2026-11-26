@@ -2,10 +2,9 @@ package com.qianjh.ryzen.service;
 
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
-import com.qianjh.ryzen.ims.enums.SchedulerReportType;
+import com.qianjh.ryzen.ims.enums.SchedulerReportEventType;
 import com.qianjh.ryzen.ims.model.ExecutorSnapshot;
-import com.qianjh.ryzen.ims.model.SchedulerReport;
-import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
+import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ExecutorRegistryService {
     private final ExecutorService executorService;
-    private final KafkaSchedulerTransport transport;
     private final SchedulerTaskService sendTaskService;
+    private final SchedulerToAppReportEvent.Publisher schedulerToAppReportEventPublisher;
 
     /**
      * 注册
@@ -89,35 +88,39 @@ public class ExecutorRegistryService {
 
         // 启动中
         if (ExecutorStatus.STARTING == snapshot.status()) {
-            SchedulerReport report = SchedulerReport.builder()
-                    .assignmentId(snapshot.assignmentId())
-                    .type(SchedulerReportType.EXECUTOR_STARTING)
-                    .build();
-            transport.schedulerReport(report);
+            schedulerToAppReportEventPublisher.publish(
+                    SchedulerToAppReportEvent.Body.builder()
+                            .assignmentId(snapshot.assignmentId())
+                            .type(SchedulerReportEventType.EXECUTOR_STARTING)
+                            .build()
+            );
         }
         // 等待登录
         else if (ExecutorStatus.WAIT_LOGIN == snapshot.status()) {
-            SchedulerReport report = SchedulerReport.builder()
-                    .assignmentId(snapshot.assignmentId())
-                    .type(SchedulerReportType.EXECUTOR_WAIT_LOGIN)
-                    .build();
-            transport.schedulerReport(report);
+            schedulerToAppReportEventPublisher.publish(
+                    SchedulerToAppReportEvent.Body.builder()
+                            .assignmentId(snapshot.assignmentId())
+                            .type(SchedulerReportEventType.EXECUTOR_WAIT_LOGIN)
+                            .build()
+            );
         }
         // 已启动
         else if (ExecutorStatus.STARTED == snapshot.status()) {
-            SchedulerReport report = SchedulerReport.builder()
-                    .assignmentId(snapshot.assignmentId())
-                    .type(SchedulerReportType.EXECUTOR_STARTED)
-                    .build();
-            transport.schedulerReport(report);
+            schedulerToAppReportEventPublisher.publish(
+                    SchedulerToAppReportEvent.Body.builder()
+                            .assignmentId(snapshot.assignmentId())
+                            .type(SchedulerReportEventType.EXECUTOR_STARTED)
+                            .build()
+            );
         }
         // 已停止
         else if (snapshot.status() == ExecutorStatus.STOPPED) {
-            SchedulerReport report = SchedulerReport.builder()
-                    .assignmentId(snapshot.assignmentId())
-                    .type(SchedulerReportType.EXECUTOR_STOPPED)
-                    .build();
-            transport.schedulerReport(report);
+            schedulerToAppReportEventPublisher.publish(
+                    SchedulerToAppReportEvent.Body.builder()
+                            .assignmentId(snapshot.assignmentId())
+                            .type(SchedulerReportEventType.EXECUTOR_STOPPED)
+                            .build()
+            );
         }
     }
 

@@ -1,6 +1,7 @@
-package com.qianjh.ryzen.stream;
+package com.qianjh.ryzen.stream.consumer;
 
 import com.qianjh.ryzen.framework.stream.consumer.StreamConsumer;
+import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriberDispatcher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -15,14 +16,19 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImsSchedulerTaskResponse_StreamConsumer implements StreamConsumer {
+public class ImConversationConsumer implements StreamConsumer {
+
+    private final StreamSubscriberDispatcher streamSubscriberDispatcher;
 
     @Bean
-    public Consumer<Message<String>> imsSchedulerTaskResponseSource() {
+    public Consumer<Message<String>> imsImConversationSource() {
         return message -> {
             MessageHeaders headers = message.getHeaders();
+            String domain = getDomain(headers);
+            String type = getType(headers);
+            String payload = message.getPayload();
 
-            log.info("message ::: {}", message);
+            streamSubscriberDispatcher.dispatch(domain, type, payload);
         };
     }
 }

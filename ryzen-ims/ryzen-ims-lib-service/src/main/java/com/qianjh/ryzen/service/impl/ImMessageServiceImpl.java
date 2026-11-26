@@ -8,8 +8,8 @@ import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.ims.stream.domain.im_message.type.ImMessageCreatedEvent;
+import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportMessage;
 import com.qianjh.ryzen.mapper.ImMessageMapper;
-import com.qianjh.ryzen.ims.model.SchedulerMessage;
 import com.qianjh.ryzen.service.ImMessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,20 +44,20 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImMessage create(ImAccount imAccount, ImConversation conversation, SchedulerMessage schedulerMessage) {
-        String messageCode = schedulerMessage.messageCode();
+    public ImMessage create(ImAccount imAccount, ImConversation conversation, SchedulerToAppReportMessage.Body message) {
+        String messageCode = message.messageCode();
         ImMessage entity = ImMessage.builder()
                 .oemId(imAccount.getOemId())
                 .tenantId(imAccount.getTenantId())
                 .conversationId(conversation.getId())
                 .messageCode(messageCode)
                 .messageSeq(IdUtils.ofString(messageCode))
-                .direction(schedulerMessage.direction())
+                .direction(message.direction())
                 .senderServiceAccountId(null)
-                .senderName(schedulerMessage.senderName())
-                .senderAvatar(schedulerMessage.senderAvatar())
-                .sentTime(DateTimeUtils.parseMillis(schedulerMessage.sentTime()))
-                .content(schedulerMessage.content())
+                .senderName(message.senderName())
+                .senderAvatar(message.senderAvatar())
+                .sentTime(DateTimeUtils.parseMillis(message.sentTime()))
+                .content(message.content())
                 .createdTime(LocalDateTime.now())
                 .build();
         save(entity);
@@ -72,11 +72,11 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImMessage createIfAbsent(ImAccount imAccount, ImConversation conversation, SchedulerMessage schedulerMessage) {
-        ImMessage entity = getByUk(imAccount.getOemId(), imAccount.getTenantId(), conversation.getId(), schedulerMessage.messageCode());
+    public ImMessage createIfAbsent(ImAccount imAccount, ImConversation conversation, SchedulerToAppReportMessage.Body message) {
+        ImMessage entity = getByUk(imAccount.getOemId(), imAccount.getTenantId(), conversation.getId(), message.messageCode());
         if (entity != null) {
             return entity;
         }
-        return create(imAccount, conversation, schedulerMessage);
+        return create(imAccount, conversation, message);
     }
 }

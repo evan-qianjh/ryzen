@@ -22,7 +22,8 @@ public class ImConversationDispatchedServiceImpl extends ServiceImpl<ImConversat
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImConversationDispatched create(ImConversation conversation, ServiceAccount serviceAccount, ImConversationDispatchType type, Long beforeServiceAccountId) {
+    public ImConversationDispatched create(ImConversation conversation, ServiceAccount serviceAccount,
+                                           ImConversationDispatchType type, String remark, Long beforeServiceAccountId) {
         ImConversationDispatched entity = ImConversationDispatched.builder()
                 .oemId(conversation.getOemId())
                 .tenantId(conversation.getTenantId())
@@ -30,6 +31,7 @@ public class ImConversationDispatchedServiceImpl extends ServiceImpl<ImConversat
                 .serviceAccountId(serviceAccount.getId())
                 .beforeServiceAccountId(beforeServiceAccountId)
                 .type(type)
+                .remark(remark)
                 .createdTime(LocalDateTime.now())
                 .build();
         save(entity);
@@ -42,6 +44,7 @@ public class ImConversationDispatchedServiceImpl extends ServiceImpl<ImConversat
                 .serviceAccountId(entity.getServiceAccountId())
                 .beforeServiceAccountId(entity.getBeforeServiceAccountId())
                 .type(entity.getType())
+                .remark(remark)
                 .build()
         );
 

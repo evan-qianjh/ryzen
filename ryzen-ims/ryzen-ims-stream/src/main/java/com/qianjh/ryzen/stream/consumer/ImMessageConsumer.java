@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImMessageTopic_StreamConsumer implements StreamConsumer {
+public class ImMessageConsumer implements StreamConsumer {
 
     private final StreamSubscriberDispatcher streamSubscriberDispatcher;
 

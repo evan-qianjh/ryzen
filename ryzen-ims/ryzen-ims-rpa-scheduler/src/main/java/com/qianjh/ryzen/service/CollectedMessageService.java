@@ -3,19 +3,18 @@ package com.qianjh.ryzen.service;
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.model.ExecutorMessage;
+import com.qianjh.ryzen.ims.stream.domain.report.type.SchedulerToAppReportMessage;
 import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CollectedMessageService {
-    private final KafkaSchedulerTransport transport;
     private final SchedulerMessageService schedulerMessageService;
+    private final SchedulerToAppReportMessage.Publisher schedulerToAppReportMessagePublisher;
 
     public void forward(ExecutorMessage event) {
         if (event == null || blank(event.executorCode()) || blank(event.accountCode())
@@ -32,21 +31,15 @@ public class CollectedMessageService {
 
         SchedulerMessage schedulerMessage = schedulerMessageService.create(event);
 
-        try {
-            transport.schedulerMessage(convert(schedulerMessage)).get(10, TimeUnit.SECONDS);
-            log.debug("Collected message forwarded: messageCode={}, accountCode={}, conversationCode={}",
-                    event.messageCode(), event.accountCode(), event.conversationCode());
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new IllegalStateException("Interrupted while forwarding messageCode=" + event.messageCode(), e);
-        } catch (Exception e) {
-            log.error("Failed to forward collected message: messageCode={}", event.messageCode(), e);
-            throw new IllegalStateException("Failed to forward messageCode=" + event.messageCode(), e);
-        }
+        // 上报
+        schedulerToAppReportMessagePublisher.publish(convert(schedulerMessage));
+        log.debug("Collected message forwarded: messageCode={}, accountCode={}, conversationCode={}",
+                event.messageCode(), event.accountCode(), event.conversationCode());
+
     }
 
-    private com.qianjh.ryzen.ims.model.SchedulerMessage convert(SchedulerMessage entity) {
-        return com.qianjh.ryzen.ims.model.SchedulerMessage.builder()
+    private SchedulerToAppReportMessage.Body convert(SchedulerMessage entity) {
+        return SchedulerToAppReportMessage.Body.builder()
                 .imType(entity.getImType())
                 .accountCode(entity.getAccountCode())
                 .direction(entity.getDirection())

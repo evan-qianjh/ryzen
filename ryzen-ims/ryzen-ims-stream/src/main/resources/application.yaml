@@ -25,7 +25,7 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'imsImMessageSink;imsImConversationSink;toTenantSink;imsSchedulerCommandResponseSource;imsSchedulerTaskResponseSource;imsSchedulerReportSource;imsSchedulerMessageSource;imsImMessageSource;imsImConversationSource'
+      definition: 'imsImMessageSink;imsImConversationSink;toTenantSink;schedulerToAppSource;imsImMessageSource;imsImConversationSource'
     stream:
       kafka:
         binder:
@@ -44,20 +44,8 @@ spring:
           destination: tenant.from-ims
           content-type: application/json
         # ------------------------------------- source -------------------------------------
-        imsSchedulerCommandResponseSource-in-0:
-          destination: ims.scheduler-to-app-command-response
-          content-type: application/json
-          group: ${spring.application.name}
-        imsSchedulerTaskResponseSource-in-0:
-          destination: ims.scheduler-to-app-task-response
-          content-type: application/json
-          group: ${spring.application.name}
-        imsSchedulerReportSource-in-0:
-          destination: ims.scheduler-to-app-report
-          content-type: application/json
-          group: ${spring.application.name}
-        imsSchedulerMessageSource-in-0:
-          destination: ims.scheduler-to-app-message
+        schedulerToAppSource-in-0:
+          destination: ims.scheduler-to-app
           content-type: application/json
           group: ${spring.application.name}
         imsImMessageSource-in-0:
