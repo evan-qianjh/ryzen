@@ -8,7 +8,7 @@ import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatch;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatched;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class ImConversationDispatchedCreatedEvent_SubscriberImpl implements ImCo
     private final ImConversationService imConversationService;
     private final ImAccountService imAccountService;
     private final MatchTagImAccountService matchTagImAccountService;
-    private final PushConversationDispatch.Publisher pushConversationDispatchPublisher;
+    private final PushConversationDispatched.Publisher pushConversationDispatchPublisher;
 
     @Override
     public void subscribe(ImConversationDispatchedCreatedEvent.Body body) {
@@ -42,7 +42,7 @@ public class ImConversationDispatchedCreatedEvent_SubscriberImpl implements ImCo
         List<String> matchTags = matchTagImAccountWithMatchTagViews.stream().map(MatchTagImAccountWithMatchTagView::getTag).toList();
 
         // 通知tenant-ws发消息
-        PushConversationDispatch.Body message = PushConversationDispatch.Body.builder()
+        PushConversationDispatched.Body message = PushConversationDispatched.Body.builder()
                 .id(imConversationId)
                 .oemId(oemId)
                 .tenantId(tenantId)

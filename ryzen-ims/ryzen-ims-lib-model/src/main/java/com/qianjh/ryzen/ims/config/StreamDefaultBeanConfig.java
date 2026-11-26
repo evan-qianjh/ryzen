@@ -31,20 +31,20 @@ public class StreamDefaultBeanConfig {
 
     @Bean
     @ConditionalOnMissingBean(ImConversationDispatchedCreatedEvent.Publisher.class)
-    public ImConversationDispatchedCreatedEvent.Publisher imConversationDispatchRecordCreatedEventPublisher() {
+    public ImConversationDispatchedCreatedEvent.Publisher imConversationDispatchedCreatedEventPublisher() {
         return _ -> {
             throw new UnsupportedOperationException(
-                    "ImConversationDispatchRecordCreatedEvent.Publisher is not configured"
+                    "ImConversationDispatchedCreatedEvent.Publisher is not configured"
             );
         };
     }
 
     @Bean
     @ConditionalOnMissingBean(ImConversationDispatchedCreatedEvent.Subscriber.class)
-    public ImConversationDispatchedCreatedEvent.Subscriber imConversationDispatchRecordCreatedEventSubscriber() {
+    public ImConversationDispatchedCreatedEvent.Subscriber imConversationDispatchedCreatedEventSubscriber() {
         return _ -> {
             throw new UnsupportedOperationException(
-                    "ImConversationDispatchRecordCreatedEvent.Subscriber is not configured"
+                    "ImConversationDispatchedCreatedEvent.Subscriber is not configured"
             );
         };
     }

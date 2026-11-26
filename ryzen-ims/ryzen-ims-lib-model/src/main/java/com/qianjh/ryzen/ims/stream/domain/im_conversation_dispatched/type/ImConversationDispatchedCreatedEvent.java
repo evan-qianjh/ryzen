@@ -3,7 +3,7 @@ package com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.type;
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
 import com.qianjh.ryzen.ims.enums.ImConversationDispatchType;
-import com.qianjh.ryzen.ims.stream.domain.im_message.ImMessageEvent;
+import com.qianjh.ryzen.ims.stream.domain.im_conversation_dispatched.ImConversationDispatchedEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
  * @param <T>
  * @author QianJH
  */
-public interface ImConversationDispatchedCreatedEvent<T> extends ImMessageEvent<T> {
+public interface ImConversationDispatchedCreatedEvent<T> extends ImConversationDispatchedEvent<T> {
     String TYPE = "created";
 
     /**

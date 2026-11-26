@@ -2,7 +2,7 @@ package com.qianjh.ryzen.tenant.config;
 
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessCreated;
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessPatched;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatch;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatched;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -33,8 +33,8 @@ public class StreamDefaultBeanConfig {
 
 
     @Bean
-    @ConditionalOnMissingBean(PushConversationDispatch.Publisher.class)
-    public PushConversationDispatch.Publisher pushConversationDispatchPublisher() {
+    @ConditionalOnMissingBean(PushConversationDispatched.Publisher.class)
+    public PushConversationDispatched.Publisher pushConversationDispatchPublisher() {
         return _ -> {
             throw new UnsupportedOperationException(
                     "PushConversationDispatch.Publisher is not configured"
@@ -43,8 +43,8 @@ public class StreamDefaultBeanConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(PushConversationDispatch.Subscriber.class)
-    public PushConversationDispatch.Subscriber pushConversationDispatchSubscriber() {
+    @ConditionalOnMissingBean(PushConversationDispatched.Subscriber.class)
+    public PushConversationDispatched.Subscriber pushConversationDispatchSubscriber() {
         return _ -> {
             throw new UnsupportedOperationException(
                     "PushConversationDispatch.Subscriber is not configured"

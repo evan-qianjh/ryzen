@@ -29,7 +29,7 @@ import com.qianjh.ryzen.service.MatchTagImAccountService;
 import com.qianjh.ryzen.service.MatchTagService;
 import com.qianjh.ryzen.service.ToSchedulerCommandService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
-import com.qianjh.ryzen.stream.ImsSchedulerCommandRequestStreamProducer;
+import com.qianjh.ryzen.stream.producer.ImsSchedulerCommandRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

@@ -53,8 +53,7 @@ public class ImConversationDispatchServiceImpl implements ImConversationDispatch
 
         // 如果当前服务账号与匹配的服务账号不同，记录调度
         if (!Objects.equals(conversation.getServiceAccountId(), serviceAccount.getId())) {
-            ImConversationDispatched record = dispatch(conversation, serviceAccount, dispatchType, null);
-
+            dispatch(conversation, serviceAccount, dispatchType, null);
         }
 
         return serviceAccount;

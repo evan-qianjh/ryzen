@@ -25,7 +25,7 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'imsSchedulerCommandRequestSink;imsSchedulerTaskRequestSink;'
+      definition: 'imsSchedulerCommandRequestSink;imsSchedulerTaskRequestSink;imsImConversationSink;'
     stream:
       kafka:
         binder:
@@ -39,6 +39,9 @@ spring:
           content-type: application/json
         imsSchedulerTaskRequestSink-out-0:
           destination: ims.app-to-scheduler-task-request
+          content-type: application/json
+        imsImConversationSink-out-0:
+          destination: ims.im-conversation
           content-type: application/json
   output:
     ansi:

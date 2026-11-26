@@ -24,7 +24,7 @@ import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.ImMessageService;
 import com.qianjh.ryzen.service.ServiceAccountService;
-import com.qianjh.ryzen.stream.ImsSchedulerTaskRequestStreamProducer;
+import com.qianjh.ryzen.stream.producer.ImsSchedulerTaskRequestStreamProducer;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

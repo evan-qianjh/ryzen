@@ -1,4 +1,4 @@
-package com.qianjh.ryzen.stream;
+package com.qianjh.ryzen.stream.producer;
 
 import com.qianjh.ryzen.framework.stream.producer.Producer;
 import com.qianjh.ryzen.framework.stream.producer.StreamProducer;
@@ -15,14 +15,14 @@ import java.util.function.Supplier;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImsSchedulerCommandRequestStreamProducer implements StreamProducer {
+public class ImConversationTopic_StreamProducer implements StreamProducer {
     private final Producer producer;
 
     private final Sinks.Many<Message<String>> sinks =
             Sinks.many().multicast().onBackpressureBuffer();
 
     @Bean
-    Supplier<Flux<Message<String>>> imsSchedulerCommandRequestSink() {
+    Supplier<Flux<Message<String>>> imsImConversationSink() {
         return sinks::asFlux;
     }
 

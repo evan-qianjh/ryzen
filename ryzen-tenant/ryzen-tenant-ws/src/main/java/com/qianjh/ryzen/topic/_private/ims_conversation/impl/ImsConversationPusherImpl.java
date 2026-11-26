@@ -4,7 +4,7 @@ import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.websocket.netty.MessageSender;
 import com.qianjh.ryzen.framework.websocket.service.PushMessageService;
 import com.qianjh.ryzen.framework.websocket.topic.TopicMeta;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatch;
+import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatched;
 import com.qianjh.ryzen.topic._private.ims_conversation.ImsConversationPusher;
 import com.qianjh.ryzen.topic._private.ims_conversation.ImsConversationTopic;
 import com.qianjh.ryzen.topic._private.ims_conversation.model.PushData;
@@ -26,7 +26,7 @@ public class ImsConversationPusherImpl implements ImsConversationPusher {
     private final ImsConversationTopic imsConversationTopic;
 
     @Override
-    public void push(PushConversationDispatch.Body body) {
+    public void push(PushConversationDispatched.Body body) {
         TopicMeta topicMeta = imsConversationTopic.getTopicMeta();
 
         //
@@ -36,7 +36,7 @@ public class ImsConversationPusherImpl implements ImsConversationPusher {
         delete(body, topicMeta);
     }
 
-    private void insert(PushConversationDispatch.Body body, TopicMeta topicMeta) {
+    private void insert(PushConversationDispatched.Body body, TopicMeta topicMeta) {
         Long accountId = body.serviceAccountId();
         // 无
         if (accountId == null) {
@@ -70,7 +70,7 @@ public class ImsConversationPusherImpl implements ImsConversationPusher {
         );
     }
 
-    private void delete(PushConversationDispatch.Body body, TopicMeta topicMeta) {
+    private void delete(PushConversationDispatched.Body body, TopicMeta topicMeta) {
         Long accountId = body.beforeServiceAccountId();
 
         // 无
