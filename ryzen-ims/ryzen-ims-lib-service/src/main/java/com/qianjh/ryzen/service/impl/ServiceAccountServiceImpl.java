@@ -40,10 +40,11 @@ public class ServiceAccountServiceImpl extends ServiceImpl<ServiceAccountMapper,
         Long accountId = body.accountId();
 
         ServiceAccount entity = ServiceAccount.builder()
-                .id(accountId)
+                .id(accountId) // 与accountId一致
                 .oemId(oemId)
                 .tenantId(tenantId)
                 .accountId(accountId)
+                .accountName(body.accountName())
                 .status(ServiceAccountStatus.ENABLED)
                 .online(false)
                 .remark(body.remark())

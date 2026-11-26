@@ -24,6 +24,7 @@ public class ServiceAccount {
     private Long tenantId;
 
     private Long accountId;
+    private String accountName;
     private ServiceAccountStatus status;
     private Boolean online;
     private String remark;

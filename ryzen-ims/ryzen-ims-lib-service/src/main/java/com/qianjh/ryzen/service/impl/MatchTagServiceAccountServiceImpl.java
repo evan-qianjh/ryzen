@@ -2,16 +2,22 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.qianjh.ryzen.entity.MatchTag;
 import com.qianjh.ryzen.entity.MatchTagServiceAccount;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.mapper.MatchTagServiceAccountMapper;
 import com.qianjh.ryzen.service.MatchTagServiceAccountService;
+import com.qianjh.ryzen.service.dto.MatchTagServiceAccountWithMatchTagView;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MatchTagServiceAccountServiceImpl extends ServiceImpl<MatchTagServiceAccountMapper, MatchTagServiceAccount> implements MatchTagServiceAccountService {
@@ -33,6 +39,62 @@ public class MatchTagServiceAccountServiceImpl extends ServiceImpl<MatchTagServi
                 .eq(MatchTagServiceAccount::getMatchTagId, matchTagId)
                 .eq(MatchTagServiceAccount::getServiceAccountId, serviceAccountId)
         );
+    }
+
+    @Override
+    public List<MatchTagServiceAccount> listByServiceAccounts(Long oemId, Long tenantId, List<Long> serviceAccountIds) {
+        if (serviceAccountIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return list(new LambdaQueryWrapper<MatchTagServiceAccount>()
+                .eq(MatchTagServiceAccount::getOemId, oemId)
+                .eq(MatchTagServiceAccount::getTenantId, tenantId)
+                .in(MatchTagServiceAccount::getServiceAccountId, serviceAccountIds)
+        );
+    }
+
+    @Override
+    public Map<Long, List<MatchTagServiceAccount>> groupByServiceAccounts(Long oemId, Long tenantId, List<Long> serviceAccountIds) {
+        return listByServiceAccounts(oemId, tenantId, serviceAccountIds)
+                .stream().collect(Collectors.groupingBy(MatchTagServiceAccount::getServiceAccountId));
+    }
+
+    @Override
+    public List<MatchTagServiceAccountWithMatchTagView> getByServiceAccountWithMatchTag(Long oemId, Long tenantId, Long serviceAccountId) {
+        return getBaseMapper().selectJoinList(MatchTagServiceAccountWithMatchTagView.class, new MPJLambdaWrapper<MatchTagServiceAccount>()
+                .selectAll(MatchTagServiceAccount.class)
+                .selectAs(MatchTag::getTag, MatchTagServiceAccountWithMatchTagView::getTag)
+                //
+                .innerJoin(MatchTag.class, MatchTag::getId, MatchTagServiceAccount::getMatchTagId)
+                //
+                .eq(MatchTagServiceAccount::getOemId, oemId)
+                .eq(MatchTagServiceAccount::getTenantId, tenantId)
+                .eq(MatchTagServiceAccount::getServiceAccountId, serviceAccountId)
+        );
+    }
+
+    @Override
+    public List<MatchTagServiceAccountWithMatchTagView> listByServiceAccountsWithMatchTag(Long oemId, Long tenantId, List<Long> serviceAccountIds) {
+        if (serviceAccountIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        return getBaseMapper().selectJoinList(MatchTagServiceAccountWithMatchTagView.class, new MPJLambdaWrapper<MatchTagServiceAccount>()
+                .selectAll(MatchTagServiceAccount.class)
+                .selectAs(MatchTag::getTag, MatchTagServiceAccountWithMatchTagView::getTag)
+                //
+                .innerJoin(MatchTag.class, MatchTag::getId, MatchTagServiceAccount::getMatchTagId)
+                //
+                .eq(MatchTagServiceAccount::getOemId, oemId)
+                .eq(MatchTagServiceAccount::getTenantId, tenantId)
+                .in(MatchTagServiceAccount::getServiceAccountId, serviceAccountIds)
+        );
+    }
+
+    @Override
+    public Map<Long, List<MatchTagServiceAccountWithMatchTagView>> groupByServiceAccountsWithMatchTag(Long oemId, Long tenantId, List<Long> serviceAccountIds) {
+        return listByServiceAccountsWithMatchTag(oemId, tenantId, serviceAccountIds)
+                .stream().collect(Collectors.groupingBy(MatchTagServiceAccountWithMatchTagView::getServiceAccountId));
     }
 
     @Transactional(rollbackFor = Exception.class)
