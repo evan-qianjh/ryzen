@@ -7,8 +7,8 @@ import com.qianjh.ryzen.framework.websocket.topic.TopicMeta;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessagePusher;
 import com.qianjh.ryzen.topic._private.ims_message.ImsMessageTopic;
-import com.qianjh.ryzen.topic._private.ims_message.model.Type;
 import com.qianjh.ryzen.topic._private.ims_message.model.PushData;
+import com.qianjh.ryzen.topic._private.ims_message.model.Type;
 import io.netty.channel.ChannelId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +66,8 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
                         PushData.Conversation.builder()
                                 .id(IdUtils.toString(conversation.id()))
                                 .imType(conversation.imType())
-                                .name(conversation.name())
+                                .title(conversation.title())
+                                .subTitle(conversation.subTitle())
                                 .avatar(conversation.avatar())
                                 .matchTags(conversation.matchTags())
                                 .build()

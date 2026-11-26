@@ -21,7 +21,8 @@ public record PushData(
     public record Conversation(
             String id,
             String imType,
-            String name,
+            String title,
+            String subTitle,
             String avatar,
             List<String> matchTags
     ) {

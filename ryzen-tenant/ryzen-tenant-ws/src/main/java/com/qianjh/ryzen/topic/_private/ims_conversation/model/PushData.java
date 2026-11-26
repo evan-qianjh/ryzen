@@ -8,7 +8,8 @@ import java.util.List;
 public record PushData(
         String id,
         String imType,
-        String name,
+        String title,
+        String subTitle,
         String avatar,
         String lastMessageContent,
         String lastMessageId,
