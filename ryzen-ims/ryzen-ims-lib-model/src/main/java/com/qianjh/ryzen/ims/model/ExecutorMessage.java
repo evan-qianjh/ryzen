@@ -23,6 +23,8 @@ public record ExecutorMessage(
         String accountCode,
         String messageCode,
         String conversationCode,
+        String conversationTitle,
+        String conversationSubTitle,
         String senderCode,
         String senderName,
         String senderAvatar,

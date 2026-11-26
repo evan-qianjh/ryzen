@@ -132,6 +132,14 @@ public class PlaywrightBrowserSession implements BrowserSession {
     private List<ExecutorMessage> parseMessageArea(String chatCode, String chatName) {
         log.info("处理对话框 ::: chatId={}, chatName={}", chatCode, chatName);
 
+        // 客户名 标题
+        Locator customerNameNode = page.locator("span[title=点击编辑昵称]");
+        String conversationTitle = customerNameNode.count() > 0 ? customerNameNode.textContent() : chatName;
+
+        // 门店 副标题
+        Locator shopNameNode = page.locator("span[class*=style-module_shopName_]");
+        String conversationSubTitle = shopNameNode.count() > 0 ? shopNameNode.textContent() : null;
+
         // 获取发来的消息列表
         Locator messageHits = page.locator("div[class*=message-wrapper]");
         int hitsCount = messageHits.count();
@@ -152,7 +160,7 @@ public class PlaywrightBrowserSession implements BrowserSession {
             if (messageId == null) {
                 continue;
             }
-            if(messageId.startsWith("tmp_")) {
+            if (messageId.startsWith("tmp_")) {
                 log.warn("异常消息 ::: {}", messageId);
                 continue;
             }
@@ -209,6 +217,8 @@ public class PlaywrightBrowserSession implements BrowserSession {
                             .accountCode(assignment.accountCode())
                             .messageCode(messageId)
                             .conversationCode(chatCode)
+                            .conversationTitle(conversationTitle)
+                            .conversationSubTitle(conversationSubTitle)
                             .senderCode(null)
                             .senderName(senderName)
                             .senderAvatar(avatar)
