@@ -10,6 +10,7 @@ import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerReportEventType;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerCommandResponse;
 import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 import com.qianjh.ryzen.ims.stream.scheduler_to_executor.command.SchedulerToExecutorCommandRequest;
 import com.qianjh.ryzen.ims.stream.scheduler_to_executor.command.SchedulerToExecutorTaskRequest;
@@ -53,10 +54,9 @@ public class ExecutorWorker {
      */
     private final BlockingQueue<SchedulerToExecutorCommandRequest.Body> commandQueue = new LinkedBlockingQueue<>();
     /**
-     * 发送队列
+     * 任务队列
      */
-    private final PriorityBlockingQueue<QueuedSend> sendQueue = new PriorityBlockingQueue<>();
-
+    private final PriorityBlockingQueue<QueuedTask> taskQueue = new PriorityBlockingQueue<>();
     /**
      * 已知任务ID集合
      */
@@ -67,7 +67,7 @@ public class ExecutorWorker {
     private final AtomicLong sequence = new AtomicLong();
 
     private volatile boolean running = true;
-    private volatile ExecutorStatus status = ExecutorStatus.WAIT_LOGIN;
+    private volatile ExecutorStatus status = ExecutorStatus.OFFLINE;
     private volatile ExecutorOperationType currentOperation = ExecutorOperationType.NONE;
     private volatile Long currentTaskId;
     private volatile String errorMessage;
@@ -90,36 +90,48 @@ public class ExecutorWorker {
         if (!properties.getCode().equals(command.executorCode())) {
             return;
         }
-        commandQueue.offer(command);
+
+        transport.commandResponse(ExecutorToSchedulerCommandResponse.Body.builder()
+                .code(command.code())
+                .executorCode(command.executorCode())
+                .type(command.type())
+                .build()
+        );
+
+        // 压入队列
+        boolean success = commandQueue.offer(command);
+
+        log.info("命令已受理 ::: command={}, success={}", command, success);
     }
 
     /**
      * 接受任务
      *
      * @param task 任务
-     * @return 是否接受
      */
-    public boolean accept(SchedulerToExecutorTaskRequest.Body task) {
+    public void acceptTask(SchedulerToExecutorTaskRequest.Body task) {
         if (task == null || task.taskId() == null) {
             throw new IllegalArgumentException("taskId must not be blank");
         }
 
         Assignment current = assignment;
         if (current == null || session == null || status != ExecutorStatus.READY) {
-            return false;
+            log.warn("忽略任务-未分配、未初始化浏览器、非就绪状态 ::: task={}", task);
+            return;
         }
 
         // 忽略其他执行器任务
         if (!properties.getCode().equals(task.executorCode()) || !current.id().equals(task.assignmentId())
         ) {
-            log.debug("Ignore task targeted at another executor/account: {}", task.taskId());
-            return false;
+            log.debug("忽略任务-非当前执行器 ::: task={}", task);
+            return;
         }
         // 忽略重复
         if (!knownTaskIds.add(task.taskId())) {
-            log.info("Ignore duplicated task: {}", task.taskId());
-            return false;
+            log.warn("忽略任务-重复 ::: task={}", task);
+            return;
         }
+
         // 任务受理
         transport.taskResponse(ExecutorToSchedulerTaskResponse.Body.builder()
                 .assignmentId(task.assignmentId())
@@ -128,8 +140,8 @@ public class ExecutorWorker {
                 .result(ExecutorToSchedulerTaskResult.ACCEPTED)
                 .build());
         // 压入队列
-        sendQueue.offer(new QueuedSend(task, sequence.incrementAndGet()));
-        return true;
+        boolean success = taskQueue.offer(new QueuedTask(task, sequence.incrementAndGet()));
+        log.info("任务已受理 ::: task={}, success={}", task, success);
     }
 
 
@@ -168,13 +180,12 @@ public class ExecutorWorker {
 
                     session = browserSessionFactory.open(assignment);
 
-                    // 新 Session 创建后，立即触发一次采集
                     lastCollectedAt = Instant.EPOCH;
 
                     status = ExecutorStatus.WAIT_LOGIN;
                     transport.reportEvent(snapshot(), ExecutorToSchedulerReportEventType.WAIT_LOGIN);
 
-                    log.info("Waiting for login ::: accountCode={}", assignment.accountCode());
+                    log.info("等待登录 ::: accountCode={}", assignment.accountCode());
                 }
 
                 // ==================================================
@@ -197,7 +208,7 @@ public class ExecutorWorker {
                         status = ExecutorStatus.READY;
                         errorMessage = null;
 
-                        log.info("Account login success ::: accountCode={}", assignment.accountCode());
+                        log.info("账户登录成功 ::: accountCode={}", assignment.accountCode());
                     }
                     // 未登录
                     else {
@@ -226,7 +237,7 @@ public class ExecutorWorker {
                     // ------------------------------------------
                     // 4.1 优先处理发送任务
                     // ------------------------------------------
-                    QueuedSend queued = sendQueue.poll();
+                    QueuedTask queued = taskQueue.poll();
                     if (queued != null) {
                         executeSend(session, queued.task());
                         continue;
@@ -237,8 +248,9 @@ public class ExecutorWorker {
                     // ------------------------------------------
                     Instant now = Instant.now();
 
-                    if (!now.isBefore(lastCollectedAt.plusSeconds(properties.getCollectIntervalSeconds()))) {
-
+                    // 超过了采集间隔
+                    if (now.isAfter(lastCollectedAt.plusSeconds(properties.getCollectIntervalSeconds()))) {
+                        // 采集
                         executeCollect(session);
 
                         lastCollectedAt = Instant.now();
@@ -533,16 +545,16 @@ public class ExecutorWorker {
             return;
         }
 
-        List<QueuedSend> cancelledTasks = new ArrayList<>();
+        List<QueuedTask> cancelledTasks = new ArrayList<>();
 
-        sendQueue.drainTo(cancelledTasks);
+        taskQueue.drainTo(cancelledTasks);
 
-        for (QueuedSend queue : cancelledTasks) {
+        for (QueuedTask queue : cancelledTasks) {
             SchedulerToExecutorTaskRequest.Body task = queue.task;
             // 只取消当前账号分配下的任务
             if (!Objects.equals(task.assignmentId(), current.id())) {
                 // 理论上不应该出现其他分配的任务，避免误取消
-                sendQueue.offer(queue);
+                taskQueue.offer(queue);
                 continue;
             }
 
@@ -580,10 +592,10 @@ public class ExecutorWorker {
         }
     }
 
-    private record QueuedSend(SchedulerToExecutorTaskRequest.Body task,
-                              long sequence) implements Comparable<QueuedSend> {
+    private record QueuedTask(SchedulerToExecutorTaskRequest.Body task,
+                              long sequence) implements Comparable<QueuedTask> {
         @Override
-        public int compareTo(QueuedSend other) {
+        public int compareTo(QueuedTask other) {
             return Long.compare(sequence, other.sequence);
         }
     }

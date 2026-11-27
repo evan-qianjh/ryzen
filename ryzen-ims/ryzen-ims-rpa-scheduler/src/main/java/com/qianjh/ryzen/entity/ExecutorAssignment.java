@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * IM账户
+ * 执行器分配
  *
  * @author QianJH
  */

@@ -1,7 +1,6 @@
 package com.qianjh.ryzen.transport.impl;
 
 import com.qianjh.ryzen.config.ExecutorProperties;
-import com.qianjh.ryzen.framework.common.util.GsonUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.stream.model.StreamHeader;
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
@@ -45,7 +44,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .body(body)
                 .build();
 
-        send(properties.getExecutorToSchedulerTopic(), body.executorCode(), payload);
+        send(body.executorCode(), payload);
     }
 
     @Override
@@ -65,7 +64,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .body(body)
                 .build();
 
-        send(properties.getExecutorToSchedulerTopic(), body.executorCode(), payload);
+        send(body.executorCode(), payload);
     }
 
     @Override
@@ -82,7 +81,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .body(body)
                 .build();
 
-        send(properties.getExecutorToSchedulerTopic(), body.executorCode(), payload);
+        send(body.executorCode(), payload);
     }
 
     @Override
@@ -110,7 +109,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .body(body)
                 .build();
 
-        send(properties.getExecutorToSchedulerTopic(), body.executorCode(), payload);
+        send(body.executorCode(), payload);
     }
 
     @Override
@@ -121,7 +120,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .body(body)
                 .build();
 
-        send(properties.getExecutorToSchedulerTopic(), body.executorCode(), payload);
+        send(body.executorCode(), payload);
     }
 
     @Override
@@ -131,21 +130,24 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .type(ExecutorToSchedulerTaskResponse.TYPE)
                 .body(body)
                 .build();
-        send(properties.getExecutorToSchedulerTopic(), body.executorCode(), payload);
+        send(body.executorCode(), payload);
     }
 
     /**
+     * 发送
      *
-     * @param topic
-     * @param key
-     * @param payload
+     * @param key     路由key
+     * @param payload 报文
      */
-    private void send(String topic, String key, StreamPayload<?> payload) {
+    private void send(String key, StreamPayload<?> payload) {
+        String topic = properties.getExecutorToSchedulerTopic();
+
         Message<String> message = MessageBuilder
                 .withPayload(StreamUtils.toJson(payload))
+                // KafkaHeaders
                 .setHeader(KafkaHeaders.TOPIC, topic)
                 .setHeader(KafkaHeaders.KEY, key)
-                //
+                // StreamHeader
                 .setHeader(StreamHeader.ID, IdUtils.generateUUID())
                 .setHeader(StreamHeader.DOMAIN, payload.getDomain())
                 .setHeader(StreamHeader.TYPE, payload.getType())
@@ -155,9 +157,5 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .setHeader(StreamHeader.PRODUCER_INSTANCE, producer.getInstance())
                 .build();
         kafkaTemplate.send(message);
-    }
-
-    private void send(String topic, String key, Object value) {
-        kafkaTemplate.send(topic, key, GsonUtils.toJson(value));
     }
 }

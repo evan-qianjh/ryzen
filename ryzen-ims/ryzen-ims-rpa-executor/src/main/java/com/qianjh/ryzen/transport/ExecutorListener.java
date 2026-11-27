@@ -65,10 +65,7 @@ public class ExecutorListener {
                 if (type.equals(SchedulerToExecutorTaskRequest.TYPE)) {
                     StreamPayload<SchedulerToExecutorTaskRequest.Body> streamPayload = StreamUtils.fromJson(payload, SchedulerToExecutorTaskRequest.Body.class);
                     SchedulerToExecutorTaskRequest.Body body = streamPayload.getBody();
-                    boolean accept = worker.accept(body);
-                    if (!accept) {
-                        log.error("接受任务失败 ::: {}", payload);
-                    }
+                    worker.acceptTask(body);
                 }
             }
         }
