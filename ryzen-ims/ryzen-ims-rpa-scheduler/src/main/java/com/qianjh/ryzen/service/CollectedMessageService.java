@@ -3,6 +3,7 @@ package com.qianjh.ryzen.service;
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.dto.ExecutorMessage;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportMessage;
 import com.qianjh.ryzen.ims.stream.scheduler_to_app.report.SchedulerToAppReportMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,25 +16,25 @@ public class CollectedMessageService {
     private final SchedulerMessageService schedulerMessageService;
     private final SchedulerToAppReportMessage.Publisher schedulerToAppReportMessagePublisher;
 
-    public void forward(ExecutorMessage event) {
-        if (event == null || blank(event.executorCode()) || blank(event.accountCode())
-                || blank(event.messageCode()) || blank(event.conversationCode())) {
-            log.warn("Ignore invalid collected message: {}", event);
+    public void forward(ExecutorToSchedulerReportMessage.Body body) {
+        if (body == null || blank(body.executorCode()) || blank(body.accountCode())
+                || blank(body.messageCode()) || blank(body.conversationCode())) {
+            log.warn("Ignore invalid collected message: {}", body);
             return;
         }
 
         // 落地去重
-        SchedulerMessage entity = schedulerMessageService.getByUk(event.imType(), event.messageCode());
+        SchedulerMessage entity = schedulerMessageService.getByUk(body.imType(), body.messageCode());
         if (entity != null) {
             return;
         }
 
-        SchedulerMessage schedulerMessage = schedulerMessageService.create(event);
+        SchedulerMessage schedulerMessage = schedulerMessageService.create(body);
 
         // 上报
         schedulerToAppReportMessagePublisher.publish(convert(schedulerMessage));
         log.debug("Collected message forwarded: messageCode={}, accountCode={}, conversationCode={}",
-                event.messageCode(), event.accountCode(), event.conversationCode());
+                body.messageCode(), body.accountCode(), body.conversationCode());
 
     }
 

@@ -8,22 +8,20 @@ import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
-import com.qianjh.ryzen.ims.dto.ExecutorTaskRequest;
-import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
 import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 import com.qianjh.ryzen.ims.stream.scheduler_to_app.task.SchedulerToAppTaskResponse;
+import com.qianjh.ryzen.ims.stream.scheduler_to_executor.command.SchedulerToExecutorTaskRequest;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import com.qianjh.ryzen.service.SchedulerTaskService;
 import com.qianjh.ryzen.service.TaskDispatchService;
-import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -31,10 +29,10 @@ import java.util.concurrent.TimeUnit;
 public class SchedulerTaskServiceImpl implements SchedulerTaskService {
     private final SchedulerProperties properties;
     private final ExecutorService executorService;
-    private final KafkaSchedulerTransport transport;
     private final ExecutorTaskService executorTaskService;
     private final TaskDispatchService taskDispatchService;
     private final SchedulerToAppTaskResponse.Publisher schedulerToAppTaskResponsePublisher;
+    private final SchedulerToExecutorTaskRequest.Publisher schedulerToExecutorTaskRequestPublisher;
 
     /**
      * 接受任务
@@ -112,22 +110,18 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
         }
 
         // build
-        ExecutorTaskRequest payload = ExecutorTaskRequest.builder()
-                .assignmentId(assignmentId)
-                .executorCode(executor.getCode())
-                .taskId(task.getId())
-                .conversationCode(task.getConversationCode())
-                .content(task.getContent())
-                .build();
         try {
-            // 等待 Kafka broker 确认后再结束本次调度调用；失败时结果可能不确定，不自动重发。
-            transport.executorTaskRequest(payload).get(10, TimeUnit.SECONDS);
+            schedulerToExecutorTaskRequestPublisher.publish(
+                    SchedulerToExecutorTaskRequest.Body.builder()
+                            .assignmentId(assignmentId)
+                            .executorCode(executor.getCode())
+                            .taskId(task.getId())
+                            .conversationCode(task.getConversationCode())
+                            .content(task.getContent())
+                            .build()
+            );
             log.info("Task dispatched: taskId={}, executorId={}, assignmentId={}",
                     task.getId(), executor.getId(), assignmentId);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            executorTaskService.markDispatchUnknown(task, e.getMessage());
-            log.error("Dispatch interrupted; outcome is uncertain: taskId={}", task.getId(), e);
         } catch (Exception e) {
             executorTaskService.markDispatchUnknown(task, e.getMessage());
             log.error("Dispatch outcome is uncertain; task will not be retried automatically: taskId={}",
@@ -138,36 +132,36 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
     /**
      * 处理任务执行结果
      *
-     * @param response 结果
+     * @param body 结果
      */
     @Override
-    public void handleTaskResponse(ExecutorTaskResponse response) {
-        if (response == null || response.executorCode() == null || response.assignmentId() == null || response.taskId() == null) {
-            log.warn("Ignore invalid executor task event: {}", response);
+    public void handleTaskResponse(ExecutorToSchedulerTaskResponse.Body body) {
+        if (body == null || body.executorCode() == null || body.assignmentId() == null || body.taskId() == null) {
+            log.warn("Ignore invalid executor task event: {}", body);
             return;
         }
 
-        ExecutorToSchedulerTaskResult result = response.result();
+        ExecutorToSchedulerTaskResult result = body.result();
 
         // 执行器
-        Executor executor = executorService.getByCode(response.executorCode());
+        Executor executor = executorService.getByCode(body.executorCode());
         if (executor == null) {
-            log.warn("Task event references unknown executor={}", response.executorCode());
+            log.warn("Task event references unknown executor={}", body.executorCode());
             return;
         }
 
         // 任务
-        ExecutorTask task = executorTaskService.getById(response.taskId());
+        ExecutorTask task = executorTaskService.getById(body.taskId());
         if (task == null) {
-            log.warn("Task event references unknown taskId={}", response.taskId());
+            log.warn("Task event references unknown taskId={}", body.taskId());
             return;
         }
 
         // 更新任务结果
-        boolean success = executorTaskService.updateTaskEvent(executor, response, result);
+        boolean success = executorTaskService.updateTaskEvent(executor, body, result);
         if (!success) {
             log.debug("Task event ignored due to duplicate or invalid transition: taskId={}, status={}",
-                    response.taskId(), result);
+                    body.taskId(), result);
             return;
         }
 
@@ -185,8 +179,8 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
         // 已关闭
         if (result.isClosed()) {
             //可以继续下一个
-            executorService.markExecutorReadyAfterTask(executor.getId(), response.taskId());
-            dispatchTaskRequest(response.assignmentId());
+            executorService.markExecutorReadyAfterTask(executor.getId(), body.taskId());
+            dispatchTaskRequest(body.assignmentId());
         }
     }
 

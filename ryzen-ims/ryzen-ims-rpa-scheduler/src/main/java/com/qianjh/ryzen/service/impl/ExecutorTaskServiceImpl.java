@@ -8,6 +8,7 @@ import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
 import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 import com.qianjh.ryzen.mapper.ExecutorTaskMapper;
 import com.qianjh.ryzen.service.ExecutorTaskService;
 import org.springframework.stereotype.Service;
@@ -107,7 +108,7 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean updateTaskEvent(Executor executor, ExecutorTaskResponse event, ExecutorToSchedulerTaskResult status) {
+    public boolean updateTaskEvent(Executor executor, ExecutorToSchedulerTaskResponse.Body event, ExecutorToSchedulerTaskResult status) {
         // TODO 应该取写入kafka时间
         LocalDateTime now = LocalDateTime.now();
         switch (status) {

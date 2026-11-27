@@ -6,26 +6,21 @@ import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorAssignment;
 import com.qianjh.ryzen.framework.common.dto.Operator;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
+import com.qianjh.ryzen.ims.dto.Assignment;
 import com.qianjh.ryzen.ims.enums.ExecutorAssignmentStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorCommandType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
-import com.qianjh.ryzen.ims.dto.Assignment;
-import com.qianjh.ryzen.ims.dto.ExecutorCommandRequest;
 import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.AppToSchedulerCommandRequest;
 import com.qianjh.ryzen.ims.stream.scheduler_to_app.command.SchedulerToAppCommandResponse;
+import com.qianjh.ryzen.ims.stream.scheduler_to_executor.command.SchedulerToExecutorCommandRequest;
 import com.qianjh.ryzen.mapper.ExecutorAssignmentMapper;
 import com.qianjh.ryzen.service.ExecutorAssignmentService;
 import com.qianjh.ryzen.service.ExecutorService;
 import com.qianjh.ryzen.service.SchedulerCommandService;
-import com.qianjh.ryzen.transport.KafkaSchedulerTransport;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  *
@@ -37,10 +32,10 @@ import java.util.concurrent.TimeoutException;
 public class SchedulerCommandServiceImpl implements SchedulerCommandService {
 
     private final ExecutorService executorService;
-    private final KafkaSchedulerTransport transport;
     private final ExecutorAssignmentMapper assignmentMapper;
     private final ExecutorAssignmentService executorAssignmentService;
     private final SchedulerToAppCommandResponse.Publisher schedulerToAppCommandResponsePublisher;
+    private final SchedulerToExecutorCommandRequest.Publisher schedulerToExecutorCommandRequestPublisher;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -96,32 +91,30 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
             throw new RuntimeException("执行器绑定关系异常");
         }
 
-        try {
-            // 执行器指令请求
-            transport.executorCommandRequest(ExecutorCommandRequest.builder()
-                    .code(IdUtils.generateUUID())
-                    .type(ExecutorCommandType.START)
-                    .executorCode(executor.getCode())
-                    .assignment(Assignment.builder()
-                            .id(assignment.getId())
-                            .imType(assignment.getImType())
-                            .accountCode(assignment.getAccountCode())
-                            .build())
-                    .build()
-            ).get(10, TimeUnit.SECONDS);
+        // 执行器指令请求
+        schedulerToExecutorCommandRequestPublisher.publish(
+                SchedulerToExecutorCommandRequest.Body.builder()
+                        .code(IdUtils.generateUUID())
+                        .type(ExecutorCommandType.START)
+                        .executorCode(executor.getCode())
+                        .assignment(Assignment.builder()
+                                .id(assignment.getId())
+                                .imType(assignment.getImType())
+                                .accountCode(assignment.getAccountCode())
+                                .build())
+                        .build()
+        );
 
-            // 调度器指令响应
-            schedulerToAppCommandResponsePublisher.publish(
-                    SchedulerToAppCommandResponse.Body.builder()
-                            .code(request.code())
-                            .type(request.type())
-                            .assignmentId(assignment.getId())
-                            .success(true)
-                            .build()
-            );
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        // 调度器指令响应
+        schedulerToAppCommandResponsePublisher.publish(
+                SchedulerToAppCommandResponse.Body.builder()
+                        .code(request.code())
+                        .type(request.type())
+                        .assignmentId(assignment.getId())
+                        .success(true)
+                        .build()
+        );
+
     }
 
     /**
@@ -141,28 +134,24 @@ public class SchedulerCommandServiceImpl implements SchedulerCommandService {
             throw new RuntimeException("执行器不存在");
         }
 
-        try {
-            // 执行器指令请求
-            transport.executorCommandRequest(
-                    ExecutorCommandRequest.builder()
-                            .code(IdUtils.generateUUID())
-                            .type(ExecutorCommandType.STOP)
-                            .executorCode(executor.getCode())
-                            .build()
-            ).get(10, TimeUnit.SECONDS);
+        // 执行器指令请求
+        schedulerToExecutorCommandRequestPublisher.publish(
+                SchedulerToExecutorCommandRequest.Body.builder()
+                        .code(IdUtils.generateUUID())
+                        .type(ExecutorCommandType.STOP)
+                        .executorCode(executor.getCode())
+                        .build()
+        );
 
-            // 调度器指令响应
-            schedulerToAppCommandResponsePublisher.publish(
-                    SchedulerToAppCommandResponse.Body.builder()
-                            .code(request.code())
-                            .type(request.type())
-                            .assignmentId(assignment.getId())
-                            .success(true)
-                            .build()
-            );
-        } catch (InterruptedException | ExecutionException | TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        // 调度器指令响应
+        schedulerToAppCommandResponsePublisher.publish(
+                SchedulerToAppCommandResponse.Body.builder()
+                        .code(request.code())
+                        .type(request.type())
+                        .assignmentId(assignment.getId())
+                        .success(true)
+                        .build()
+        );
     }
 
     /**

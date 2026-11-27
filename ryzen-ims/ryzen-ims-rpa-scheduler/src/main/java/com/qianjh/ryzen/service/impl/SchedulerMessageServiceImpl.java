@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.qianjh.ryzen.entity.SchedulerMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.dto.ExecutorMessage;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportMessage;
 import com.qianjh.ryzen.mapper.SchedulerMessageMapper;
 import com.qianjh.ryzen.service.SchedulerMessageService;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class SchedulerMessageServiceImpl extends ServiceImpl<SchedulerMessageMap
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public SchedulerMessage create(ExecutorMessage message) {
+    public SchedulerMessage create(ExecutorToSchedulerReportMessage.Body message) {
         SchedulerMessage entity = SchedulerMessage.builder()
                 .imType(message.imType())
                 .messageCode(message.messageCode())

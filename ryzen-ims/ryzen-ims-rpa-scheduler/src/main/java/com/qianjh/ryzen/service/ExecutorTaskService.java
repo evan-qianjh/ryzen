@@ -5,6 +5,7 @@ import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
 import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 
 import java.time.LocalDateTime;
 
@@ -51,5 +52,5 @@ public interface ExecutorTaskService extends IService<ExecutorTask> {
      * @param status   状态
      * @return 结果
      */
-    boolean updateTaskEvent(Executor executor, ExecutorTaskResponse event, ExecutorToSchedulerTaskResult status);
+    boolean updateTaskEvent(Executor executor, ExecutorToSchedulerTaskResponse.Body event, ExecutorToSchedulerTaskResult status);
 }

@@ -1,9 +1,6 @@
 package com.qianjh.ryzen.ims.config;
 
-import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportEvent;
-import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportHeartbeat;
-import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportMessage;
-import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportRegister;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.*;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -94,6 +91,49 @@ public class ExecutorToSchedulerStreamConfig {
         return _ -> {
             throw new UnsupportedOperationException(
                     "ExecutorToSchedulerReportRegister.Subscriber is not configured"
+            );
+        };
+    }
+
+    /*----------------------------------------------------------------------------------------*/
+
+    @Bean
+    @ConditionalOnMissingBean(ExecutorToSchedulerCommandResponse.Publisher.class)
+    public ExecutorToSchedulerCommandResponse.Publisher executorToSchedulerCommandResponsePublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ExecutorToSchedulerCommandResponse.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ExecutorToSchedulerCommandResponse.Subscriber.class)
+    public ExecutorToSchedulerCommandResponse.Subscriber executorToSchedulerCommandResponseSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ExecutorToSchedulerCommandResponse.Subscriber is not configured"
+            );
+        };
+    }
+
+    /*----------------------------------------------------------------------------------------*/
+    @Bean
+    @ConditionalOnMissingBean(ExecutorToSchedulerTaskResponse.Publisher.class)
+    public ExecutorToSchedulerTaskResponse.Publisher executorToSchedulerTaskResponsePublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ExecutorToSchedulerTaskResponse.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ExecutorToSchedulerTaskResponse.Subscriber.class)
+    public ExecutorToSchedulerTaskResponse.Subscriber executorToSchedulerTaskResponseSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ExecutorToSchedulerTaskResponse.Subscriber is not configured"
             );
         };
     }

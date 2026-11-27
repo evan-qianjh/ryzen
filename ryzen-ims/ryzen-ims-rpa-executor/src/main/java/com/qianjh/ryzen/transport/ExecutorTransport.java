@@ -1,7 +1,11 @@
 package com.qianjh.ryzen.transport;
 
 
-import com.qianjh.ryzen.ims.dto.*;
+import com.qianjh.ryzen.ims.dto.ExecutorMessage;
+import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
+import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerReportEventType;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerCommandResponse;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 
 /**
  * 执行器通信层
@@ -14,55 +18,42 @@ public interface ExecutorTransport {
      *
      * @param snapshot 快照
      */
-    void register(ExecutorSnapshot snapshot);
+    void reportRegister(ExecutorSnapshot snapshot);
 
     /**
      * 心跳
      *
      * @param snapshot 快照
      */
-    void heartbeat(ExecutorSnapshot snapshot);
-
-    /**
-     *
-     * 指令
-     *
-     * @param response 响应
-     */
-    void command(ExecutorCommandResponse response);
+    void reportHeartbeat(ExecutorSnapshot snapshot);
 
     /**
      * 状态
      *
      * @param snapshot 快照
      */
-    void status(ExecutorSnapshot snapshot);
-
-    /**
-     * 任务受理
-     *
-     * @param task 任务
-     */
-    void taskAccepted(ExecutorTaskRequest task);
-
-    /**
-     * 任务执行中
-     *
-     * @param task 任务
-     */
-    void taskRunning(ExecutorTaskRequest task);
-
-    /**
-     * 任务完成
-     *
-     * @param result 结果
-     */
-    void taskFinished(ExecutorTaskResponse result);
+    void reportEvent(ExecutorSnapshot snapshot, ExecutorToSchedulerReportEventType type);
 
     /**
      * 采集到的消息
      *
      * @param message 消息
      */
-    void message(ExecutorMessage message);
+    void reportMessage(ExecutorMessage message);
+
+    /**
+     *
+     * 指令响应
+     *
+     * @param response 响应
+     */
+    void commandResponse(ExecutorToSchedulerCommandResponse.Body response);
+
+    /**
+     * 任务响应
+     *
+     * @param result 结果
+     */
+    void taskResponse(ExecutorToSchedulerTaskResponse.Body result);
+
 }

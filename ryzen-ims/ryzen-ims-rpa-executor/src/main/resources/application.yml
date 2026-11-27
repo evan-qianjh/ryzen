@@ -31,11 +31,5 @@ ryzen:
     collect-interval-seconds: 5
     heartbeat-interval-seconds: 10
     login-check-interval-seconds: 2
-    register-topic: ims.executor-to-scheduler-register
-    heartbeat-topic: ims.executor-to-scheduler-heartbeat
-    status-topic: ims.executor-to-scheduler-status
-    message-topic: ims.executor-to-scheduler-message
-    command-request-topic: ims.scheduler-to-executor-command-request
-    command-response-topic: ims.executor-to-scheduler-command-response
-    task-request-topic: ims.scheduler-to-executor-task-request
-    task-response-topic: ims.executor-to-scheduler-task-response
+    executor-to-scheduler-topic: ims.executor-to-scheduler
+    scheduler-to-executor-topic: ims.scheduler-to-executor

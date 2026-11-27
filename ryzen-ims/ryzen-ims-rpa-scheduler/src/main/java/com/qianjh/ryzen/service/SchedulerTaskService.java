@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service;
 
-import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
 import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTaskRequest;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 
 public interface SchedulerTaskService {
 
@@ -24,5 +24,5 @@ public interface SchedulerTaskService {
      *
      * @param response 结果
      */
-    void handleTaskResponse(ExecutorTaskResponse response);
+    void handleTaskResponse(ExecutorToSchedulerTaskResponse.Body body);
 }

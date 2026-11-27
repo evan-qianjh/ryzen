@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorAssignment;
 import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportHeartbeat;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportRegister;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +26,7 @@ public interface ExecutorService extends IService<Executor> {
      * @param snapshot 快照
      * @return 是否成功
      */
-    boolean register(Executor executor, ExecutorSnapshot snapshot);
+    boolean register(Executor executor, ExecutorToSchedulerReportRegister.Body body);
 
     /**
      * 心跳
@@ -33,7 +35,7 @@ public interface ExecutorService extends IService<Executor> {
      * @param snapshot 快照
      * @return 是否成功
      */
-    boolean heartbeat(Executor executor, ExecutorSnapshot snapshot, long timestamp);
+    boolean heartbeat(Executor executor, ExecutorToSchedulerReportHeartbeat.Body body, long timestamp);
 
     /**
      * 下线

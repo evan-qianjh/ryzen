@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.service.impl;
 
-import com.qianjh.ryzen.ims.dto.ExecutorCommandResponse;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerCommandResponse;
 import com.qianjh.ryzen.service.ExecutorCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ public class ExecutorCommandServiceImpl implements ExecutorCommandService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void handle(ExecutorCommandResponse response) {
-
+    public void handle(ExecutorToSchedulerCommandResponse.Body body) {
+        // TODO
     }
 }

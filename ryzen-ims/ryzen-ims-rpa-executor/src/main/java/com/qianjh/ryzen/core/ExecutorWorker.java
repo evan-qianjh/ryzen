@@ -3,10 +3,14 @@ package com.qianjh.ryzen.core;
 import com.qianjh.ryzen.browser.BrowserSession;
 import com.qianjh.ryzen.browser.BrowserSessionFactory;
 import com.qianjh.ryzen.config.ExecutorProperties;
+import com.qianjh.ryzen.ims.dto.*;
 import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
+import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerReportEventType;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
-import com.qianjh.ryzen.ims.dto.*;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
+import com.qianjh.ryzen.ims.stream.scheduler_to_executor.command.SchedulerToExecutorCommandRequest;
+import com.qianjh.ryzen.ims.stream.scheduler_to_executor.command.SchedulerToExecutorTaskRequest;
 import com.qianjh.ryzen.transport.ExecutorTransport;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -45,7 +49,7 @@ public class ExecutorWorker {
     /**
      * 指令队列
      */
-    private final BlockingQueue<ExecutorCommandRequest> commandQueue = new LinkedBlockingQueue<>();
+    private final BlockingQueue<SchedulerToExecutorCommandRequest.Body> commandQueue = new LinkedBlockingQueue<>();
     /**
      * 发送队列
      */
@@ -80,7 +84,7 @@ public class ExecutorWorker {
      *
      * @param command 指令
      */
-    public void acceptCommand(ExecutorCommandRequest command) {
+    public void acceptCommand(SchedulerToExecutorCommandRequest.Body command) {
         commandQueue.offer(command);
     }
 
@@ -90,7 +94,7 @@ public class ExecutorWorker {
      * @param task 任务
      * @return 是否接受
      */
-    public boolean accept(ExecutorTaskRequest task) {
+    public boolean accept(SchedulerToExecutorTaskRequest.Body task) {
         if (task == null || task.taskId() == null) {
             throw new IllegalArgumentException("taskId must not be blank");
         }
@@ -113,7 +117,12 @@ public class ExecutorWorker {
             return false;
         }
         // 任务受理
-        transport.taskAccepted(task);
+        transport.taskResponse(ExecutorToSchedulerTaskResponse.Body.builder()
+                .assignmentId(task.assignmentId())
+                .executorCode(task.executorCode())
+                .taskId(task.taskId())
+                .result(ExecutorToSchedulerTaskResult.ACCEPTED)
+                .build());
         // 压入队列
         sendQueue.offer(new QueuedSend(task, sequence.incrementAndGet()));
         return true;
@@ -126,7 +135,7 @@ public class ExecutorWorker {
     private void run() {
         // Executor 启动后立即注册
         status = ExecutorStatus.IDLE;
-        transport.register(snapshot());
+        transport.reportRegister(snapshot());
 
         // 上次采集时间
         Instant lastCollectedAt = Instant.EPOCH;
@@ -140,7 +149,7 @@ public class ExecutorWorker {
                     status = ExecutorStatus.IDLE;
 
                     // 阻塞获取
-                    ExecutorCommandRequest command = commandQueue.take();
+                    SchedulerToExecutorCommandRequest.Body command = commandQueue.take();
                     handleCommand(command);
 
                     continue;
@@ -151,7 +160,7 @@ public class ExecutorWorker {
                 // ==================================================
                 if (session == null) {
                     status = ExecutorStatus.STARTING;
-                    transport.status(snapshot());
+                    transport.reportEvent(snapshot(), ExecutorToSchedulerReportEventType.STARTING);
 
                     session = browserSessionFactory.open(assignment);
 
@@ -159,7 +168,7 @@ public class ExecutorWorker {
                     lastCollectedAt = Instant.EPOCH;
 
                     status = ExecutorStatus.WAIT_LOGIN;
-                    transport.status(snapshot());
+                    transport.reportEvent(snapshot(), ExecutorToSchedulerReportEventType.WAIT_LOGIN);
 
                     log.info("Waiting for login ::: accountCode={}", assignment.accountCode());
                 }
@@ -179,7 +188,7 @@ public class ExecutorWorker {
                     // 已登录
                     if (session.isLoggedIn()) {
                         status = ExecutorStatus.STARTED;
-                        transport.status(snapshot());
+                        transport.reportEvent(snapshot(), ExecutorToSchedulerReportEventType.STARTED);
 
                         status = ExecutorStatus.READY;
                         errorMessage = null;
@@ -291,7 +300,7 @@ public class ExecutorWorker {
      * 处理待执行的指令
      */
     private void handlePendingCommand() {
-        ExecutorCommandRequest command;
+        SchedulerToExecutorCommandRequest.Body command;
 
         while ((command = commandQueue.poll()) != null) {
             handleCommand(command);
@@ -307,7 +316,7 @@ public class ExecutorWorker {
      *
      * @param command 指令
      */
-    private void handleCommand(ExecutorCommandRequest command) {
+    private void handleCommand(SchedulerToExecutorCommandRequest.Body command) {
         // 非当前执行器
         if (!properties.getCode().equals(command.executorCode())) {
             return;
@@ -359,7 +368,7 @@ public class ExecutorWorker {
         // 停止接收新任务
 //        this.status = ExecutorStatus.STARTING;
         this.status = ExecutorStatus.STOPPED;
-        transport.status(snapshot());
+        transport.reportEvent(snapshot(), ExecutorToSchedulerReportEventType.STOPPED);
 
 
         // 取消未执行任务
@@ -448,7 +457,7 @@ public class ExecutorWorker {
         currentTaskId = null;
         try {
             for (ExecutorMessage message : session.collectMessages()) {
-                transport.message(message);
+                transport.reportMessage(message);
             }
         } catch (Exception e) {
             errorMessage = "COLLECT: " + e.getMessage();
@@ -465,37 +474,42 @@ public class ExecutorWorker {
      * @param session 会话
      * @param task    任务
      */
-    private void executeSend(BrowserSession session, ExecutorTaskRequest task) {
+    private void executeSend(BrowserSession session, SchedulerToExecutorTaskRequest.Body task) {
         status = ExecutorStatus.BUSY;
         currentOperation = ExecutorOperationType.SEND;
         currentTaskId = task.taskId();
-        transport.taskRunning(task);
+        transport.taskResponse(ExecutorToSchedulerTaskResponse.Body.builder()
+                .assignmentId(task.assignmentId())
+                .executorCode(task.executorCode())
+                .taskId(task.taskId())
+                .result(ExecutorToSchedulerTaskResult.RUNNING)
+                .build()
+        );
         try {
             // 执行并拿到回执(消息ID)
             String receiptCode = session.sendMessage(task.conversationCode(), task.content());
 
-            ExecutorTaskResponse result = ExecutorTaskResponse.builder()
+            transport.taskResponse(ExecutorToSchedulerTaskResponse.Body.builder()
                     .assignmentId(assignment.id())
                     .executorCode(properties.getCode())
                     .taskId(task.taskId())
                     .result(ExecutorToSchedulerTaskResult.SUCCESS)
                     .errorMessage(null)
                     .receiptCode(receiptCode)
-                    .build();
-            transport.taskFinished(result);
+                    .build());
+
         } catch (Exception e) {
             // A browser exception can happen after the platform accepted the message.
             // UNKNOWN prevents the scheduler from blindly retrying and sending duplicates.
             errorMessage = "SEND: " + e.getMessage();
             log.error("Send task outcome is unknown: {}", task.taskId(), e);
-            ExecutorTaskResponse result = ExecutorTaskResponse.builder()
+            transport.taskResponse(ExecutorToSchedulerTaskResponse.Body.builder()
                     .assignmentId(assignment.id())
                     .executorCode(properties.getCode())
                     .taskId(task.taskId())
                     .result(ExecutorToSchedulerTaskResult.UNKNOWN)
                     .errorMessage(e.getMessage())
-                    .build();
-            transport.taskFinished(result);
+                    .build());
         } finally {
             currentTaskId = null;
             currentOperation = ExecutorOperationType.NONE;
@@ -520,7 +534,7 @@ public class ExecutorWorker {
         sendQueue.drainTo(cancelledTasks);
 
         for (QueuedSend queue : cancelledTasks) {
-            ExecutorTaskRequest task = queue.task;
+            SchedulerToExecutorTaskRequest.Body task = queue.task;
             // 只取消当前账号分配下的任务
             if (!Objects.equals(task.assignmentId(), current.id())) {
                 // 理论上不应该出现其他分配的任务，避免误取消
@@ -529,14 +543,13 @@ public class ExecutorWorker {
             }
 
             try {
-                transport.taskFinished(
-                        ExecutorTaskResponse.builder()
-                                .assignmentId(assignment.id())
-                                .executorCode(properties.getCode())
-                                .taskId(task.taskId())
-                                .result(ExecutorToSchedulerTaskResult.CANCELED)
-                                .errorMessage(reason)
-                                .build()
+                transport.taskResponse(ExecutorToSchedulerTaskResponse.Body.builder()
+                        .assignmentId(assignment.id())
+                        .executorCode(properties.getCode())
+                        .taskId(task.taskId())
+                        .result(ExecutorToSchedulerTaskResult.CANCELED)
+                        .errorMessage(reason)
+                        .build()
                 );
             } catch (Exception e) {
                 log.error("上报任务取消结果失败, taskId={}", task.taskId(), e);
@@ -563,7 +576,7 @@ public class ExecutorWorker {
         }
     }
 
-    private record QueuedSend(ExecutorTaskRequest task, long sequence) implements Comparable<QueuedSend> {
+    private record QueuedSend(SchedulerToExecutorTaskRequest.Body task, long sequence) implements Comparable<QueuedSend> {
         @Override
         public int compareTo(QueuedSend other) {
             return Long.compare(sequence, other.sequence);

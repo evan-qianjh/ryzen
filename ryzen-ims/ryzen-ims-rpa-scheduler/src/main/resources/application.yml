@@ -25,23 +25,52 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'schedulerToAppSink;appToSchedulerSource;'
+      definition: 'schedulerToAppSink;schedulerToExecutorSink;appToSchedulerSource;executorToSchedulerSource;'
     stream:
-      kafka:
-        binder:
-          brokers: ${ryzen.kafka.default.servers}
-          configuration:
-            auto.offset.reset: latest
       bindings:
         # ------------------------------------- sink -------------------------------------
         schedulerToAppSink-out-0:
           destination: ims.scheduler-to-app
           content-type: application/json
+          binder: default
+        schedulerToExecutorSink-out-0:
+          destination: ims.scheduler-to-executor
+          content-type: application/json
+          binder: public
         # ------------------------------------- source -------------------------------------
         appToSchedulerSource-in-0:
           destination: ims.app-to-scheduler
           content-type: application/json
           group: ${spring.application.name}
+          binder: default
+        executorToSchedulerSource-in-0:
+          destination: ims.executor-to-scheduler
+          content-type: application/json
+          group: ${spring.application.name}
+          binder: public
+      binders:
+        default:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: ${ryzen.kafka.default.servers}
+                      configuration:
+                        auto.offset.reset: latest
+        public:
+          type: kafka
+          environment:
+            spring:
+              cloud:
+                stream:
+                  kafka:
+                    binder:
+                      brokers: ${ryzen.kafka.public.servers}
+                      configuration:
+                        auto.offset.reset: latest
   output:
     ansi:
       enabled: detect

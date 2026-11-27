@@ -7,6 +7,8 @@ import com.qianjh.ryzen.entity.ExecutorAssignment;
 import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportHeartbeat;
+import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerReportRegister;
 import com.qianjh.ryzen.mapper.ExecutorMapper;
 import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
 import com.qianjh.ryzen.service.ExecutorService;
@@ -61,13 +63,9 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean register(Executor executor, ExecutorSnapshot snapshot) {
+    public boolean register(Executor executor, ExecutorToSchedulerReportRegister.Body body) {
         LocalDateTime time = LocalDateTime.now();
         return lambdaUpdate()
-                .set(Executor::getStatus, snapshot.status())
-                .set(Executor::getCurrentOperation, snapshot.currentOperation())
-                .set(Executor::getCurrentTaskId, snapshot.currentTaskId())
-                .set(Executor::getErrorMessage, snapshot.errorMessage())
                 .set(Executor::getRegisteredTime, time)
                 .set(Executor::getLastHeartbeatTime, time)
                 //
@@ -77,12 +75,12 @@ public class ExecutorServiceImpl extends ServiceImpl<ExecutorMapper, Executor> i
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean heartbeat(Executor executor, ExecutorSnapshot snapshot, long timestamp) {
+    public boolean heartbeat(Executor executor, ExecutorToSchedulerReportHeartbeat.Body body, long timestamp) {
         return lambdaUpdate()
-                .set(Executor::getStatus, snapshot.status())
-                .set(Executor::getCurrentOperation, snapshot.currentOperation())
-                .set(Executor::getCurrentTaskId, snapshot.currentTaskId())
-                .set(Executor::getErrorMessage, snapshot.errorMessage())
+                .set(Executor::getStatus, body.status())
+                .set(Executor::getCurrentOperation, body.currentOperation())
+                .set(Executor::getCurrentTaskId, body.currentTaskId())
+                .set(Executor::getErrorMessage, body.errorMessage())
                 .set(Executor::getLastHeartbeatTime, DateTimeUtils.parseMillis(timestamp))
                 //
                 .eq(Executor::getId, executor.getId())
