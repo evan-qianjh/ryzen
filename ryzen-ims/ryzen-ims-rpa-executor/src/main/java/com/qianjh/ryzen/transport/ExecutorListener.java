@@ -1,6 +1,5 @@
 package com.qianjh.ryzen.transport;
 
-import com.google.gson.Gson;
 import com.qianjh.ryzen.core.ExecutorWorker;
 import com.qianjh.ryzen.framework.stream.model.StreamHeader;
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
@@ -27,7 +26,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ExecutorListener {
     private final ExecutorWorker worker;
-    private final Gson gson = new Gson();
 
     public static String getStringHeader(Object object) {
         if (object == null) {

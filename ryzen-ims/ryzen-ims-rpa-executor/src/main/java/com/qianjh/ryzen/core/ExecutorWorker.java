@@ -3,7 +3,9 @@ package com.qianjh.ryzen.core;
 import com.qianjh.ryzen.browser.BrowserSession;
 import com.qianjh.ryzen.browser.BrowserSessionFactory;
 import com.qianjh.ryzen.config.ExecutorProperties;
-import com.qianjh.ryzen.ims.dto.*;
+import com.qianjh.ryzen.ims.dto.Assignment;
+import com.qianjh.ryzen.ims.dto.ExecutorMessage;
+import com.qianjh.ryzen.ims.dto.ExecutorSnapshot;
 import com.qianjh.ryzen.ims.enums.ExecutorOperationType;
 import com.qianjh.ryzen.ims.enums.ExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerReportEventType;
@@ -85,6 +87,9 @@ public class ExecutorWorker {
      * @param command 指令
      */
     public void acceptCommand(SchedulerToExecutorCommandRequest.Body command) {
+        if (!properties.getCode().equals(command.executorCode())) {
+            return;
+        }
         commandQueue.offer(command);
     }
 
@@ -105,8 +110,7 @@ public class ExecutorWorker {
         }
 
         // 忽略其他执行器任务
-        if (!properties.getCode().equals(task.executorCode())
-                || !current.id().equals(task.assignmentId())
+        if (!properties.getCode().equals(task.executorCode()) || !current.id().equals(task.assignmentId())
         ) {
             log.debug("Ignore task targeted at another executor/account: {}", task.taskId());
             return false;
@@ -576,7 +580,8 @@ public class ExecutorWorker {
         }
     }
 
-    private record QueuedSend(SchedulerToExecutorTaskRequest.Body task, long sequence) implements Comparable<QueuedSend> {
+    private record QueuedSend(SchedulerToExecutorTaskRequest.Body task,
+                              long sequence) implements Comparable<QueuedSend> {
         @Override
         public int compareTo(QueuedSend other) {
             return Long.compare(sequence, other.sequence);
