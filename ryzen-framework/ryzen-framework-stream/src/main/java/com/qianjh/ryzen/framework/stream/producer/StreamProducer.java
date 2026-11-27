@@ -3,6 +3,7 @@ package com.qianjh.ryzen.framework.stream.producer;
 import com.qianjh.ryzen.framework.stream.model.StreamHeader;
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.messaging.Message;
@@ -11,6 +12,7 @@ import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import reactor.core.publisher.Sinks;
 
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import java.util.concurrent.locks.LockSupport;
 import java.util.function.Consumer;
@@ -24,17 +26,26 @@ public interface StreamProducer {
     }
 
     default Message<String> buildMessage(Object payload, String shardingKey, String domain, String type, Long oemId, Producer producer) {
-        Message<String> message = MessageBuilder
+        MessageBuilder<String> messageBuilder = MessageBuilder
                 .withPayload(StreamUtils.toJson(payload))
-                // TODO shardingKey
                 .setHeader(StreamHeader.ID, UUID.randomUUID().toString())
                 .setHeader(StreamHeader.DOMAIN, domain)
                 .setHeader(StreamHeader.TYPE, type)
                 .setHeader(StreamHeader.TIME, System.currentTimeMillis())
                 .setHeader(StreamHeader.OEM, oemId)
                 .setHeader(StreamHeader.PRODUCER, producer.getName())
-                .setHeader(StreamHeader.PRODUCER_INSTANCE, producer.getInstance())
-                .build();
+                .setHeader(StreamHeader.PRODUCER_INSTANCE, producer.getInstance());
+
+        // shardingKey
+        if (StringUtils.isNotBlank(shardingKey)) {
+            // kafka
+            if (StreamUtils.isKafkaBinderPresent()) {
+                messageBuilder.setHeader("kafka_messageKey", shardingKey.getBytes(StandardCharsets.UTF_8));
+            }
+        }
+
+        Message<String> message = messageBuilder.build();
+
         log().debug("buildMessage ::: {}", message);
         return message;
     }

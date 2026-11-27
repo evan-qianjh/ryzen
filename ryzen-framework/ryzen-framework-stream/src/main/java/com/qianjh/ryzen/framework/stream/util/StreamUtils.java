@@ -1,8 +1,9 @@
 package com.qianjh.ryzen.framework.stream.util;
 
 import com.google.gson.reflect.TypeToken;
-import com.qianjh.ryzen.framework.stream.model.StreamPayload;
 import com.qianjh.ryzen.framework.common.util.GsonUtils;
+import com.qianjh.ryzen.framework.stream.model.StreamPayload;
+import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Type;
 
@@ -24,4 +25,11 @@ public final class StreamUtils {
         return GsonUtils.GSON.toJson(object);
     }
 
+
+    public static boolean isKafkaBinderPresent() {
+        return ClassUtils.isPresent(
+                "org.springframework.cloud.stream.binder.kafka.KafkaMessageChannelBinder",
+                ClassUtils.getDefaultClassLoader()
+        );
+    }
 }
