@@ -3,7 +3,7 @@ package com.qianjh.ryzen.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.qianjh.ryzen.ims.enums.ToSchedulerTaskStatus;
+import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +20,8 @@ public class AppToSchedulerTaskResponse {
     private Long oemId;
     private Long tenantId;
 
-    private Long toSchedulerTaskId;
+    private Long taskId;
 
-    private ToSchedulerTaskStatus status;
+    private SchedulerToAppTaskResponseResult result;
     private String message;
 }

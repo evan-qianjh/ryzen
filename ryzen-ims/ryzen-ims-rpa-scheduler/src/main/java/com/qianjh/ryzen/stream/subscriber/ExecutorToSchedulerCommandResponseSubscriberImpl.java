@@ -14,12 +14,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ExecutorToSchedulerCommandResponseSubscriberImpl implements ExecutorToSchedulerCommandResponse.Subscriber {
 
-
     private final ExecutorCommandService executorCommandService;
 
     @Override
     public void subscribe(ExecutorToSchedulerCommandResponse.Body body) {
-        log.info("消费 ExecutorToSchedulerCommandResponse ::: {}", body);
+        log.debug("消费 ExecutorToSchedulerCommandResponse ::: {}", body);
         executorCommandService.handle(body);
     }
 }

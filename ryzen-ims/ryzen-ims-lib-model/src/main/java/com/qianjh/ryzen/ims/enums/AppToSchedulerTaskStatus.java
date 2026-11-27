@@ -5,11 +5,15 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum ToSchedulerTaskStatus {
+public enum AppToSchedulerTaskStatus {
     PENDING(false),
     ACCEPTED(false),
+
+    REJECTED(true),
     SUCCESS(true),
     FAILED(true),
+    UNKNOWN(true),
+    TIMEOUT(true),
     ;
     final boolean closed;
 }

@@ -142,6 +142,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
         }
 
         ExecutorToSchedulerTaskResult result = body.result();
+        String errorMessage = body.errorMessage();
 
         // 执行器
         Executor executor = executorService.getByCode(body.executorCode());
@@ -172,6 +173,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
                     SchedulerToAppTaskResponse.Body.builder()
                             .code(task.getCode())
                             .result(toAppResult)
+                            .errorMessage(errorMessage)
                             .build()
             );
         }

@@ -21,7 +21,8 @@ public interface SchedulerToAppTaskResponse<T> extends SchedulerToAppTask<T> {
     @Builder(toBuilder = true)
     record Body(
             String code,
-            SchedulerToAppTaskResponseResult result
+            SchedulerToAppTaskResponseResult result,
+            String errorMessage
     ) {
     }
 

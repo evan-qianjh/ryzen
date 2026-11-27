@@ -15,12 +15,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ExecutorToSchedulerReportMessageSubscriberImpl implements ExecutorToSchedulerReportMessage.Subscriber {
 
-
     private final CollectedMessageService collectedMessageService;
 
     @Override
     public void subscribe(ExecutorToSchedulerReportMessage.Body body) {
-        log.info("消费 ExecutorToSchedulerReportMessage ::: {}", body);
+        log.debug("消费 ExecutorToSchedulerReportMessage ::: {}", body);
 
         collectedMessageService.forward(body);
     }

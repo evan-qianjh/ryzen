@@ -18,7 +18,7 @@ public class ExecutorToSchedulerReportRegisterSubscriberImpl implements Executor
 
     @Override
     public void subscribe(ExecutorToSchedulerReportRegister.Body body) {
-        log.info("消费 ExecutorToSchedulerReportRegister ::: {}", body);
+        log.debug("消费 ExecutorToSchedulerReportRegister ::: {}", body);
 
         executorRegistryService.register(body);
     }
