@@ -149,9 +149,9 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .setHeader(StreamHeader.ID, IdUtils.generateUUID())
                 .setHeader(StreamHeader.DOMAIN, payload.getDomain())
                 .setHeader(StreamHeader.TYPE, payload.getType())
-                .setHeader(StreamHeader.TIME, System.currentTimeMillis())
                 .setHeader(StreamHeader.OEM, null)
                 .setHeader(StreamHeader.PRODUCER, producer.getName())
+                .setHeader(StreamHeader.PRODUCER_TIME, System.currentTimeMillis())
                 .setHeader(StreamHeader.PRODUCER_INSTANCE, producer.getInstance())
                 .build();
         kafkaTemplate.send(message);

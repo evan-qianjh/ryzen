@@ -65,9 +65,9 @@ public class OutboxPublishJob {
                 .setHeader(StreamHeader.ID, stream.getId())
                 .setHeader(StreamHeader.DOMAIN, stream.getDomain())
                 .setHeader(StreamHeader.TYPE, stream.getType())
-                .setHeader(StreamHeader.TIME, System.currentTimeMillis())
                 .setHeader(StreamHeader.OEM, stream.getOemId())
                 .setHeader(StreamHeader.PRODUCER, stream.getProducer())
+                .setHeader(StreamHeader.PRODUCER_TIME, System.currentTimeMillis())
                 .setHeader(StreamHeader.PRODUCER_INSTANCE, stream.getProducerInstance())
                 .build();
         log.debug("buildMessage ::: {}", message);

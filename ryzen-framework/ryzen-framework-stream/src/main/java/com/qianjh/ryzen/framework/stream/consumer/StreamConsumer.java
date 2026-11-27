@@ -62,7 +62,7 @@ public interface StreamConsumer {
         return getLongHeader(headers.get(StreamHeader.OEM));
     }
 
-    default Long getTime(MessageHeaders headers) {
-        return getLongHeader(headers.get(StreamHeader.TIME));
+    default Long getProducerTime(MessageHeaders headers) {
+        return getLongHeader(headers.get(StreamHeader.PRODUCER_TIME));
     }
 }

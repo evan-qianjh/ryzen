@@ -18,10 +18,6 @@ public class StreamHeader {
      */
     public static final String TYPE = PREFIX + "type";
     /**
-     * 时间
-     */
-    public static final String TIME = PREFIX + "time";
-    /**
      * OEM ID
      */
     public static final String OEM = PREFIX + "oem";
@@ -29,6 +25,10 @@ public class StreamHeader {
      * 生产者
      */
     public static final String PRODUCER = PREFIX + "producer";
+    /**
+     * 生产者时间
+     */
+    public static final String PRODUCER_TIME = PREFIX + "producer-time";
     /**
      * 生产者实例
      */

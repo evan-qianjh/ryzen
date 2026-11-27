@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.framework.stream.producer;
 
+import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.stream.model.StreamHeader;
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
 import com.qianjh.ryzen.framework.stream.util.StreamUtils;
@@ -13,7 +14,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 import reactor.core.publisher.Sinks;
 
 import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import java.util.concurrent.locks.LockSupport;
 import java.util.function.Consumer;
 
@@ -28,12 +28,12 @@ public interface StreamProducer {
     default Message<String> buildMessage(Object payload, String shardingKey, String domain, String type, Long oemId, Producer producer) {
         MessageBuilder<String> messageBuilder = MessageBuilder
                 .withPayload(StreamUtils.toJson(payload))
-                .setHeader(StreamHeader.ID, UUID.randomUUID().toString())
+                .setHeader(StreamHeader.ID, IdUtils.generateUUID())
                 .setHeader(StreamHeader.DOMAIN, domain)
                 .setHeader(StreamHeader.TYPE, type)
-                .setHeader(StreamHeader.TIME, System.currentTimeMillis())
                 .setHeader(StreamHeader.OEM, oemId)
                 .setHeader(StreamHeader.PRODUCER, producer.getName())
+                .setHeader(StreamHeader.PRODUCER_TIME, System.currentTimeMillis())
                 .setHeader(StreamHeader.PRODUCER_INSTANCE, producer.getInstance());
 
         // shardingKey
