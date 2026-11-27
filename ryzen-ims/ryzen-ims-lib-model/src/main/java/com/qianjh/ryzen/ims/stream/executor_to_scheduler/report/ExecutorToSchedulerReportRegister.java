@@ -11,7 +11,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface ExecutorToSchedulerReportRegister<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "register";
+    String TYPE = "REGISTER";
 
     /**
      * 报文体

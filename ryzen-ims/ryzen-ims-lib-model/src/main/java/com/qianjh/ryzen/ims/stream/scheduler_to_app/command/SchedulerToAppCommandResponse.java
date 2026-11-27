@@ -14,7 +14,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface SchedulerToAppCommandResponse<T> extends SchedulerToAppCommand<T> {
-    String TYPE = "response";
+    String TYPE = "RESPONSE";
 
     /**
      * 报文体

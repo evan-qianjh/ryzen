@@ -14,7 +14,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface AppToSchedulerCommandRequest<T> extends AppToSchedulerCommand<T> {
-    String TYPE = "request";
+    String TYPE = "REQUEST";
 
     /**
      * 报文体

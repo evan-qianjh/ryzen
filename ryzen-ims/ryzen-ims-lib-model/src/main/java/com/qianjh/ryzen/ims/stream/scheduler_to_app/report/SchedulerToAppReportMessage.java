@@ -14,7 +14,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface SchedulerToAppReportMessage<T> extends SchedulerToAppReport<T> {
-    String TYPE = "message";
+    String TYPE = "MESSAGE";
 
     /**
      * 报文体

@@ -12,7 +12,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface AppToSchedulerTaskRequest<T> extends AppToSchedulerTask<T> {
-    String TYPE = "request";
+    String TYPE = "REQUEST";
 
     /**
      * 报文体

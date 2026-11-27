@@ -13,7 +13,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface ExecutorToSchedulerReportMessage<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "message";
+    String TYPE = "MESSAGE";
 
     /**
      * 报文体

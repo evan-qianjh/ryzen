@@ -4,7 +4,7 @@ package com.qianjh.ryzen.ims.stream.app_to_scheduler;
 import com.qianjh.ryzen.framework.stream.model.Stream;
 
 public interface AppToSchedulerCommand<T> extends Stream<T> {
-    String DOMAIN = "command";
+    String DOMAIN = "APP_TO_SCHEDULER_COMMAND";
 
     @Override
     default String getDomain() {

@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
  * @author QianJH
  */
 public interface ImConversationDispatchedCreated<T> extends ImConversationDispatched<T> {
-    String TYPE = "created";
+    String TYPE = "CREATED";
 
     /**
      * 报文体

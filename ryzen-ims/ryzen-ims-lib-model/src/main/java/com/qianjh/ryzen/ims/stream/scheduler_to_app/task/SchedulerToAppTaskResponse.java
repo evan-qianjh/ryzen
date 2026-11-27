@@ -13,7 +13,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface SchedulerToAppTaskResponse<T> extends SchedulerToAppTask<T> {
-    String TYPE = "response";
+    String TYPE = "RESPONSE";
 
     /**
      * 报文体

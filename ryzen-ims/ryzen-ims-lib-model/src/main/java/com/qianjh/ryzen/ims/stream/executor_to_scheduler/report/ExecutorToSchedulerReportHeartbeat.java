@@ -13,7 +13,7 @@ import lombok.Builder;
  * @author QianJH
  */
 public interface ExecutorToSchedulerReportHeartbeat<T> extends ExecutorToSchedulerReport<T> {
-    String TYPE = "heartbeat";
+    String TYPE = "HEARTBEAT";
 
     /**
      * 报文体
