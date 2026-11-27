@@ -27,8 +27,7 @@ public class SchedulerToAppReportMessageSubscriberImpl implements SchedulerToApp
     public void subscribe(SchedulerToAppReportMessage.Body body) {
         log.debug("消费 SchedulerToAppReportMessage ::: {}", body);
 
-
-        // TODO saas
+        // TODO saas oem/tenant
         ImAccount imAccount = imAccountService.getByUk(body.imType(), body.accountCode());
         if (imAccount == null) {
             log.error("未创建ImAccount ::: {}", body);
@@ -46,6 +45,11 @@ public class SchedulerToAppReportMessageSubscriberImpl implements SchedulerToApp
 
         // 消息
         ImMessage messageEntity = imMessageService.createIfAbsent(imAccount, conversation, body);
+
+        // 如果是来自回执消息，补充信息
+        if (messageEntity.isFromReceipt()) {
+            imMessageService.fillFromReceiptMissInfo(messageEntity, body);
+        }
 
         imConversationService.recordLastMessage(conversation, messageEntity, body);
     }

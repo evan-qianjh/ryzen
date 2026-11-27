@@ -29,7 +29,9 @@ public interface PushMessageInsert<T> extends PushMessage<T> {
             String senderAvatar,
             String content,
             Long sentTime,
-            Conversation conversation
+            Conversation conversation,
+            Long version,
+            Boolean preview
     ) {
         @Builder(toBuilder = true)
         public record Conversation(

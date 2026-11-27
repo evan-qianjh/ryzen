@@ -3,14 +3,14 @@ package com.qianjh.ryzen.stream.publisher;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.stream.model.StreamPayload;
 import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageCreated;
-import com.qianjh.ryzen.stream.producer.ImMessageTopic_StreamProducer;
+import com.qianjh.ryzen.stream.producer.ImMessageStreamProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class ImMessageCreatedEvent_PublisherImpl implements ImMessageCreated.Publisher {
-    private final ImMessageTopic_StreamProducer producer;
+    private final ImMessageStreamProducer producer;
 
     @Override
     public void publish(ImMessageCreated.Body body) {

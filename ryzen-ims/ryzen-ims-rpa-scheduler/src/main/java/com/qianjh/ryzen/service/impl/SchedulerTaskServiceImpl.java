@@ -174,6 +174,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
                             .code(task.getCode())
                             .result(toAppResult)
                             .errorMessage(errorMessage)
+                            .imReceiptCode(body.receiptCode())
                             .build()
             );
         }

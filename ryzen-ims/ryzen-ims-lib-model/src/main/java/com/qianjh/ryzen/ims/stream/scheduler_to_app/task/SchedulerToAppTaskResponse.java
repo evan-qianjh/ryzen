@@ -22,7 +22,8 @@ public interface SchedulerToAppTaskResponse<T> extends SchedulerToAppTask<T> {
     record Body(
             String code,
             SchedulerToAppTaskResponseResult result,
-            String errorMessage
+            String errorMessage,
+            String imReceiptCode
     ) {
     }
 

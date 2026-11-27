@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreated.Subscriber {
+public class ImMessageCreatedSubscriberImpl implements ImMessageCreated.Subscriber {
 
     private final ImMessageService imMessageService;
     private final ImAccountService imAccountService;
@@ -88,7 +88,11 @@ public class ImMessageCreatedEvent_SubscriberImpl implements ImMessageCreated.Su
                 .content(imMessage.getContent())
                 .sentTime(DateTimeUtils.getTime(imMessage.getSentTime()))
                 .conversation(conversation)
+                .version(1L)
+                .preview(false)
                 .build();
         pushMessageInsertPublisher.publish(message);
+
+        log.info("消息创建，推送ws消息-INSERT ::: messageId={}, isFromReceipt={}", imMessage.getId(), imMessage.isFromReceipt());
     }
 }

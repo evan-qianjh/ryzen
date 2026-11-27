@@ -41,5 +41,7 @@ public class ImMessage {
     private LocalDateTime sentTime;
     private String content;
 
+    private boolean fromReceipt;
+
     private LocalDateTime createdTime;
 }

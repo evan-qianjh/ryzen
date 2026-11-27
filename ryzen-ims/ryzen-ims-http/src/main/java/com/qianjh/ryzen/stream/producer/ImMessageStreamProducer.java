@@ -15,14 +15,14 @@ import java.util.function.Supplier;
 @Component
 @Configuration
 @RequiredArgsConstructor
-public class ImConversationTopic_StreamProducer implements StreamProducer {
+public class ImMessageStreamProducer implements StreamProducer {
     private final Producer producer;
 
     private final Sinks.Many<Message<String>> sinks =
             Sinks.many().multicast().onBackpressureBuffer();
 
     @Bean
-    Supplier<Flux<Message<String>>> imConversationSink() {
+    Supplier<Flux<Message<String>>> imMessageSink() {
         return sinks::asFlux;
     }
 

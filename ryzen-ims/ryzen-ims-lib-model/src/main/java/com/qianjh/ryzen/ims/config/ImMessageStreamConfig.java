@@ -1,6 +1,8 @@
 package com.qianjh.ryzen.ims.config;
 
+import com.qianjh.ryzen.ims.stream.im_message.im_message.AppToSchedulerTaskCreated;
 import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageCreated;
+import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageFillReceipt;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +26,48 @@ public class ImMessageStreamConfig {
         return _ -> {
             throw new UnsupportedOperationException(
                     "ImMessageCreatedEvent.Subscriber is not configured"
+            );
+        };
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean(ImMessageFillReceipt.Publisher.class)
+    public ImMessageFillReceipt.Publisher imMessageFillReceiptPublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ImMessageFillReceipt.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ImMessageFillReceipt.Subscriber.class)
+    public ImMessageFillReceipt.Subscriber imMessageFillReceiptSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "ImMessageFillReceipt.Subscriber is not configured"
+            );
+        };
+    }
+
+
+    @Bean
+    @ConditionalOnMissingBean(AppToSchedulerTaskCreated.Publisher.class)
+    public AppToSchedulerTaskCreated.Publisher appToSchedulerTaskCreatedPublisher() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "AppToSchedulerTaskCreated.Publisher is not configured"
+            );
+        };
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(AppToSchedulerTaskCreated.Subscriber.class)
+    public AppToSchedulerTaskCreated.Subscriber appToSchedulerTaskCreatedSubscriber() {
+        return _ -> {
+            throw new UnsupportedOperationException(
+                    "AppToSchedulerTaskCreated.Subscriber is not configured"
             );
         };
     }

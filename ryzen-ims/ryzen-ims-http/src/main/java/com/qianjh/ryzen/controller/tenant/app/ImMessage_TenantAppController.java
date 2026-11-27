@@ -42,7 +42,7 @@ public class ImMessage_TenantAppController extends _TenantAppController {
     private final ImAccountService imAccountService;
     private final ImConversationService conversationService;
     private final ServiceAccountService serviceAccountService;
-    private final AppToSchedulerService createToSchedulerTaskService;
+    private final AppToSchedulerService appToSchedulerService;
 
     @Operation(summary = "分页查询对话")
     @GetMapping("/messages")
@@ -114,10 +114,7 @@ public class ImMessage_TenantAppController extends _TenantAppController {
         AppToSchedulerTaskContent content = AppToSchedulerTaskContent.builder()
                 .content(body.content())
                 .build();
-        createToSchedulerTaskService.createTask(serviceAccount, imAccount, imConversation, content);
-
-        // TODO 通过ws推送一个发送中的消息给客户端
-        // TODO 等待调度器执行结果反馈，将结果通过ws推送给客户端
+        appToSchedulerService.createTask(serviceAccount, imAccount, imConversation, content);
 
         return Resp.success();
     }

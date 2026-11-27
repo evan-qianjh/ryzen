@@ -14,6 +14,8 @@ public record PushData(
         String senderAvatar,
         String content,
         Long sentTime,
+        Long version,
+        Boolean preview,
         Conversation conversation
 ) {
 

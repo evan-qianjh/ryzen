@@ -25,5 +25,7 @@ public class AppToSchedulerTask {
     private String content;
 
     private AppToSchedulerTaskStatus status;
+    private Long serviceAccountId;
+    private String imReceiptCode;
     private String responseMessage;
 }

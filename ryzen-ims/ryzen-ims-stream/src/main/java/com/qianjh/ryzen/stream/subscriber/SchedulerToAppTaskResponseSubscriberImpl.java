@@ -1,11 +1,13 @@
 package com.qianjh.ryzen.stream.subscriber;
 
 import com.qianjh.ryzen.entity.AppToSchedulerTask;
+import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.ims.enums.AppToSchedulerTaskStatus;
 import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
 import com.qianjh.ryzen.ims.stream.scheduler_to_app.task.SchedulerToAppTaskResponse;
 import com.qianjh.ryzen.service.AppToSchedulerTaskService;
+import com.qianjh.ryzen.service.ImMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.Nullable;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Component;
 public class SchedulerToAppTaskResponseSubscriberImpl implements SchedulerToAppTaskResponse.Subscriber {
 
     private final AppToSchedulerTaskService appToSchedulerTaskService;
+    private final ImMessageService imMessageService;
 
     @Override
     public void subscribe(SchedulerToAppTaskResponse.Body body) {
@@ -35,17 +38,19 @@ public class SchedulerToAppTaskResponseSubscriberImpl implements SchedulerToAppT
         // 转换状态
         AppToSchedulerTaskStatus afterStatus = convertStatus(body.result());
         if (afterStatus != null) {
-            boolean success = appToSchedulerTaskService.updateStatus(task, task.getStatus(), afterStatus, body.errorMessage(), null);
+            boolean success = appToSchedulerTaskService.updateStatus(task, task.getStatus(), afterStatus,
+                    body.imReceiptCode(), body.errorMessage(), null);
             log.atLevel(success ? Level.DEBUG : Level.ERROR).log("AppToSchedulerTask修改状态 ::: body={}, success={}", body, success);
 
             // 关闭
             if (afterStatus.isClosed()) {
                 if (AppToSchedulerTaskStatus.SUCCESS == afterStatus) {
-                    // TODO ws通知成功
-                    log.info("ws通知成功");
+                    // 通过回执预生成一条消息
+                    ImMessage imMessage = imMessageService.createByReceiptIfAbsent(task, body.imReceiptCode());
+                    log.info("收到发送回执[成功]，创建消息 ::: {}", imMessage);
                 } else {
-                    // TODO ws通知失败
-                    log.info("ws通知失败");
+                    // TODO ws通知失败？
+                    log.warn("推送ws MESSAGE DELETE");
                 }
             }
         }
