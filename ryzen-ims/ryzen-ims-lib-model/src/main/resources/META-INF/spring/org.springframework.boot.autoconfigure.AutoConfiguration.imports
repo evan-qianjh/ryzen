@@ -2,5 +2,6 @@ com.qianjh.ryzen.ims.config.AppToSchedulerStreamConfig
 com.qianjh.ryzen.ims.config.ExecutorToSchedulerStreamConfig
 com.qianjh.ryzen.ims.config.ImConversationStreamConfig
 com.qianjh.ryzen.ims.config.ImMessageStreamConfig
+com.qianjh.ryzen.ims.config.SchedulerStreamConfig
 com.qianjh.ryzen.ims.config.SchedulerToAppStreamConfig
 com.qianjh.ryzen.ims.config.SchedulerToExecutorStreamConfig
