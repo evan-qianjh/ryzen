@@ -4,11 +4,9 @@ plugins {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-//    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-consul-config'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-consul-discovery'
+    implementation 'org.springframework.boot:spring-boot-starter-jackson'
 
     implementation project(":ryzen-framework:ryzen-framework-common")
     implementation project(":ryzen-ims:ryzen-ims-lib-model")
