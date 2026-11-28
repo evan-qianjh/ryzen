@@ -1,7 +1,7 @@
 package com.qianjh.ryzen.service;
 
 import com.baomidou.mybatisplus.spring.service.IService;
-import com.qianjh.ryzen.entity.AppToSchedulerTask;
+import com.qianjh.ryzen.entity.SchedulerTask;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
@@ -17,9 +17,9 @@ public interface ImMessageService extends IService<ImMessage> {
 
     ImMessage createIfAbsent(ImAccount imAccount, ImConversation conversation, SchedulerToAppReportMessage.Body message);
 
-    ImMessage createByReceipt(AppToSchedulerTask task, String imReceiptCode);
+    ImMessage createByReceipt(SchedulerTask task, String imReceiptCode);
 
-    ImMessage createByReceiptIfAbsent(AppToSchedulerTask task, String imReceiptCode);
+    ImMessage createByReceiptIfAbsent(SchedulerTask task, String imReceiptCode);
 
     void fillFromReceiptMissInfo(ImMessage entity, SchedulerToAppReportMessage.Body body);
 }

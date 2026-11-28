@@ -21,10 +21,10 @@ import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
 import com.qianjh.ryzen.ims.enums.ImType;
 import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
-import com.qianjh.ryzen.service.AppToSchedulerService;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
 import com.qianjh.ryzen.service.MatchTagService;
+import com.qianjh.ryzen.service.SchedulerService;
 import com.qianjh.ryzen.service.dto.TenantPostImAccountReq;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -48,7 +48,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
     private final MatchTagService matchTagService;
     private final ImAccountService imAccountService;
-    private final AppToSchedulerService appToSchedulerService;
+    private final SchedulerService schedulerService;
     private final MatchTagImAccountService matchTagImAccountService;
 
     @Operation(summary = "分页查询")
@@ -140,7 +140,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.ASSIGN_EXECUTOR;
-        appToSchedulerService.createCommand(imAccount, commandType);
+        schedulerService.createCommand(imAccount, commandType);
 
         // ASSIGNING
         boolean success = imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.ASSIGNING, operator);
@@ -171,7 +171,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.RELEASE_EXECUTOR;
-        appToSchedulerService.createCommand(imAccount, commandType);
+        schedulerService.createCommand(imAccount, commandType);
 
         // RELEASING
         boolean success = imAccountService.updateAssignStatus(imAccount, imAccount.getAssignStatus(), ImAccountAssignStatus.RELEASING, operator);
@@ -205,7 +205,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.START_EXECUTOR;
-        appToSchedulerService.createCommand(imAccount, commandType);
+        schedulerService.createCommand(imAccount, commandType);
 
         // STARTING
         boolean success = imAccountService.updateExecutorStatus(imAccount,
@@ -235,7 +235,7 @@ public class ImAccount_TenantAppController extends _TenantAppController {
 
         // 创建命令
         SchedulerCommandType commandType = SchedulerCommandType.STOP_EXECUTOR;
-        appToSchedulerService.createCommand(imAccount, commandType);
+        schedulerService.createCommand(imAccount, commandType);
 
         //
         if (imAccount.getExecutorStatus() != ImAccountExecutorStatus.STARTED) {

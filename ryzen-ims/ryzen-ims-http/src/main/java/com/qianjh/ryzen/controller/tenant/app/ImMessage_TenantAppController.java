@@ -42,7 +42,7 @@ public class ImMessage_TenantAppController extends _TenantAppController {
     private final ImAccountService imAccountService;
     private final ImConversationService conversationService;
     private final ServiceAccountService serviceAccountService;
-    private final AppToSchedulerService appToSchedulerService;
+    private final SchedulerService schedulerService;
 
     @Operation(summary = "分页查询对话")
     @GetMapping("/messages")
@@ -114,7 +114,7 @@ public class ImMessage_TenantAppController extends _TenantAppController {
         AppToSchedulerTaskContent content = AppToSchedulerTaskContent.builder()
                 .content(body.content())
                 .build();
-        appToSchedulerService.createTask(serviceAccount, imAccount, imConversation, content);
+        schedulerService.createTask(serviceAccount, imAccount, imConversation, content);
 
         return Resp.success();
     }

@@ -1,14 +1,14 @@
 package com.qianjh.ryzen.stream.subscriber;
 
-import com.qianjh.ryzen.entity.AppToSchedulerTask;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
+import com.qianjh.ryzen.entity.SchedulerTask;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
-import com.qianjh.ryzen.ims.stream.im_message.im_message.AppToSchedulerTaskCreated;
-import com.qianjh.ryzen.service.AppToSchedulerTaskService;
+import com.qianjh.ryzen.ims.stream.scheduler.scheduler_task.SchedulerTaskCreated;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
+import com.qianjh.ryzen.service.SchedulerTaskService;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
 import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
 import lombok.RequiredArgsConstructor;
@@ -23,35 +23,35 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AppToSchedulerTaskCreatedSubscriberImpl implements AppToSchedulerTaskCreated.Subscriber {
+public class SchedulerTaskCreatedSubscriberImpl implements SchedulerTaskCreated.Subscriber {
 
     private final MatchTagImAccountService matchTagImAccountService;
-    private final AppToSchedulerTaskService appToSchedulerTaskService;
+    private final SchedulerTaskService schedulerTaskService;
     private final ImConversationService imConversationService;
     private final ImAccountService imAccountService;
     private final PushMessageInsert.Publisher pushMessageInsertPublisher;
 
     @Override
-    public void subscribe(AppToSchedulerTaskCreated.Body body) {
-        log.debug("消费 AppToSchedulerTaskCreated ::: {}", body);
+    public void subscribe(SchedulerTaskCreated.Body body) {
+        log.debug("消费 SchedulerTaskCreated ::: {}", body);
         Long oemId = body.getOemId();
         Long tenantId = body.getTenantId();
 
-        AppToSchedulerTask task = appToSchedulerTaskService.getById(oemId, tenantId, body.getId());
+        SchedulerTask task = schedulerTaskService.getById(oemId, tenantId, body.getId());
         if (task == null) {
-            log.error("不存在的AppToSchedulerTask ::: body={}", body);
+            log.error("不存在的 SchedulerTask ::: body={}", body);
             return;
         }
 
         ImConversation imConversation = imConversationService.getById(oemId, tenantId, task.getConversationId());
         if (imConversation == null) {
-            log.error("不存在的ImConversation ::: {}", body);
+            log.error("不存在的 ImConversation ::: {}", body);
             return;
         }
 
         ImAccount imAccount = imAccountService.getById(oemId, tenantId, imConversation.getImAccountId());
         if (imAccount == null) {
-            log.error("不存在的ImAccount ::: {}", body);
+            log.error("不存在的 ImAccount ::: {}", body);
             return;
         }
 
@@ -87,6 +87,6 @@ public class AppToSchedulerTaskCreatedSubscriberImpl implements AppToSchedulerTa
                 .build();
         pushMessageInsertPublisher.publish(message);
 
-        log.info("任务创建，推送ws消息-INSERT ::: taskId={}", task.getId());
+        log.debug("任务创建，推送ws消息-INSERT ::: taskId={}", task.getId());
     }
 }

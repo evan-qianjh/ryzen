@@ -1,8 +1,8 @@
-package com.qianjh.ryzen.ims.stream.im_message.im_message;
+package com.qianjh.ryzen.ims.stream.scheduler.scheduler_task;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.ims.stream.im_message.AppToSchedulerTask;
+import com.qianjh.ryzen.ims.stream.scheduler.SchedulerTask;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
  * @param <T>
  * @author QianJH
  */
-public interface AppToSchedulerTaskCreated<T> extends AppToSchedulerTask<T> {
+public interface SchedulerTaskCreated<T> extends SchedulerTask<T> {
     String TYPE = "CREATED";
 
     /**

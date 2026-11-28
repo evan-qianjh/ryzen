@@ -25,7 +25,7 @@ spring:
           enabled: true
           delay: 3000
     function:
-      definition: 'imMessageSink;imConversationSink;appToSchedulerSink;'
+      definition: 'schedulerSink;imMessageSink;imConversationSink;appToSchedulerSink;'
     stream:
       kafka:
         binder:
@@ -34,6 +34,9 @@ spring:
             auto.offset.reset: latest
       bindings:
         # ------------------------------------- producer -------------------------------------
+        schedulerSink-out-0:
+          destination: ims.scheduler
+          content-type: application/json
         imMessageSink-out-0:
           destination: ims.im-message
           content-type: application/json

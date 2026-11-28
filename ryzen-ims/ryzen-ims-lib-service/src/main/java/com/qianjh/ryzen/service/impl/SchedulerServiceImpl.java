@@ -5,9 +5,9 @@ import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.ims.enums.SchedulerCommandType;
 import com.qianjh.ryzen.ims.stream.app_to_scheduler.command.AppToSchedulerCommandRequest;
 import com.qianjh.ryzen.ims.stream.app_to_scheduler.task.AppToSchedulerTaskRequest;
-import com.qianjh.ryzen.service.AppToSchedulerCommandService;
-import com.qianjh.ryzen.service.AppToSchedulerService;
-import com.qianjh.ryzen.service.AppToSchedulerTaskService;
+import com.qianjh.ryzen.service.SchedulerCommandService;
+import com.qianjh.ryzen.service.SchedulerService;
+import com.qianjh.ryzen.service.SchedulerTaskService;
 import com.qianjh.ryzen.service.dto.AppToSchedulerTaskContent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,18 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AppToSchedulerServiceImpl implements AppToSchedulerService {
+public class SchedulerServiceImpl implements SchedulerService {
 
-    private final AppToSchedulerTaskService toSchedulerTaskService;
+    private final SchedulerTaskService toSchedulerTaskService;
     private final AppToSchedulerTaskRequest.Publisher appToSchedulerTaskRequestPublisher;
-    private final AppToSchedulerCommandService appToSchedulerCommandService;
+    private final SchedulerCommandService appToSchedulerCommandService;
     private final AppToSchedulerCommandRequest.Publisher appToSchedulerCommandRequestPublisher;
 
     @Override
-    public AppToSchedulerCommand createCommand(ImAccount imAccount, SchedulerCommandType commandType) {
+    public SchedulerCommand createCommand(ImAccount imAccount, SchedulerCommandType commandType) {
 
         // create
-        AppToSchedulerCommand command = appToSchedulerCommandService.create(imAccount, commandType);
+        SchedulerCommand command = appToSchedulerCommandService.create(imAccount, commandType);
 
         // publish
         appToSchedulerCommandRequestPublisher.publish(
@@ -46,10 +46,10 @@ public class AppToSchedulerServiceImpl implements AppToSchedulerService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public AppToSchedulerTask createTask(ServiceAccount serviceAccount, ImAccount imAccount, ImConversation imConversation, AppToSchedulerTaskContent content) {
+    public SchedulerTask createTask(ServiceAccount serviceAccount, ImAccount imAccount, ImConversation imConversation, AppToSchedulerTaskContent content) {
 
         // create
-        AppToSchedulerTask task = toSchedulerTaskService.create(serviceAccount, imAccount, imConversation, content);
+        SchedulerTask task = toSchedulerTaskService.create(serviceAccount, imAccount, imConversation, content);
 
         log.info("创建任务 ::: task={}", task);
 

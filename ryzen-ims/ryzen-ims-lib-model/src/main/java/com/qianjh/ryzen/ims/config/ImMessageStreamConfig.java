@@ -1,6 +1,5 @@
 package com.qianjh.ryzen.ims.config;
 
-import com.qianjh.ryzen.ims.stream.im_message.im_message.AppToSchedulerTaskCreated;
 import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageCreated;
 import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageFillReceipt;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -47,27 +46,6 @@ public class ImMessageStreamConfig {
         return _ -> {
             throw new UnsupportedOperationException(
                     "ImMessageFillReceipt.Subscriber is not configured"
-            );
-        };
-    }
-
-
-    @Bean
-    @ConditionalOnMissingBean(AppToSchedulerTaskCreated.Publisher.class)
-    public AppToSchedulerTaskCreated.Publisher appToSchedulerTaskCreatedPublisher() {
-        return _ -> {
-            throw new UnsupportedOperationException(
-                    "AppToSchedulerTaskCreated.Publisher is not configured"
-            );
-        };
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(AppToSchedulerTaskCreated.Subscriber.class)
-    public AppToSchedulerTaskCreated.Subscriber appToSchedulerTaskCreatedSubscriber() {
-        return _ -> {
-            throw new UnsupportedOperationException(
-                    "AppToSchedulerTaskCreated.Subscriber is not configured"
             );
         };
     }

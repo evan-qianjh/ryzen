@@ -2,7 +2,7 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.entity.AppToSchedulerTask;
+import com.qianjh.ryzen.entity.SchedulerTask;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
@@ -87,7 +87,7 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImMessage createByReceipt(AppToSchedulerTask task, String imReceiptCode) {
+    public ImMessage createByReceipt(SchedulerTask task, String imReceiptCode) {
         ImMessage entity = ImMessage.builder()
                 .id(task.getId()) // 必须如此，与ws发送预览id对应
                 .oemId(task.getOemId())
@@ -118,7 +118,7 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ImMessage createByReceiptIfAbsent(AppToSchedulerTask task, String imReceiptCode) {
+    public ImMessage createByReceiptIfAbsent(SchedulerTask task, String imReceiptCode) {
         ImMessage entity = getByUk(task.getOemId(), task.getTenantId(), task.getConversationId(), imReceiptCode);
         if (entity != null) {
             return entity;

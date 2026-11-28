@@ -1,5 +1,5 @@
 package com.qianjh.ryzen.ims.enums;
 
-public enum ToSchedulerCommandDomainType {
+public enum SchedulerCommandDomainType {
     IM_ACCOUNT,
 }
