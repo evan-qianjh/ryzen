@@ -1,8 +1,8 @@
-package com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type;
+package com.qianjh.ryzen.tenant.stream.from_ims.push_conversation;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.PushConversation;
+import com.qianjh.ryzen.tenant.stream.from_ims.PushConversation;
 import lombok.Builder;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author QianJH
  */
 public interface PushConversationDispatched<T> extends PushConversation<T> {
-    String TYPE = "dispatched";
+    String TYPE = "DISPATCHED";
 
     /**
      * 报文体

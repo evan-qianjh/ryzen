@@ -2,8 +2,8 @@ package com.qianjh.ryzen.tenant.config;
 
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessCreated;
 import com.qianjh.ryzen.tenant.stream.topic.account.domain.account_business.type.AccountBusinessPatched;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatched;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
+import com.qianjh.ryzen.tenant.stream.from_ims.push_conversation.PushConversationDispatched;
+import com.qianjh.ryzen.tenant.stream.from_ims.push_message.PushMessageInsert;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

@@ -1,8 +1,8 @@
-package com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type;
+package com.qianjh.ryzen.tenant.stream.from_ims.push_message;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.PushMessage;
+import com.qianjh.ryzen.tenant.stream.from_ims.PushMessage;
 import lombok.Builder;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author QianJH
  */
 public interface PushMessageInsert<T> extends PushMessage<T> {
-    String TYPE = "insert";
+    String TYPE = "INSERT";
 
     /**
      * 报文体

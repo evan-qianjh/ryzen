@@ -1,6 +1,6 @@
 package com.qianjh.ryzen.stream.subscriber;
 
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatched;
+import com.qianjh.ryzen.tenant.stream.from_ims.push_conversation.PushConversationDispatched;
 import com.qianjh.ryzen.topic._private.ims_conversation.ImsConversationPusher;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PushConversationDispatch_SubscriberImpl implements PushConversationDispatched.Subscriber {
+public class PushConversationDispatchSubscriberImpl implements PushConversationDispatched.Subscriber {
 
     private final ImsConversationPusher imsConversationPusher;
 

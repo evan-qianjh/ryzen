@@ -1,10 +1,10 @@
-package com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message;
+package com.qianjh.ryzen.tenant.stream.from_ims;
 
 
 import com.qianjh.ryzen.framework.stream.model.Stream;
 
 public interface PushMessage<T> extends Stream<T> {
-    String DOMAIN = "push_message";
+    String DOMAIN = "PUSH_MESSAGE";
 
     @Override
     default String getDomain() {

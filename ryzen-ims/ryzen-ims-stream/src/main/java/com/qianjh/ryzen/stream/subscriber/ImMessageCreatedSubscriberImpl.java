@@ -8,7 +8,7 @@ import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageCreated;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_message.type.PushMessageInsert;
+import com.qianjh.ryzen.tenant.stream.from_ims.push_message.PushMessageInsert;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

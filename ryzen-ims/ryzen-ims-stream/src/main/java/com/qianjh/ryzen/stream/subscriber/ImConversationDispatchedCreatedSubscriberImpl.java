@@ -8,7 +8,7 @@ import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
 import com.qianjh.ryzen.service.MatchTagImAccountService;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatched;
+import com.qianjh.ryzen.tenant.stream.from_ims.push_conversation.PushConversationDispatched;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,7 +21,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ImConversationDispatchedCreatedEvent_SubscriberImpl implements ImConversationDispatchedCreated.Subscriber {
+public class ImConversationDispatchedCreatedSubscriberImpl implements ImConversationDispatchedCreated.Subscriber {
 
     private final ImConversationService imConversationService;
     private final ImAccountService imAccountService;

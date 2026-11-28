@@ -4,7 +4,7 @@ import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.framework.websocket.netty.MessageSender;
 import com.qianjh.ryzen.framework.websocket.service.PushMessageService;
 import com.qianjh.ryzen.framework.websocket.topic.TopicMeta;
-import com.qianjh.ryzen.tenant.stream.topic.from_ims.domain.push_conversation.type.PushConversationDispatched;
+import com.qianjh.ryzen.tenant.stream.from_ims.push_conversation.PushConversationDispatched;
 import com.qianjh.ryzen.topic._private.ims_conversation.ImsConversationPusher;
 import com.qianjh.ryzen.topic._private.ims_conversation.ImsConversationTopic;
 import com.qianjh.ryzen.topic._private.ims_conversation.model.PushData;
