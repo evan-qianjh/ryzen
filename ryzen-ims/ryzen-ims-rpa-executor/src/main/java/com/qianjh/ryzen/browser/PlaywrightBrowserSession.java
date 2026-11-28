@@ -5,10 +5,10 @@ import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.qianjh.ryzen.config.ExecutorProperties;
-import com.qianjh.ryzen.ims.enums.ImType;
-import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.ims.dto.Assignment;
 import com.qianjh.ryzen.ims.dto.ExecutorMessage;
+import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -211,7 +211,8 @@ public class PlaywrightBrowserSession implements BrowserSession {
 
 
             Locator contentNode = message.locator(".im-card_text-message");
-            String content = contentNode.textContent();
+            String content = parseContent(contentNode);
+
             log.info("获取消息 ::: chatId={}, sender={}, messageCode={}, content={}, sentTime={}",
                     chatCode, senderName, messageId, content, sentTime);
 
@@ -244,6 +245,158 @@ public class PlaywrightBrowserSession implements BrowserSession {
         result.sort(Comparator.comparing(ExecutorMessage::messageCode));
 
         return result;
+    }
+
+    private String parseContent(Locator contentNode) {
+        Object evaluate = contentNode.evaluate("""
+                element => {
+                    function extract(node) {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            return node.textContent;
+                        }
+                
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            if (node.classList.contains('im-card_emoji-icon')) {
+                                const emojiMap = {
+                                    'im-card_emoji-icon_smile': '[微笑]',
+                                    'im-card_emoji-icon_pout': '[撇嘴]',
+                                    'im-card_emoji-icon_flushed': '[色]',
+                                    'im-card_emoji-icon_daze': '[发呆]',
+                                    'im-card_emoji-icon_smirk': '[得意]',
+                                    'im-card_emoji-icon_tear': '[流泪]',
+                                    'im-card_emoji-icon_shy': '[害羞]',
+                                    'im-card_emoji-icon_shut': '[闭嘴]',
+                                    'im-card_emoji-icon_sleep': '[睡]',
+                                    'im-card_emoji-icon_cry': '[大哭]',
+                                    'im-card_emoji-icon_awkward': '[尴尬]',
+                                    'im-card_emoji-icon_angry': '[发怒]',
+                                    'im-card_emoji-icon_naughty': '[调皮]',
+                                    'im-card_emoji-icon_grin': '[呲牙]',
+                                    'im-card_emoji-icon_surprise': '[惊讶]',
+                                    'im-card_emoji-icon_sad': '[难过]',
+                                    'im-card_emoji-icon_cool': '[酷]',
+                                    'im-card_emoji-icon_embarrassed': '[囧]',
+                                    'im-card_emoji-icon_crazy': '[抓狂]',
+                                    'im-card_emoji-icon_vomit': '[吐]',
+                                    'im-card_emoji-icon_giggle': '[偷笑]',
+                                    'im-card_emoji-icon_joy': '[愉快]',
+                                    'im-card_emoji-icon_whiteeye': '[白眼]',
+                                    'im-card_emoji-icon_arrogant': '[傲慢]',
+                                    'im-card_emoji-icon_hunger': '[饥饿]',
+                                    'im-card_emoji-icon_sleepy': '[困]',
+                                    'im-card_emoji-icon_panic': '[惊恐]',
+                                    'im-card_emoji-icon_silly': '[流汗]',
+                                    'im-card_emoji-icon_leisurely': '[憨笑]',
+                                    'im-card_emoji-icon_curse': '[咒骂]',
+                                    'im-card_emoji-icon_doubt': '[疑问]',
+                                    'im-card_emoji-icon_shush': '[嘘]',
+                                    'im-card_emoji-icon_dizzy': '[晕]',
+                                    'im-card_emoji-icon_fengle': '[疯了]',
+                                    'im-card_emoji-icon_unlucky': '[衰]',
+                                    'im-card_emoji-icon_skull': '[骷髅]',
+                                    'im-card_emoji-icon_knock': '[敲打]',
+                                    'im-card_emoji-icon_goodbye': '[再见]',
+                                    'im-card_emoji-icon_wipesweat': '[擦汗]',
+                                    'im-card_emoji-icon_picknose': '[抠鼻]',
+                                    'im-card_emoji-icon_applause': '[鼓掌]',
+                                    'im-card_emoji-icon_qiudale': '[糗大了]',
+                                    'im-card_emoji-icon_sinistersmile': '[坏笑]',
+                                    'im-card_emoji-icon_zhh': '[左哼哼]',
+                                    'im-card_emoji-icon_hum': '[右哼哼]',
+                                    'im-card_emoji-icon_haqian': '[哈欠]',
+                                    'im-card_emoji-icon_despise': '[鄙视]',
+                                    'im-card_emoji-icon_wronged': '[委屈]',
+                                    'im-card_emoji-icon_teary': '[快哭了]',
+                                    'im-card_emoji-icon_scheming': '[阴险]',
+                                    'im-card_emoji-icon_kiss': '[亲亲]',
+                                    'im-card_emoji-icon_pitiful': '[可怜]',
+                                    'im-card_emoji-icon_smilingface': '[笑脸]',
+                                    'im-card_emoji-icon_sick': '[生病]',
+                                    'im-card_emoji-icon_blush': '[脸红]',
+                                    'im-card_emoji-icon_laughcry': '[破涕为笑]',
+                                    'im-card_emoji-icon_fear': '[恐惧]',
+                                    'im-card_emoji-icon_disappointed': '[失望]',
+                                    'im-card_emoji-icon_astonished': '[吃惊]',
+                                    'im-card_emoji-icon_heha': '[嘿哈]',
+                                    'im-card_emoji-icon_facepalm': '[捂脸]',
+                                    'im-card_emoji-icon_sly': '[奸笑]',
+                                    'im-card_emoji-icon_clever': '[机智]',
+                                    'im-card_emoji-icon_frown': '[皱眉]',
+                                    'im-card_emoji-icon_yeah': '[耶]',
+                                    'im-card_emoji-icon_melon': '[吃瓜]',
+                                    'im-card_emoji-icon_fighting': '[加油]',
+                                    'im-card_emoji-icon_sweat': '[汗]',
+                                    'im-card_emoji-icon_omg': '[OMG]',
+                                    'im-card_emoji-icon_emm': '[嗯嗯]',
+                                    'im-card_emoji-icon_society': '[社会]',
+                                    'im-card_emoji-icon_wangchai': '[旺财]',
+                                    'im-card_emoji-icon_approved': '[好的]',
+                                    'im-card_emoji-icon_slapface': '[打脸]',
+                                    'im-card_emoji-icon_wow': '[哇]',
+                                    'im-card_emoji-icon_rolleyes': '[翻白眼]',
+                                    'im-card_emoji-icon_666': '[666]',
+                                    'im-card_emoji-icon_letmesee': '[让我看看]',
+                                    'im-card_emoji-icon_sigh': '[叹气]',
+                                    'im-card_emoji-icon_bitter': '[苦涩]',
+                                    'im-card_emoji-icon_caidao': '[菜刀]',
+                                    'im-card_emoji-icon_watermelon': '[西瓜]',
+                                    'im-card_emoji-icon_beer': '[啤酒]',
+                                    'im-card_emoji-icon_basketball': '[篮球]',
+                                    'im-card_emoji-icon_pingpang': '[乒乓]',
+                                    'im-card_emoji-icon_coffee': '[咖啡]',
+                                    'im-card_emoji-icon_rice': '[饭]',
+                                    'im-card_emoji-icon_pig': '[猪头]',
+                                    'im-card_emoji-icon_rose': '[玫瑰]',
+                                    'im-card_emoji-icon_diaoxie': '[凋谢]',
+                                    'im-card_emoji-icon_lips': '[嘴唇]',
+                                    'im-card_emoji-icon_heart': '[爱心]',
+                                    'im-card_emoji-icon_brokenheart': '[心碎]',
+                                    'im-card_emoji-icon_cake': '[蛋糕]',
+                                    'im-card_emoji-icon_shandian': '[闪电]',
+                                    'im-card_emoji-icon_zhadan': '[炸弹]',
+                                    'im-card_emoji-icon_dao': '[刀]',
+                                    'im-card_emoji-icon_football': '[足球]',
+                                    'im-card_emoji-icon_piaocong': '[瓢虫]',
+                                    'im-card_emoji-icon_bianbian': '[便便]',
+                                    'im-card_emoji-icon_moon': '[月亮]',
+                                    'im-card_emoji-icon_sun': '[太阳]',
+                                    'im-card_emoji-icon_gift': '[礼物]',
+                                    'im-card_emoji-icon_hug': '[拥抱]',
+                                    'im-card_emoji-icon_strong': '[强]',
+                                    'im-card_emoji-icon_weak': '[弱]',
+                                    'im-card_emoji-icon_handshake': '[握手]',
+                                    'im-card_emoji-icon_victory': '[胜利]',
+                                    'im-card_emoji-icon_fistpalm': '[抱拳]',
+                                    'im-card_emoji-icon_hook': '[勾引]',
+                                    'im-card_emoji-icon_fist': '[拳头]',
+                                    'im-card_emoji-icon_chajin': '[差劲]',
+                                    'im-card_emoji-icon_aini': '[爱你]',
+                                    'im-card_emoji-icon_NO': '[NO]',
+                                    'im-card_emoji-icon_ok': '[OK]',
+                                    'im-card_emoji-icon_pray': '[祈祷]'
+                                };
+                
+                                for (const cls of node.classList) {
+                                    if (emojiMap[cls]) {
+                                        return emojiMap[cls];
+                                    }
+                                }
+                
+                                return '[表情]';
+                            }
+                
+                            return Array.from(node.childNodes)
+                                .map(extract)
+                                .join('');
+                        }
+                
+                        return '';
+                    }
+                
+                    return extract(element);
+                }
+                """);
+        return evaluate == null ? null : evaluate.toString();
     }
 
     @Override
