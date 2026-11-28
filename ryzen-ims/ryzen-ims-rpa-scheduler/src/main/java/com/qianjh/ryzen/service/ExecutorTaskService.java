@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.spring.service.IService;
 import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
-import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 
 import java.time.LocalDateTime;
@@ -15,9 +15,9 @@ public interface ExecutorTaskService extends IService<ExecutorTask> {
 
     ExecutorTask getByCode(String code);
 
-    ExecutorTask create(String code, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
+    ExecutorTask create(String code, Long assignmentId, String conversationCode, String content, MessageContentType contentType, LocalDateTime deadlineTime);
 
-    ExecutorTask createIfAbsent(String code, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime);
+    ExecutorTask createIfAbsent(String code, Long assignmentId, String conversationCode, String content, MessageContentType contentType, LocalDateTime deadlineTime);
 
     /**
      * 待执行任务标记超时

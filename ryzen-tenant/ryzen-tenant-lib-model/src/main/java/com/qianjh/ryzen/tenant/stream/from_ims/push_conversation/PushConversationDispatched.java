@@ -28,6 +28,7 @@ public interface PushConversationDispatched<T> extends PushConversation<T> {
             String subTitle,
             String avatar,
             String lastMessageContent,
+            String lastMessageContentType,
             Long lastMessageId,
             Long lastMessageTime,
             List<String> matchTags,

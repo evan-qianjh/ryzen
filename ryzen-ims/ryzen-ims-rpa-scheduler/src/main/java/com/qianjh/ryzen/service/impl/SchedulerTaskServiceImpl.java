@@ -58,7 +58,7 @@ public class SchedulerTaskServiceImpl implements SchedulerTaskService {
         if (task == null) {
             result = SchedulerToAppTaskResponseResult.ACCEPTED;
             task = executorTaskService.create(request.code(), request.assignmentId(), request.conversationCode(),
-                    request.content(), deadlineTime);
+                    request.content(), request.contentType(), deadlineTime);
         } else {
             result = SchedulerToAppTaskResponseResult.DUPLICATE;
         }

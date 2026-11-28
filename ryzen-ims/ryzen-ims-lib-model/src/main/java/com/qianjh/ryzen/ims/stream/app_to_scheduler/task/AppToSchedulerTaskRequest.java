@@ -2,6 +2,7 @@ package com.qianjh.ryzen.ims.stream.app_to_scheduler.task;
 
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.stream.app_to_scheduler.AppToSchedulerTask;
 import lombok.Builder;
 
@@ -23,6 +24,7 @@ public interface AppToSchedulerTaskRequest<T> extends AppToSchedulerTask<T> {
             Long assignmentId,
             String conversationCode,
             String content,
+            MessageContentType contentType,
             Long deadlineTime
     ) {
     }

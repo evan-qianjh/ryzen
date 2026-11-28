@@ -5,6 +5,7 @@ import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.entity.ServiceAccount;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageCreated;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.service.dto.MatchTagImAccountWithMatchTagView;
@@ -76,6 +77,8 @@ public class ImMessageCreatedSubscriberImpl implements ImMessageCreated.Subscrib
                 .serviceAccountId(serviceAccount.getId())
                 .build();
 
+        MessageContentType contentType = imMessage.getContentType();
+
         // build message
         PushMessageInsert.Body message = PushMessageInsert.Body.builder()
                 .oemId(oemId)
@@ -86,6 +89,7 @@ public class ImMessageCreatedSubscriberImpl implements ImMessageCreated.Subscrib
                 .senderName(imMessage.getSenderName())
                 .senderAvatar(imMessage.getSenderAvatar())
                 .content(imMessage.getContent())
+                .contentType(contentType == null ? null : contentType.name())
                 .sentTime(DateTimeUtils.getTime(imMessage.getSentTime()))
                 .conversation(conversation)
                 .version(1L)

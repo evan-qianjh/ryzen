@@ -1,6 +1,7 @@
 package com.qianjh.ryzen.ims.dto;
 
 import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
 import lombok.Builder;
 
@@ -30,6 +31,7 @@ public record ExecutorMessage(
         String senderName,
         String senderAvatar,
         Long sentTime,
-        String content
+        String content,
+        MessageContentType contentType
 ) {
 }

@@ -101,6 +101,7 @@ public class KafkaExecutorTransport implements ExecutorTransport {
                 .senderAvatar(message.senderAvatar())
                 .sentTime(message.sentTime())
                 .content(message.content())
+                .contentType(message.contentType())
                 .build();
 
         StreamPayload<ExecutorToSchedulerReportMessage.Body> payload = StreamPayload.<ExecutorToSchedulerReportMessage.Body>builder()

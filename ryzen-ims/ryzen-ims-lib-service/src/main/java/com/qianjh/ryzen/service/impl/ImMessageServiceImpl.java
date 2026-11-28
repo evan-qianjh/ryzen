@@ -2,10 +2,10 @@ package com.qianjh.ryzen.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
-import com.qianjh.ryzen.entity.SchedulerTask;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
+import com.qianjh.ryzen.entity.SchedulerTask;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
 import com.qianjh.ryzen.framework.common.util.IdUtils;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
@@ -62,6 +62,7 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
                 .senderAvatar(message.senderAvatar())
                 .sentTime(DateTimeUtils.parseMillis(message.sentTime()))
                 .content(message.content())
+                .contentType(message.contentType())
                 .fromReceipt(false)
                 .createdTime(LocalDateTime.now())
                 .build();
@@ -103,6 +104,7 @@ public class ImMessageServiceImpl extends ServiceImpl<ImMessageMapper, ImMessage
                 .sentTime(null)
 
                 .content(task.getContent())
+                .contentType(task.getContentType())
                 .fromReceipt(true)
                 .createdTime(LocalDateTime.now())
                 .build();

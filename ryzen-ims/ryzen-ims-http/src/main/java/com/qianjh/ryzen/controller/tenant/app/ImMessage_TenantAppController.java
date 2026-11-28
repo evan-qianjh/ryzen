@@ -18,6 +18,7 @@ import com.qianjh.ryzen.framework.http.webmvc.util.McUtils;
 import com.qianjh.ryzen.framework.http.webmvc.util.PageUtils;
 import com.qianjh.ryzen.ims.enums.ImAccountAssignStatus;
 import com.qianjh.ryzen.ims.enums.ImAccountExecutorStatus;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.service.*;
 import com.qianjh.ryzen.service.dto.AppToSchedulerTaskContent;
 import io.swagger.v3.oas.annotations.Operation;
@@ -73,6 +74,7 @@ public class ImMessage_TenantAppController extends _TenantAppController {
                         .senderAvatar(e.getSenderAvatar())
                         .sentTime(DateTimeUtils.getTime(e.getSentTime()))
                         .content(e.getContent())
+                        .contentType(e.getContentType())
                         .build()
                 ).toList();
 
@@ -111,8 +113,10 @@ public class ImMessage_TenantAppController extends _TenantAppController {
         }
 
         // 创建任务
+        MessageContentType contentType = body.contentType();
         AppToSchedulerTaskContent content = AppToSchedulerTaskContent.builder()
                 .content(body.content())
+                .contentType(contentType != null ? contentType : MessageContentType.TEXT)
                 .build();
         schedulerService.createTask(serviceAccount, imAccount, imConversation, content);
 

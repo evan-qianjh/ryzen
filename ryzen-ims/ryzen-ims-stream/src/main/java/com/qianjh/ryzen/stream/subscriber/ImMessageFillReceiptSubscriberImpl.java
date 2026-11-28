@@ -4,6 +4,7 @@ import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.entity.ImMessage;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.stream.im_message.im_message.ImMessageFillReceipt;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
@@ -70,6 +71,8 @@ public class ImMessageFillReceiptSubscriberImpl implements ImMessageFillReceipt.
                 .serviceAccountId(imConversation.getServiceAccountId())
                 .build();
 
+        MessageContentType contentType = imMessage.getContentType();
+
         // build message
         PushMessageInsert.Body message = PushMessageInsert.Body.builder()
                 .oemId(oemId)
@@ -80,6 +83,7 @@ public class ImMessageFillReceiptSubscriberImpl implements ImMessageFillReceipt.
                 .senderName(imMessage.getSenderName())
                 .senderAvatar(imMessage.getSenderAvatar())
                 .content(imMessage.getContent())
+                .contentType(contentType == null ? null : contentType.name())
                 .sentTime(DateTimeUtils.getTime(imMessage.getSentTime()))
                 .conversation(conversation)
                 .version(2L)

@@ -13,6 +13,7 @@ public record PushData(
         String senderName,
         String senderAvatar,
         String content,
+        String contentType,
         Long sentTime,
         Long version,
         Boolean preview,

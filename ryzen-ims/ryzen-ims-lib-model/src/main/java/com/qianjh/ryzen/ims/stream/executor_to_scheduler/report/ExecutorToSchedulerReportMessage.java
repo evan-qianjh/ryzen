@@ -3,6 +3,7 @@ package com.qianjh.ryzen.ims.stream.executor_to_scheduler.report;
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
 import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.ims.stream.executor_to_scheduler.ExecutorToSchedulerReport;
 import lombok.Builder;
@@ -33,7 +34,8 @@ public interface ExecutorToSchedulerReportMessage<T> extends ExecutorToScheduler
             String senderName,
             String senderAvatar,
             Long sentTime,
-            String content
+            String content,
+            MessageContentType contentType
     ) {
     }
 

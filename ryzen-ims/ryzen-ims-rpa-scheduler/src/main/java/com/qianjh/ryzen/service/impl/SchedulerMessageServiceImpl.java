@@ -41,6 +41,7 @@ public class SchedulerMessageServiceImpl extends ServiceImpl<SchedulerMessageMap
                 .senderAvatar(message.senderAvatar())
                 .sentTime(DateTimeUtils.parseMillis(message.sentTime()))
                 .content(message.content())
+                .contentType(message.contentType())
                 .build();
         save(entity);
         return entity;

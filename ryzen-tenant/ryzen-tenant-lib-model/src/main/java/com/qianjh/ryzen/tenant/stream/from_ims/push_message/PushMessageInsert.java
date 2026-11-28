@@ -28,6 +28,7 @@ public interface PushMessageInsert<T> extends PushMessage<T> {
             String senderName,
             String senderAvatar,
             String content,
+            String contentType,
             Long sentTime,
             Conversation conversation,
             Long version,

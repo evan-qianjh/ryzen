@@ -60,6 +60,7 @@ public class SchedulerServiceImpl implements SchedulerService {
                         .assignmentId(imAccount.getExecutorAssignmentId())
                         .conversationCode(imConversation.getCode())
                         .content(content.content())
+                        .contentType(content.contentType())
                         .build()
         );
 

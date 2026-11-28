@@ -61,6 +61,7 @@ public class ImsMessagePusherImpl implements ImsMessagePusher {
                 .senderName(message.senderName())
                 .senderAvatar(message.senderAvatar())
                 .content(message.content())
+                .contentType(message.contentType())
                 .sentTime(message.sentTime())
                 .version(message.version())
                 .preview(message.preview())

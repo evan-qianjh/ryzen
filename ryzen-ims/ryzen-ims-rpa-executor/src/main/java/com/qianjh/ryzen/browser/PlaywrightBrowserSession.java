@@ -8,6 +8,7 @@ import com.qianjh.ryzen.config.ExecutorProperties;
 import com.qianjh.ryzen.ims.dto.Assignment;
 import com.qianjh.ryzen.ims.dto.ExecutorMessage;
 import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.util.MessageUtils;
 import lombok.RequiredArgsConstructor;
@@ -210,8 +211,40 @@ public class PlaywrightBrowserSession implements BrowserSession {
             Long sentTime = MessageUtils.toTimestamp(time);
 
 
-            Locator contentNode = message.locator(".im-card_text-message");
-            String content = parseContent(contentNode);
+            String content = null;
+            MessageContentType contentType = null;
+
+            // 文本内容
+            {
+                Locator textContentNode = message.locator(".im-card_text-message");
+                if (textContentNode.count() > 0) {
+                    contentType = MessageContentType.TEXT;
+                    content = parseTextContent(textContentNode);
+                }
+            }
+            // 图片
+            if (contentType == null) {
+                Locator node = message.locator(".im-card_image-message");
+                if (node.count() > 0) {
+                    contentType = MessageContentType.IMAGE;
+                    content = node.locator("img.im-card_image-message-content").getAttribute("src");
+                }
+            }
+            // 图片表情
+            if (contentType == null) {
+                Locator node = message.locator(".im-card_emotion-message");
+                if (node.count() > 0) {
+                    contentType = MessageContentType.IMAGE;
+                    content = parseEmotionContent(node.locator(".im-card_emotion-message-content"));
+                }
+            }
+
+
+            // 未知消息类型
+            if (contentType == null) {
+                throw new RuntimeException("采集内容异常");
+            }
+
 
             log.info("获取消息 ::: chatId={}, sender={}, messageCode={}, content={}, sentTime={}",
                     chatCode, senderName, messageId, content, sentTime);
@@ -231,6 +264,7 @@ public class PlaywrightBrowserSession implements BrowserSession {
                             .senderName(senderName)
                             .senderAvatar(avatar)
                             .content(content)
+                            .contentType(contentType)
                             .sentTime(sentTime)
                             .build()
             );
@@ -247,8 +281,24 @@ public class PlaywrightBrowserSession implements BrowserSession {
         return result;
     }
 
-    private String parseContent(Locator contentNode) {
-        Object evaluate = contentNode.evaluate("""
+    private String parseEmotionContent(Locator locator) {
+        Object evaluate = locator.evaluate("""
+                element => {
+                    const value = getComputedStyle(element).backgroundImage;
+                    return value.match(/url\\(["']?(.*?)["']?\\)/)?.[1] ?? null;
+                }
+                """);
+        return evaluate == null ? null : evaluate.toString();
+    }
+
+    /**
+     * 解析文本内容
+     *
+     * @param locator 节点
+     * @return 内容
+     */
+    private String parseTextContent(Locator locator) {
+        Object evaluate = locator.evaluate("""
                 element => {
                     function extract(node) {
                         if (node.nodeType === Node.TEXT_NODE) {

@@ -1,5 +1,6 @@
 package com.qianjh.ryzen.controller.tenant.app.dto;
 
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
 import lombok.Builder;
 
@@ -11,6 +12,7 @@ public record GetMessagesResp(
         String senderName,
         String senderAvatar,
         Long sentTime,
-        String content
+        String content,
+        MessageContentType contentType
 ) {
 }

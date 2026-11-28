@@ -3,6 +3,7 @@ package com.qianjh.ryzen.stream.subscriber;
 import com.qianjh.ryzen.entity.ImAccount;
 import com.qianjh.ryzen.entity.ImConversation;
 import com.qianjh.ryzen.framework.common.util.DateTimeUtils;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.stream.im_conversation.im_conversation_dispatched.ImConversationDispatchedCreated;
 import com.qianjh.ryzen.service.ImAccountService;
 import com.qianjh.ryzen.service.ImConversationService;
@@ -41,6 +42,8 @@ public class ImConversationDispatchedCreatedSubscriberImpl implements ImConversa
         List<MatchTagImAccountWithMatchTagView> matchTagImAccountWithMatchTagViews = matchTagImAccountService.getByImAccountWithMatchTag(oemId, tenantId, imAccount.getId());
         List<String> matchTags = matchTagImAccountWithMatchTagViews.stream().map(MatchTagImAccountWithMatchTagView::getTag).toList();
 
+        MessageContentType contentType = conversation.getLastMessageContentType();
+
         // 通知tenant-ws发消息
         PushConversationDispatched.Body message = PushConversationDispatched.Body.builder()
                 .id(imConversationId)
@@ -51,6 +54,7 @@ public class ImConversationDispatchedCreatedSubscriberImpl implements ImConversa
                 .subTitle(conversation.getSubTitle())
                 .avatar(conversation.getAvatar())
                 .lastMessageContent(conversation.getLastMessageContent())
+                .lastMessageContentType(contentType == null ? null : contentType.name())
                 .lastMessageId(conversation.getLastMessageId())
                 .lastMessageTime(DateTimeUtils.getTime(conversation.getLastMessageTime()))
                 .matchTags(matchTags)

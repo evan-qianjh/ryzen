@@ -6,8 +6,8 @@ import com.qianjh.ryzen.entity.Executor;
 import com.qianjh.ryzen.entity.ExecutorTask;
 import com.qianjh.ryzen.ims.enums.ExecutorTaskStatus;
 import com.qianjh.ryzen.ims.enums.ExecutorToSchedulerTaskResult;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.enums.SchedulerToAppTaskResponseResult;
-import com.qianjh.ryzen.ims.dto.ExecutorTaskResponse;
 import com.qianjh.ryzen.ims.stream.executor_to_scheduler.report.ExecutorToSchedulerTaskResponse;
 import com.qianjh.ryzen.mapper.ExecutorTaskMapper;
 import com.qianjh.ryzen.service.ExecutorTaskService;
@@ -36,12 +36,13 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ExecutorTask create(String code, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime) {
+    public ExecutorTask create(String code, Long assignmentId, String conversationCode, String content, MessageContentType contentType, LocalDateTime deadlineTime) {
         ExecutorTask entity = ExecutorTask.builder()
                 .code(code)
                 .assignmentId(assignmentId)
                 .conversationCode(conversationCode)
                 .content(content)
+                .contentType(contentType)
                 .status(ExecutorTaskStatus.PENDING)
                 .deadlineTime(deadlineTime)
                 .createdTime(LocalDateTime.now())
@@ -52,12 +53,12 @@ public class ExecutorTaskServiceImpl extends ServiceImpl<ExecutorTaskMapper, Exe
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public ExecutorTask createIfAbsent(String code, Long assignmentId, String conversationCode, String content, LocalDateTime deadlineTime) {
+    public ExecutorTask createIfAbsent(String code, Long assignmentId, String conversationCode, String content, MessageContentType contentType, LocalDateTime deadlineTime) {
         ExecutorTask entity = getByUk(code);
         if (entity != null) {
             return entity;
         }
-        return create(code, assignmentId, conversationCode, content, deadlineTime);
+        return create(code, assignmentId, conversationCode, content, contentType, deadlineTime);
     }
 
     @Transactional(rollbackFor = Exception.class)

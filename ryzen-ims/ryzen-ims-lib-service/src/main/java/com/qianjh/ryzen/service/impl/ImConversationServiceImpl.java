@@ -81,6 +81,7 @@ public class ImConversationServiceImpl extends ServiceImpl<ImConversationMapper,
                 // lastMessage
                 .set(ImConversation::getLastMessageId, message.getId())
                 .set(ImConversation::getLastMessageContent, message.getContent())
+                .set(ImConversation::getLastMessageContentType, message.getContentType())
                 .set(ImConversation::getLastMessageTime, message.getSentTime())
                 // where
                 .eq(ImConversation::getId, entity.getId())

@@ -3,6 +3,7 @@ package com.qianjh.ryzen.ims.stream.scheduler_to_app.report;
 import com.qianjh.ryzen.framework.stream.publisher.StreamPublisher;
 import com.qianjh.ryzen.framework.stream.subscriber.StreamSubscriber;
 import com.qianjh.ryzen.ims.enums.ImType;
+import com.qianjh.ryzen.ims.enums.MessageContentType;
 import com.qianjh.ryzen.ims.enums.MessageDirection;
 import com.qianjh.ryzen.ims.stream.scheduler_to_app.SchedulerToAppReport;
 import lombok.Builder;
@@ -34,6 +35,7 @@ public interface SchedulerToAppReportMessage<T> extends SchedulerToAppReport<T> 
             String senderName,
             String senderAvatar,
             String content,
+            MessageContentType contentType,
             Long sentTime
     ) {
     }

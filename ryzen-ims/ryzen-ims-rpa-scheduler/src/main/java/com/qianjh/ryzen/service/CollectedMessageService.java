@@ -53,6 +53,7 @@ public class CollectedMessageService {
                 .senderAvatar(entity.getSenderAvatar())
                 .sentTime(DateTimeUtils.getTime(entity.getSentTime()))
                 .content(entity.getContent())
+                .contentType(entity.getContentType())
                 .build();
     }
 
